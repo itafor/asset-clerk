@@ -83,34 +83,39 @@
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('profile.edit') }}">
                         <i class="ni ni-single-02 text-yellow"></i> {{ __('User profile') }}
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('asset.index') }}">
+                        <i class="ni ni-building text-brown"></i> {{ __('Asset Management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.index') }}">
+                        <i class="fas fa-users text-green"></i> {{ __('Tenants Management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('landlord.index') }}">
+                        <i class="fas fa-users text-blue"></i> {{ __('Landlord Management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rental.index') }}">
+                        <i class="fas fa-home text-purple"></i> {{ __('Rental Management') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('maintenance.index') }}">
+                        <i class="fas fa-wrench text-gold"></i> {{ __('Maintenance Mgt.') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-key-25 text-info"></i> {{ __('Login') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
                     </a>
                 </li>
             </ul>
