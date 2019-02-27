@@ -51,6 +51,10 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/create', 'MaintenanceController@create')->name('maintenance.create');
 			Route::post('/store', 'MaintenanceController@store')->name('maintenance.store');
 		});
+		Route::prefix('debt')->group(function(){
+			Route::get('/', 'DebtController@debt')->name('debt.debt');
+			Route::get('/payment', 'DebtController@payment')->name('debt.payment');
+		});
 
 	});	
 

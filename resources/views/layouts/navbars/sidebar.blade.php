@@ -114,6 +114,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('debt.debt') }}">
+                        <i class="fas fa-money-bill-wave text-red"></i> {{ __('Debts') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('debt.payment') }}">
+                        <i class="fas fa-money-bill-wave text-green"></i> {{ __('Payments') }}
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
                     </a>
