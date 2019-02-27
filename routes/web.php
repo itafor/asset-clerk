@@ -24,8 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
-	Route::prefix('agents')->group(function(){
-
+	Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
 			Route::get('/create', 'AssetController@create')->name('asset.create');
@@ -55,8 +54,15 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'DebtController@debt')->name('debt.debt');
 			Route::get('/payment', 'DebtController@payment')->name('debt.payment');
 		});
-
 	});	
+
+	Route::prefix('tenant')->group(function(){
+		Route::get('my-profile', 'TenantController@myProfile')->name('tenant.myProfile');
+		Route::get('my-rent', 'TenantController@myRent')->name('tenant.myRent');
+		Route::get('my-referals', 'TenantController@referals')->name('tenant.referals');
+		Route::get('my-maintenance', 'TenantController@myMaintenance')->name('tenant.maintenance');
+		Route::get('create-maintenance', 'TenantController@createMaintenance')->name('tenant.maintenance.create');
+	});
 
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');

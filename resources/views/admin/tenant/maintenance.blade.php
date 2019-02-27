@@ -13,7 +13,7 @@
                                 <h3 class="mb-0">{{ __('List of Maintenances') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('maintenance.create') }}" class="btn btn-sm btn-primary">{{ __('Add Maintenance') }}</a>
+                                <a href="{{ route('tenant.maintenance.create') }}" class="btn btn-sm btn-primary">{{ __('Add Maintenance') }}</a>
                             </div>
                         </div>
                     </div>
@@ -23,8 +23,6 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
-                                    <th><b>Tenant Name</b></th>
-                                    <th><b>Category</b></th>
                                     <th><b>Section</b></th>
                                     <th><b>Fault Description</b></th>
                                     <th><b>Date Reported</b></th>

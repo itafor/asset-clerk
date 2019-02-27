@@ -1,7 +1,7 @@
-@extends('layouts.app', ['title' => 'List Maintenances'])
+@extends('layouts.app', ['title' => 'Referals'])
 
 @section('content')
-@include('admin.rental.partials.header', ['title' => __('Maintenances')])  
+@include('admin.rental.partials.header', ['title' => __('Referals')])
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -10,10 +10,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('List of Maintenances') }}</h3>
-                            </div>
-                            <div class="col-4 text-right">
-                                <a href="{{ route('maintenance.create') }}" class="btn btn-sm btn-primary">{{ __('Add Maintenance') }}</a>
+                                <h3 class="mb-0">{{ __('List of Referals') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -24,11 +21,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th><b>Tenant Name</b></th>
-                                    <th><b>Category</b></th>
-                                    <th><b>Section</b></th>
-                                    <th><b>Fault Description</b></th>
-                                    <th><b>Date Reported</b></th>
-                                    <th><b>Status</b></th>
+                                    <th><b>Description</b></th>
+                                    <th><b>Standard Price</b></th>
+                                    <th><b>10% Commision</b></th>
                                     <th class="text-center"><b>Action</b></th>
                                 </tr>
                             </thead>

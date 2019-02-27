@@ -100,7 +100,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('landlord.index') }}">
-                        <i class="fas fa-users text-blue"></i> {{ __('Landlord Management') }}
+                        <i class="fas fa-users text-blue"></i> {{ __('Landlord Mgt.') }}
                     </a>
                 </li>
                 <li class="nav-item">
@@ -124,15 +124,36 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.myProfile') }}">
+                        <i class="fas fa-user text-orange"></i> {{ __('My Profile') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.myRent') }}">
+                        <i class="fas fa-money-bill-wave text-green"></i> {{ __('My Rent') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.referals') }}">
+                        <i class="fas fa-users text-yellow"></i> {{ __('My Referals') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.maintenance') }}">
+                        <i class="fas fa-wrench text-brown"></i> {{ __('My Maintenances') }}
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
                     </a>
                 </li>
             </ul>
             <!-- Divider -->
-            <hr class="my-3">
+            {{-- <hr class="my-3"> --}}
             <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Documentation</h6>
+            {{-- <h6 class="navbar-heading text-muted">Documentation</h6>
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
@@ -150,7 +171,7 @@
                         <i class="ni ni-ui-04"></i> Components
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
     </div>
 </nav>
