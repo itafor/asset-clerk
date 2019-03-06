@@ -1,7 +1,7 @@
-@extends('layouts.app', ['title' => 'Payments'])
+@extends('layouts.app', ['title' => 'List Customer'])
 
 @section('content')
-@include('admin.rental.partials.header', ['title' => __('Payments')])
+@include('admin.rental.partials.header', ['title' => __('Customers')])  
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -10,7 +10,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Payments') }}</h3>
+                                <h3 class="mb-0">{{ __('List of Customers') }}</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('customer.create') }}" class="btn btn-sm btn-primary">{{ __('Add Customer') }}</a>
                             </div>
                         </div>
                     </div>
@@ -20,11 +23,12 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
-                                    <th><b>Customer Name</b></th>
-                                    <th><b>Description</b></th>
-                                    <th><b>Location</b></th>
-                                    <th><b>Status</b></th>
-                                    <th><b>Due Date</b></th>
+                                    <th><b>Designation</b></th>
+                                    <th><b>First Name</b></th>
+                                    <th><b>Last Name</b></th>
+                                    <th><b>Occupation</b></th>
+                                    <th><b>Email</b></th>
+                                    <th><b>Mobile</b></th>
                                     <th class="text-center"><b>Action</b></th>
                                 </tr>
                             </thead>

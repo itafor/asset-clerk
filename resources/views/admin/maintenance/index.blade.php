@@ -23,7 +23,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
-                                    <th><b>Tenant Name</b></th>
+                                    <th><b>Customer Name</b></th>
                                     <th><b>Category</b></th>
                                     <th><b>Section</b></th>
                                     <th><b>Fault Description</b></th>

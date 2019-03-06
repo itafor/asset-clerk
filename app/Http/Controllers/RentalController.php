@@ -15,4 +15,9 @@ class RentalController extends Controller
     {
         return view('admin.rental.create');
     }
+
+    public function approvals()
+    {
+        return view('admin.rental.approvals');
+    }
 }

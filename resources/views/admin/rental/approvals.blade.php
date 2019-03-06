@@ -1,7 +1,7 @@
-@extends('layouts.app', ['title' => 'Payments'])
+@extends('layouts.app', ['title' => 'Approvals'])
 
 @section('content')
-@include('admin.rental.partials.header', ['title' => __('Payments')])
+@include('admin.rental.partials.header', ['title' => __('Approvals')])  
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -10,8 +10,9 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Payments') }}</h3>
+                                <h3 class="mb-0">{{ __('Approvals') }}</h3>
                             </div>
+                            
                         </div>
                     </div>
                     
@@ -21,10 +22,10 @@
                                 <tr>
                                     <th>No</th>
                                     <th><b>Customer Name</b></th>
-                                    <th><b>Description</b></th>
-                                    <th><b>Location</b></th>
-                                    <th><b>Status</b></th>
-                                    <th><b>Due Date</b></th>
+                                    <th><b>Asset Category</b></th>
+                                    <th><b>Occupation</b></th>
+                                    <th><b>Income Range</b></th>
+                                    <th><b>Approval</b></th>
                                     <th class="text-center"><b>Action</b></th>
                                 </tr>
                             </thead>

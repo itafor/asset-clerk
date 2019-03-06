@@ -93,9 +93,14 @@
                         <i class="ni ni-building text-brown"></i> {{ __('Asset Management') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('tenant.index') }}">
                         <i class="fas fa-users text-green"></i> {{ __('Tenants Management') }}
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.index') }}">
+                        <i class="fas fa-users text-green"></i> {{ __('Customer Management') }}
                     </a>
                 </li>
                 <li class="nav-item">
@@ -105,7 +110,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('rental.index') }}">
-                        <i class="fas fa-home text-purple"></i> {{ __('Rental Management') }}
+                        <i class="fas fa-home text-purple"></i> {{ __('Customer-Property Mgt.') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rental.approvals') }}">
+                        <i class="fas fa-check-double text-green"></i> {{ __('Approvals') }}
                     </a>
                 </li>
                 <li class="nav-item">
@@ -121,6 +131,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('debt.payment') }}">
                         <i class="fas fa-money-bill-wave text-green"></i> {{ __('Payments') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('report.assets') }}">
+                        <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
                     </a>
                 </li>
                 <li class="nav-item">

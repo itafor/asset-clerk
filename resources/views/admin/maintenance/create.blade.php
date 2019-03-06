@@ -23,18 +23,18 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>
-                                    <select name="tenant" id="" class="form-control" required autofocus>
-                                        <option value="">Select Tenant</option>
+                                <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    <label class="form-control-label" for="input-tenant">{{ __('Customer') }}</label>
+                                    <select name="customer" id="" class="form-control" required autofocus>
+                                        <option value="">Select Customer</option>
                                         @foreach (getTenants() as $tenant)
                                             <option value="{{$tenant->id}}">{{$tenant->name()}}</option>
                                         @endforeach
                                     </select>
 
-                                    @if ($errors->has('tenant'))
+                                    @if ($errors->has('customer'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('tenant') }}</strong>
+                                            <strong>{{ $errors->first('customer') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -50,6 +50,32 @@
                                     @if ($errors->has('category'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('category') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div style="clear:both"></div>
+
+                                <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
+                                    <select name="asset_description" id="" class="form-control" required>
+                                        <option value="">Select Asset Description</option>
+                                    </select>
+
+                                    @if ($errors->has('asset_description'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('asset_description') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                    <label class="form-control-label" for="input-location">{{ __('Location') }}</label>
+                                    <select name="location" id="" class="form-control" required>
+                                        <option value="">Select Location</option>
+                                    </select>
+                                    
+                                    @if ($errors->has('location'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('location') }}</strong>
                                         </span>
                                     @endif
                                 </div>
