@@ -13,7 +13,7 @@
                                 <h3 class="mb-0">{{ __('Maintenance Management') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('maintenance.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                <a href="{{ route('tenant.maintenance') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                             </div>
                         </div>
                     </div>
@@ -23,64 +23,6 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-tenant">{{ __('Customer') }}</label>
-                                    <select name="customer" id="" class="form-control" required autofocus>
-                                        <option value="">Select Customer</option>
-                                        @foreach (getTenants() as $tenant)
-                                            <option value="{{$tenant->id}}">{{$tenant->name()}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('customer'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('customer') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-category">{{ __('Asset Category') }}</label>
-                                    <select name="category" id="" class="form-control" required>
-                                        <option value="">Select Category</option>
-                                        @foreach (getCategories() as $cat)
-                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    
-                                    @if ($errors->has('category'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('category') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div style="clear:both"></div>
-
-                                <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
-                                    <select name="asset_description" id="" class="form-control" required>
-                                        <option value="">Select Asset Description</option>
-                                    </select>
-
-                                    @if ($errors->has('asset_description'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('asset_description') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-location">{{ __('Location') }}</label>
-                                    <select name="location" id="" class="form-control" required>
-                                        <option value="">Select Location</option>
-                                    </select>
-                                    
-                                    @if ($errors->has('location'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('location') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div style="clear:both"></div>
-
                                 <div class="form-group{{ $errors->has('building_section') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-building_section">{{ __('Building Section') }}</label>
                                     <select name="building_section" id="building_section" class="form-control" required>

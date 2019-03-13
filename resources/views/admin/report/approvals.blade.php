@@ -1,7 +1,7 @@
-@extends('layouts.app', ['title' => 'List Tenants'])
+@extends('layouts.app', ['title' => 'Approvals Report'])
 
 @section('content')
-@include('admin.rental.partials.header', ['title' => __('Tenants')])  
+@include('admin.rental.partials.header', ['title' => __('Approvals Report')])
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -10,10 +10,13 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('List of Tenants') }}</h3>
-                            </div>
-                            <div class="col-4 text-right">
-                                <a href="{{ route('tenant.create') }}" class="btn btn-sm btn-primary">{{ __('Add Tenant') }}</a>
+                                <a href="{{route('report.assets')}}" class="btn btn-secondary">Assets</a>
+                                <a href="{{route('report.payments')}}" class="btn btn-secondary">Payments</a>
+                                <a href="{{route('report.approvals')}}" class="btn btn-primary">Approvals</a>
+                                <a href="{{route('report.maintenance')}}" class="btn btn-secondary">Maintenance</a>
+                                <a href="{{route('report.legal')}}" class="btn btn-secondary">Legal</a>
+                                <hr>
+                                <h3 class="mb-0">{{ __('Approval Report') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -22,13 +25,12 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>No</th>
-                                    <th><b>Designation</b></th>
-                                    <th><b>First Name</b></th>
-                                    <th><b>Last Name</b></th>
+                                    <th>ID</th>
+                                    <th><b>Customer Name</b></th>
+                                    <th><b>Asset Category</b></th>
                                     <th><b>Occupation</b></th>
-                                    <th><b>Phone</b></th>
-                                    <th class="text-center"><b>Action</b></th>
+                                    <th><b>Income Range</b></th>
+                                    <th><b>Approval</b></th>
                                 </tr>
                             </thead>
                             <tbody>

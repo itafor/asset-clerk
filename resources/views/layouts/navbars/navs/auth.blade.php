@@ -47,6 +47,10 @@
                         <i class="ni ni-support-16"></i>
                         <span>{{ __('Support') }}</span>
                     </a>
+                    <a href="#" data-toggle="modal" data-target="#myModal" class="dropdown-item">
+                        <i class="ni ni-key-25"></i>
+                        <span>{{ __('Change Password') }}</span>
+                    </a>
                     <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
