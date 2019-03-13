@@ -88,41 +88,100 @@
                         <i class="ni ni-single-02 text-yellow"></i> {{ __('User profile') }}
                     </a>
                 </li> --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('asset.index') }}">
-                        <i class="ni ni-building text-brown"></i> {{ __('Asset Management') }}
+
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="ni ni-building text-brown"></i> Asset Management
                     </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tenant.index') }}">
-                        <i class="fas fa-users text-green"></i> {{ __('Tenants Management') }}
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-green"></i> Customer Management
                     </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('customer.index') }}">
-                        <i class="fas fa-users text-green"></i> {{ __('Customer Management') }}
-                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('customer.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('customer.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('landlord.index') }}">
-                        <i class="fas fa-users text-blue"></i> {{ __('Landlord Mgt.') }}
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-blue"></i> Landlord Management
                     </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('landlord.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('landlord.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('rental.index') }}">
-                        <i class="fas fa-home text-purple"></i> {{ __('Customer-Property Mgt.') }}
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-home text-purple"></i> Customer-Property Mgt.
                     </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('rental.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('rental.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('rental.approvals') }}">
                         <i class="fas fa-check-double text-green"></i> {{ __('Approvals') }}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('maintenance.index') }}">
-                        <i class="fas fa-wrench text-gold"></i> {{ __('Maintenance Mgt.') }}
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-wrench text-yellow"></i> Maintenance Mgt.
                     </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('debt.debt') }}">
                         <i class="fas fa-money-bill-wave text-red"></i> {{ __('Debts') }}
@@ -138,7 +197,7 @@
                         <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('tenant.myProfile') }}">
                         <i class="fas fa-user text-orange"></i> {{ __('My Profile') }}
                     </a>
@@ -157,6 +216,24 @@
                     <a class="nav-link" href="{{ route('tenant.maintenance') }}">
                         <i class="fas fa-wrench text-brown"></i> {{ __('My Maintenances') }}
                     </a>
+                </li> --}}
+
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-wrench text-yellow"></i> User Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
                 </li>
 
                 <li class="nav-item">
