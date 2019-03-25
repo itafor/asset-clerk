@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <img src="{{url('img/logo.png')}}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -108,6 +108,23 @@
                 </li>
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
+                      <i class="fas fa-users text-green"></i> Tenant Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+                {{-- <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
                       <i class="fas fa-users text-green"></i> Customer Management
                     </a>
                     <ul class="nav-item-child">
@@ -122,7 +139,7 @@
                         </a>
                       </li>
                      </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-blue"></i> Landlord Management
@@ -142,7 +159,7 @@
                 </li>
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
-                      <i class="fas fa-home text-purple"></i> Customer-Property Mgt.
+                      <i class="fas fa-home text-purple"></i> Rentals
                     </a>
                     <ul class="nav-item-child">
                       <li class="nav-item">
@@ -197,7 +214,7 @@
                         <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
                     </a>
                 </li>
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('tenant.myProfile') }}">
                         <i class="fas fa-user text-orange"></i> {{ __('My Profile') }}
                     </a>
@@ -216,7 +233,7 @@
                     <a class="nav-link" href="{{ route('tenant.maintenance') }}">
                         <i class="fas fa-wrench text-brown"></i> {{ __('My Maintenances') }}
                     </a>
-                </li> --}}
+                </li>
 
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
@@ -236,11 +253,11 @@
                      </ul>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
                     </a>
-                </li>
+                </li> --}}
             </ul>
             <!-- Divider -->
             {{-- <hr class="my-3"> --}}

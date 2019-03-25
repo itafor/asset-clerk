@@ -9,7 +9,7 @@
 
         <title>{{ $title}} | Asset Clerk</title>
         <!-- Favicon -->
-        <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
+        <link href="{{url('img/logo.png')}}" rel="icon" type="image/png">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Icons -->
@@ -115,6 +115,16 @@
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000,
+                "closeButton": true,
+            }
             @if(session()->has('success'))
                 toastr.success('{{session()->get('success')}}');
             @endif

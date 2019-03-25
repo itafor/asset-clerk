@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+Route::get('/', 'HomeController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -29,11 +27,18 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'AssetController@index')->name('asset.index');
 			Route::get('/create', 'AssetController@create')->name('asset.create');
 			Route::post('/store', 'AssetController@store')->name('asset.store');
+			Route::get('/edit/{uuid}', 'AssetController@edit')->name('asset.edit');
+			Route::post('/update', 'AssetController@update')->name('asset.update');
+			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
+			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 		});
 		Route::prefix('tenant')->group(function(){
 			Route::get('/', 'TenantController@index')->name('tenant.index');
 			Route::get('/create', 'TenantController@create')->name('tenant.create');
 			Route::post('/store', 'TenantController@store')->name('tenant.store');
+			Route::get('/edit/{uuid}', 'TenantController@edit')->name('tenant.edit');
+			Route::post('/update', 'TenantController@update')->name('tenant.update');
+			Route::get('/delete/{uuid}', 'TenantController@delete')->name('tenant.delete');
 		});
 		Route::prefix('customer')->group(function(){
 			Route::get('/', 'CustomerController@index')->name('customer.index');
@@ -44,6 +49,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'LandlordController@index')->name('landlord.index');
 			Route::get('/create', 'LandlordController@create')->name('landlord.create');
 			Route::post('/store', 'LandlordController@store')->name('landlord.store');
+			Route::get('/edit/{uuid}', 'LandlordController@edit')->name('landlord.edit');
+			Route::post('/update', 'LandlordController@update')->name('landlord.update');
+			Route::get('/delete/{uuid}', 'LandlordController@delete')->name('landlord.delete');
 		});
 		Route::prefix('rental')->group(function(){
 			Route::get('/', 'RentalController@index')->name('rental.index');

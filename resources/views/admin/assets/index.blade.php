@@ -32,20 +32,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($assetsCategories as $key => $asset)
+                                @foreach ($assetsCategories as $asset)
                                     <tr>
-                                        <td class="text-center">
-                                            <div class="checkbox-custom">
-                                            {{ $key + 1 }}
-                                            </div>
+                                        <td>
+                                           {{$loop->iteration}} 
                                         </td>
                                         <td>{{ $asset->description }}</td>
                                         <td>{{ $asset->name }}</td>
                                         <td>{{ $asset->address }}</td>
                                         <td>{{ $asset->quantity_added }}</td>
-                                        <td>{{ $asset->price }}</td>
+                                        <td>&#8358; {{ number_format($asset->price,2) }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('agent/edit_assets/'. $asset->id) }}" class="btn btn-outline btn-success"></a>
+                                            <div class="dropdown">
+                                                <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Action
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                    <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
+                                                    <form action="{{ route('asset.delete', ['uuid'=>$asset->uuid]) }}" method="get">
+                                                        
+                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this asset?") }}') ? this.parentElement.submit() : ''">
+                                                            {{ __('Delete') }}
+                                                        </button>
+                                                    </form> 
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
