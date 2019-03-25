@@ -11,6 +11,7 @@ use App\AssetTenant;
 use App\BuildingSection;
 use App\AssetFeature;
 use App\BuildingAge;
+use App\TenantRent;
 use Illuminate\Support\Str;
 use Cloudder;
 use Carbon\Carbon;
@@ -67,7 +68,7 @@ function getTotalLandlords()
 
 function getTotalRentals()
 {
-    return AssetTenant::count();
+    return TenantRent::count();
 }
 
 function getTenants()

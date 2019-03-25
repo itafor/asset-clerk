@@ -32,6 +32,11 @@ class Asset extends Model
         return $this->hasMany('App\Tenant');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function photos()
     {
         return $this->hasMany(AssetPhoto::class);
@@ -47,6 +52,7 @@ class Asset extends Model
         $asset = self::create([
             'description' => $data['description'],
             'quantity_added' => $data['quantity'],
+            'quantity_left' => $data['quantity'],
             'category_id' => $data['category'],
             'price' => $data['standard_price'],
             'landlord_id' => $data['landlord'],

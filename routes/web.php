@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/create', 'RentalController@create')->name('rental.create');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
+			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 		});
 		Route::prefix('maintenance')->group(function(){
 			Route::get('/', 'MaintenanceController@index')->name('maintenance.index');
@@ -90,5 +91,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
+	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 });
 
