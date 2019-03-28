@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <img src="{{url('img/logo.png')}}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -83,41 +83,191 @@
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('profile.edit') }}">
                         <i class="ni ni-single-02 text-yellow"></i> {{ __('User profile') }}
                     </a>
+                </li> --}}
+
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="ni ni-building text-brown"></i> Asset Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.my')}}">
+                            {{ __('My Assets') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-green"></i> Tenant Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+                {{-- <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-green"></i> Customer Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('customer.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('customer.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li> --}}
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-blue"></i> Landlord Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('landlord.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('landlord.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-home text-purple"></i> Rentals
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('rental.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('rental.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rental.approvals') }}">
+                        <i class="fas fa-check-double text-green"></i> {{ __('Approvals') }}
+                    </a>
+                </li>
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-wrench text-yellow"></i> Maintenance Mgt.
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('debt.debt') }}">
+                        <i class="fas fa-money-bill-wave text-red"></i> {{ __('Debts') }}
+                    </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('debt.payment') }}">
+                        <i class="fas fa-money-bill-wave text-green"></i> {{ __('Payments') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('report.assets') }}">
+                        <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.myProfile') }}">
+                        <i class="fas fa-user text-orange"></i> {{ __('My Profile') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.myRent') }}">
+                        <i class="fas fa-money-bill-wave text-green"></i> {{ __('My Rent') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.referals') }}">
+                        <i class="fas fa-users text-yellow"></i> {{ __('My Referals') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tenant.maintenance') }}">
+                        <i class="fas fa-wrench text-brown"></i> {{ __('My Maintenances') }}
+                    </a>
+                </li> --}}
+
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-wrench text-yellow"></i> User Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('maintenance.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-key-25 text-info"></i> {{ __('Login') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
-                    </a>
-                </li>
+                </li> --}}
             </ul>
             <!-- Divider -->
-            <hr class="my-3">
+            {{-- <hr class="my-3"> --}}
             <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Documentation</h6>
+            {{-- <h6 class="navbar-heading text-muted">Documentation</h6>
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
@@ -135,7 +285,7 @@
                         <i class="ni ni-ui-04"></i> Components
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
     </div>
 </nav>
