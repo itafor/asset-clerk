@@ -95,6 +95,11 @@
                     </a>
                     <ul class="nav-item-child">
                       <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.my')}}">
+                            {{ __('My Assets') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.index')}}">
                             {{ __('List') }}
                         </a>
@@ -214,7 +219,7 @@
                         <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('tenant.myProfile') }}">
                         <i class="fas fa-user text-orange"></i> {{ __('My Profile') }}
                     </a>
@@ -233,7 +238,7 @@
                     <a class="nav-link" href="{{ route('tenant.maintenance') }}">
                         <i class="fas fa-wrench text-brown"></i> {{ __('My Maintenances') }}
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >

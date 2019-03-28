@@ -5,20 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetPhoto;
+use App\AssignedAsset;
 use Validator;
 use DB;
 
 class AssetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assetsCategories = Asset::join('categories', 'assets.category_id', '=', 'categories.id')
+        $query = Asset::query()->join('categories', 'assets.category_id', '=', 'categories.id')
         ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
             'assets.price')
-        ->orderBy('assets.id', 'desc')->get();
+        ->where('assets.user_id', auth()->id());
+
+        if($request->has('search') && $request['search']){
+            $search = $request['search'];
+            $query->where('assets.description', 'like', "%{$search}%")
+            ->orWhere('assets.address', 'like', "%{$search}%")
+            ->orWhere('categories.name', 'like', "%{$search}%");
+        }
 
         $data = [
-            'assetsCategories' => $assetsCategories
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->paginate(10),
+            'term' => ''
         ];
 
         return view('admin.assets.index', $data);
@@ -138,5 +147,56 @@ class AssetController extends Controller
         else{
             return back()->with('error', 'Photo not found. Please try again');
         }
+    }
+
+    public function assign(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'asset' => 'required',
+            'user' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please select a user');
+        }
+
+        $exists = AssignedAsset::where([
+            ['asset_id', $request['asset']],
+            ['user_id', $request['user']],
+        ])->first();
+
+        if($exists){
+            return back()->with('error', 'Asset has already been assigned to this user');
+        }
+        else{
+            $aa = new AssignedAsset;
+            $aa->asset_id = $request['asset'];
+            $aa->user_id = $request['user'];
+            $aa->save();
+        }
+        return back()->with('success', 'Asset has been assigned to user successfully');
+    }
+
+    public function myAssets(Request $request)
+    {
+        $query = AssignedAsset::query()->join('assets', 'assets.id', '=', 'assigned_assets.asset_id')
+        ->join('categories', 'assets.category_id', '=', 'categories.id')
+        ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
+            'assets.price')
+        ->where('assigned_assets.user_id', auth()->id());
+
+        if($request->has('search') && $request['search']){
+            $search = $request['search'];
+            $query->where('assets.description', 'like', "%{$search}%")
+            ->orWhere('assets.address', 'like', "%{$search}%")
+            ->orWhere('categories.name', 'like', "%{$search}%");
+        }
+
+        $data = [
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->paginate(10),
+            'term' => ''
+        ];
+        return view('admin.assets.my', $data);
     }
 }

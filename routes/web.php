@@ -25,10 +25,12 @@ Route::group(['middleware' => 'auth'], function () {
 	//Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
+			Route::get('/my', 'AssetController@myAssets')->name('asset.my');
 			Route::get('/create', 'AssetController@create')->name('asset.create');
 			Route::post('/store', 'AssetController@store')->name('asset.store');
 			Route::get('/edit/{uuid}', 'AssetController@edit')->name('asset.edit');
 			Route::post('/update', 'AssetController@update')->name('asset.update');
+			Route::post('/assign', 'AssetController@assign')->name('asset.assign');
 			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
 			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 		});
@@ -92,5 +94,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+	Route::get('search-users', 'UtilsController@searchUsers');
 });
 

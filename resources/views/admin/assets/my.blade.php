@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'List Assets'])
+@extends('layouts.app', ['title' => 'My Assets'])
 
 @section('content')
 @include('admin.rental.partials.header', ['title' => __('Assets')])  
@@ -10,10 +10,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Assets') }}</h3>
+                                <h3 class="mb-0">{{ __('My Assets') }}</h3>
                             </div>
                             <div class="col-md-3">
-                                <form method="GET" action="{{ route('asset.index') }}" accept-charset="UTF-8" id="users-form">
+                                <form method="GET" action="{{ route('asset.my') }}" accept-charset="UTF-8" id="users-form">
                                     <div class="input-group custom-search-form" style="float:right">
                                         <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="Search for assets...">
                                         <span class="input-group-btn">
@@ -21,7 +21,7 @@
                                                 <span class="fas fa-search"></span>
                                             </button>
                                             @if (Input::has('search') && Input::get('search') != '')
-                                                <a href="{{ route('asset.index') }}" class="btn btn-danger" type="button" >
+                                                <a href="{{ route('asset.my') }}" class="btn btn-danger" type="button" >
                                                     <span class="far fa-times-circle"></span>
                                                 </a>
                                             @endif
@@ -72,7 +72,6 @@
                                                         Action
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                        <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
                                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
                                                         <form action="{{ route('asset.delete', ['uuid'=>$asset->uuid]) }}" method="get">
                                                             
@@ -80,37 +79,6 @@
                                                                 {{ __('Delete') }}
                                                             </button>
                                                         </form> 
-                                                    </div>
-                                                </div>
-                                                <div class="modal fade" id="assignModal{{$i}}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <form id="form{{$i}}" action="{{route('asset.assign')}}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="asset" value="{{$asset->id}}">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Assign Asset</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body" style="text-align:left">
-                                                                <form action="" method="POST">
-                                                                    @csrf
-                                                                    <div class="form-group">
-                                                                        <div>
-                                                                            <select required style="width:100%; padding:5px" name="user" class="user" class="form-control"></select>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" onclick="event.preventDefault();
-                                                                document.getElementById('form{{$i}}').submit();" class="btn btn-primary">Assign</button>
-                                                            </div>
-                                                            </form>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>

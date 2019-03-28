@@ -18,6 +18,8 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <link type="text/css" href="{{ url('css/select2.css') }}" rel="stylesheet">
+        <link type="text/css" href="{{ url('css/stylesheet.css') }}" rel="stylesheet">
         <script>
             var baseUrl = "{{url('/')}}";
         </script>
@@ -114,6 +116,7 @@
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="{{ url('js/select2.js') }}"></script>
         <script>
             toastr.options = {
                 "debug": false,
