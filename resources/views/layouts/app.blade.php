@@ -9,7 +9,7 @@
 
         <title>{{ $title}} | Asset Clerk</title>
         <!-- Favicon -->
-        <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
+        <link href="{{url('img/logo.png')}}" rel="icon" type="image/png">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Icons -->
@@ -18,6 +18,8 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <link type="text/css" href="{{ url('css/select2.css') }}" rel="stylesheet">
+        <link type="text/css" href="{{ url('css/stylesheet.css') }}" rel="stylesheet">
         <script>
             var baseUrl = "{{url('/')}}";
         </script>
@@ -114,7 +116,18 @@
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="{{ url('js/select2.js') }}"></script>
         <script>
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000,
+                "closeButton": true,
+            }
             @if(session()->has('success'))
                 toastr.success('{{session()->get('success')}}');
             @endif

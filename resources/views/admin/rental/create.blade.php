@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-category">{{ __('Asset Category') }}</label>
-                                    <select name="category" id="" class="form-control" required>
+                                    <select name="category" id="category" class="form-control" required>
                                         <option value="">Select Category</option>
                                         @foreach (getCategories() as $cat)
                                             <option value="{{$cat->id}}">{{$cat->name}}</option>
@@ -67,7 +67,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                {{-- <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-location">{{ __('Location') }}</label>
                                     <select name="location" id="location" class="form-control" required>
                                         <option value="">Select Location</option>
@@ -78,10 +78,20 @@
                                             <strong>{{ $errors->first('location') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> --}}
+                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                        <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
+                                        <input type="number" name="standard_price" id="input-standard_price" class="form-control form-control-alternative{{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="&#8358; 0.00" value="{{old('standard_price')}}" required>
+    
+                                        @if ($errors->has('standard_price'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('standard_price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 <div style="clear:both"></div>         
 
-                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                {{-- <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
                                     <input type="text" name="standard_price" id="input-standard_price" class="datepicker form-control form-control-alternative{{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="&#8358; 0.00" value="{{old('standard_price')}}" required>
 
@@ -90,8 +100,8 @@
                                             <strong>{{ $errors->first('standard_price') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                </div> --}}
+                                <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-date">{{ __('Rental Date') }}</label>
                                     <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
                                     
@@ -120,7 +130,38 @@
 
 @section('script')
     <script>
+         $('#category').change(function(){
+            var category = $(this).val();
+            if(category){
+                $('#asset_description').empty();
+                $('<option>').val('').text('Loading...').appendTo('#asset_description');
+                $.ajax({
+                    url: baseUrl+'/fetch-assets/'+category,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#asset_description').empty();
+                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
+                        });
+                    }
+                });
+            }
+            else{
+                $('#asset_description').empty();
+                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+            }
+        });
 
-        
+        $('#asset_description').change(function(){
+            var value = $(this).val();
+            if(value){
+
+                var price = $(this).find(':selected').data('price')
+
+                $('#input-standard_price').val(price)
+            }
+        })
     </script>
 @endsection

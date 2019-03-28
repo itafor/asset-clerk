@@ -32,6 +32,31 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($rentals as $rental)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$rental->tenant->name()}}</td>
+                                    <td>{{$rental->asset->category->name}}</td>
+                                    <td>{{$rental->asset->description}}</td>
+                                    <td></td>
+                                    <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd/m/Y')}}</td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
+                                                    
+                                                    <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form> 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
 
                         </table>

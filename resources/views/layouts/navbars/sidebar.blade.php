@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <img src="{{url('img/logo.png')}}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -95,6 +95,11 @@
                     </a>
                     <ul class="nav-item-child">
                       <li class="nav-item">
+                        <a class="nav-link" href="{{route('asset.my')}}">
+                            {{ __('My Assets') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.index')}}">
                             {{ __('List') }}
                         </a>
@@ -107,6 +112,23 @@
                      </ul>
                 </li>
                 <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-green"></i> Tenant Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('tenant.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+                {{-- <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-green"></i> Customer Management
                     </a>
@@ -122,7 +144,7 @@
                         </a>
                       </li>
                      </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-blue"></i> Landlord Management
@@ -142,7 +164,7 @@
                 </li>
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
-                      <i class="fas fa-home text-purple"></i> Customer-Property Mgt.
+                      <i class="fas fa-home text-purple"></i> Rentals
                     </a>
                     <ul class="nav-item-child">
                       <li class="nav-item">
@@ -236,11 +258,11 @@
                      </ul>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
                         <i class="ni ni-bullet-list-67 text-red"></i> {{ __('User Management') }}
                     </a>
-                </li>
+                </li> --}}
             </ul>
             <!-- Divider -->
             {{-- <hr class="my-3"> --}}

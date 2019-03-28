@@ -32,6 +32,32 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($landlords as $landlord)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$landlord->designation}}</td>
+                                    <td>{{$landlord->firstname}}</td>
+                                    <td>{{$landlord->lastname}}</td>
+                                    <td>{{$landlord->phone}}</td>
+                                    <td>{{$landlord->address}}</td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <a href="{{ route('landlord.edit', ['uuid'=>$landlord->uuid]) }}" class="dropdown-item">Edit</a>
+                                                <form action="{{ route('landlord.delete', ['uuid'=>$landlord->uuid]) }}" method="get">
+                                                    
+                                                    <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this landlord?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form> 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
 
                         </table>
