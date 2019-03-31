@@ -18,9 +18,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('maintenance.store') }}" autocomplete="off">
+                        <form method="post" action="{{ route('maintenance.update') }}" autocomplete="off">
                             @csrf
-                            
+                            <input type="hidden" name="uuid" value="{{$maintenance->uuid}}">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }}" style="width:47%; float:left">
@@ -28,7 +28,7 @@
                                     <select name="customer" id="" class="form-control" required autofocus>
                                         <option value="">Select Customer</option>
                                         @foreach (getTenants() as $tenant)
-                                            <option value="{{$tenant->id}}">{{$tenant->name()}}</option>
+                                            <option value="{{$tenant->id}}" {{$tenant->id == $maintenance->tenant_id ? 'selected' : ''}}>{{$tenant->name()}}</option>
                                         @endforeach
                                     </select>
 
@@ -43,7 +43,7 @@
                                     <select name="category" id="category" class="form-control" required>
                                         <option value="">Select Category</option>
                                         @foreach (getCategories() as $cat)
-                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                            <option value="{{$cat->id}}" {{$cat->id == $maintenance->category ? 'selected' : ''}}>{{$cat->name}}</option>
                                         @endforeach
                                     </select>
                                     
@@ -59,6 +59,9 @@
                                     <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
                                     <select name="asset_description" id="asset_description" class="form-control" required>
                                         <option value="">Select Asset Description</option>
+                                        @foreach (getAssetDescription($maintenance->category) as $desc)
+                                            <option value="{{$desc->uuid}}" {{$desc->uuid == $maintenance->asset_description_uuid ? 'selected' : ''}}>{{$desc->description}}</option>
+                                        @endforeach
                                     </select>
 
                                     @if ($errors->has('asset_description'))
@@ -86,7 +89,7 @@
                                     <select name="building_section" id="building_section" class="form-control" required>
                                         <option value="">Select Building Section</option>
                                         @foreach (getBuildingSections() as $b)
-                                            <option value="{{$b->id}}">{{$b->name}}</option>
+                                            <option value="{{$b->id}}" {{$b->id == $maintenance->building_section ? 'selected' : ''}}>{{$b->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -99,7 +102,7 @@
                                 <div style="clear:both"></div>
                                 <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-reported_date">{{ __('Reported Date') }}</label>
-                                    <input type="text" name="reported_date" id="input-reported_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date')}}" required>
+                                    <input type="text" name="reported_date" id="input-reported_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date', formatDate($maintenance->reported_date, 'Y-m-d', 'm/d/Y'))}}" required>
                                     
                                     @if ($errors->has('reported_date'))
                                         <span class="invalid-feedback" role="alert">
@@ -113,8 +116,8 @@
                                     <label class="form-control-label" for="input-date">{{ __('Status') }}</label>
                                     <select name="status" id="status" class="form-control" required>
                                         <option value="">Select Status</option>
-                                        <option>Fixed</option>
-                                        <option>Unfixed</option>
+                                        <option {{$maintenance->status == 'Fixed' ? 'selected' : ''}}>Fixed</option>
+                                        <option {{$maintenance->status == 'Unfixed' ? 'selected' : ''}}>Unfixed</option>
                                     </select>
                                     
                                     @if ($errors->has('status'))
@@ -128,7 +131,7 @@
                                 <div style="clear:both"></div>
                                 <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-fault_description">{{ __('Fault Description') }}</label>
-                                    <textarea rows="5" name="fault_description" id="input-fault_description" class="form-control form-control-alternative{{ $errors->has('fault_description') ? ' is-invalid' : '' }}" placeholder="Enter Fault Description" required>{{old('fault_description')}}</textarea>
+                                    <textarea rows="5" name="fault_description" id="input-fault_description" class="form-control form-control-alternative{{ $errors->has('fault_description') ? ' is-invalid' : '' }}" placeholder="Enter Fault Description" required>{{old('fault_description', $maintenance->description)}}</textarea>
 
                                     @if ($errors->has('fault_description'))
                                         <span class="invalid-feedback" role="alert">

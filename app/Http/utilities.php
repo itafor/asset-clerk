@@ -116,3 +116,8 @@ function formatDate($date, $oldFormat, $newFormat)
 {
     return Carbon::createFromFormat($oldFormat, $date)->format($newFormat);
 }
+
+function getAssetDescription($category)
+{
+    return Asset::where('category_id', $category)->get();
+}

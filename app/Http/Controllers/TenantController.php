@@ -105,7 +105,7 @@ class TenantController extends Controller
         }
 
         Tenant::updateTenant($request->all());
-        return redirect()->route('tenant.index')->with('success', 'Tenant added successfully');
+        return redirect()->route('tenant.index')->with('success', 'Tenant updated successfully');
     }
 
     public function myProfile()
