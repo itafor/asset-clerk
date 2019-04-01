@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
+	Route::resource('subs', 'SubAccountController', ['except' => ['show']]);
+
 	//Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
