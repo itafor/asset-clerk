@@ -111,6 +111,7 @@
                       </li>
                      </ul>
                 </li>
+                
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-green"></i> Tenant Management
@@ -242,16 +243,34 @@
 
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
-                      <i class="fas fa-wrench text-yellow"></i> User Management
+                      <i class="fas fa-users text-red"></i> Sub Accounts
                     </a>
                     <ul class="nav-item-child">
                       <li class="nav-item">
-                        <a class="nav-link" href="{{route('maintenance.index')}}">
+                        <a class="nav-link" href="{{route('subs.index')}}">
                             {{ __('List') }}
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{route('maintenance.create')}}">
+                        <a class="nav-link" href="{{route('subs.create')}}">
+                            {{ __('Add New') }}
+                        </a>
+                      </li>
+                     </ul>
+                </li>
+
+                <li class="nav-item nav-with-child">
+                    <a class="nav-link"  >
+                      <i class="fas fa-users text-yellow"></i> User Management
+                    </a>
+                    <ul class="nav-item-child">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('user.index')}}">
+                            {{ __('List') }}
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('user.create')}}">
                             {{ __('Add New') }}
                         </a>
                       </li>

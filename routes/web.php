@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
+	Route::resource('subs', 'SubAccountController', ['except' => ['show']]);
+
 	//Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
@@ -66,6 +68,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'MaintenanceController@index')->name('maintenance.index');
 			Route::get('/create', 'MaintenanceController@create')->name('maintenance.create');
 			Route::post('/store', 'MaintenanceController@store')->name('maintenance.store');
+			Route::get('/edit/{uuid}', 'MaintenanceController@edit')->name('maintenance.edit');
+			Route::post('/update', 'MaintenanceController@update')->name('maintenance.update');
+			Route::get('/delete/{uuid}', 'MaintenanceController@delete')->name('maintenance.delete');
 		});
 		Route::prefix('debt')->group(function(){
 			Route::get('/', 'DebtController@debt')->name('debt.debt');
