@@ -33,6 +33,33 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($maintenances as $m)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$m->tenant->name()}}</td>
+                                        <td>{{$m->categoryy->name}}</td>
+                                        <td>{{$m->buildingSection->name}}</td>
+                                        <td>{{$m->description}}</td>
+                                        <td>{{ formatDate($m->reported_date, 'Y-m-d', 'd/m/Y') }}</td>
+                                        <td>{{$m->status}}</td>
+                                        <td class="text-center">
+                                                <div class="dropdown">
+                                                    <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                        <a href="{{ route('maintenance.edit', ['uuid'=>$m->uuid]) }}" class="dropdown-item">Edit</a>
+                                                        <form action="{{ route('maintenance.delete', ['uuid'=>$m->uuid]) }}" method="get">
+                                                            
+                                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this maintenance?") }}') ? this.parentElement.submit() : ''">
+                                                                {{ __('Delete') }}
+                                                            </button>
+                                                        </form> 
+                                                    </div>
+                                                </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
 
                         </table>
