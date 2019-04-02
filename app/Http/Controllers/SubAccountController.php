@@ -38,6 +38,13 @@ class SubAccountController extends Controller
     public function create()
     {
         $assets = Asset::where('user_id', auth()->id())->get();
+        $menus = [
+            'Asset Management',
+            'Tenants Management',
+            'Landlords Management',
+            'Rentals',
+            'Approvals'
+        ];
         return view('subs.create', compact('assets'));
     }
 

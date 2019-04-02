@@ -96,12 +96,12 @@
                     <ul class="nav-item-child">
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.my')}}">
-                            {{ __('My Assets') }}
+                            {{ __('Assigned Assets') }}
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.index')}}">
-                            {{ __('List') }}
+                            {{ __('My Assets') }}
                         </a>
                       </li>
                       <li class="nav-item">
@@ -248,18 +248,18 @@
                     <ul class="nav-item-child">
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('subs.index')}}">
-                            {{ __('List') }}
+                            {{ __('List Sub Accounts') }}
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('subs.create')}}">
-                            {{ __('Add New') }}
+                            {{ __('Create Sub Account') }}
                         </a>
                       </li>
                      </ul>
                 </li>
 
-                <li class="nav-item nav-with-child">
+                {{--<li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-yellow"></i> User Management
                     </a>
@@ -275,7 +275,7 @@
                         </a>
                       </li>
                      </ul>
-                </li>
+                </li>--}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
