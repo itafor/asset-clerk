@@ -41,10 +41,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th><b>Description</b></th>
-                                    <th><b>Category</b></th>
                                     <th><b>Location</b></th>
-                                    <th><b>Quantity</b></th>
-                                    <th><b>Rent</b></th>
+                                    <th><b>Units</b></th>
                                     <th class="text-center"><b>Action</b></th>
                                 </tr>
                             </thead>
@@ -62,10 +60,10 @@
                                             {{$i}} 
                                             </td>
                                             <td>{{ $asset->description }}</td>
-                                            <td>{{ $asset->name }}</td>
                                             <td>{{ $asset->address }}</td>
-                                            <td>{{ $asset->quantity_added }}</td>
-                                            <td>&#8358; {{ number_format($asset->price,2) }}</td>
+                                            <td>
+                                                <a href="#x" data-toggle="modal" data-target="#unit{{$i}}" class="text-underline">{{ $asset->units->count() }}</a>
+                                            </td>
                                             <td class="text-center">
                                                 <div class="dropdown">
                                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -82,37 +80,8 @@
                                                         </form> 
                                                     </div>
                                                 </div>
-                                                <div class="modal fade" id="assignModal{{$i}}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <form id="form{{$i}}" action="{{route('asset.assign')}}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="asset" value="{{$asset->id}}">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Assign Asset</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body" style="text-align:left">
-                                                                <form action="" method="POST">
-                                                                    @csrf
-                                                                    <div class="form-group">
-                                                                        <div>
-                                                                            <select required style="width:100%; padding:5px" name="user" class="user" class="form-control"></select>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" onclick="event.preventDefault();
-                                                                document.getElementById('form{{$i}}').submit();" class="btn btn-primary">Assign</button>
-                                                            </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @include('admin.assets.partials.assign')
+                                                @include('admin.assets.partials.units')
                                             </td>
                                         </tr>
                                     <?php $i++ ?>

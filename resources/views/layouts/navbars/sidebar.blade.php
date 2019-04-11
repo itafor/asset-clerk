@@ -241,6 +241,7 @@
                     </a>
                 </li> --}}
 
+                @if(!auth()->user()->sub_account)
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-red"></i> Sub Accounts
@@ -258,6 +259,7 @@
                       </li>
                      </ul>
                 </li>
+                @endif
 
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
