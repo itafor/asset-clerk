@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetPhoto;
+use App\Unit;
 use App\AssignedAsset;
 use Validator;
 use DB;
@@ -13,16 +14,15 @@ class AssetController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Asset::query()->join('categories', 'assets.category_id', '=', 'categories.id')
-        ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
+        $query = Asset::query()
+        ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
         ->where('assets.user_id', auth()->id());
 
         if($request->has('search') && $request['search']){
             $search = $request['search'];
             $query->where('assets.description', 'like', "%{$search}%")
-            ->orWhere('assets.address', 'like', "%{$search}%")
-            ->orWhere('categories.name', 'like', "%{$search}%");
+            ->orWhere('assets.address', 'like', "%{$search}%");
         }
 
         $data = [
@@ -42,9 +42,9 @@ class AssetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'category' => 'required',
-            'quantity' => 'required',
-            'standard_price' => 'required',
+            'unit.*.category' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.standard_price' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -52,8 +52,8 @@ class AssetController extends Controller
             'address' => 'required',
             'detailed_information' => 'required',
             'building_age' => 'required',
-            'bedrooms' => 'required',
-            'bathrooms' => 'required',
+            // 'bedrooms' => 'required',
+            // 'bathrooms' => 'required',
             'features.*' => 'required',
             'photos.*' => 'required|image'
         ]);
@@ -77,7 +77,7 @@ class AssetController extends Controller
 
     public function edit($uuid)
     {
-        $asset = Asset::where('uuid', $uuid)->first();
+        $asset = Asset::where('uuid', $uuid)->with('units')->first();
         if($asset){
             return view('admin.assets.edit', compact('asset'));
         }
@@ -90,9 +90,9 @@ class AssetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'category' => 'required',
-            'quantity' => 'required',
-            'standard_price' => 'required',
+            // 'category' => 'required',
+            // 'quantity' => 'required',
+            // 'standard_price' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -100,10 +100,13 @@ class AssetController extends Controller
             'address' => 'required',
             'detailed_information' => 'required',
             'building_age' => 'required',
-            'bedrooms' => 'required',
-            'bathrooms' => 'required',
+            // 'bedrooms' => 'required',
+            // 'bathrooms' => 'required',
             'features.*' => 'required',
             'uuid' => 'required',
+            'unit.*.category' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.standard_price' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -146,6 +149,18 @@ class AssetController extends Controller
         }
         else{
             return back()->with('error', 'Photo not found. Please try again');
+        }
+    }
+    
+    public function deleteUnit($id)
+    {
+        $unit = Unit::find($id);
+        if($unit){
+            $unit->delete();
+            return back()->with('success', 'Unit deleted successfully');
+        }
+        else{
+            return back()->with('error', 'Unit not found. Please try again');
         }
     }
 

@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index');
 Auth::routes();
+Route::get('login/{provider}', 'SocialController@redirect');
+Route::get('login/{provider}/callback','SocialController@Callback');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -34,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/update', 'AssetController@update')->name('asset.update');
 			Route::post('/assign', 'AssetController@assign')->name('asset.assign');
 			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
+			Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 		});
 		Route::prefix('tenant')->group(function(){

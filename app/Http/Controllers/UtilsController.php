@@ -39,6 +39,13 @@ class UtilsController extends Controller
                 ->orWhere('firstname', 'LIKE', "%$search%")
                 ->orWhere('lastname', 'LIKE', "%$search%")
                 ->get();
+            $data1 = DB::table("tenants")
+                ->select("id", "firstname", "lastname")
+                ->where('email', 'LIKE', "%$search%")
+                ->orWhere('firstname', 'LIKE', "%$search%")
+                ->orWhere('lastname', 'LIKE', "%$search%")
+                ->get();
+            $data = array_merge($data->all(),$data1->all());
         }
         return response()->json($data);
     }

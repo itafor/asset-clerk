@@ -20,9 +20,32 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link type="text/css" href="{{ url('css/select2.css') }}" rel="stylesheet">
         <link type="text/css" href="{{ url('css/stylesheet.css') }}" rel="stylesheet">
+        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <link type="text/css" href="{{ url('css/b4-select2.css') }}" rel="stylesheet">
         <script>
             var baseUrl = "{{url('/')}}";
         </script>
+        <style>
+            .select2-selection {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+                display: block !important;
+                width: 100% !important;
+                height: calc(2.75rem + 2px) !important;
+                padding: .625rem .75rem !important;
+                transition: all .2s cubic-bezier(.68, -.55, .265, 1.55) !important;
+                color: #8898aa !important;
+                border: 1px solid #cad1d7 !important;
+                border-radius: .375rem !important;
+                background-color: #fff !important;
+                background-clip: padding-box !important;
+                box-shadow: none !important;
+                transition: box-shadow .15s ease !important;
+                border: 0 !important;
+                box-shadow: 0 1px 3px rgba(50, 50, 93, .15), 0 1px 0 rgba(0, 0, 0, .02) !important;
+            }
+        </style>
         @yield('style')
     </head>
     <body class="{{ $class ?? '' }}">
@@ -116,6 +139,7 @@
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
         <script src="{{ url('js/select2.js') }}"></script>
         <script>
             toastr.options = {
@@ -140,6 +164,13 @@
             $('body').on('click', '[data-confirm]', function () {
                 return confirm('Are you sure?');
             });
+
+            $(document).ready(function() {
+                $("select").not('.user').select2({
+                    theme: "bootstrap"
+                });
+            });
+
         </script>
         @yield('script')
     </body>
