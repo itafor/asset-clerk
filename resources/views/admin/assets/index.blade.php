@@ -71,6 +71,8 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                         <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
+                                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">Add Service Charge</a>
+                                                        <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a>
                                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
                                                         <form action="{{ route('asset.delete', ['uuid'=>$asset->uuid]) }}" method="get">
                                                             
@@ -82,6 +84,7 @@
                                                 </div>
                                                 @include('admin.assets.partials.assign')
                                                 @include('admin.assets.partials.units')
+                                                
                                             </td>
                                         </tr>
                                     <?php $i++ ?>
@@ -104,6 +107,8 @@
                 </div>
             </div>
         </div>
+        @include('admin.assets.partials.service')
+        @include('admin.assets.partials.addUnit')
             
         @include('layouts.footers.auth')
     </div>
@@ -129,6 +134,155 @@
                 },
                 cache: true
             }
+        });
+
+        $('body').on('change', '.sc_type', function(){
+            var sc_type = $(this).val();
+            var row = $(this).data('row');
+            if(sc_type){
+
+                $('#serviceCharge'+row).empty();
+                $('<option>').val('').text('Loading...').appendTo('#serviceCharge'+row);
+                $.ajax({
+                    url: baseUrl+'/fetch-service-charge/'+sc_type,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#serviceCharge'+row).empty();
+                        $('<option>').val('').text('Select Service Charge').appendTo('#serviceCharge'+row);
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.id).text(v.name).appendTo('#serviceCharge'+row);
+                        });
+                    }
+                });
+            }
+        });
+
+        // Remove parent of 'remove' link when link is clicked.
+        $('#containerSC').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            rowsc--;
+        });
+        function identifier(){
+            return Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+        }
+        var rowsc = 1;
+
+        $('#addMoreSC').click(function(e) {
+            e.preventDefault();
+
+            if(rowsc >= 5){
+                alert("You've reached the maximum limit");
+                return;
+            }
+
+            var rowId = identifier();
+
+            $("#containerSC").append(
+                '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                    +'<div style="float:left" class="remove_project_file"><a href="#x" class=" btn btn-danger btn-sm"  border="2">Remove</a></div>'
+                    +'<div style="clear:both"></div>'
+                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>'
+                    +'    <select name="service['+rowId+'][type]" class="form-control sc_type select'+rowId+'" data-row="'+rowId+'" required>'
+                    +'        <option value="">Select Type</option>'
+                    +'        <option value="fixed">Fixed</option>'
+                    +'        <option value="variable">Variable</option>'
+                    +'    </select>'
+                    +'</div>'
+                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
+                    +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
+                    +'        <option value="">Select Service Charge</option>'
+                    +'    </select>'
+                    +'</div>       '            
+                    +'<div class="form-group" style="width:31%; float:left">'
+                    +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
+                    +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
+                    +'</div>'
+                    +'<div style="clear:both"></div>'
+                +'</div>'
+            );
+            rowsc++;
+            $(".select"+rowId).select2({
+                theme: "bootstrap"
+            });
+        });
+
+
+        $('.addService').click(function(){
+            var asset = $(this).data('asset');
+            $('#asset').val(asset);
+        })
+        $('.addUnit').click(function(){
+            var asset = $(this).data('asset');
+            $('#assetU').val(asset);
+        })
+
+        var row = 1;
+
+        $('#addMore').click(function(e) {
+            e.preventDefault();
+
+            if(row >= 5){
+                alert("You've reached the maximum limit");
+                return;
+            }
+
+            var rowId = identifier();
+
+            $("#container").append(
+                '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                    +'<div style="float:left" class="remove_project_file"><a href="#" class=" btn btn-danger btn-sm"  border="2">Remove</a></div>'
+                    +'<div style="clear:both"></div>'
+                    +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
+                    +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
+                    +'        <option value="">Select Category</option>'
+                    +'        @foreach (getCategories() as $cat)'
+                    +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
+                    +'        @endforeach'
+                    +'    </select>'
+
+                    +'    @if ($errors->has('category'))'
+                    +'        <span class="invalid-feedback" role="alert">'
+                    +'            <strong>{{ $errors->first('category') }}</strong>'
+                    +'        </span>'
+                    +'    @endif'
+                    +'</div>'
+                    +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
+                    +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
+                    +'    @if ($errors->has('quantity'))'
+                    +'        <span class="invalid-feedback" role="alert">'
+                    +'            <strong>{{ $errors->first('quantity') }}</strong>'
+                    +'        </span>'
+                    +'    @endif'
+                    +'</div>         '          
+                    +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:31%; float:left">'
+                    +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
+                    +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+
+                    +'    @if ($errors->has('standard_price'))'
+                    +'        <span class="invalid-feedback" role="alert">'
+                    +'            <strong>{{ $errors->first('standard_price') }}</strong>'
+                    +'        </span>'
+                    +'    @endif'
+                    +'</div>'
+                    +'<div style="clear:both"></div>'
+                +'</div>'
+            );
+            row++;
+            $(".select"+rowId).select2({
+                    theme: "bootstrap"
+                });
+        });
+
+        $('#container').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            row--;
         });
     </script>
 @endsection

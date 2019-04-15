@@ -20,7 +20,8 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link type="text/css" href="{{ url('css/select2.css') }}" rel="stylesheet">
         <link type="text/css" href="{{ url('css/stylesheet.css') }}" rel="stylesheet">
-        
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+         
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <link type="text/css" href="{{ url('css/b4-select2.css') }}" rel="stylesheet">
         <script>
@@ -133,6 +134,7 @@
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
         
         @stack('js')
         
@@ -169,6 +171,7 @@
                 $("select").not('.user').select2({
                     theme: "bootstrap"
                 });
+                $('.datatable').DataTable();
             });
 
         </script>

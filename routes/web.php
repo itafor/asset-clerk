@@ -37,6 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/assign', 'AssetController@assign')->name('asset.assign');
 			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
 			Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
+			Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
+			Route::post('/add-service-charge', 'AssetController@addServiceCharge')->name('asset.service.add');
+			Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
+			Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
 			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 		});
 		Route::prefix('tenant')->group(function(){
@@ -102,6 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+	Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 	Route::get('search-users', 'UtilsController@searchUsers');
 });
 

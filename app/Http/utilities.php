@@ -12,6 +12,7 @@ use App\BuildingSection;
 use App\AssetFeature;
 use App\BuildingAge;
 use App\TenantRent;
+use App\ServiceCharge;
 use Illuminate\Support\Str;
 use Cloudder;
 use Carbon\Carbon;
@@ -120,4 +121,20 @@ function formatDate($date, $oldFormat, $newFormat)
 function getAssetDescription($category)
 {
     return Asset::where('category_id', $category)->get();
+}
+
+function getServiceCharge($type)
+{
+    return ServiceCharge::where('type', $type)->orderBy('name')->get();
+}
+
+function getServiceChargeType($serviceCharge)
+{
+    $sc = ServiceCharge::find($serviceCharge);
+    if($sc){
+        return $sc->type;
+    }   
+    else{   
+        return '';
+    }
 }

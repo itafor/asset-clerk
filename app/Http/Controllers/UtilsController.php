@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Asset;
+use App\ServiceCharge;
 use DB;
 
 class UtilsController extends Controller
@@ -26,6 +27,12 @@ class UtilsController extends Controller
         ->where('quantity_left', '!=', 0)
         ->select('uuid','description','price')->get();
         return response()->json($assets);
+    }
+    
+    public function fetchServiceCharge($type)
+    {
+        $sc = ServiceCharge::where('type', $type)->orderBy('name')->get();
+        return response()->json($sc);
     }
 
     public function searchUsers(Request $request)
