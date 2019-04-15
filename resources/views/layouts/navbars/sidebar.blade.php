@@ -216,8 +216,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('report.assets') }}">
-                        <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
+                    <a class="nav-link" href="{{ route('service.charges') }}">
+                        <i class="fas fa-credit-card text-blue"></i> {{ __('Service Charges') }}
                     </a>
                 </li>
                 {{-- <li class="nav-item">

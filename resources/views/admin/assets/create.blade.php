@@ -109,6 +109,68 @@
                                 <div style="clear:both"></div>                         
                             </div>
                             
+                            <h6 class="heading-small text-muted mb-4">{{ __('Service Charge') }}</h6>
+                            @if(count($errors) > 0)
+                            <div class="pl-lg-4">
+                                @foreach (old('service') as $key => $value)
+                                <div class="form-group {{ $errors->has('service.'.$key.'.category') ? 'has-danger':'' }}" style="width:31%; float:left; margin-right:25px">
+                                    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
+                                    <select name="service[{{$key}}][type]"  class="form-control sc_type" data-row="{{$key}}" required>
+                                        <option value="">Select Type</option>
+                                        <option value="fixed" {{old('service.'.$key.'.type') == 'fixed' ? 'selected' : ''}}>Fixed</option>
+                                        <option value="variable" {{old('service.'.$key.'.type') == 'variable' ? 'selected' : ''}}>Variable</option>
+                                    </select>
+                                </div>
+                                <div class="form-group {{ $errors->has('service.'.$key.'.service_charge') ? 'has-danger':'' }}" style="width:31%; float:left; margin-right:25px">
+                                    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
+                                    <select name="service[{{$key}}][service_charge]" id="serviceCharge{{$key}}" class="form-control" required>
+                                        <option value="">Select Category</option>
+                                        @foreach (getServiceCharge(old('service.'.$key.'.type')) as $sc)
+                                            <option value="{{$sc->id}}">{{$sc->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>                   
+                                <div class="form-group {{ $errors->has('service.'.$key.'.price') ? 'has-danger':'' }}" style="width:31%; float:left">
+                                    <label class="form-control-label" for="input-standard_price">{{ __('Price') }}</label>
+                                    <input type="number" name="service[{{$key}}][price]" id="input-{{$key}}" class="form-control {{ $errors->has('service.'.$key.'.price') ? ' is-invalid' : '' }}" placeholder="Enter Price" value="{{old('service.'.$key.'.price')}}" required>
+                                </div>
+                                <div style="clear:both"></div>
+                                @endforeach
+                                <div id="containerSC">
+                                </div>   
+                                <div class="form-group">
+                                    <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
+                                </div> 
+                            </div>
+                            @else
+                            <div class="pl-lg-4">
+                                <div class="form-group" style="width:31%; float:left; margin-right:25px">
+                                    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
+                                    <select name="service[112211][type]" class="form-control sc_type" data-row="112211" required>
+                                        <option value="">Select Type</option>
+                                        <option value="fixed">Fixed</option>
+                                        <option value="variable">Variable</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width:31%; float:left; margin-right:25px">
+                                    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
+                                    <select name="service[112211][service_charge]" id="serviceCharge112211" class="form-control" required>
+                                        <option value="">Select Service Charge</option>
+                                    </select>
+                                </div>                   
+                                <div class="form-group" style="width:31%; float:left">
+                                    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
+                                    <input type="number" name="service[112211][price]" id="input-price" class="form-control" placeholder="Enter Price" required>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div id="containerSC">
+                                </div>   
+                                <div class="form-group">
+                                    <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
+                                </div>                         
+                            </div>
+                            @endif
+                            
                             <h6 class="heading-small text-muted mb-4">{{ __('Units') }}</h6>
                             @if(count($errors) > 0)
                             <div class="pl-lg-4">
@@ -307,6 +369,28 @@
 
 @section('script')
     <script>
+
+        $('body').on('change', '.sc_type', function(){
+            var sc_type = $(this).val();
+            var row = $(this).data('row');
+            if(sc_type){
+
+                $('#serviceCharge'+row).empty();
+                $('<option>').val('').text('Loading...').appendTo('#serviceCharge'+row);
+                $.ajax({
+                    url: baseUrl+'/fetch-service-charge/'+sc_type,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#serviceCharge'+row).empty();
+                        $('<option>').val('').text('Select Service Charge').appendTo('#serviceCharge'+row);
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.id).text(v.name).appendTo('#serviceCharge'+row);
+                        });
+                    }
+                });
+            }
+        });
         
         $('#country').change(function(){
             var country = $(this).val();
@@ -411,12 +495,61 @@
                 });
         });
 
-    // Remove parent of 'remove' link when link is clicked.
-    $('#container').on('click', '.remove_project_file', function(e) {
-        e.preventDefault();
-        $(this).parent().remove();
-        row--;
-    });
+        // Remove parent of 'remove' link when link is clicked.
+        $('#container').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            row--;
+        });
+
+        $('#containerSC').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            rowsc--;
+        });
+
+        var rowsc = 1;
+
+        $('#addMoreSC').click(function(e) {
+            e.preventDefault();
+
+            if(rowsc >= 5){
+                alert("You've reached the maximum limit");
+                return;
+            }
+
+            var rowId = identifier();
+
+            $("#containerSC").append(
+                '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                    +'<div style="float:left" class="remove_project_file"><a href="#x" class=" btn btn-danger btn-sm"  border="2">Remove</a></div>'
+                    +'<div style="clear:both"></div>'
+                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>'
+                    +'    <select name="service['+rowId+'][type]" class="form-control sc_type select'+rowId+'" data-row="'+rowId+'" required>'
+                    +'        <option value="">Select Type</option>'
+                    +'        <option value="fixed">Fixed</option>'
+                    +'        <option value="variable">Variable</option>'
+                    +'    </select>'
+                    +'</div>'
+                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
+                    +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
+                    +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
+                    +'        <option value="">Select Service Charge</option>'
+                    +'    </select>'
+                    +'</div>       '            
+                    +'<div class="form-group" style="width:31%; float:left">'
+                    +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
+                    +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
+                    +'</div>'
+                    +'<div style="clear:both"></div>'
+                +'</div>'
+            );
+            rowsc++;
+            $(".select"+rowId).select2({
+                theme: "bootstrap"
+            });
+        });
 
         
     </script>

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use App\AssetPhoto;
+use App\AssetServiceCharge;
 use App\Unit;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -47,6 +48,11 @@ class Asset extends Model
     {
         return $this->hasMany(Unit::class);
     }
+    
+    public function serviceCharges()
+    {
+        return AssetServiceCharge::where('asset_id', $this->id)->get();
+    }
 
 //    public function Tenant(){
 //        return $this->BelongsToMany('App\Tenant', 'asset_tenant', 'asset_id', 'tenant_id')->withPivot('description',
@@ -77,6 +83,7 @@ class Asset extends Model
 
         self::createUnit($data,$asset);
         self::addPhoto($data,$asset); 
+        self::addServiceCharge($data,$asset);
     }
 
     public static function updateAsset($data)
@@ -105,6 +112,7 @@ class Asset extends Model
         }
         self::removeUnits($asset);
         self::createUnit($data,$asset);
+        self::addServiceCharge($data,$asset);
     }
 
     public static function removeUnits($asset)
@@ -120,6 +128,18 @@ class Asset extends Model
                 'category_id' => $unit['category'],
                 'quantity' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
+            ]);
+        }
+    }
+    
+    public static function addServiceCharge($data,$asset)
+    {
+        AssetServiceCharge::where('asset_id', $asset->id)->delete();
+        foreach($data['service'] as $unit){
+            AssetServiceCharge::create([
+                'asset_id' => $asset->id,
+                'service_charge_id' => $unit['service_charge'],
+                'price' => $unit['price'],
             ]);
         }
     }
