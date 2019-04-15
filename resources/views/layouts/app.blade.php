@@ -7,7 +7,7 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title}} | Asset Clerk</title>
+        <title>{{ isset($title) ? $title : " " }} | Asset Clerk</title>
         <!-- Favicon -->
         <link href="{{url('img/logo.png')}}" rel="icon" type="image/png">
         <!-- Fonts -->
