@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Asset;
+use App\ServiceCharge;
 use DB;
 
 class UtilsController extends Controller
@@ -27,6 +28,12 @@ class UtilsController extends Controller
         ->select('uuid','description','price')->get();
         return response()->json($assets);
     }
+    
+    public function fetchServiceCharge($type)
+    {
+        $sc = ServiceCharge::where('type', $type)->orderBy('name')->get();
+        return response()->json($sc);
+    }
 
     public function searchUsers(Request $request)
     {
@@ -39,6 +46,13 @@ class UtilsController extends Controller
                 ->orWhere('firstname', 'LIKE', "%$search%")
                 ->orWhere('lastname', 'LIKE', "%$search%")
                 ->get();
+            $data1 = DB::table("tenants")
+                ->select("id", "firstname", "lastname")
+                ->where('email', 'LIKE', "%$search%")
+                ->orWhere('firstname', 'LIKE', "%$search%")
+                ->orWhere('lastname', 'LIKE', "%$search%")
+                ->get();
+            $data = array_merge($data->all(),$data1->all());
         }
         return response()->json($data);
     }

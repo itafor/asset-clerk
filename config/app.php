@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         JD\Cloudder\CloudderServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -225,6 +226,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

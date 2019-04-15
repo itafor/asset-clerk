@@ -216,8 +216,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('report.assets') }}">
-                        <i class="fas fa-chart-bar text-blue"></i> {{ __('Reports') }}
+                    <a class="nav-link" href="{{ route('service.charges') }}">
+                        <i class="fas fa-credit-card text-blue"></i> {{ __('Service Charges') }}
                     </a>
                 </li>
                 {{-- <li class="nav-item">
@@ -241,6 +241,7 @@
                     </a>
                 </li> --}}
 
+                @if(!auth()->user()->sub_account)
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-red"></i> Sub Accounts
@@ -258,6 +259,7 @@
                       </li>
                      </ul>
                 </li>
+                @endif
 
                 <li class="nav-item nav-with-child">
                     <a class="nav-link"  >

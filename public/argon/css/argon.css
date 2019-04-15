@@ -298,7 +298,8 @@ svg
 
 table
 {
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
+    padding-bottom: 80px
 }
 
 caption

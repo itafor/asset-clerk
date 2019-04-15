@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetPhoto;
+use App\Unit;
 use App\AssignedAsset;
+use App\AssetServiceCharge;
 use Validator;
 use DB;
 
@@ -13,16 +15,15 @@ class AssetController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Asset::query()->join('categories', 'assets.category_id', '=', 'categories.id')
-        ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
+        $query = Asset::query()
+        ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
         ->where('assets.user_id', auth()->id());
 
         if($request->has('search') && $request['search']){
             $search = $request['search'];
             $query->where('assets.description', 'like', "%{$search}%")
-            ->orWhere('assets.address', 'like', "%{$search}%")
-            ->orWhere('categories.name', 'like', "%{$search}%");
+            ->orWhere('assets.address', 'like', "%{$search}%");
         }
 
         $data = [
@@ -42,9 +43,12 @@ class AssetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'category' => 'required',
-            'quantity' => 'required',
-            'standard_price' => 'required',
+            'unit.*.category' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.standard_price' => 'required',
+            'service.*.type' => 'required',
+            'service.*.service_charge' => 'required',
+            'service.*.price' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -52,8 +56,8 @@ class AssetController extends Controller
             'address' => 'required',
             'detailed_information' => 'required',
             'building_age' => 'required',
-            'bedrooms' => 'required',
-            'bathrooms' => 'required',
+            // 'bedrooms' => 'required',
+            // 'bathrooms' => 'required',
             'features.*' => 'required',
             'photos.*' => 'required|image'
         ]);
@@ -77,7 +81,7 @@ class AssetController extends Controller
 
     public function edit($uuid)
     {
-        $asset = Asset::where('uuid', $uuid)->first();
+        $asset = Asset::where('uuid', $uuid)->with('units')->first();
         if($asset){
             return view('admin.assets.edit', compact('asset'));
         }
@@ -90,9 +94,9 @@ class AssetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'category' => 'required',
-            'quantity' => 'required',
-            'standard_price' => 'required',
+            // 'category' => 'required',
+            // 'quantity' => 'required',
+            // 'standard_price' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -100,10 +104,16 @@ class AssetController extends Controller
             'address' => 'required',
             'detailed_information' => 'required',
             'building_age' => 'required',
-            'bedrooms' => 'required',
-            'bathrooms' => 'required',
+            // 'bedrooms' => 'required',
+            // 'bathrooms' => 'required',
             'features.*' => 'required',
             'uuid' => 'required',
+            'unit.*.category' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.standard_price' => 'required',
+            'service.*.type' => 'required',
+            'service.*.service_charge' => 'required',
+            'service.*.price' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -146,6 +156,30 @@ class AssetController extends Controller
         }
         else{
             return back()->with('error', 'Photo not found. Please try again');
+        }
+    }
+    
+    public function deleteUnit($id)
+    {
+        $unit = Unit::find($id);
+        if($unit){
+            $unit->delete();
+            return back()->with('success', 'Unit deleted successfully');
+        }
+        else{
+            return back()->with('error', 'Unit not found. Please try again');
+        }
+    }
+    
+    public function deleteService($id)
+    {
+        $sc = AssetServiceCharge::find($id);
+        if($sc){
+            $sc->delete();
+            return back()->with('success', 'Service charge deleted successfully');
+        }
+        else{
+            return back()->with('error', 'Service charge not found. Please try again');
         }
     }
 
@@ -198,5 +232,69 @@ class AssetController extends Controller
             'term' => ''
         ];
         return view('admin.assets.my', $data);
+    }
+
+    public function addServiceCharge(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'service.*.type' => 'required',
+            'service.*.service_charge' => 'required',
+            'service.*.price' => 'required',
+            'asset' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+        }
+        $asset = Asset::find($request['asset']);
+        if($asset){
+            foreach($request['service'] as $unit){
+
+                $exists = AssetServiceCharge::where([
+                    ['asset_id', $asset->id],
+                    ['service_charge_id', $unit['service_charge']],
+                ])->get();
+
+                if(count($exists) > 0){
+                    return back()->with('error', 'Service charge already added');
+                }
+                Asset::addServiceCharge($request->all(). $asset);
+            }
+            return back()->with('success', 'Service charge added successfully');
+        }
+        else{
+            return back()->with('error', 'Error: asset not found');
+        }
+    }
+
+    public function addUnit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'unit.*.category' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.standard_price' => 'required',
+            'asset' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+        }
+        $asset = Asset::find($request['asset']);
+        if($asset){
+            Asset::createUnit($request->all(), $asset);
+            return back()->with('success', 'Service charge added successfully');
+        }
+        else{
+            return back()->with('error', 'Error: asset not found');
+        }
+    }
+
+    public function serviceCharges()
+    {
+        $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+        ->where('assets.user_id', auth()->id())->with('asset')
+        ->select('asset_service_charges.*')
+        ->get();
+        return view('admin.assets.service_charges', compact('charges'));
     }
 }
