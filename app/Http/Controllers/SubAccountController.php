@@ -24,7 +24,7 @@ class SubAccountController extends Controller
         $model = Staff::query()
         ->join('users as u', 'u.id', '=', 'staffs.staff_id')
         ->join('assets as a', 'a.id', '=', 'staffs.asset_id')
-        ->where('owner_id', auth()->id())
+        ->where('owner_id', getOwnerUserID())
         ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description');
 
         return view('subs.index', ['users' => $model->paginate(15)]);

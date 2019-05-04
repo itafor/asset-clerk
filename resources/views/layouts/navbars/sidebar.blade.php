@@ -261,7 +261,7 @@
                 </li>
                 @endif
 
-                <li class="nav-item nav-with-child">
+                {{-- <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-yellow"></i> User Management
                     </a>
@@ -277,7 +277,7 @@
                         </a>
                       </li>
                      </ul>
-                </li>
+                </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">

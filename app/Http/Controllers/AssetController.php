@@ -18,7 +18,7 @@ class AssetController extends Controller
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
-        ->where('assets.user_id', auth()->id());
+        ->where('assets.user_id', getOwnerUserID());
 
         if($request->has('search') && $request['search']){
             $search = $request['search'];

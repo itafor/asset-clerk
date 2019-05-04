@@ -13,6 +13,7 @@ use App\AssetFeature;
 use App\BuildingAge;
 use App\TenantRent;
 use App\ServiceCharge;
+use App\Staff;
 use Illuminate\Support\Str;
 use Cloudder;
 use Carbon\Carbon;
@@ -49,7 +50,20 @@ function getBuildingSections()
 
 function getLandlords()
 {
-    return Landlord::orderBy('lastname')->get();
+    $userId = getOwnerUserID();
+    return Landlord::where('user_id', $userId)->orderBy('lastname')->get();
+}
+
+function getOwnerUserID()
+{
+    $user = auth()->user();
+    if($user->sub_account == 0){
+        return $user->id;
+    }
+    else if($user->sub_account == 1){ // Account is sub account
+        $sub = Staff::where('staff_id', $user->id)->first();
+        return $sub->owner_id;
+    }
 }
 
 function getTotalAssets()

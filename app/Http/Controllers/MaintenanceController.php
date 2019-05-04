@@ -11,7 +11,7 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('user_id', auth()->id())->with('categoryy')->get();
+        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')->get();
         return view('admin.maintenance.index', compact('maintenances'));
     }
 

@@ -11,7 +11,8 @@ class LandlordController extends Controller
 {
     public function index()
     {
-        $landlords = Landlord::orderBy('firstname')->get();
+        $landlords = Landlord::where('user_id',getOwnerUserID())
+        ->orderBy('firstname')->get();
         return view('admin.landlord.index', compact('landlords'));
     }
 

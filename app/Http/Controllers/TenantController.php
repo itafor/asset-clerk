@@ -11,7 +11,8 @@ class TenantController extends Controller
 {
     public function index()
     {
-        $tenants = Tenant::orderBy('firstname')->get();
+        $tenants = Tenant::where('user_id', getOwnerUserID())
+        ->orderBy('firstname')->get();
         return view('admin.tenant.index', compact('tenants'));
     }
 
