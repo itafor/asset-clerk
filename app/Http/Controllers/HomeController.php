@@ -29,6 +29,6 @@ class HomeController extends Controller
         $data = [
             'rentals' => $rentals
         ];
-        return view('dashboard', $data);
+        return view('new.dashboard', $data);
     }
 }
