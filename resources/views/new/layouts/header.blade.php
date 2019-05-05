@@ -30,17 +30,17 @@
       <div class="dt-header__toolbar">
 
         <!-- Search box -->
-        <form class="search-box d-none d-lg-block">
+        {{-- <form class="search-box d-none d-lg-block">
           <input class="form-control border-0" placeholder="Search in app..." value="" type="search">
           <span class="search-icon text-light-gray"><i class="icon icon-search icon-lg"></i></span>
-        </form>
+        </form> --}}
         <!-- /search box -->
 
         <!-- Header Menu Wrapper -->
         <div class="dt-nav-wrapper">
           <!-- Header Menu -->
           <ul class="dt-nav d-lg-none">
-            <li class="dt-nav__item dt-notification-search dropdown">
+            {{-- <li class="dt-nav__item dt-notification-search dropdown">
 
               <!-- Dropdown Link -->
               <a href="#" class="dt-nav__link dropdown-toggle no-arrow" data-toggle="dropdown"
@@ -60,7 +60,7 @@
               </div>
               <!-- /dropdown option -->
 
-            </li>
+            </li> --}}
           </ul>
           <!-- /header menu -->
 
@@ -354,7 +354,8 @@
                   <i class="mr-2"></i><span>My Profile</span> </a>
                 <a class="dropdown-item" href="javascript:void(0)">
                   <i class="mr-2"></i><span>Change Password</span> </a>
-                <a class="dropdown-item" href="javascript:void(0)">
+                <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
                   <i class="mr-2"></i><span>Sign Out</span> </a>
               </div>
               <!-- /dropdown option -->

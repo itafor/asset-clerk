@@ -13,12 +13,12 @@ class TenantController extends Controller
     {
         $tenants = Tenant::where('user_id', getOwnerUserID())
         ->orderBy('firstname')->get();
-        return view('admin.tenant.index', compact('tenants'));
+        return view('new.admin.tenant.index', compact('tenants'));
     }
 
     public function create()
     {
-        return view('admin.tenant.create');
+        return view('new.admin.tenant.create');
     }
 
     public function store(Request $request)
@@ -71,7 +71,7 @@ class TenantController extends Controller
     {
         $tenant = Tenant::where('uuid', $uuid)->first();
         if($tenant){
-            return view('admin.tenant.edit', compact('tenant'));
+            return view('new.admin.tenant.edit', compact('tenant'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find tenant');

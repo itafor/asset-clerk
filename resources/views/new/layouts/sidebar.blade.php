@@ -25,10 +25,10 @@
                   <span class="f-12">{{ucwords(auth()->user()->role)}}</span>
                 </span>
               </div>
-              <a class="dropdown-item" href="javascript:void(0)"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
-              </a> <a class="dropdown-item" href="javascript:void(0)">
-              <i class="icon icon-setting icon-fw mr-2 mr-sm-1"></i>Setting </a>
-              <a class="dropdown-item" href="page-login.html"> <i class="icon icon-edit icon-fw mr-2 mr-sm-1"></i>Logout
+              <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
+              </a>
+              <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"> <i class="icon icon-edit icon-fw mr-2 mr-sm-1"></i>Logout
               </a>
             </div>
             <!-- /dropdown option -->
@@ -37,7 +37,7 @@
           <!-- /dropdown -->
 
 
-          <ul class="dt-list dt-list-xl">
+          {{-- <ul class="dt-list dt-list-xl">
             <li class="dt-list__item pl-5 pr-5">
               <a href="javascript:void(0)" class="dt-list__link"><i class="icon icon-search-new icon-xl"></i></a>
             </li>
@@ -47,56 +47,169 @@
             <li class="dt-list__item pl-5 pr-5">
               <a href="javascript:void(0)" class="dt-list__link"><i class="icon icon-chat-new icon-xl"></i></a>
             </li>
-          </ul>
+          </ul> --}}
         </div>
         <!-- /sidebar notification -->
 
         <!-- Sidebar Navigation -->
         <ul class="dt-side-nav">
 
-          <!-- Menu Header -->
-          <li class="dt-side-nav__item dt-side-nav__header">
-            <span class="dt-side-nav__text">main</span>
-          </li>
-          <!-- /menu header -->
+            <!-- Menu Header -->
+            <li class="dt-side-nav__item dt-side-nav__header">
+                <span class="dt-side-nav__text">main menu</span>
+            </li>
+            <!-- /menu header -->
+            <li class="dt-side-nav__item {{isset($page) && $page == 'dashboard' ? 'open' : ''}}">
+                <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl"></i>
+                <span class="dt-side-nav__text">Dashboard</span> </a>
+            </li>
 
-          <!-- Menu Item -->
-          <li class="dt-side-nav__item open">
-            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Dashboard">
-              <i class="icon icon-dashboard icon-fw icon-xl"></i> <span class="dt-side-nav__text">Dashboard</span> </a>
+            <!-- Menu Item -->
+            <li class="dt-side-nav__item {{isset($page) && $page == 'asset' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Dashboard">
+                <i class="icon icon-company icon-fw icon-xl"></i> <span class="dt-side-nav__text">Asset Management</span> </a>
 
-            <!-- Sub-menu -->
-            <ul class="dt-side-nav__sub-menu">
-              <li class="dt-side-nav__item">
-                <a href="index.html" class="dt-side-nav__link" title="Crypto"> <i class="icon icon-crypto icon-fw icon-sm"></i>
-                  <span class="dt-side-nav__text">Crypto</span> </a>
-              </li>
-              <li class="dt-side-nav__item">
-                <a href="dashboard-crm.html" class="dt-side-nav__link" title="CRM"> <i class="icon icon-crm icon-fw icon-sm"></i>
-                  <span class="dt-side-nav__text">Crm</span> </a>
-              </li>
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('asset.my')}}" class="dt-side-nav__link" title="My Assets">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">My Assets</span> </a>
+                </li>
+                <li class="dt-side-nav__item">
+                    <a href="{{route('asset.index')}}" class="dt-side-nav__link" title="Asset List">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
 
-              <li class="dt-side-nav__item">
-                <a href="dashboard-listing.html" class="dt-side-nav__link" title="Listing">
-                  <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Listing</span> </a>
-              </li>
+                <li class="dt-side-nav__item">
+                    <a href="{{route('asset.create')}}" class="dt-side-nav__link" title="Listing">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
 
-            </ul>
-            <!-- /sub-menu -->
+                </ul>
+                <!-- /sub-menu -->
+            </li>
 
-          </li>
-          <li class="dt-side-nav__item open">
-            <a href="widget.html" class="dt-side-nav__link" title="Widgets"> <i class="icon icon-widgets icon-fw icon-xl"></i>
-              <span class="dt-side-nav__text">Widgets</span> </a>
-          </li>
-          <li class="dt-side-nav__item">
-            <a href="metrics.html" class="dt-side-nav__link" title="Metrics"> <i class="icon icon-apps icon-fw icon-xl"></i>
-              <span class="dt-side-nav__text">Metrics</span> </a>
-          </li>
-          <li class="dt-side-nav__item">
-            <a href="layouts.html" class="dt-side-nav__link" title="Layouts"> <i class="icon icon-card icon-fw icon-xl"></i>
-              <span class="dt-side-nav__text">Layouts</span> </a>
-          </li>
+            <!-- Menu Item -->
+            <li class="dt-side-nav__item {{isset($page) && $page == 'tenant' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Tenant Management</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('tenant.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('tenant.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
+            </li>
+            
+            <li class="dt-side-nav__item {{isset($page) && $page == 'landlord' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Landlord Management</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('landlord.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('landlord.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
+            </li>
+            <li class="dt-side-nav__item {{isset($page) && $page == 'rental' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Rentals</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('rental.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('rental.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
+            </li>
+            <li class="dt-side-nav__item {{isset($page) && $page == 'maintenance' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-setting icon-fw icon-xl"></i> <span class="dt-side-nav__text">Maintenance Management</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('maintenance.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('maintenance.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
+            </li>
+
+            <li class="dt-side-nav__item {{isset($page) && $page == 'debt' ? 'open' : ''}}">
+                <a href="{{route('debt.debt')}}" class="dt-side-nav__link">
+                    <i class="icon icon-card icon-fw icon-xl"></i> 
+                    <span class="dt-side-nav__text">Debts</span> 
+                </a>
+            </li>
+
+            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}">
+                <a href="{{route('debt.payment')}}" class="dt-side-nav__link">
+                    <i class="icon icon-card icon-fw icon-xl"></i> 
+                    <span class="dt-side-nav__text">Payments</span> 
+                </a>
+            </li>
+
+            <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">
+                <a href="{{ route('service.charges') }}" class="dt-side-nav__link">
+                    <i class="icon icon-card icon-fw icon-xl"></i> 
+                    <span class="dt-side-nav__text">Service Charges</span> 
+                </a>
+            </li>
+
+            @if(!auth()->user()->sub_account)
+            <li class="dt-side-nav__item {{isset($page) && $page == 'sub_account' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Sub Accounts</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('subs.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('subs.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
+            </li>
+            @endif
           <!-- /menu item -->
         </ul>
         <!-- /sidebar navigation -->

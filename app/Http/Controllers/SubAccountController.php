@@ -27,7 +27,7 @@ class SubAccountController extends Controller
         ->where('owner_id', getOwnerUserID())
         ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description');
 
-        return view('subs.index', ['users' => $model->paginate(15)]);
+        return view('new.admin.subs.index', ['users' => $model->get()]);
     }
 
     /**
@@ -38,7 +38,7 @@ class SubAccountController extends Controller
     public function create()
     {
         $assets = Asset::where('user_id', getOwnerUserID())->get();
-        return view('subs.create', compact('assets'));
+        return view('new.admin.subs.create', compact('assets'));
     }
 
     /**

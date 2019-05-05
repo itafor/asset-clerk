@@ -70,6 +70,26 @@ function getTotalAssets()
     return Asset::where('user_id', getOwnerUserID())->count();
 }
 
+function getTotalSlots()
+{
+    $total_slots = 0;
+    $available_slots = 0;
+    $assets = Asset::where('user_id', getOwnerUserID())->with('units')->get();
+    foreach($assets as $asset){
+        $total_slots += $asset->units->sum('quantity');
+        $available_slots += $asset->units->sum('quantity_left');
+    }
+    return [
+        'available_slots' => $available_slots,
+        'total_slots' => $total_slots,
+    ];
+}
+
+function getTotalAgents()
+{
+    return Staff::where('owner_id', getOwnerUserID())->count();
+}
+
 function getAssets()
 {
     return Asset::where('user_id', getOwnerUserID())->get();

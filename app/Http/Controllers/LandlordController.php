@@ -13,12 +13,12 @@ class LandlordController extends Controller
     {
         $landlords = Landlord::where('user_id',getOwnerUserID())
         ->orderBy('firstname')->get();
-        return view('admin.landlord.index', compact('landlords'));
+        return view('new.admin.landlord.index', compact('landlords'));
     }
 
     public function create()
     {
-        return view('admin.landlord.create');
+        return view('new.admin.landlord.create');
     }
 
     public function store(Request $request)
@@ -70,7 +70,7 @@ class LandlordController extends Controller
     {
         $landlord = Landlord::where('uuid', $uuid)->first();
         if($landlord){
-            return view('admin.landlord.edit', compact('landlord'));
+            return view('new.admin.landlord.edit', compact('landlord'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find landlord');
@@ -102,6 +102,6 @@ class LandlordController extends Controller
         }
 
         Landlord::updateLandlord($request->all());
-        return redirect()->route('landlord.index')->with('success', 'Landlord added successfully');
+        return redirect()->route('landlord.index')->with('success', 'Landlord updated successfully');
     }
 }

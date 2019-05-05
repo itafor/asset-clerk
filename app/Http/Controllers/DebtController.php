@@ -8,11 +8,11 @@ class DebtController extends Controller
 {
     public function debt()
     {
-        return view('admin.debt.debt');
+        return view('new.admin.debt.debt');
     }
 
     public function payment()
     {
-        return view('admin.debt.payment');
+        return view('new.admin.debt.payment');
     }
 }

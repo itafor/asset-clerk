@@ -31,12 +31,12 @@ class AssetController extends Controller
             'term' => ''
         ];
 
-        return view('admin.assets.index', $data);
+        return view('new.admin.assets.index', $data);
     }
 
     public function create()
     {
-        return view('admin.assets.create');
+        return view('new.admin.assets.create');
     }
 
     public function store(Request $request)
@@ -83,7 +83,7 @@ class AssetController extends Controller
     {
         $asset = Asset::where('uuid', $uuid)->with('units')->first();
         if($asset){
-            return view('admin.assets.edit', compact('asset'));
+            return view('new.admin.assets.edit', compact('asset'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find asset');
@@ -217,24 +217,20 @@ class AssetController extends Controller
 
     public function myAssets(Request $request)
     {
-        $query = AssignedAsset::query()->join('assets', 'assets.id', '=', 'assigned_assets.asset_id')
-        ->join('categories', 'assets.category_id', '=', 'categories.id')
-        ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
-            'assets.price')
-        ->where('assigned_assets.user_id', getOwnerUserID());
+        $query = AssignedAsset::where('user_id', getOwnerUserID())
+        ->orderBy('id', 'desc')->with('asset.units')->get();
 
-        if($request->has('search') && $request['search']){
-            $search = $request['search'];
-            $query->where('assets.description', 'like', "%{$search}%")
-            ->orWhere('assets.address', 'like', "%{$search}%")
-            ->orWhere('categories.name', 'like', "%{$search}%");
-        }
-
+        // if($request->has('search') && $request['search']){
+        //     $search = $request['search'];
+        //     $query->where('assets.description', 'like', "%{$search}%")
+        //     ->orWhere('assets.address', 'like', "%{$search}%")
+        //     ->orWhere('categories.name', 'like', "%{$search}%");
+        // }
         $data = [
-            'assetsCategories' => $query->orderBy('assets.id', 'desc')->paginate(10),
+            'assets' => $query,
             'term' => ''
         ];
-        return view('admin.assets.my', $data);
+        return view('new.admin.assets.my', $data);
     }
 
     public function addServiceCharge(Request $request)
@@ -298,6 +294,6 @@ class AssetController extends Controller
         ->where('assets.user_id', getOwnerUserID())->with('asset')
         ->select('asset_service_charges.*')
         ->get();
-        return view('admin.assets.service_charges', compact('charges'));
+        return view('new.admin.assets.service_charges', compact('charges'));
     }
 }

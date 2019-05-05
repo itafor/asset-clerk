@@ -60,7 +60,7 @@
                                     @endif
                                 </div> --}}
                                 <div style="clear:both"></div>
-{{-- 
+                                {{-- 
                                 <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
                                     <input type="number" name="standard_price" id="input-standard_price" class="form-control form-control-alternative{{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price', $asset->price)}}" required>

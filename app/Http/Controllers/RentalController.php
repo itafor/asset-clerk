@@ -12,12 +12,12 @@ class RentalController extends Controller
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
         ->orderBy('id', 'desc')->get();
-        return view('admin.rental.index', compact('rentals'));
+        return view('new.admin.rental.index', compact('rentals'));
     }
 
     public function create()
     {
-        return view('admin.rental.create');
+        return view('new.admin.rental.create');
     }
 
     public function store(Request $request)

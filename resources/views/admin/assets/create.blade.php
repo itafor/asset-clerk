@@ -193,7 +193,7 @@
                                 <div class="form-group {{ $errors->has('unit.'.$key.'.quantity') ? 'has-danger':'' }}" style="width:31%; float:left; margin-right:25px">
                                     <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
                                     <input type="number" name="unit[{{$key}}][quantity]" id="input-quantity{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('unit.'.$key.'.quantity')}}" required>
-{{--                                     
+                                {{--                                     
                                     @if ($errors->has('unit.'.$key.'.quantity'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('unit.'.$key.'.quantity') }}</strong>
