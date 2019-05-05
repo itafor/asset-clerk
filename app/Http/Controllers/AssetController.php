@@ -163,6 +163,9 @@ class AssetController extends Controller
     {
         $unit = Unit::find($id);
         if($unit){
+            if($unit->isRented()){
+                return back()->with('error', 'This unit has already been rented');
+            }
             $unit->delete();
             return back()->with('success', 'Unit deleted successfully');
         }
@@ -218,7 +221,7 @@ class AssetController extends Controller
         ->join('categories', 'assets.category_id', '=', 'categories.id')
         ->select('assets.uuid','assets.id', 'assets.quantity_added','assets.address', 'categories.name', 'assets.description',
             'assets.price')
-        ->where('assigned_assets.user_id', auth()->id());
+        ->where('assigned_assets.user_id', getOwnerUserID());
 
         if($request->has('search') && $request['search']){
             $search = $request['search'];
@@ -282,7 +285,7 @@ class AssetController extends Controller
         $asset = Asset::find($request['asset']);
         if($asset){
             Asset::createUnit($request->all(), $asset);
-            return back()->with('success', 'Service charge added successfully');
+            return back()->with('success', 'Unit added successfully');
         }
         else{
             return back()->with('error', 'Error: asset not found');
@@ -292,7 +295,7 @@ class AssetController extends Controller
     public function serviceCharges()
     {
         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-        ->where('assets.user_id', auth()->id())->with('asset')
+        ->where('assets.user_id', getOwnerUserID())->with('asset')
         ->select('asset_service_charges.*')
         ->get();
         return view('admin.assets.service_charges', compact('charges'));

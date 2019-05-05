@@ -106,7 +106,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+	Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
 	Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 	Route::get('search-users', 'UtilsController@searchUsers');
+	Route::get('verification', 'UtilsController@resendVerification')->name('verification');
+	Route::get('verify/{email}/{token}', 'UtilsController@verify');
 });
 

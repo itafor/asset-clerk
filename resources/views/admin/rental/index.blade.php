@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => 'List Rentals'])
 
 @section('content')
-    @include('layouts.headers.rental_cards')
+    @include('admin.rental.partials.header', ['title' => __('Rentals')])  
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -18,16 +18,17 @@
                         </div>
                     </div>
                     
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                    <div class="table-responsive" style="padding:15px">
+                        <table class="table align-items-center table-flush datatable">
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
                                     <th><b>Tenant Name</b></th>
-                                    <th><b>Asset Category</b></th>
+                                    <th><b>Unit</b></th>
                                     <th><b>Description</b></th>
-                                    <th><b>Location</b></th>
+                                    <th><b>Price</b></th>
                                     <th><b>Rental Start Date</b></th>
+                                    <th><b>Rental Due Date</b></th>
                                     <th class="text-center"><b>Action</b></th>
                                 </tr>
                             </thead>
@@ -36,10 +37,11 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$rental->tenant->name()}}</td>
-                                    <td>{{$rental->asset->category->name}}</td>
+                                    <td>{{$rental->unit->category->name}}</td>
                                     <td>{{$rental->asset->description}}</td>
-                                    <td></td>
-                                    <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd/m/Y')}}</td>
+                                    <td>&#8358; {{number_format($rental->price,2)}}</td>
+                                    <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}</td>
+                                    <td>{{formatDate($rental->due_date, 'Y-m-d', 'd M Y')}}</td>
                                     <td class="text-center">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -37,7 +37,7 @@ class SubAccountController extends Controller
      */
     public function create()
     {
-        $assets = Asset::where('user_id', auth()->id())->get();
+        $assets = Asset::where('user_id', getOwnerUserID())->get();
         return view('subs.create', compact('assets'));
     }
 
@@ -61,7 +61,7 @@ class SubAccountController extends Controller
             ])->all());
         
             DB::table('staffs')->insert([
-                'owner_id' => auth()->id(),
+                'owner_id' => getOwnerUserID(),
                 'staff_id' => $user->id,
                 'asset_id' => $request['asset']
             ]);

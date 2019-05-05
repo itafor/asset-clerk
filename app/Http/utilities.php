@@ -50,8 +50,7 @@ function getBuildingSections()
 
 function getLandlords()
 {
-    $userId = getOwnerUserID();
-    return Landlord::where('user_id', $userId)->orderBy('lastname')->get();
+    return Landlord::where('user_id', getOwnerUserID())->orderBy('lastname')->get();
 }
 
 function getOwnerUserID()
@@ -68,27 +67,32 @@ function getOwnerUserID()
 
 function getTotalAssets()
 {
-    return Asset::count();
+    return Asset::where('user_id', getOwnerUserID())->count();
+}
+
+function getAssets()
+{
+    return Asset::where('user_id', getOwnerUserID())->get();
 }
 
 function getTotalTenants()
 {
-    return Tenant::count();
+    return Tenant::where('user_id', getOwnerUserID())->count();
 }
 
 function getTotalLandlords()
 {
-    return Landlord::count();
+    return Landlord::where('user_id', getOwnerUserID())->count();
 }
 
 function getTotalRentals()
 {
-    return TenantRent::count();
+    return TenantRent::where('user_id', getOwnerUserID())->count();
 }
 
 function getTenants()
 {
-    return Tenant::orderBy('lastname')->get();
+    return Tenant::where('user_id', getOwnerUserID())->orderBy('lastname')->get();
 }
 
 function getAssetFeatures()
@@ -134,7 +138,7 @@ function formatDate($date, $oldFormat, $newFormat)
 
 function getAssetDescription($category)
 {
-    return Asset::where('category_id', $category)->get();
+    return Asset::where('user_id', getOwnerUserID())->where('category_id', $category)->get();
 }
 
 function getServiceCharge($type)

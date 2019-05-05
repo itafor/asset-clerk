@@ -24,9 +24,10 @@ class RentalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
-            'category' => 'required',
-            'asset_description' => 'required',
-            'standard_price' => 'required|numeric',
+            'property' => 'required',
+            'unit' => 'required',
+            'price' => 'required|numeric',
+            'duration' => 'required|in:1,2,3,4,5',
             'date' => 'required|date_format:"m/d/Y"'
         ]);
 

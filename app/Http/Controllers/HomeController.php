@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\TenantRent;
+
 class HomeController extends Controller
 {
     /**
@@ -21,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $rentals = TenantRent::where('user_id', getOwnerUserID())
+        ->orderBy('id', 'desc')->get();
+
+        $data = [
+            'rentals' => $rentals
+        ];
+        return view('dashboard', $data);
     }
 }

@@ -18,8 +18,8 @@
                         </div>
                     </div>
                     
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                    <div class="table-responsive" style="padding:15px">
+                        <table class="table align-items-center table-flush datatable">
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>

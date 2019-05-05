@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => 'List Landlords'])
 
 @section('content')
-    @include('layouts.headers.landlord_cards')
+    @include('admin.rental.partials.header', ['title' => __('Landlords')])  
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -18,8 +18,8 @@
                         </div>
                     </div>
                     
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                    <div class="table-responsive" style="padding:15px">
+                        <table class="table align-items-center table-flush datatable">
                             <thead class="thead-light">
                                 <tr>
                                     <th>No</th>
