@@ -275,7 +275,7 @@ class AssetController extends Controller
             'asset' => 'required'
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)
+            return  back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
         $asset = Asset::find($request['asset']);

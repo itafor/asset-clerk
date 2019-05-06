@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 		Route::prefix('rental')->group(function(){
 			Route::get('/', 'RentalController@index')->name('rental.index');
+			Route::get('/my', 'RentalController@myRentals')->name('rental.my');
 			Route::get('/create', 'RentalController@create')->name('rental.create');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');

@@ -43,7 +43,7 @@
                           <th><b>Description</b></th>
                           <th><b>Price</b></th>
                           <th><b>Rental Start Date</b></th>
-                          <th><b>Rental Due Date</b></th>
+                          <th><b>Next Due Date</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -56,7 +56,7 @@
                           <td>{{$rental->asset->description}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
                           <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}</td>
-                          <td>{{formatDate($rental->due_date, 'Y-m-d', 'd M Y')}}</td>
+                          <td>{{getNextRentPayment($rental)['due_date']}}</td>
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

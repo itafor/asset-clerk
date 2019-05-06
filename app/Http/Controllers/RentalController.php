@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use DB;
 use App\TenantRent;
 
 class RentalController extends Controller
@@ -13,6 +14,14 @@ class RentalController extends Controller
         $rentals = TenantRent::where('user_id', getOwnerUserID())
         ->orderBy('id', 'desc')->get();
         return view('new.admin.rental.index', compact('rentals'));
+    }
+    
+    public function myRentals()
+    {
+        $rentals = TenantRent::join('tenants as t', 't.uuid', '=', 'tenant_rents.tenant_uuid')
+        ->where('t.email', auth()->user()->email)
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+        return view('new.admin.rental.my', compact('rentals'));
     }
 
     public function create()
@@ -45,11 +54,20 @@ class RentalController extends Controller
     {
         $tenant = TenantRent::where('uuid', $uuid)->first();
         if($tenant){
-            $tenant->delete();
+            DB::beginTransaction();
+            try{
+                $tenant->removeRental();
+                DB::commit();
+            }
+            catch(\Exception $e)
+            {
+                DB::rolback();
+                return back()->with('error', 'Oops! An error occured. Please try agian');
+            }
             return back()->with('success', 'Rental deleted successfully');
         }
         else{
-            return back()->with('error', 'Whoops! Could not find rental');
+            return back()->with('error', 'Oops! Could not find rental');
         }
     }
 

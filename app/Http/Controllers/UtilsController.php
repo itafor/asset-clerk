@@ -69,6 +69,7 @@ class UtilsController extends Controller
             $units = Unit::where('asset_id', $property->id)
             ->join('categories as c', 'c.id', '=', 'units.category_id')
             ->select('units.*', 'c.name')
+            ->where('units.quantity_left', '>', 0)
             ->get();
             return response()->json($units);
         }

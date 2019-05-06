@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Unit;
+use App\RentDue;
 use DB;
 
 class TenantRent extends Model
 {
-
     use SoftDeletes;
 
     protected $fillable = [
@@ -42,7 +42,7 @@ class TenantRent extends Model
         DB::beginTransaction();
 
         try{
-            self::create([
+            $rental = self::create([
                 'tenant_uuid' => $data['tenant'],
                 'asset_uuid' => $data['property'],
                 'unit_uuid' => $data['unit'],
@@ -56,6 +56,7 @@ class TenantRent extends Model
                 'duration_type' => 'year',
             ]);
             self::reduceUnit($data);
+            self::addNextPayment($data, $rental);
             DB::commit();
         }
         catch(Exception $e)
@@ -64,10 +65,38 @@ class TenantRent extends Model
         }
     }
 
+    public static function addNextPayment($data, $rental)
+    {
+        RentDue::create([
+            'status' => 'pending',
+            'tenant_uuid' => $rental->tenant_uuid,
+            'due_date' => $rental->due_date,
+            'amount' => $rental->price,
+            'rent_id' => $rental->id,
+            'user_id' => auth()->id(),
+        ]);
+    }
+
     public static function reduceUnit($data)
     {
         $unit = Unit::where('uuid', $data['unit'])->first();
         $unit->quantity_left -= 1;
         $unit->save();
+    }
+
+    /**
+     * Delete rental
+     * Restore units
+     * Delete rent due pending
+     */
+    public function removeRental()
+    {
+        $unit = Unit::where('uuid', $this->unit_uuid)->first();
+        $unit->quantity_left += 1;
+        $unit->save();
+
+        RentDue::where('rent_id', $this->id)->where('status', 'pending')->delete();
+        
+        $this->delete();
     }
 }

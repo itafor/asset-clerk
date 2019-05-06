@@ -135,15 +135,19 @@
 
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
-                <li class="dt-side-nav__item">
-                    <a href="{{route('rental.index')}}" class="dt-side-nav__link">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
-                </li>
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('rental.my')}}" title="My Rented Apartments" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">My Rented Apartments</span> </a>
+                    </li>
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('rental.index')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                    </li>
 
-                <li class="dt-side-nav__item">
-                    <a href="{{route('rental.create')}}" class="dt-side-nav__link">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
-                </li>
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('rental.create')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                    </li>
 
                 </ul>
                 <!-- /sub-menu -->
