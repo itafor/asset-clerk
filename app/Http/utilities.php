@@ -14,6 +14,7 @@ use App\BuildingAge;
 use App\TenantRent;
 use App\ServiceCharge;
 use App\Staff;
+use App\RentDue;
 use Illuminate\Support\Str;
 use Cloudder;
 use Carbon\Carbon;
@@ -174,5 +175,56 @@ function getServiceChargeType($serviceCharge)
     }   
     else{   
         return '';
+    }
+}
+
+function getNextRentPayment($rental)
+{
+    $rent = RentDue::where('rent_id', $rental->id)->latest()->first();
+    return [
+        'due_date' => formatDate($rent->due_date, 'Y-m-d', 'd M Y'),
+        'status' => ucwords($rent->status)
+    ];
+}
+
+/**
+ * param $past is true to get past due payments
+ */
+function getDuePayments($past = false)
+{
+    if($past){
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) < CURDATE()")
+            ->sum('amount');
+    }
+    else{
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) = CURDATE()")
+            ->sum('amount');
+    }
+}
+
+/**
+ * param $past is true to get past due payments
+ */
+function getDebtors($past = false)
+{
+    if($past){
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) < CURDATE()")
+            ->count();
+    }
+    else{
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) = CURDATE()")
+            ->count();
     }
 }

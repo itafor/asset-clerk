@@ -21,19 +21,19 @@ class SocialController extends Controller
             auth()->login($users);
             return redirect('/');
         }else{
-
             $name = explode(' ',  $userSocial->getName());
-
-        $user = User::create([
-                    'firstname' => $name[0],
-                    'lastname' => $name[1],
-                    'email' => $userSocial->getEmail(),
-                    'image' => $userSocial->getAvatar(),
-                    'provider_id' => $userSocial->getId(),
-                    'provider' => $provider,
-                    'sub_account' => 0
-                ]);
-                auth()->login($user);
+            $user = User::create([
+                        'firstname' => $name[0],
+                        'lastname' => $name[1],
+                        'email' => $userSocial->getEmail(),
+                        'image' => $userSocial->getAvatar(),
+                        'provider_id' => $userSocial->getId(),
+                        'provider' => $provider,
+                        'sub_account' => 0,
+                        'verified' => 'yes',
+                        'role' => 'agent'
+                    ]);
+            auth()->login($user);
             return redirect()->route('home');
         }
     }

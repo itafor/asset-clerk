@@ -1,9 +1,9 @@
-@extends('new.layouts.app', ['title' => 'List of Debts', 'page' => 'debt'])
+@extends('new.layouts.app', ['title' => 'My Rented Apartments', 'page' => 'rental'])
 
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-card"></i> Debts</h1>
+          <h1 class="dt-page__title"><i class="icon icon-company"></i> Rental Management</h1>
         </div>
         <!-- /page header -->
 
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">List of Debts</h3>
+                <h3 class="dt-entry__title">My Rented Apartments</h3>
               </div>
               <!-- /entry heading -->
 
@@ -38,21 +38,23 @@
                     <thead>
                       <tr>
                           <th>No</th>
-                          <th><b>Customer Name</b></th>
                           <th><b>Description</b></th>
-                          <th><b>Location</b></th>
-                          <th><b>Status</b></th>
-                          <th><b>Due Date</b></th>
+                          <th><b>Unit</b></th> 
+                          <th><b>Price</b></th>
+                          <th><b>Rental Start Date</b></th>
+                          <th><b>Rental Due Date</b></th>
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($rentalsDueNotPaid as $rental)
-                          <tr>
-                              <td>{{$rental->tenant->name()}}</td>
-                              <td>{{$rental->asset->description}}</td>
-                              <td>&#8358; {{number_format($rental->price,2)}}</td>
-                              <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                          </tr>
+                    @foreach ($rentals as $rental)
+                      <tr>
+                          <td>{{$loop->iteration}}</td>
+                          <td>{{$rental->asset->description}}</td>
+                          <td>{{$rental->unit->category->name}}</td>
+                          <td>&#8358; {{number_format($rental->price,2)}}</td>
+                          <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}</td>
+                          <td>{{formatDate($rental->due_date, 'Y-m-d', 'd M Y')}}</td>
+                      </tr>
                       @endforeach
                     </tbody>
                   </table>

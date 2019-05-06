@@ -47,7 +47,13 @@ class TenantController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
 
-        Tenant::createNew($request->all());
+        try{
+            Tenant::createNew($request->all());
+        }
+        catch(\Exception $e)
+        {
+            return back()->withInput()->with('error', 'Oops! An error occured. Please try again');
+        }
 
         return redirect()->route('tenant.index')->with('success', 'Tenant added successfully');
     }
