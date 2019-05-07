@@ -232,12 +232,17 @@ function getDebtors($past = false)
 function getUserPlan(){
     $user = auth()->id();
     $plan = \App\Subscription::where('user_id',$user)->first();
-    $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
-    $result = [
-      'plan' => $plan,
-      'details' => $plan_details
-    ];
-    return $result;
+    if (!is_null($plan)){
+        $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
+        $result = [
+            'plan' => $plan,
+            'details' => $plan_details
+        ];
+        return $result;
+    }else{
+        return null;
+    }
+
 }
 
 function chekUserPlan($type = null){
