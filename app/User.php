@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'email', 'password', 'sub_account', 'role', 'image', 'provider', 'provider_id'
+        'firstname', 'lastname', 'email', 'password', 'sub_account', 'role', 'image', 'provider', 'provider_id', 'verify_token'
     ];
 
     /**
@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function fullname()
+    {
+        return $this->firstname.' '.$this->lastname;
+    }
+
+    public function verificationLink()
+    {
+        return url('/')."/verify/$this->email/$this->verify_token";
+    }
 }

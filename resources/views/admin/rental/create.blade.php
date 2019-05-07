@@ -23,93 +23,88 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>
-                                    <select name="tenant" id="" class="form-control" required autofocus>
-                                        <option value="">Select Tenant</option>
-                                        @foreach (getTenants() as $tenant)
-                                            <option value="{{$tenant->id}}">{{$tenant->name()}}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="row">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
+                                        <select name="property" id="property" class="form-control" required autofocus>
+                                            <option value="">Select Property</option>
+                                            @foreach (getAssets() as $asset)
+                                                <option value="{{$asset->uuid}}">{{$asset->description}}</option>
+                                            @endforeach
+                                        </select>
 
-                                    @if ($errors->has('tenant'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('tenant') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-category">{{ __('Asset Category') }}</label>
-                                    <select name="category" id="category" class="form-control" required>
-                                        <option value="">Select Category</option>
-                                        @foreach (getCategories() as $cat)
-                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    
-                                    @if ($errors->has('category'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('category') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div style="clear:both"></div>
-
-                                <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-asset_description">{{ __('Asset Description') }}</label>
-                                    <select name="asset_description" id="asset_description" class="form-control" required>
-                                        <option value="">Select Asset</option>
-                                    </select>
-
-                                    @if ($errors->has('asset_description'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('asset_description') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                {{-- <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-location">{{ __('Location') }}</label>
-                                    <select name="location" id="location" class="form-control" required>
-                                        <option value="">Select Location</option>
-                                    </select>
-                                    
-                                    @if ($errors->has('location'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('location') }}</strong>
-                                        </span>
-                                    @endif
-                                </div> --}}
-                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                        <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
-                                        <input type="number" name="standard_price" id="input-standard_price" class="form-control form-control-alternative{{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="&#8358; 0.00" value="{{old('standard_price')}}" required>
-    
-                                        @if ($errors->has('standard_price'))
+                                        @if ($errors->has('property'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('standard_price') }}</strong>
+                                                <strong>{{ $errors->first('property') }}</strong>
                                             </span>
                                         @endif
                                     </div>
-                                <div style="clear:both"></div>         
+                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
+                                        <select name="unit" id="unit" class="form-control" required>
+                                            <option value="">Select Unit</option>
+                                        </select>
+                                        
+                                        @if ($errors->has('unit'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('unit') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
+                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" placeholder="Enter Price" required>
+                                        
+                                        @if ($errors->has('price'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>
+                                        <select name="tenant" id="" class="form-control" required autofocus>
+                                            <option value="">Select Tenant</option>
+                                            @foreach (getTenants() as $tenant)
+                                                <option value="{{$tenant->uuid}}">{{$tenant->name()}}</option>
+                                            @endforeach
+                                        </select>
 
-                                {{-- <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
-                                    <input type="text" name="standard_price" id="input-standard_price" class="datepicker form-control form-control-alternative{{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="&#8358; 0.00" value="{{old('standard_price')}}" required>
-
-                                    @if ($errors->has('standard_price'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('standard_price') }}</strong>
-                                        </span>
-                                    @endif
-                                </div> --}}
-                                <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-date">{{ __('Rental Date') }}</label>
-                                    <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
-                                    
-                                    @if ($errors->has('date'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('date') }}</strong>
-                                        </span>
-                                    @endif
+                                        @if ($errors->has('tenant'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('tenant') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('duration') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-duration">{{ __('Duration') }}</label>
+                                        <select name="duration" id="duration" class="form-control" required>
+                                            <option value="">Select Duration</option>
+                                            <option value="1">1 Year</option>
+                                            <option value="2">2 Years</option>
+                                            <option value="3">3 Years</option>
+                                            <option value="4">4 Years</option>
+                                            <option value="5">5 Years</option>
+                                        </select>
+                                        
+                                        @if ($errors->has('duration'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('duration') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-date">{{ __('Rental Date') }}</label>
+                                        <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
+                                        
+                                        @if ($errors->has('date'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('date') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                                 <div style="clear:both"></div>    
                                 <div class="text-center">
@@ -151,6 +146,41 @@
             else{
                 $('#asset_description').empty();
                 $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+            }
+        });
+
+        $('#property').change(function(){
+            var property = $(this).val();
+            if(property){
+                $('#unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#unit');
+                $.ajax({
+                    url: baseUrl+'/fetch-units/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.name+' | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
+                        });
+                    }
+                });
+            }
+            else{
+                $('#unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#unit');
+            }
+        });
+        
+        $('#unit').change(function(){
+            var unit = $(this).val();
+            if(unit){
+                var price = $(this).find(':selected').attr('data-price')
+                $('#price').val(price);
+            }
+            else{
+                $('#price').val('');
             }
         });
 

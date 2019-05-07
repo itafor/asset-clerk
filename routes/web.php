@@ -19,7 +19,7 @@ Route::get('login/{provider}/callback','SocialController@Callback');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
+	//Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 		Route::prefix('rental')->group(function(){
 			Route::get('/', 'RentalController@index')->name('rental.index');
+			Route::get('/my', 'RentalController@myRentals')->name('rental.my');
 			Route::get('/create', 'RentalController@create')->name('rental.create');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
@@ -106,7 +107,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+	Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
 	Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 	Route::get('search-users', 'UtilsController@searchUsers');
+	Route::get('verification', 'UtilsController@resendVerification')->name('verification');
+	Route::get('verify/{email}/{token}', 'UtilsController@verify');
 });
 

@@ -51,13 +51,19 @@
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
+
+        @if (auth()->user()->verified == 'no')
+            @include('notification')
+        @endif
+
+        
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
             @include('layouts.navbars.sidebar')
         @endauth
         
-        <div class="main-content">
+        <div class="main-content" style="{{ auth()->check() && auth()->user()->verified == 'no' ? 'margin-top:55px' : ''}}">
             @include('layouts.navbars.navbar')
             @yield('content')
         </div>
@@ -160,6 +166,10 @@
 
             @if(session()->has('error'))
                 toastr.error('{{session()->get('error')}}');
+            @endif
+            
+            @if(session()->has('info'))
+                toastr.info('{{session()->get('info')}}');
             @endif
 
 

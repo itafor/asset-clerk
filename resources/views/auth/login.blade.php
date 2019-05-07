@@ -1,85 +1,204 @@
-@extends('layouts.app', ['class' => 'bg-default', 'title' => 'Login'])
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-@section('content')
-    @include('layouts.headers.guest')
-    
-    <div class="container mt--8 pb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-                <div class="card bg-secondary shadow border-0">
+    <!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Asset Clerk">
+    <meta name="keywords" content="Asset Clerk">
+    <!-- /meta tags -->
+    <title>Sign In | Asset Clerk</title>
 
-                    <div class="card-header bg-transparent pb-5">
-                        <div class="text-muted text-center mt-2 mb-3"><small>{{ __('Sign in with') }}</small></div>
-                        <div class="btn-wrapper text-center">
-                            <a href="{{url('login/facebook')}}" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="{{ asset('argon') }}/img/icons/common/facebook.png"></span>
-                                <span class="btn-inner--text">{{ __('Facebook') }}</span>
-                            </a>
-                            <a href="{{ url('/login/google') }}" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="{{ asset('argon') }}/img/icons/common/google.svg"></span>
-                                <span class="btn-inner--text">{{ __('Google') }}</span>
-                            </a>
-                        </div>
-                    </div>
+    <!-- Site favicon -->
+    <link href="{{url('img/logo.png')}}" rel="icon" type="image/png">
+    <!-- /site favicon -->
 
-                    <div class="card-body px-lg-5 py-lg-5">
+    <!-- Font Icon Styles -->
+    <link rel="stylesheet" href="{{url('assets/flag-icon-css/css/flag-icon.min.css')}}">
+    <link rel="stylesheet" href="{{url('assets/gaxon-icon/style.css')}}">
+    <!-- /font icon Styles -->
 
-                        <form role="form" method="POST" action="{{ route('login') }}">
-                            @csrf
+    <!-- Perfect Scrollbar stylesheet -->
+    <link rel="stylesheet" href="{{url('assets/perfect-scrollbar/css/perfect-scrollbar.css')}}">
+    <!-- /perfect scrollbar stylesheet -->
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }} mb-3">
-                                <div class="input-group input-group-alternative">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                                    </div>
-                                    <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ old('email') }}" required autofocus>
-                                </div>
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                                <div class="input-group input-group-alternative">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                    </div>
-                                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Password') }}" type="password" required>
-                                </div>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="custom-control custom-control-alternative custom-checkbox">
-                                <input class="custom-control-input" name="remember" id="customCheckLogin" type="checkbox" {{ old('remember') ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="customCheckLogin">
-                                    <span class="text-muted">{{ __('Remember me') }}</span>
-                                </label>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary my-4">{{ __('Sign in') }}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-light">
-                                <small>{{ __('Forgot password?') }}</small>
-                            </a>
-                        @endif
-                    </div>
-                    <div class="col-6 text-right">
-                        <a href="{{ route('register') }}" class="text-light">
-                            <small>{{ __('Create new account') }}</small>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Load Styles -->
+
+    <link rel="stylesheet" href="{{url('assets/css/lite-style-1.min.css')}}">
+  <!-- /load styles -->
+    <script>
+        var baseUrl = '{{url("/")}}';
+    </script>
+</head>
+<body class="dt-sidebar--fixed dt-header--fixed">
+
+<!-- Loader -->
+<div class="dt-loader-container">
+    <div class="dt-loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+        </svg>
     </div>
-@endsection
+</div>
+<!-- /loader -->
+
+<!-- Root -->
+<div class="dt-root">
+
+    <!-- Login Container -->
+    <div class="dt-login--container dt-app-login--container">
+
+        <!-- Login Content -->
+        <div class="dt-login__content-wrapper">
+
+            <!-- Login Background Section -->
+            <div class="dt-login__bg-section" style="background-image: none !important">
+
+                <div class="dt-login__bg-content">
+                    <!-- Login Title -->
+                    <h1 class="dt-login__title">Welcome to<br> <span style="font-size:30px"><b>Asset Clerk</b></span></h1>
+
+                    <p class="f-16">Sign in to gain access to our amazing features.</p>
+
+                </div>
+
+
+                <!-- Brand logo -->
+                <div class="dt-login__logo">
+                    <a class="dt-brand__logo-link" href="{{url('/')}}">
+                        <img class="dt-brand__logo-img" src="{{url('img/logo.png')}}" alt="Wieldy">
+                    </a>
+                </div>
+                <!-- /brand logo -->
+
+            </div>
+            <!-- /login background section -->
+
+            <!-- Login Content Section -->
+            <div class="dt-login__content">
+
+                <!-- Login Content Inner -->
+                <div class="dt-login__content-inner">
+                    <h2 class="dt-login__title text-black-50">Sign In</h2>
+                    <!-- Form -->
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <!-- Form Group -->
+                        <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                            <label class="sr-only" for="email-1">Email address</label>
+                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required id="email-1" aria-describedby="email-1" placeholder="Enter email">
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <!-- /form group -->
+
+                        <!-- Form Group -->
+                        <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
+                            <label class="sr-only" for="password-1">Password</label>
+                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required id="password-1" placeholder="Password">
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <!-- /form group -->
+
+                        <!-- Form Group -->
+                        <div class="custom-control custom-checkbox mb-6 mb-lg-8">
+                            <input class="custom-control-input" name="remember" type="checkbox" id="checkbox-1">
+                            <label class="custom-control-label" for="checkbox-1">Remember Me</label>
+                        </div>
+                        <!-- /form group -->
+
+                        <!-- Form Group -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary text-uppercase">Sign In</button>
+                            <span class="d-inline-block ml-4">Or
+                            <a class="d-inline-block font-weight-medium ml-3" href="{{ route('register') }}">Sign Up</a>
+                            </span>
+                        </div>
+                        <!-- /form group -->
+
+                        <!-- Form Group -->
+                        <div class="d-flex flex-wrap align-items-center mb-3 mb-md-4">
+                            <span class="d-inline-block mr-2">Or sign in with</span>
+
+                            <!-- List -->
+                            <ul class="dt-list dt-list-sm dt-list-cm-0 ml-auto">
+                                <li class="dt-list__item">
+                                    <!-- Fab Button -->
+                                    <a href="{{url('login/facebook')}}" class="btn btn-outline-primary dt-fab-btn size-30">
+                                        <i class="icon icon-facebook icon-xl"></i>
+                                    </a>
+                                    <!-- /fab button -->
+                                </li>
+
+                                <li class="dt-list__item">
+                                    <!-- Fab Button -->
+                                    <a href="{{ url('/login/google') }}" class="btn btn-outline-primary dt-fab-btn size-30">
+                                        <i class="icon icon-google-plus icon-xl"></i>
+                                    </a>
+                                    <!-- /fab button -->
+                                </li>
+
+                                {{-- <li class="dt-list__item">
+                                    <!-- Fab Button -->
+                                    <a href="javascript:void(0)" class="btn btn-outline-primary dt-fab-btn size-30">
+                                        <i class="icon icon-github icon-xl"></i>
+                                    </a>
+                                    <!-- /fab button -->
+                                </li>
+
+                                <li class="dt-list__item">
+                                    <!-- Fab Button -->
+                                    <a href="javascript:void(0)" class="btn btn-outline-primary dt-fab-btn size-30">
+                                        <i class="icon icon-twitter icon-xl"></i>
+                                    </a>
+                                    <!-- /fab button -->
+                                </li> --}}
+                            </ul>
+                            <!-- /list -->
+                        </div>
+                        <!-- /form group -->
+
+                    </form>
+                    <!-- /form -->
+
+                </div>
+                <!-- /login content inner -->
+
+            </div>
+            <!-- /login content section -->
+
+        </div>
+        <!-- /login content -->
+
+    </div>
+    <!-- /login container -->
+  
+</div>
+<!-- /root -->
+
+<!-- Optional JavaScript -->
+<script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{url('assets/moment/moment.js')}}"></script>
+<script src="{{url('assets/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+<!-- Perfect Scrollbar jQuery -->
+<script src="{{url('assets/perfect-scrollbar/dist/perfect-scrollbar.min.js')}}"></script>
+<!-- /perfect scrollbar jQuery -->
+
+<!-- masonry script -->
+<script src="{{url('assets/masonry-layout/dist/masonry.pkgd.min.js')}}"></script>
+<script src="{{url('assets/sweetalert2/dist/sweetalert2.js')}}"></script>
+
+<!-- Custom JavaScript -->
+<script src="{{url('assets/js/script.js')}}"></script>
+
+</body>
+</html>
