@@ -51,12 +51,10 @@
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
-
         @if (auth()->user()->verified == 'no')
             @include('notification')
         @endif
 
-        
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>

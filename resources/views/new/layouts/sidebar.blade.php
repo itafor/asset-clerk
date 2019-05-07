@@ -1,6 +1,6 @@
 <!-- Sidebar -->
     <aside id="main-sidebar" class="dt-sidebar">
-      <div class="dt-sidebar__container">
+      <div class="dt-sidebar__container container-fluid">
 
         <!-- Sidebar Notification -->
         <div class="dt-sidebar__notification  d-none d-lg-block">
@@ -25,6 +25,8 @@
                   <span class="f-12">{{ucwords(auth()->user()->role)}}</span>
                 </span>
               </div>
+              <a class="dropdown-item" href="{{ route('profile.upgrade') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Upgrade
+                </a>
               <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
               </a>
               <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
@@ -213,6 +215,29 @@
                 </ul>
                 <!-- /sub-menu -->
             </li>
+                <li class="dt-side-nav__item {{isset($page) && $page == 'sub_account' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                    <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">My Account</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('transactions.history')}}" class="dt-side-nav__link">
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">Transactions</span> </a>
+                    </li>
+
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('subscription.history')}}" class="dt-side-nav__link">
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Subscription History</span> </a>
+                    </li>
+                    <li class="dt-side-nav__item">
+                        <a href="{{route('profile.upgrade')}}" class="dt-side-nav__link">
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Buy A Plan</span> </a>
+                    </li>
+
+                </ul>
+                <!-- /sub-menu -->
+                </li>
             @endif
           <!-- /menu item -->
         </ul>

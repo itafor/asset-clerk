@@ -228,3 +228,59 @@ function getDebtors($past = false)
             ->count();
     }
 }
+
+function getUserPlan(){
+    $user = auth()->id();
+    $plan = \App\Subscription::where('user_id',$user)->first();
+    $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
+    $result = [
+      'plan' => $plan,
+      'details' => $plan_details
+    ];
+    return $result;
+}
+
+function chekUserPlan($type = null){
+    $user = auth()->id();
+    $plan = \App\Subscription::where('user_id',$user)->first();
+    $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
+    $no_properties = $plan_details->properties;
+    $no_accounts = $plan_details->sub_accounts;
+    $service_charge = $plan_details->service_charge;
+    switch ($type){
+        case 'property':
+            $customer_properties = Asset::where('user_id',$user)->count();
+            if ($customer_properties >= $no_properties){
+                return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
+            }
+            break;
+        case 'accounts':
+            $customer_accts = \Illuminate\Support\Facades\DB::table('staffs')->where('owner_id', $user)->count();
+            if ($customer_accts >= $no_accounts){
+                return back()->with('error','You cannot add more than '.$no_properties.' on this plan.Please upgrade!');
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function fixKobo($amount)
+{
+    $naira = explode('.', round($amount,2));
+    if(isset($naira[1])){ // amount has decimal value
+        if(strlen($naira[1]) > 1){
+            return $naira[0].$naira[1]; // amount has more than one decimal point so no need to add zero
+        }
+        else if(strlen($naira[1]) == 1){
+            return $naira[0].$naira[1].'0'; // amount has only one decimal point to add just one zero
+        }
+    }
+    else{
+        return $naira[0].'00';
+    }
+}
+
+function getSubscriptionByUUid($id){
+    return \App\SubscriptionPlan::where('uuid', $id)->first();
+}

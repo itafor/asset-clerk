@@ -15,10 +15,12 @@ class AssetController extends Controller
 {
     public function index(Request $request)
     {
+        $plan = getUserPlan();
+        $limit = $plan['details']->properties;
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
-        ->where('assets.user_id', getOwnerUserID());
+        ->where('assets.user_id', getOwnerUserID())->limit($limit);
 
         if($request->has('search') && $request['search']){
             $search = $request['search'];
@@ -36,11 +38,13 @@ class AssetController extends Controller
 
     public function create()
     {
+        chekUserPlan('property');
         return view('new.admin.assets.create');
     }
 
     public function store(Request $request)
     {
+        chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'unit.*.category' => 'required',

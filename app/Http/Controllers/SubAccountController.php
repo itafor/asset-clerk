@@ -21,11 +21,14 @@ class SubAccountController extends Controller
      */
     public function index()
     {
+        $plan = getUserPlan();
+        $limit = $plan['details']->sub_accounts;
         $model = Staff::query()
         ->join('users as u', 'u.id', '=', 'staffs.staff_id')
         ->join('assets as a', 'a.id', '=', 'staffs.asset_id')
         ->where('owner_id', getOwnerUserID())
-        ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description');
+        ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description')
+        ->limit($limit);
 
         return view('new.admin.subs.index', ['users' => $model->get()]);
     }
@@ -37,6 +40,7 @@ class SubAccountController extends Controller
      */
     public function create()
     {
+        chekUserPlan('accounts');
         $assets = Asset::where('user_id', getOwnerUserID())->get();
         return view('new.admin.subs.create', compact('assets'));
     }
@@ -50,9 +54,8 @@ class SubAccountController extends Controller
      */
     public function store(SubRequest $request, User $model)
     {
-
+        chekUserPlan('accounts');
         DB::beginTransaction();
-
         try{
             $user = $model->create($request->merge([
                 'password' => Hash::make($request->get('password')),

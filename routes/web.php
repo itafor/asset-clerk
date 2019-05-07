@@ -23,9 +23,17 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+    Route::get('upgrade', ['as' => 'profile.upgrade', 'uses' => 'SubscriptionsController@subscribe']);
+    Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan']);
+    Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@process_buy_plan']);
 
 	Route::resource('subs', 'SubAccountController', ['except' => ['show']]);
+    Route::prefix('transactions')->group(function(){
+        Route::get('call-back', ['as' => 'payment.callback', 'uses' => 'SubscriptionsController@handleGatewayCallback']);
+        Route::get('my-subscriptions', ['as' => 'subscription.history', 'uses' => 'SubscriptionsController@history']);
+        Route::get('my-transactions', ['as' => 'transactions.history', 'uses' => 'SubscriptionsController@transactions']);
 
+    });
 	//Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
