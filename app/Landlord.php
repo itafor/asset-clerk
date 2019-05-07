@@ -46,7 +46,7 @@ class Landlord extends Model
             'phone' => $data['contact_number'],
             'photo' => $passport,
             'uuid' => generateUUID(),
-            'user_id' => auth()->id()
+            'user_id' => getOwnerUserID()
         ]);
     }
 

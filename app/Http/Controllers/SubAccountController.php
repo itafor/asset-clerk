@@ -24,10 +24,10 @@ class SubAccountController extends Controller
         $model = Staff::query()
         ->join('users as u', 'u.id', '=', 'staffs.staff_id')
         ->join('assets as a', 'a.id', '=', 'staffs.asset_id')
-        ->where('owner_id', auth()->id())
+        ->where('owner_id', getOwnerUserID())
         ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description');
 
-        return view('subs.index', ['users' => $model->paginate(15)]);
+        return view('new.admin.subs.index', ['users' => $model->get()]);
     }
 
     /**
@@ -37,8 +37,8 @@ class SubAccountController extends Controller
      */
     public function create()
     {
-        $assets = Asset::where('user_id', auth()->id())->get();
-        return view('subs.create', compact('assets'));
+        $assets = Asset::where('user_id', getOwnerUserID())->get();
+        return view('new.admin.subs.create', compact('assets'));
     }
 
     /**
@@ -61,7 +61,7 @@ class SubAccountController extends Controller
             ])->all());
         
             DB::table('staffs')->insert([
-                'owner_id' => auth()->id(),
+                'owner_id' => getOwnerUserID(),
                 'staff_id' => $user->id,
                 'asset_id' => $request['asset']
             ]);

@@ -35,7 +35,7 @@ class Maintenance extends Model
             'asset_description_uuid' => $data['asset_description'],
             'status' => $data['status'],
             'uuid' => generateUUID(),
-            'user_id' => auth()->id()
+            'user_id' => getOwnerUserID()
         ]); 
     }
 

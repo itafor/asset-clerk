@@ -11,13 +11,13 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('user_id', auth()->id())->with('categoryy')->get();
-        return view('admin.maintenance.index', compact('maintenances'));
+        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')->get();
+        return view('new.admin.maintenance.index', compact('maintenances'));
     }
 
     public function create()
     {
-        return view('admin.maintenance.create');
+        return view('new.admin.maintenance.create');
     }
 
     public function store(Request $request)
@@ -61,7 +61,7 @@ class MaintenanceController extends Controller
     {
         $maintenance = Maintenance::where('uuid', $uuid)->first();
         if($maintenance){
-            return view('admin.maintenance.edit', compact('maintenance'));
+            return view('new.admin.maintenance.edit', compact('maintenance'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find maintenance');

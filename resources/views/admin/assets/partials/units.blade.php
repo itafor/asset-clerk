@@ -1,5 +1,5 @@
 <div class="modal fade" id="unit{{$i}}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Available Units</h5>
@@ -8,7 +8,8 @@
                 </button>
             </div>
             <div class="modal-body" style="text-align:left">
-                <table class="table table-responsive">
+                <div class="table-responsive">
+                <table class="table table-striped">
                     <thead>
                         <th>S/N</th>
                         <th>Category</th>
@@ -16,6 +17,7 @@
                         <th>Standard Price</th>
                     </thead>
                     <tbody>
+                        @if($asset->units)
                         @foreach ($asset->units as $unit)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
@@ -24,8 +26,10 @@
                                 <td>&#8358; {{number_format($unit->standard_price, 2)}}</td>
                             </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

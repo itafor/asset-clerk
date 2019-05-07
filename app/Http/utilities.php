@@ -13,6 +13,8 @@ use App\AssetFeature;
 use App\BuildingAge;
 use App\TenantRent;
 use App\ServiceCharge;
+use App\Staff;
+use App\RentDue;
 use Illuminate\Support\Str;
 use Cloudder;
 use Carbon\Carbon;
@@ -49,32 +51,69 @@ function getBuildingSections()
 
 function getLandlords()
 {
-    return Landlord::orderBy('lastname')->get();
+    return Landlord::where('user_id', getOwnerUserID())->orderBy('lastname')->get();
+}
+
+function getOwnerUserID()
+{
+    $user = auth()->user();
+    if($user->sub_account == 0){
+        return $user->id;
+    }
+    else if($user->sub_account == 1){ // Account is sub account
+        $sub = Staff::where('staff_id', $user->id)->first();
+        return $sub->owner_id;
+    }
 }
 
 function getTotalAssets()
 {
-    return Asset::count();
+    return Asset::where('user_id', getOwnerUserID())->count();
+}
+
+function getTotalSlots()
+{
+    $total_slots = 0;
+    $available_slots = 0;
+    $assets = Asset::where('user_id', getOwnerUserID())->with('units')->get();
+    foreach($assets as $asset){
+        $total_slots += $asset->units->sum('quantity');
+        $available_slots += $asset->units->sum('quantity_left');
+    }
+    return [
+        'available_slots' => $available_slots,
+        'total_slots' => $total_slots,
+    ];
+}
+
+function getTotalAgents()
+{
+    return Staff::where('owner_id', getOwnerUserID())->count();
+}
+
+function getAssets()
+{
+    return Asset::where('user_id', getOwnerUserID())->get();
 }
 
 function getTotalTenants()
 {
-    return Tenant::count();
+    return Tenant::where('user_id', getOwnerUserID())->count();
 }
 
 function getTotalLandlords()
 {
-    return Landlord::count();
+    return Landlord::where('user_id', getOwnerUserID())->count();
 }
 
 function getTotalRentals()
 {
-    return TenantRent::count();
+    return TenantRent::where('user_id', getOwnerUserID())->count();
 }
 
 function getTenants()
 {
-    return Tenant::orderBy('lastname')->get();
+    return Tenant::where('user_id', getOwnerUserID())->orderBy('lastname')->get();
 }
 
 function getAssetFeatures()
@@ -120,7 +159,7 @@ function formatDate($date, $oldFormat, $newFormat)
 
 function getAssetDescription($category)
 {
-    return Asset::where('category_id', $category)->get();
+    return Asset::where('user_id', getOwnerUserID())->where('category_id', $category)->get();
 }
 
 function getServiceCharge($type)
@@ -136,5 +175,56 @@ function getServiceChargeType($serviceCharge)
     }   
     else{   
         return '';
+    }
+}
+
+function getNextRentPayment($rental)
+{
+    $rent = RentDue::where('rent_id', $rental->id)->latest()->first();
+    return [
+        'due_date' => formatDate($rent->due_date, 'Y-m-d', 'd M Y'),
+        'status' => ucwords($rent->status)
+    ];
+}
+
+/**
+ * param $past is true to get past due payments
+ */
+function getDuePayments($past = false)
+{
+    if($past){
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) < CURDATE()")
+            ->sum('amount');
+    }
+    else{
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) = CURDATE()")
+            ->sum('amount');
+    }
+}
+
+/**
+ * param $past is true to get past due payments
+ */
+function getDebtors($past = false)
+{
+    if($past){
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) < CURDATE()")
+            ->count();
+    }
+    else{
+        return RentDue::where([
+            ['user_id', getOwnerUserID()],
+            ['status', 'pending']])
+            ->whereRaw("DATE(due_date) = CURDATE()")
+            ->count();
     }
 }

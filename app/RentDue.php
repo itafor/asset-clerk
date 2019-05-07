@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class RentDue extends Model
 {
-    
-
-protected $fillable = [
-        'tenant_id', 'status', 'due_date','payment_date','amount','rentType'
+    protected $fillable = [
+        'tenant_uuid', 'status', 'due_date','payment_date','amount','rent_id',
+        'user_id'
     ];
 
 

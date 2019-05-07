@@ -11,13 +11,14 @@ class TenantController extends Controller
 {
     public function index()
     {
-        $tenants = Tenant::orderBy('firstname')->get();
-        return view('admin.tenant.index', compact('tenants'));
+        $tenants = Tenant::where('user_id', getOwnerUserID())
+        ->orderBy('firstname')->get();
+        return view('new.admin.tenant.index', compact('tenants'));
     }
 
     public function create()
     {
-        return view('admin.tenant.create');
+        return view('new.admin.tenant.create');
     }
 
     public function store(Request $request)
@@ -46,7 +47,13 @@ class TenantController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
 
-        Tenant::createNew($request->all());
+        try{
+            Tenant::createNew($request->all());
+        }
+        catch(\Exception $e)
+        {
+            return back()->withInput()->with('error', 'Oops! An error occured. Please try again');
+        }
 
         return redirect()->route('tenant.index')->with('success', 'Tenant added successfully');
     }
@@ -70,7 +77,7 @@ class TenantController extends Controller
     {
         $tenant = Tenant::where('uuid', $uuid)->first();
         if($tenant){
-            return view('admin.tenant.edit', compact('tenant'));
+            return view('new.admin.tenant.edit', compact('tenant'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find tenant');

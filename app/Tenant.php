@@ -13,7 +13,7 @@ class Tenant extends Model
     protected $fillable = [
         'designation', 'gender', 'firstname','lastname','date_of_birth','occupation','address','state','phone',
         'agent_id','referral_code','photo','user_id', 'asset_id', 'asset_description', 'price', 'asset_address','country',
-        'email', 'office_country_id', 'office_state_id', 'office_city_id', 'country_id', 'state_id', 'city_id'
+        'email', 'office_country_id', 'office_state_id', 'office_city_id', 'country_id', 'state_id', 'city_id', 'uuid'
     ];
 
     public function Asset()
@@ -58,7 +58,7 @@ class Tenant extends Model
             'phone' => $data['contact_number'],
             'photo' => $passport,
             'uuid' => generateUUID(),
-            'user_id' => auth()->id()
+            'user_id' => getOwnerUserID()
         ]);
     }
 

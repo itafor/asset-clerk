@@ -1,4 +1,4 @@
-<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
+<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main" style="{{auth()->user()->verified == 'no' ? 'margin-top:55px' : ''}}">
     <div class="container-fluid">
         <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
@@ -261,7 +261,7 @@
                 </li>
                 @endif
 
-                <li class="nav-item nav-with-child">
+                {{-- <li class="nav-item nav-with-child">
                     <a class="nav-link"  >
                       <i class="fas fa-users text-yellow"></i> User Management
                     </a>
@@ -277,7 +277,7 @@
                         </a>
                       </li>
                      </ul>
-                </li>
+                </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">

@@ -78,7 +78,7 @@ class Asset extends Model
             // 'bathrooms' => $data['bathrooms'],
             'features' => implode(',',$data['features']),
             'uuid' => generateUUID(),
-            'user_id' => auth()->id()
+            'user_id' => getOwnerUserID()
         ]); 
 
         self::createUnit($data,$asset);
@@ -110,8 +110,8 @@ class Asset extends Model
         if(isset($data['photos'])){
             self::addPhoto($data,$asset);
         }
-        self::removeUnits($asset);
-        self::createUnit($data,$asset);
+        //self::removeUnits($asset);
+        self::updateUnits($data,$asset);
         self::addServiceCharge($data,$asset);
     }
 
@@ -127,8 +127,34 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'category_id' => $unit['category'],
                 'quantity' => $unit['quantity'],
+                'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
+                'uuid' => generateUUID(),
             ]);
+        }
+    }
+    
+    public static function updateUnits($data,$asset)
+    {
+        foreach($data['unit'] as $key => $unit){
+            $u = Unit::where('uuid', $key)->first();
+            if($u){
+                $u->category_id = $unit['category'];
+                $u->standard_price = $unit['standard_price'];
+                $u->quantity = $unit['quantity'];
+                $u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
+                $u->save();
+            }
+            else{
+                Unit::create([
+                    'asset_id' => $asset->id,
+                    'category_id' => $unit['category'],
+                    'quantity' => $unit['quantity'],
+                    'quantity_left' => $unit['quantity'],
+                    'standard_price' => $unit['standard_price'],
+                    'uuid' => generateUUID(),
+                ]);
+            }
         }
     }
     
@@ -140,6 +166,7 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
+                'user_id' => getOwnerUserID()
             ]);
         }
     }
