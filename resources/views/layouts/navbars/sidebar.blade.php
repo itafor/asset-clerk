@@ -96,12 +96,12 @@
                     <ul class="nav-item-child">
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.my')}}">
-                            {{ __('My Assets') }}
+                            {{ __('Assigned Assets') }}
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('asset.index')}}">
-                            {{ __('List') }}
+                            {{ __('My Assets') }}
                         </a>
                       </li>
                       <li class="nav-item">
@@ -249,35 +249,17 @@
                     <ul class="nav-item-child">
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('subs.index')}}">
-                            {{ __('List') }}
+                            {{ __('List Sub Accounts') }}
                         </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('subs.create')}}">
-                            {{ __('Add New') }}
+                            {{ __('Create Sub Account') }}
                         </a>
                       </li>
                      </ul>
                 </li>
                 @endif
-
-                {{-- <li class="nav-item nav-with-child">
-                    <a class="nav-link"  >
-                      <i class="fas fa-users text-yellow"></i> User Management
-                    </a>
-                    <ul class="nav-item-child">
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{route('user.index')}}">
-                            {{ __('List') }}
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="{{route('user.create')}}">
-                            {{ __('Add New') }}
-                        </a>
-                      </li>
-                     </ul>
-                </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index') }}">
