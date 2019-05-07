@@ -6,7 +6,7 @@
     <span class="alert-inner--icon"><i class="icon icon-notification"></i></span>
     <span class="alert-inner--text"></span>
 </div>
-
+@if(!is_null($plan))
 <div class="editor-indent" style="margin-left: 20px; padding: 0 0 0 40px; margin-right: 50px">
     <table style="background-color: #F2F9FF; border-radius: 10px; margin-bottom: 20px">
         <tbody>
@@ -25,3 +25,4 @@
         </tbody>
     </table>
 </div>
+@endif
