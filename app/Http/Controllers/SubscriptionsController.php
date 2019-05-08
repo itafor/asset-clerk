@@ -174,27 +174,28 @@ class SubscriptionsController extends Controller
             // please check other things like whether you already gave value for this ref
             // if the email matches the customer who owns the product etc
             // Give value
-
             $reference = $tranx->data->metadata->payment_reference;
-            $policy = $tranx->data->metadata->policy;
+            $subscription = $tranx->data->metadata->subscription;
             $provider_reference = $tranx->data->reference;
             $status = 'Success';
 
-            $data = [
-                'reference' => $reference,
-                'status' => 'Success',
-                'provider_reference' => $provider_reference,
-                'policy_type' => $policy
-            ];
-
-            $txn = Transaction::where('reference',$reference)>first();
+            $txn = Transaction::where('reference',$reference)->first();
             $txn = Transaction::find($txn->id);
             $txn->update([
                 'status' => 'Successful',
                 'provider_reference' => $provider_reference
             ]);
-
-            $sub = Subscription::where('reference',$reference)>first();
+            //Find if user has any active subscription
+            $active = Subscription::where('user_id', auth()->id())->where('status','Active')->get();
+            if(!is_null($active)){
+                foreach ($active as $act){
+                    $sub_ = Subscription::find($act->id);
+                    $sub_->update([
+                        'status' => 'Revoked'
+                    ]);
+                }
+            }
+            $sub = Subscription::where('reference',$reference)->first();
             $sub = Subscription::find($sub->id);
             $sub->update([
                 'status' => 'Active'
