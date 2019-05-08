@@ -53,7 +53,7 @@ class SubscriptionsController extends Controller
     public function process_buy_plan(Request $request)
     {
         $transaction = Transaction::create([
-            'user_id' => auth()->id,
+            'user_id' => auth()->id(),
             'plan_id' => $request->plan_id,
             'status' => 'Pending',
             'channel' => 'Paystack',
@@ -61,7 +61,7 @@ class SubscriptionsController extends Controller
             'amount' => $request->amount * $request->period
         ]);
         $sub = Subscription::create([
-            'user_id' => auth()->id,
+            'user_id' => auth()->id(),
             'transaction_id' => $transaction->uuid,
             'start' => date('Y-m-d H:i:s'),
             'end' => date('Y-m-d H:i:s', strtotime('+'.$request->period.' months')),
