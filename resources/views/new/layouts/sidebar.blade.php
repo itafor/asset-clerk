@@ -52,7 +52,7 @@
         <!-- /sidebar notification -->
 
         <!-- Sidebar Navigation -->
-        <ul class="dt-side-nav">
+        <ul class="dt-side-nav" style="margin-bottom:150px">
 
             <!-- Menu Header -->
             <li class="dt-side-nav__item dt-side-nav__header">
