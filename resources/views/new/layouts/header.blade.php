@@ -350,9 +350,9 @@
 
               <!-- Dropdown Option -->
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="javascript:void(0)">
+                <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>My Profile</span> </a>
-                <a class="dropdown-item" href="javascript:void(0)">
+                <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>Change Password</span> </a>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
@@ -371,7 +371,7 @@
               <!-- Dropdown Link -->
               <a href="#" class="dt-nav__link dropdown-toggle no-arrow dt-avatar-wrapper"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="dt-avatar size-40" src="" alt="{{auth()->user()->fullname()}}">
+                <img class="dt-avatar size-40" src="{{auth()->user()->image ? auth()->user()->image : 'https://via.placeholder.com/150x150'}}" alt="{{auth()->user()->fullname()}}">
               </a>
               <!-- /dropdown link -->
 
@@ -384,10 +384,11 @@
                   <span class="f-12">{{ucwords(auth()->user()->role)}}</span>
                 </span>
                 </div>
-                <a class="dropdown-item" href="javascript:void(0)"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
+                <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
                 </a> <a class="dropdown-item" href="javascript:void(0)">
                 <i class="icon icon-setting icon-fw mr-2 mr-sm-1"></i>Setting </a>
-                <a class="dropdown-item" href="page-login.html"> <i class="icon icon-edit icon-fw mr-2 mr-sm-1"></i>Logout
+                <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"> <i class="icon icon-edit icon-fw mr-2 mr-sm-1"></i>Logout
                 </a>
               </div>
               <!-- /dropdown option -->
