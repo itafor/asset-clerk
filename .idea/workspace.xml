@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e912add5-f1bc-4ee4-b41d-5e0631f2328e" name="Default Changelist" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/utilities.php" afterPath="$PROJECT_DIR$/app/Http/utilities.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,8 +61,8 @@
       <file leaf-file-name="subscription.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/subscription.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="999">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="14">
+              <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -80,12 +81,10 @@
       <file leaf-file-name="SubscriptionsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SubscriptionsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="93" column="38" lean-forward="false" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="38" />
+            <state relative-caret-position="268">
+              <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
               <folding>
                 <element signature="e#40#61#0#PHP" expanded="true" />
-                <element signature="e#1335#2731#0#PHP" expanded="false" />
-                <element signature="e#4105#6496#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -101,21 +100,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utilities.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="utilities.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/utilities.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="852">
-              <caret line="246" column="0" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
+            <state relative-caret-position="456">
+              <caret line="233" column="71" lean-forward="false" selection-start-line="233" selection-start-column="71" selection-end-line="233" selection-end-column="71" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".env" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1124">
-              <caret line="58" column="44" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="58" selection-end-column="44" />
+            <state relative-caret-position="754">
+              <caret line="48" column="18" lean-forward="true" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -154,13 +153,13 @@
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/subscriptions/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/new/admin/subscriptions/index.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/SubscriptionsController.php" />
         <option value="$PROJECT_DIR$/resources/views/new/admin/subscriptions/transactions.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/new/layouts/header.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/new/layouts/sidebar.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/subscription.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/utilities.php" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/SubscriptionsController.php" />
+        <option value="$PROJECT_DIR$/app/Http/utilities.php" />
       </list>
     </option>
   </component>
@@ -603,12 +602,12 @@
       <workItem from="1554997643151" duration="597000" />
       <workItem from="1555265807129" duration="229000" />
       <workItem from="1557233334301" duration="17595000" />
-      <workItem from="1557305054035" duration="531000" />
+      <workItem from="1557305054035" duration="994000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30849000" />
+    <option name="totallyTimeSpent" value="31312000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="134" y="39" width="3706" height="2117" extended-state="0" />
@@ -659,8 +658,6 @@
           <caret line="49" column="57" lean-forward="false" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
           <folding>
             <element signature="e#40#61#0#PHP" expanded="true" />
-            <element signature="e#1335#2731#0#PHP" expanded="false" />
-            <element signature="e#4105#6496#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -986,22 +983,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/subscription.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="999">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/utilities.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="852">
-          <caret line="246" column="0" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="777">
@@ -1010,22 +991,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="48" column="18" lean-forward="true" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SubscriptionsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="93" column="38" lean-forward="false" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="38" />
+        <state relative-caret-position="268">
+          <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
           <folding>
             <element signature="e#40#61#0#PHP" expanded="true" />
-            <element signature="e#1335#2731#0#PHP" expanded="false" />
-            <element signature="e#4105#6496#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
+    <entry file="file://$PROJECT_DIR$/resources/views/subscription.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1124">
-          <caret line="58" column="44" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="58" selection-end-column="44" />
+        <state relative-caret-position="14">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/utilities.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="233" column="71" lean-forward="false" selection-start-line="233" selection-start-column="71" selection-end-line="233" selection-end-column="71" />
           <folding />
         </state>
       </provider>
