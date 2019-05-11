@@ -16,7 +16,7 @@ use App\ServiceCharge;
 use App\Staff;
 use App\RentDue;
 use Illuminate\Support\Str;
-use Cloudder;
+use JD\Cloudder\Facades\Cloudder;
 use Carbon\Carbon;
 
 function generateUUID()
@@ -248,25 +248,30 @@ function getUserPlan(){
 function chekUserPlan($type = null){
     $user = auth()->id();
     $plan = \App\Subscription::where('user_id',$user)->first();
-    $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
-    $no_properties = $plan_details->properties;
-    $no_accounts = $plan_details->sub_accounts;
-    $service_charge = $plan_details->service_charge;
-    switch ($type){
-        case 'property':
-            $customer_properties = Asset::where('user_id',$user)->count();
-            if ($customer_properties >= $no_properties){
-                return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
-            }
-            break;
-        case 'accounts':
-            $customer_accts = \Illuminate\Support\Facades\DB::table('staffs')->where('owner_id', $user)->count();
-            if ($customer_accts >= $no_accounts){
-                return back()->with('error','You cannot add more than '.$no_properties.' on this plan.Please upgrade!');
-            }
-            break;
-        default:
-            break;
+    if($plan){
+        $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
+        $no_properties = $plan_details->properties;
+        $no_accounts = $plan_details->sub_accounts;
+        $service_charge = $plan_details->service_charge;
+        switch ($type){
+            case 'property':
+                $customer_properties = Asset::where('user_id',$user)->count();
+                if ($customer_properties >= $no_properties){
+                    return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
+                }
+                break;
+            case 'accounts':
+                $customer_accts = \Illuminate\Support\Facades\DB::table('staffs')->where('owner_id', $user)->count();
+                if ($customer_accts >= $no_accounts){
+                    return back()->with('error','You cannot add more than '.$no_properties.' on this plan.Please upgrade!');
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else{
+        return back()->with('error', 'You currently don\'t have any active plan');
     }
 }
 
