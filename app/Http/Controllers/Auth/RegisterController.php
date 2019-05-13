@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Subscription;
+use App\Transaction;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +74,23 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'verify_token' => str_random(60)
+        ]);
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
+            'plan_id' => '5affebd8-a78c-47c6-998f-d20fa4f3ba0d',
+            'status' => 'Successful',
+            'channel' => 'Free Signup',
+            'reference' => generateUUID(),
+            'amount' => 0.00
+        ]);
+
+        Subscription::create([
+            'user_id' => $user->id,
+            'transaction_id' => $transaction->uuid,
+            'start' => date('Y-m-d H:i:s'),
+            'end' => date('Y-m-d H:i:s', strtotime('+1 months')),
+            'reference' => $transaction->reference,
+            'plan_id' => $transaction->plan_id
         ]);
 
         try{

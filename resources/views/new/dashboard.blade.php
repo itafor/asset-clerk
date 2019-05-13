@@ -3,6 +3,9 @@
 @section('content')
     <div class="row">
 
+    </div>
+    <div class="row">
+
         <!-- Grid Item -->
         <div class="col-xl-4 col-sm-6">
 
@@ -164,6 +167,8 @@
         <!-- /grid item -->
 
         <!-- Grid Item -->
+        <!-- /grid item -->
+        <!-- Grid Item -->
         <div class="col-xl-4 col-sm-6">
 
             <!-- Card -->
@@ -196,6 +201,25 @@
         </div>
         <!-- /grid item -->
 
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-sm-12">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
+
+                <!-- Card Body -->
+                <div class="dt-card__body">
+                    <!-- Media -->
+                @include('subscription')
+                <!-- /media -->
+                </div>
+                <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
     </div>
 
     <div class="row">

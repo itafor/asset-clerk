@@ -5,7 +5,7 @@
     <div class="dt-header__container">
 
       <!-- Brand -->
-      <div class="dt-brand">
+      <div class="dt-brand" style="background: #00ffff">
 
         <!-- Brand tool -->
         <div class="dt-brand__tool" data-toggle="main-sidebar">

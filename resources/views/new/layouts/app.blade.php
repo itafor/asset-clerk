@@ -61,8 +61,7 @@
     {{-- @include('new.layouts.loader') --}}
 
     @auth()
-
-        @if (auth()->user()->verified == 'no')
+    @if (auth()->user()->verified == 'no')
             @include('notification')
         @endif
 
