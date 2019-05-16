@@ -111,8 +111,14 @@
 
                         <!-- Form Group -->
                         <div class="custom-control custom-checkbox mb-6 mb-lg-8">
-                            <input class="custom-control-input" name="remember" type="checkbox" id="checkbox-1">
-                            <label class="custom-control-label" for="checkbox-1">Remember Me</label>
+                            <div style="float:left">
+                                <input class="custom-control-input" name="remember" type="checkbox" id="checkbox-1">
+                                <label class="custom-control-label" for="checkbox-1">Remember Me</label>
+                            </div>
+                            <div style="float:right">
+                                <a class="d-inline-block font-weight-medium ml-3" href="{{route('password.request')}}">Forgot Password?</a>
+                            </div>
+                            <div style="clear:both"></div> 
                         </div>
                         <!-- /form group -->
 
