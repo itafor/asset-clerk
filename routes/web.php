@@ -34,6 +34,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('my-transactions', ['as' => 'transactions.history', 'uses' => 'SubscriptionsController@transactions']);
 
     });
+    Route::prefix('subscription_plans')->group(function(){
+        Route::get('/', ['as' => 'plan.index', 'uses' => 'AdminController@subscription_plans']);
+        Route::get('add_subscription_plan', ['as' => 'plan.add', 'uses' => 'AdminController@create_subscription_plan']);
+        Route::post('add_subscription_plan', ['as' => 'plan.save', 'uses' => 'AdminController@save_subscription_plan']);
+
+    });
 	//Route::prefix('agents')->middleware('role:agent')->group(function(){
 		Route::prefix('asset')->group(function(){
 			Route::get('/', 'AssetController@index')->name('asset.index');
