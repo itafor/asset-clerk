@@ -94,7 +94,7 @@
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{url('transactions')}}" class="dt-side-nav__link">
+                    <a href="{{url('subscription_plans/transactions')}}" class="dt-side-nav__link">
                     <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">Transactions Log</span> </a>
                 </li>
 
@@ -109,7 +109,7 @@
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{route('landlord.index')}}" class="dt-side-nav__link">
+                    <a href="{{route('plan.subscribers')}}" class="dt-side-nav__link">
                     <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List Subscribers</span> </a>
                 </li>
                 </ul>

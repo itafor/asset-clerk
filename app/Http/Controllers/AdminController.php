@@ -20,14 +20,14 @@ class AdminController extends Controller
 
     public function transactions()
     {
-        $plans = Transaction::all();
-        return view('new.admin.transactions.index', compact('plans'));
+        $subs = Transaction::all();
+        return view('new.admin.subscriptions.transactions', compact('subs'));
     }
 
     public function subscribers()
     {
-        $plans = Subscription::all();
-        return view('new.admin.subscriptions.index', compact('plans'));
+        $subs = Subscription::all();
+        return view('new.admin.subscriptions.index', compact('subs'));
     }
 
     public function create_subscription_plan()
