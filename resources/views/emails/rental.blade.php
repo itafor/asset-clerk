@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Receipt | Asset Clerk</title>
+    <title>New Rental | Asset Clerk</title>
     
     <style>
     .invoice-box {
@@ -112,7 +112,6 @@
                             
                             <td style="text-align:right">
                                 Created: {{date('F d, Y')}}<br>
-                                Payment Date: {{$payment->payment_date->format('F d, Y')}}
                             </td>
                         </tr>
                     </table>
@@ -125,12 +124,12 @@
                         <tr>
                             <td>
                                 <b>Address:</b><br>
-                               {{$payment->unit->getTenant()->address}}
+                               {{$rental->unit->getTenant()->address}}
                             </td>
                             
                             <td style="text-align:right">
-                                {{$payment->unit->getTenant()->name()}} <br>
-                                {{$payment->unit->getTenant()->email}}
+                                {{$rental->unit->getTenant()->name()}} <br>
+                                {{$rental->unit->getTenant()->email}}
                             </td>
                         </tr>
                     </table>
@@ -149,63 +148,57 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$payment->unit->getProperty()->description}}
+                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
+                </td>
+            </tr>
+            
+            <tr class="heading">
+                <td>
+                  Rent Details
+                </td>
+                <td></td>
+            </tr>
+            
+            <tr class="item">
+                <td>
+                    <b>Price:</b>
+                </td>
+                
+                <td>
+                    &#8358; {{number_format($rental->price,2)}}
                 </td>
             </tr>
 
-            <tr class="heading">
-                <td>
-                    Payment Method
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td>
-                    {{$payment->paymentMode->name}}
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="heading">
-                <td>
-                  Payment Item
-                </td>
-                
-                <td>
-                    Price
-                </td>
-            </tr>
-            
             <tr class="item">
                 <td>
-                    {{$payment->paymentType->name}} {{getPaymentServiceCharge($payment)}}
+                    <b>Rent Duration:</b>
                 </td>
                 
                 <td>
-                    &#8358; {{number_format($payment->amount, 2)}}
+                    {{$rental->duration.' '.$rental->duration_type}}
                 </td>
             </tr>
-            
+
             <tr class="item">
-                <td colspan="2">
-                   <b>Description:</b> {{$payment->payment_description}}
+                <td>
+                    <b>Rent Start Date:</b>
                 </td>
-            </tr>
-            
-            <tr class="total">
-                <td></td>
                 
                 <td>
-                   Total: &#8358; {{number_format($payment->amount, 2)}}
+                    {{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}
                 </td>
             </tr>
+
+            <tr class="item">
+                <td>
+                    <b>Rent Due Date:</b>
+                </td>
+                
+                <td>
+                    {{getNextRentPayment($rental)['due_date']}}
+                </td>
+            </tr>
+
         </table>
     </div>
 </body>
