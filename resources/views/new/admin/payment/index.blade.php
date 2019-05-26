@@ -52,8 +52,8 @@
                       @foreach ($payments as $payment)
                           <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$payment->unit->getTenant()}}</td>
-                            <td>{{$payment->unit->getProperty()}}</td>
+                            <td>{{$payment->unit->getTenant()->name()}}</td>
+                            <td>{{$payment->unit->getProperty()->description}}</td>
                             <td>{{$payment->paymentType->name}} {{getPaymentServiceCharge($payment)}}</td>
                             <td>{{$payment->paymentMode->name}}</td>
                             <td>&#8358; {{number_format($payment->amount, 2)}}</td>

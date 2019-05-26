@@ -37,7 +37,7 @@ class Payment extends Model
 
     public static function createNew($data) 
     {
-        self::create([
+        return self::create([
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
             'payment_type_id' => $data['payment_type'],

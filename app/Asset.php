@@ -30,7 +30,11 @@ class Asset extends Model
     ];
 
     public function Tenant(){
-        return $this->hasMany('App\Tenant');
+        return $this->hasMany(Tenant::class);
+    }
+    
+    public function Landlord(){
+        return $this->belongsTo(Landlord::class);
     }
 
     public function category()

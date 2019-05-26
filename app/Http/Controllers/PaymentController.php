@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Payment;
 use App\Asset;
 use Validator;
+use App\Mail\PaymentCreated;
+use Mail;
+use DB;
 
 class PaymentController extends Controller
 {
@@ -42,9 +45,14 @@ class PaymentController extends Controller
             return back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in all required fields.');
         }
+        DB::beginTransaction();
         try{
-            Payment::createNew($request->all());
-        } catch(\Exception $e) {
+            $payment = Payment::createNew($request->all());
+            $toEmail = $payment->unit->getTenant()->email;
+            Mail::to($toEmail)->send(new PaymentCreated($payment));
+            DB::commit();
+        } catch(Exception $e) {
+            DB::rollback();
             return back()->with('error', 'Whoops! An error occured. Please try again');
         }
         return redirect()->route('payment.index')->with('success', 'Payment created successfully');
