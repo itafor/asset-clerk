@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\TenantRent;
 use Webpatser\Uuid\Uuid;
 
 class Subscription extends Model
@@ -28,5 +27,10 @@ class Subscription extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+    
+    public function plan()
+    {
+        return $this->belongsTo(SubscriptionPlan::class, 'plan_id', 'uuid');
     }
 }

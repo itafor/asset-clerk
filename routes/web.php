@@ -90,7 +90,14 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 		Route::prefix('debt')->group(function(){
 			Route::get('/', 'DebtController@debt')->name('debt.debt');
-			Route::get('/payment', 'DebtController@payment')->name('debt.payment');
+		});
+		Route::prefix('payment')->group(function(){
+			Route::get('/', 'PaymentController@index')->name('payment.index');
+			Route::get('/create', 'PaymentController@create')->name('payment.create');
+			Route::post('/store', 'PaymentController@store')->name('payment.store');
+			Route::get('/edit/{uuid}', 'PaymentController@edit')->name('payment.edit');
+			Route::post('/update', 'PaymentController@update')->name('payment.update');
+			Route::get('delete/{uuid}', 'PaymentController@delete')->name('payment.delete');
 		});
 	//});	
 
@@ -120,5 +127,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('search-users', 'UtilsController@searchUsers');
 	Route::get('verification', 'UtilsController@resendVerification')->name('verification');
 	Route::get('verify/{email}/{token}', 'UtilsController@verify');
+	Route::get('fetch-rented-units/{property}', 'UtilsController@fetchRentedUnits');
 });
 

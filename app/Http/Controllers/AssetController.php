@@ -22,14 +22,8 @@ class AssetController extends Controller
             'assets.price')
         ->where('assets.user_id', getOwnerUserID())->limit($limit);
 
-        if($request->has('search') && $request['search']){
-            $search = $request['search'];
-            $query->where('assets.description', 'like', "%{$search}%")
-            ->orWhere('assets.address', 'like', "%{$search}%");
-        }
-
         $data = [
-            'assetsCategories' => $query->orderBy('assets.id', 'desc')->paginate(10),
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get(),
             'term' => ''
         ];
 
@@ -50,9 +44,7 @@ class AssetController extends Controller
             'unit.*.category' => 'required',
             'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
-            'service.*.type' => 'required',
-            'service.*.service_charge' => 'required',
-            'service.*.price' => 'required',
+            'unit.*.property_type' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -60,10 +52,9 @@ class AssetController extends Controller
             'address' => 'required',
             'detailed_information' => 'required',
             'building_age' => 'required',
-            // 'bedrooms' => 'required',
-            // 'bathrooms' => 'required',
             'features.*' => 'required',
-            'photos.*' => 'required|image'
+            'photos.*' => 'image',
+            'commission' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -98,7 +89,7 @@ class AssetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            // 'category' => 'required',
+            'commission' => 'required|numeric',
             // 'quantity' => 'required',
             // 'standard_price' => 'required',
             'landlord' => 'required',
@@ -115,9 +106,8 @@ class AssetController extends Controller
             'unit.*.category' => 'required',
             'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
-            'service.*.type' => 'required',
-            'service.*.service_charge' => 'required',
-            'service.*.price' => 'required',
+            'unit.*.property_type' => 'required',
+            'photos.*' => 'image',
         ]);
 
         if ($validator->fails()) {
@@ -174,7 +164,16 @@ class AssetController extends Controller
             return back()->with('success', 'Unit deleted successfully');
         }
         else{
-            return back()->with('error', 'Unit not found. Please try again');
+            $unit = Unit::where('uuid',$id)->first();
+            if($unit){
+                if($unit->isRented()){
+                    return back()->with('error', 'This unit has already been rented');
+                }
+                $unit->delete();
+                return back()->with('success', 'Unit deleted successfully');
+            } else{
+                return back()->with('error', 'Unit not found. Please try again');
+            }
         }
     }
     
@@ -294,10 +293,21 @@ class AssetController extends Controller
 
     public function serviceCharges()
     {
-        $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-        ->where('assets.user_id', getOwnerUserID())->with('asset')
-        ->select('asset_service_charges.*')
-        ->get();
-        return view('new.admin.assets.service_charges', compact('charges'));
+        // $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+        // ->where('assets.user_id', getOwnerUserID())->with('asset')
+        // ->select('asset_service_charges.*')
+        // ->get();
+
+        $plan = getUserPlan();
+        $limit = $plan['details']->properties;
+        $query = Asset::query()
+        ->select('assets.uuid','assets.id','assets.address', 'assets.description',
+            'assets.price')
+        ->where('assets.user_id', getOwnerUserID())->limit($limit);
+
+        $data = [
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get()
+        ];
+        return view('new.admin.assets.service_charges', $data);
     }
 }

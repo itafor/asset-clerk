@@ -8,7 +8,8 @@ use App\TenantRent;
 class Unit extends Model
 {
     protected $fillable = [
-        'asset_id', 'category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid'
+        'asset_id', 'category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid',
+        'property_type_id'
     ];
 
     public function category()
@@ -18,12 +19,38 @@ class Unit extends Model
 
     public function isRented()
     {
-        $rental = TenantRent::where('unit_uuid', $this->uuid)->first();
+        $rental = TenantRent::where('unit_uuid', $this->uuid)
+        ->whereRaw('due_date > CURDATE()')->latest()->first();
         if($rental){
             return true;
         }
         else{
             return false;
+        }
+    }
+
+    public function getRental() 
+    {
+        return TenantRent::where('unit_uuid', $this->uuid)
+        ->whereRaw('due_date > CURDATE()')->latest()->with('tenant', 'asset')->first();
+    }
+
+    public function getTenant()
+    {
+        $rental = TenantRent::where('unit_uuid', $this->uuid)
+        ->whereRaw('due_date > CURDATE()')->latest()->with('tenant')->first();
+        return $rental->tenant->name();
+    }
+
+    public function getProperty()
+    {
+        $rental = TenantRent::where('unit_uuid', $this->uuid)
+        ->whereRaw('due_date > CURDATE()')->latest()->with('asset')->first();
+        if($rental){
+            return $rental->asset->description;
+        }
+        else{
+            return '';
         }
     }
 }

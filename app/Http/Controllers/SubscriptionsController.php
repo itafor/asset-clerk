@@ -6,12 +6,6 @@ use App\Subscription;
 use App\SubscriptionPlan;
 use App\Transaction;
 use App\User;
-use App\Http\Requests\SubRequest;
-use Illuminate\Support\Facades\Hash;
-use App\Asset;
-use App\Staff;
-use App\AssignedAsset;
-use DB;
 use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
