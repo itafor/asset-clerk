@@ -78,11 +78,9 @@ function getSlots()
 {
     $totalSlots = 0;
     $user = User::find(getOwnerUserID());
-
-    if($sub = $user->subscription) {
-        $totalSlots = $sub->plan->properties;
-    }
-
+    $sub = \App\Subscription::where('user_id', $user->id)->where('status', 'Active')->first();
+    $plan = \App\SubscriptionPlan::where('uuid', $sub->plan_id)->first();
+    $totalSlots = $plan->properties;
     return [
         'availableSlots' => $totalSlots - getTotalAssets(),
         'totalSlots' => $totalSlots,
