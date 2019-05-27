@@ -17,11 +17,19 @@ class SubscriptionPlan extends Model
     }
 
     protected $fillable = [
-        'uuid', 'name', 'status', 'properties', 'sub_accounts', 'service_charge'
+        'uuid', 'name', 'status', 'properties', 'sub_accounts', 'service_charge','amount','description'
     ];
 
-    /*public function category()
+    public static function createNew($data)
     {
-        return $this->belongsTo(Category::class);
-    }*/
+        self::create([
+            'name' => $data['name'],
+            'status' => 1,
+            'properties' => $data['properties'],
+            'sub_accounts' => $data['sub_accounts'],
+            'service_charge' => $data['service_charge'],
+            'amount' => $data['amount'],
+            'description' => $data['description']
+        ]);
+    }
 }
