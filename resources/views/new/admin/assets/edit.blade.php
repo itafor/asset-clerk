@@ -124,133 +124,43 @@
                                 </div>                      
                             </div>
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Service Charge') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Property Type') }}</h6>
                             @if(count($errors) > 0)
+                                @foreach (old('unit') as $key => $value)
+                                <div style="float:right"><a href="{{route('asset.delete.unit', ['id' => $key])}}" class=" badge badge-danger btn-sm" data-confirm border="2">Remove</a></div>
+                                <div style="clear:both"></div>
                                 <div class="row">
-                                    @foreach (old('service') as $key => $value)
-                                    <div class="form-group {{ $errors->has('service.'.$key.'.category') ? 'has-danger':'' }} col-4">
-                                        <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
-                                        <select name="service[{{$key}}][type]"  class="form-control sc_type" data-row="{{$key}}" required>
-                                            <option value="">Select Type</option>
-                                            <option value="fixed" {{old('service.'.$key.'.type') == 'fixed' ? 'selected' : ''}}>Fixed</option>
-                                            <option value="variable" {{old('service.'.$key.'.type') == 'variable' ? 'selected' : ''}}>Variable</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group {{ $errors->has('service.'.$key.'.service_charge') ? 'has-danger':'' }} col-4">
-                                        <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
-                                        <select name="service[{{$key}}][service_charge]" id="serviceCharge{{$key}}" class="form-control" required>
-                                            <option value="">Select Category</option>
-                                            @foreach (getServiceCharge(old('service.'.$key.'.type')) as $sc)
-                                                <option value="{{$sc->id}}">{{$sc->name}}</option>
+                                    <div dfdd="{{$key}}" class="form-group {{ $errors->has('unit.'.$key.'.property_type') ? 'has-danger':'' }} col-3">
+                                        <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
+                                        <select name="unit[{{$key}}][property_type]"  class="form-control" required>
+                                            <option value="">Select Property Thype</option>
+                                            @foreach (getPropertyTypes() as $pt)
+                                                <option value="{{$pt->id}}" {{$pt->id == old("unit.{$key}.property_type") ? 'selected' : ''}}>{{$pt->name}}</option>
                                             @endforeach
                                         </select>
-                                    </div>                   
-                                    <div class="form-group {{ $errors->has('service.'.$key.'.price') ? 'has-danger':'' }} col-4">
-                                        <label class="form-control-label" for="input-standard_price">{{ __('Price') }}</label>
-                                        <input type="number" name="service[{{$key}}][price]" id="input-{{$key}}" class="form-control {{ $errors->has('service.'.$key.'.price') ? ' is-invalid' : '' }}" placeholder="Enter Price" value="{{old('service.'.$key.'.price')}}" required>
                                     </div>
-                                </div>
-                                    <div style="clear:both"></div>
-                                    @endforeach
-                                    <div id="containerSC">
-                                    </div>   
-                                    <div class="form-group">
-                                        <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                    </div> 
-                            @else
-                            @if (count($asset->serviceCharges()) > 0)
-                                @foreach ($asset->serviceCharges() as $service)
-                                <div style="float:right"><a href="{{route('asset.delete.service', ['id' => $service->id])}}" class=" badge badge-danger btn-sm" 
-                                            data-confirm border="2">Remove</a></div>
-                                            <div class="clearfix"></div>
-                                    <div class="row">
-                                        <div class="form-group col-4">
-                                            <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
-                                            <select name="service[{{$loop->iteration}}][type]" class="form-control sc_type" data-row="{{$loop->iteration}}" required>
-                                                <option value="">Select Type</option>
-                                                <option value="fixed" {{getServiceChargeType($service->service_charge_id) == 'fixed' ? 'selected' : ''}}>Fixed</option>
-                                                <option value="variable" {{getServiceChargeType($service->service_charge_id) == 'variable' ? 'selected' : ''}}>Variable</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-4">
-                                            <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
-                                            <select name="service[{{$loop->iteration}}][service_charge]" id="serviceCharge{{$loop->iteration}}" class="form-control" required>
-                                                <option value="">Select Service Charge</option>
-                                                @foreach (getServiceCharge(getServiceChargeType($service->service_charge_id)) as $sc)
-                                                    <option value="{{$sc->id}}" {{$service->service_charge_id == $sc->id ? 'selected' : ''}}>{{$sc->name}}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="form-group {{ $errors->has('unit.'.$key.'.category') ? 'has-danger':'' }} col-3">
+                                        <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
+                                        <select name="unit[{{$key}}][category]"  class="form-control" required>
+                                            <option value="">Select Category</option>
+                                            @foreach (getCategories() as $cat)
+                                                <option value="{{$cat->id}}" {{$cat->id == old("unit.{$key}.category") ? 'selected' : ''}}>{{$cat->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group {{ $errors->has('unit.'.$key.'.quantity') ? 'has-danger':'' }} col-3">
+                                        <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
+                                        <input type="number" name="unit[{{$key}}][quantity]" id="input-quantity{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('unit.'.$key.'.quantity')}}" required>
+
                                         </div>                   
-                                        <div class="form-group col-4">
-                                            <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
-                                            <input type="number" name="service[{{$loop->iteration}}][price]" id="input-price" value="{{$service->price}}"
-                                             class="form-control" placeholder="Enter Price" required>
-                                        </div>
-                                        <div style="clear:both"></div>                      
-                                    </div>
-                                @endforeach
-                                <div id="containerSC">
-                                    </div>  
-                                <div class="form-group">
-                                    <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                </div> 
-                            @else
-                                <div class="row">
-                                    <div class="form-group col-4">
-                                        <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
-                                        <select name="service[112211][type]" class="form-control sc_type" data-row="112211" required>
-                                            <option value="">Select Type</option>
-                                            <option value="fixed">Fixed</option>
-                                            <option value="variable">Variable</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
-                                        <select name="service[112211][service_charge]" id="serviceCharge112211" class="form-control" required>
-                                            <option value="">Select Service Charge</option>
-                                        </select>
-                                    </div>                   
-                                    <div class="form-group col-4">
-                                        <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
-                                        <input type="number" name="service[112211][price]" id="input-price" class="form-control" placeholder="Enter Price" required>
+                                    <div class="form-group {{ $errors->has('unit.'.$key.'.standard_price') ? 'has-danger':'' }} col-3">
+                                        <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
+                                        <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('unit.'.$key.'.standard_price')}}" required>
                                     </div>
                                 </div>
-                                    <div style="clear:both"></div>
-                                    <div id="containerSC">
-                                    </div>
-                                    <div style="clear:both"></div>   
-                                    <div class="form-group">
-                                        <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                    </div>
-                            @endif
-                            @endif
-
-                            <h6 class="heading-small text-muted mb-4">{{ __('Units') }}</h6>
-                            @if(count($errors) > 0)
-                            <div class="row">
-                                @foreach (old('unit') as $key => $value)
-                                <div class="form-group {{ $errors->has('unit.'.$key.'.category') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
-                                    <select name="unit[{{$key}}][category]"  class="form-control" required>
-                                        <option value="">Select Category</option>
-                                        @foreach (getCategories() as $cat)
-                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group {{ $errors->has('unit.'.$key.'.quantity') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                    <input type="number" name="unit[{{$key}}][quantity]" id="input-quantity{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('unit.'.$key.'.quantity')}}" required>
-
-                                </div>                   
-                                <div class="form-group {{ $errors->has('unit.'.$key.'.standard_price') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
-                                    <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('unit.'.$key.'.standard_price')}}" required>
-                                </div>
-                            </div>
                                 <div style="clear:both"></div>
                                 @endforeach
-                                <div id="container" style="padding-left:25px">
+                                <div id="container">
                                 </div>   
                                 <div class="form-group">
                                     <button type="button" id="addMore" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
@@ -261,7 +171,22 @@
                                     <div style="float:right"><a href="{{route('asset.delete.unit', ['id' => $unit->id])}}" class=" badge badge-danger btn-sm" data-confirm border="2">Remove</a></div>
                                     <div style="clear:both"></div>
                                     <div class="row">
-                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
+                                            <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
+                                            <select name="unit[{{$unit->uuid}}][property_type]"  class="form-control" required>
+                                                <option value="">Select Property Type</option>
+                                                @foreach (getPropertyTypes() as $pt)
+                                                    <option value="{{$pt->id}}" {{$pt->id == $unit->property_type_id ? 'selected' : ''}}>{{$pt->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @if ($errors->has('property_type'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('property_type') }}</strong>
+                                                    </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
                                             <select name="unit[{{$unit->uuid}}][category]"  class="form-control" required>
                                                 <option value="">Select Category</option>
@@ -276,7 +201,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
                                             <input type="number" name="unit[{{$unit->uuid}}][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity', $unit->quantity)}}" required>
                                             
@@ -286,7 +211,7 @@
                                                 </span>
                                             @endif
                                         </div>                   
-                                        <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
                                             <input type="number" name="unit[{{$unit->uuid}}][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price', $unit->standard_price)}}" required>
 
@@ -300,14 +225,29 @@
                                                                         
                                     </div>
                                     @endforeach
-                                    <div id="container" style="padding-left:25px">
+                                    <div id="container">
                                         </div>  
                                     <div class="form-group">
                                         <button type="button" id="addMore" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                                     </div> 
                                 @else
                                 <div class="row">
-                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
+                                            <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
+                                            <select name="unit[{{$unit->uuid}}][property_type]"  class="form-control" required>
+                                                <option value="">Select Property Type</option>
+                                                @foreach (getPropertyTypes() as $pt)
+                                                    <option value="{{$pt->id}}">{{$pt->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @if ($errors->has('property_type'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('property_type') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
                                             <select name="unit[112211][category]"  class="form-control" required>
                                                 <option value="">Select Category</option>
@@ -322,7 +262,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
                                             <input type="number" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>
                                             
@@ -332,7 +272,7 @@
                                                 </span>
                                             @endif
                                         </div>                   
-                                        <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-4">
+                                        <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
                                             <input type="number" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
         
@@ -344,7 +284,7 @@
                                         </div>
                                 </div>
                                         <div style="clear:both"></div>
-                                        <div id="container" style="padding-left:25px">
+                                        <div id="container">
                                         </div>   
                                         <div class="form-group">
                                             <button type="button" id="addMore" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
@@ -352,7 +292,7 @@
                                 @endif  
                             @endif
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Detailed information') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Additional information') }}</h6>
                             <div class="row">
                                 <div class="form-group{{ $errors->has('photos') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-photos">{{ __('Photos of Property') }}</label>
@@ -386,9 +326,9 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('building_age') ? ' has-danger' : '' }} col-4">
-                                    <label class="form-control-label" for="input-category">{{ __('Building Age (Optional)') }}</label>
+                                    <label class="form-control-label" for="input-category">{{ __('Year of Construction (Optional)') }}</label>
                                     <select class="form-control" name="building_age">
-                                        <option value="">Select Building Age</option>
+                                        <option value="">Select Year</option>
                                         @foreach (getBuildingAges() as $age)
                                             <option value="{{$age->id}}" {{$age->id == $asset->building_age_id ? 'selected' : ''}}>{{$age->name}}</option>
                                         @endforeach
@@ -397,6 +337,16 @@
                                     @if ($errors->has('building_age'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('building_age') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
+                                    <label class="form-control-label" for="input-commission">{{ __('Commission (%)') }}</label>
+                                    <input type="text" name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission', $asset->commission)}}" required>
+
+                                    @if ($errors->has('commission'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('commission') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -524,7 +474,22 @@
                     +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
                     +'<div style="clear:both"></div>'
                     +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
-                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
+                        +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>'
+                        +'    <select name="unit['+rowId+'][property_type]"  class="form-control select'+rowId+'" required>'
+                        +'        <option value="">Select Property Type</option>'
+                        +'        @foreach (getPropertyTypes() as $pt)'
+                        +'            <option value="{{$pt->id}}">{{$pt->name}}</option>'
+                        +'        @endforeach'
+                        +'    </select>'
+
+                        +'    @if ($errors->has('property_type'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('property_type') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>'
+                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
                         +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
                         +'        <option value="">Select Category</option>'
@@ -539,7 +504,7 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
+                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
                         +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
                         +'    @if ($errors->has('quantity'))'
@@ -548,7 +513,7 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>         '          
-                        +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:31%; float:left">'
+                        +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
                         +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\TenantRent;
 
 class DebtController extends Controller
@@ -16,10 +15,5 @@ class DebtController extends Controller
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         
         return view('new.admin.debt.debt', compact('rentalsDueNotPaid'));
-    }
-
-    public function payment()
-    {
-        return view('new.admin.debt.payment');
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Unit;
 use App\RentDue;
-use DB;
 
 class TenantRent extends Model
 {
@@ -38,31 +37,22 @@ class TenantRent extends Model
         $rentalDate = formatDate($data['date'], 'm/d/Y', 'Y-m-d');
         $date = Carbon::parse($rentalDate);
         $dueDate = $date->addYears($data['duration']);
-
-        DB::beginTransaction();
-
-        try{
-            $rental = self::create([
-                'tenant_uuid' => $data['tenant'],
-                'asset_uuid' => $data['property'],
-                'unit_uuid' => $data['unit'],
-                'price' => $data['price'],
-                'rental_date' => $rentalDate,
-                'due_date' => $dueDate,
-                'uuid' => generateUUID(),
-                'user_id' => getOwnerUserID(),
-                'status' => 'pending',
-                'duration' => $data['duration'],
-                'duration_type' => 'year',
-            ]);
-            self::reduceUnit($data);
-            self::addNextPayment($data, $rental);
-            DB::commit();
-        }
-        catch(Exception $e)
-        {
-            DB::rollback();
-        }
+        $rental = self::create([
+            'tenant_uuid' => $data['tenant'],
+            'asset_uuid' => $data['property'],
+            'unit_uuid' => $data['unit'],
+            'price' => $data['price'],
+            'rental_date' => $rentalDate,
+            'due_date' => $dueDate,
+            'uuid' => generateUUID(),
+            'user_id' => getOwnerUserID(),
+            'status' => 'pending',
+            'duration' => $data['duration'],
+            'duration_type' => 'year',
+        ]);
+        self::reduceUnit($data);
+        self::addNextPayment($data, $rental);
+        return $rental;
     }
 
     public static function addNextPayment($data, $rental)

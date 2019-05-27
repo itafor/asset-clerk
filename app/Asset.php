@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Unit;
@@ -17,7 +16,7 @@ class Asset extends Model
     protected $fillable = [
         'description', 'category_id', 'quantity_added','quantity_left ','price',
         'address','agent_id','country', 'state', 'features',
-        'quantity_occupied',
+        'quantity_occupied', 'commission',
         'landlord_id',
         'country_id',
         'state_id',
@@ -27,11 +26,15 @@ class Asset extends Model
         'bedrooms',
         'bathrooms',
         'uuid',
-        'user_id'
+        'user_id',
     ];
 
     public function Tenant(){
-        return $this->hasMany('App\Tenant');
+        return $this->hasMany(Tenant::class);
+    }
+    
+    public function Landlord(){
+        return $this->belongsTo(Landlord::class);
     }
 
     public function category()
@@ -62,11 +65,8 @@ class Asset extends Model
     public static function createNew($data)
     {
         $asset = self::create([
+            'commission' => $data['commission'],
             'description' => $data['description'],
-            // 'quantity_added' => $data['quantity'],
-            // 'quantity_left' => $data['quantity'],
-            // 'category_id' => $data['category'],
-            // 'price' => $data['standard_price'],
             'landlord_id' => $data['landlord'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
@@ -74,8 +74,6 @@ class Asset extends Model
             'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
             'building_age_id' => $data['building_age'],
-            // 'bedrooms' => $data['bedrooms'],
-            // 'bathrooms' => $data['bathrooms'],
             'features' => implode(',',$data['features']),
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
@@ -83,16 +81,14 @@ class Asset extends Model
 
         self::createUnit($data,$asset);
         self::addPhoto($data,$asset); 
-        self::addServiceCharge($data,$asset);
+        // self::addServiceCharge($data,$asset);
     }
 
     public static function updateAsset($data)
     {
         self::where('uuid', $data['uuid'])->update([
+            'commission' => $data['commission'],
             'description' => $data['description'],
-            // 'quantity_added' => $data['quantity'],
-            // 'category_id' => $data['category'],
-            // 'price' => $data['standard_price'],
             'landlord_id' => $data['landlord'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
@@ -100,8 +96,6 @@ class Asset extends Model
             'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
             'building_age_id' => $data['building_age'],
-            // 'bedrooms' => $data['bedrooms'],
-            // 'bathrooms' => $data['bathrooms'],
             'features' => implode(',',$data['features'])
         ]); 
 
@@ -112,7 +106,7 @@ class Asset extends Model
         }
         //self::removeUnits($asset);
         self::updateUnits($data,$asset);
-        self::addServiceCharge($data,$asset);
+        // self::addServiceCharge($data,$asset);
     }
 
     public static function removeUnits($asset)
@@ -129,6 +123,7 @@ class Asset extends Model
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
+                'property_type_id' => $unit['property_type'],
                 'uuid' => generateUUID(),
             ]);
         }
@@ -141,6 +136,7 @@ class Asset extends Model
             if($u){
                 $u->category_id = $unit['category'];
                 $u->standard_price = $unit['standard_price'];
+                $u->property_type_id = $unit['property_type'];
                 $u->quantity = $unit['quantity'];
                 $u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
                 $u->save();
@@ -152,6 +148,7 @@ class Asset extends Model
                     'quantity' => $unit['quantity'],
                     'quantity_left' => $unit['quantity'],
                     'standard_price' => $unit['standard_price'],
+                    'property_type_id' => $unit['property_type'],
                     'uuid' => generateUUID(),
                 ]);
             }

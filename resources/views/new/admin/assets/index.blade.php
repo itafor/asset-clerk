@@ -78,6 +78,7 @@
                                 </div>
                                 @include('admin.assets.partials.assign')
                                 @include('admin.assets.partials.units')
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

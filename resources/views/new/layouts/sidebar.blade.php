@@ -181,11 +181,24 @@
                 </a>
             </li>
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}">
-                <a href="{{route('debt.payment')}}" class="dt-side-nav__link">
-                    <i class="icon icon-card icon-fw icon-xl"></i> 
-                    <span class="dt-side-nav__text">Payments</span> 
-                </a>
+            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}"">
+                <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Payments</span> </a>
+
+                <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('payment.index')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+                </ul>
+                <!-- /sub-menu -->
             </li>
 
             <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">
