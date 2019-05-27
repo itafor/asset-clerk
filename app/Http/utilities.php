@@ -7,7 +7,6 @@ use App\Category;
 use App\Landlord;
 use App\Asset;
 use App\Tenant;
-use App\AssetTenant;
 use App\BuildingSection;
 use App\AssetFeature;
 use App\BuildingAge;
@@ -15,9 +14,13 @@ use App\TenantRent;
 use App\ServiceCharge;
 use App\Staff;
 use App\RentDue;
+use App\User;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
 use Carbon\Carbon;
+use App\PropertyType;
+use App\PaymentType;
+use App\PaymentMode;
 
 function generateUUID()
 {
@@ -41,7 +44,7 @@ function getCities($stateId)
 
 function getCategories()
 {
-    return Category::all();
+    return Category::orderBy('name')->get();
 }
 
 function getBuildingSections()
@@ -71,18 +74,18 @@ function getTotalAssets()
     return Asset::where('user_id', getOwnerUserID())->count();
 }
 
-function getTotalSlots()
+function getSlots()
 {
-    $total_slots = 0;
-    $available_slots = 0;
-    $assets = Asset::where('user_id', getOwnerUserID())->with('units')->get();
-    foreach($assets as $asset){
-        $total_slots += $asset->units->sum('quantity');
-        $available_slots += $asset->units->sum('quantity_left');
+    $totalSlots = 0;
+    $user = User::find(getOwnerUserID());
+
+    if($sub = $user->subscription) {
+        $totalSlots = $sub->plan->properties;
     }
+
     return [
-        'available_slots' => $available_slots,
-        'total_slots' => $total_slots,
+        'availableSlots' => $totalSlots - getTotalAssets(),
+        'totalSlots' => $totalSlots,
     ];
 }
 
@@ -162,9 +165,13 @@ function getAssetDescription($category)
     return Asset::where('user_id', getOwnerUserID())->where('category_id', $category)->get();
 }
 
-function getServiceCharge($type)
+function getServiceCharge($type = null)
 {
-    return ServiceCharge::where('type', $type)->orderBy('name')->get();
+    if($type) {
+        return ServiceCharge::where('type', $type)->orderBy('name')->get();
+    } else {
+        return ServiceCharge::orderBy('name')->get();
+    }
 }
 
 function getServiceChargeType($serviceCharge)
@@ -174,6 +181,15 @@ function getServiceChargeType($serviceCharge)
         return $sc->type;
     }   
     else{   
+        return '';
+    }
+}
+
+function getPaymentServiceCharge($payment)
+{
+    if($payment->service_charge_id) {
+        return "({$payment->serviceCharge->name})";
+    } else {
         return '';
     }
 }
@@ -291,6 +307,22 @@ function fixKobo($amount)
     }
 }
 
-function getSubscriptionByUUid($id){
+function getSubscriptionByUUid($id)
+{
     return \App\SubscriptionPlan::where('uuid', $id)->first();
+}
+
+function getPropertyTypes()
+{
+    return PropertyType::all();
+}
+
+function getPaymentTypes()
+{
+    return PaymentType::all();
+}
+
+function getPaymentModes()
+{
+    return PaymentMode::all();
 }

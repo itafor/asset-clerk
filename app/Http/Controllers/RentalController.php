@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 use App\TenantRent;
+use Mail;
+use App\Mail\RentalCreated;
 
 class RentalController extends Controller
 {
@@ -45,7 +47,16 @@ class RentalController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
 
-        TenantRent::createNew($request->all());
+        DB::beginTransaction();
+        try {
+            $rental = TenantRent::createNew($request->all());
+            $toEmail = $rental->tenant->email;
+            Mail::to($toEmail)->send(new RentalCreated($rental));
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Whoops! An error occured. Please try again.');
+        }
 
         return redirect()->route('rental.index')->with('success', 'Rental logged successfully');
     }

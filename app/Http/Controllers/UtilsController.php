@@ -113,4 +113,24 @@ class UtilsController extends Controller
             abort(404, 'Invalid link');
         }
     }
+
+    public function fetchRentedUnits($property)
+    {
+        $property = Asset::where('uuid', $property)->where('user_id', getOwnerUserID())->first();
+        if($property){
+            $units = Unit::where('units.asset_id', $property->id)
+            ->join('categories as c', 'c.id', '=', 'units.category_id')
+            ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')
+            ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
+            ->selectRaw('units.*, c.name, CONCAT(t.designation, " ", t.firstname, " ", t.lastname) as tenant')
+            ->where('units.quantity_left', '>', 0)
+            ->whereNull('tr.deleted_at')
+            ->whereRaw('tr.due_date > CURDATE()')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
 }
