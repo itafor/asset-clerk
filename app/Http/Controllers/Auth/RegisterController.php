@@ -83,14 +83,14 @@ class RegisterController extends Controller
             'reference' => generateUUID(),
             'amount' => 0.00
         ]);
-
         Subscription::create([
             'user_id' => $user->id,
             'transaction_id' => $transaction->uuid,
             'start' => date('Y-m-d H:i:s'),
             'end' => date('Y-m-d H:i:s', strtotime('+1 months')),
             'reference' => $transaction->reference,
-            'plan_id' => $transaction->plan_id
+            'plan_id' => $transaction->plan_id,
+            'status' => 'Active'
         ]);
 
         try{
