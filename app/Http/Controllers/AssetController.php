@@ -16,6 +16,7 @@ class AssetController extends Controller
     public function index(Request $request)
     {
         $plan = getUserPlan();
+
         $limit = $plan['details']->properties;
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
