@@ -31,6 +31,11 @@
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
+    <style>
+        .dt-login__bg-section:before {
+            background-color: #87CEEB !important;
+        }
+    </style>
 </head>
 <body class="dt-sidebar--fixed dt-header--fixed">
 

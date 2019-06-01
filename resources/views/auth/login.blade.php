@@ -31,6 +31,11 @@
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
+    <style>
+        .dt-login__bg-section:before {
+            background-color: #87CEEB !important;
+        }
+    </style>
 </head>
 <body class="dt-sidebar--fixed dt-header--fixed">
 
@@ -54,7 +59,7 @@
         <div class="dt-login__content-wrapper">
 
             <!-- Login Background Section -->
-            <div class="dt-login__bg-section" style="background-image: none !important">
+            <div class="dt-login__bg-section" style="background-image: none !important; background-color: #87CEEB">
 
                 <div class="dt-login__bg-content">
                     <!-- Login Title -->

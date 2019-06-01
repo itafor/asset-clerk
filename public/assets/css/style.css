@@ -1,5 +1,5 @@
 .datepicker {
-    border-radius: .375rem;
+    border-radius: 0.375rem;
 
     direction: ltr;
 }
@@ -26,7 +26,8 @@
 
     padding: 20px 22px;
 
-    box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .1);
+    box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1),
+        0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .datepicker-dropdown.datepicker-orient-left:before {
@@ -85,17 +86,17 @@
 .datepicker table tr th {
     font-weight: 500;
 
-    border-radius: .375rem;
+    border-radius: 0.375rem;
 }
 
 .datepicker table tr td,
 .datepicker table tr th {
-    font-size: .875rem;
+    font-size: 0.875rem;
 
     width: 36px;
     height: 36px;
 
-    transition: all .15s ease;
+    transition: all 0.15s ease;
     text-align: center;
 
     border: none;
@@ -251,7 +252,7 @@
 .datepicker table tr td span.active:hover,
 .datepicker table tr td span.active.disabled,
 .datepicker table tr td span.active.disabled:hover {
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .datepicker table tr td span.old,
@@ -293,4 +294,41 @@
 
 .hide {
     display: none;
+}
+
+.bg-gradient-orange {
+    background: rgb(240, 175, 89);
+    background: -moz-linear-gradient(
+        90deg,
+        rgba(240, 175, 89, 1) 0%,
+        rgba(255, 153, 10, 1) 50%,
+        rgba(255, 132, 0, 1) 100%
+    );
+    background: -webkit-linear-gradient(
+        90deg,
+        rgba(240, 175, 89, 1) 0%,
+        rgba(255, 153, 10, 1) 50%,
+        rgba(255, 132, 0, 1) 100%
+    );
+    background: linear-gradient(
+        90deg,
+        rgba(240, 175, 89, 1) 0%,
+        rgba(255, 153, 10, 1) 50%,
+        rgba(255, 132, 0, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f0af59",endColorstr="#ff8400",GradientType=1);
+}
+
+.dt-brand {
+    color: #7a7a7a !important;
+    background-color: #fff !important;
+}
+
+table thead tr th{
+    background-color: #013365;
+    color: #fff !important;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #bff2ff !important;
 }

@@ -40,6 +40,18 @@ class UtilsController extends Controller
         return response()->json($sc);
     }
 
+    public function fetchServiceChargeByProperty($property)
+    {
+        $asset = Asset::where('uuid', $property)->first();
+        if($asset){
+            $sc = ServiceCharge::join('asset_service_charges as ac', 'ac.service_charge_id', '=', 'service_charges.id')
+            ->where('ac.asset_id', $asset->id)->orderBy('name')->select('service_charges.*', 'ac.price')->get();
+            return response()->json($sc);
+        } else{
+            return [];
+        }
+    }
+
     public function searchUsers(Request $request)
     {
         $data = [];

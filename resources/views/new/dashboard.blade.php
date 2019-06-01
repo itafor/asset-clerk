@@ -13,7 +13,7 @@
             <div class="dt-card dt-card__full-height">
 
             <!-- Card Body -->
-            <div class="dt-card__body bg-gradient-purple text-white">
+            <div class="dt-card__body bg-gradient-orange text-white">
                 <!-- Media -->
                 <a href="{{route('asset.index')}}">
                     <div class="media">
@@ -65,7 +65,7 @@
         <div class="col-xl-4 col-sm-4">
 
             <!-- Card -->
-            <div class="dt-card dt-card__full-height bg-gradient-blueberry">
+            <div class="dt-card dt-card__full-height bg-gradient-orange">
 
             <!-- Card Body -->
             <div class="dt-card__body">
@@ -107,7 +107,7 @@
 
                 <!-- Media Body -->
                 <div class="media-body">
-                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getTotalAgents())}}</h2>
+                    <h2 class="display-3 font-weight-semibold text-white mb-1 init-counter">{{number_format(getTotalAgents())}}</h2>
                     <span class="d-block text-white">Agents</span>
                 </div>
                 <!-- /media body -->
@@ -130,7 +130,7 @@
             <div class="dt-card dt-card__full-height">
 
                 <!-- Card Body -->
-                <div class="dt-card__body bg-gradient-blue">
+                <div class="dt-card__body bg-gradient-orange">
                     <!-- Media -->
                     <div class="media">
                         <i class="icon icon-card display-5 icon-5x mr-6 align-self-center"></i>

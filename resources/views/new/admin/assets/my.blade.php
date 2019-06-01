@@ -77,8 +77,8 @@
                                         </form> 
                                     </div>
                                 </div>
-                                @include('admin.assets.partials.assign')
-                                @include('admin.assets.partials.units')
+                                @include('new.admin.assets.partials.assign')
+                                @include('new.admin.assets.partials.units')
                         </tr>
                     @endforeach
                     </tbody>
@@ -98,8 +98,8 @@
 
         </div>
         <!-- /grid -->
-        @include('admin.assets.partials.service')
-        @include('admin.assets.partials.addUnit')
+        @include('new.admin.assets.partials.service')
+        @include('new.admin.assets.partials.addUnit')
 @endsection
 
 @section('script')
@@ -224,41 +224,58 @@
                 '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
                     +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
                     +'<div style="clear:both"></div>'
-                    +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
-                    +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
-                    +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
-                    +'        <option value="">Select Category</option>'
-                    +'        @foreach (getCategories() as $cat)'
-                    +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
-                    +'        @endforeach'
-                    +'    </select>'
+                    +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                        +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-category">{{ __('Property Type') }}</label>'
+                        +'    <select name="unit['+rowId+'][property_type]"  class="form-control select'+rowId+'" required>'
+                        +'        <option value="">Select Property Type</option>'
+                        +'        @foreach (getPropertyTypes() as $pt)'
+                        +'            <option value="{{$pt->id}}">{{$pt->name}}</option>'
+                        +'        @endforeach'
+                        +'    </select>'
 
-                    +'    @if ($errors->has('category'))'
-                    +'        <span class="invalid-feedback" role="alert">'
-                    +'            <strong>{{ $errors->first('category') }}</strong>'
-                    +'        </span>'
-                    +'    @endif'
-                    +'</div>'
-                    +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}" style="width:31%; float:left; margin-right:25px">'
-                    +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
-                    +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
-                    +'    @if ($errors->has('quantity'))'
-                    +'        <span class="invalid-feedback" role="alert">'
-                    +'            <strong>{{ $errors->first('quantity') }}</strong>'
-                    +'        </span>'
-                    +'    @endif'
-                    +'</div>         '          
-                    +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }}" style="width:31%; float:left">'
-                    +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
-                    +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+                        +'    @if ($errors->has('property_type'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('property_type') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>'
+                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
+                        +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
+                        +'        <option value="">Select Category</option>'
+                        +'        @foreach (getCategories() as $cat)'
+                        +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
+                        +'        @endforeach'
+                        +'    </select>'
 
-                    +'    @if ($errors->has('standard_price'))'
-                    +'        <span class="invalid-feedback" role="alert">'
-                    +'            <strong>{{ $errors->first('standard_price') }}</strong>'
-                    +'        </span>'
-                    +'    @endif'
+                        +'    @if ($errors->has('category'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('category') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>'
+                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
+                        +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
+                        +'    @if ($errors->has('quantity'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('quantity') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>         '          
+                        +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
+                        +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+
+                        +'    @if ($errors->has('standard_price'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('standard_price') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>'
+                        +'<div style="clear:both"></div>'
                     +'</div>'
-                    +'<div style="clear:both"></div>'
                 +'</div>'
             );
             row++;
