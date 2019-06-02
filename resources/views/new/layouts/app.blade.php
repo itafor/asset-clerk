@@ -53,6 +53,9 @@
         .heading-small{
             font-weight: bold
         }
+        .theme-semidark .dt-brand:before {
+            background-color: #fff !important;
+        }
     </style>
     @yield('style')
 </head>

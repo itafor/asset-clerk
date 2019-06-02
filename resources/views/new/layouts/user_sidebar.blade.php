@@ -3,9 +3,9 @@
     <div class="dt-sidebar__container container-fluid">
 
         <!-- Sidebar Notification -->
-        <div class="dt-sidebar__notification  d-none d-lg-block">
+        {{-- <div class="dt-sidebar__notification  d-none d-lg-block"> --}}
             <!-- Dropdown -->
-            <div class="dropdown mb-6" id="user-menu-dropdown">
+            {{-- <div class="dropdown mb-6" id="user-menu-dropdown">
 
                 <!-- Dropdown Link -->
                 <a href="#" class="dropdown-toggle dt-avatar-wrapper text-body"
@@ -35,7 +35,7 @@
                 </div>
                 <!-- /dropdown option -->
 
-            </div>
+            </div> --}}
             <!-- /dropdown -->
 
 
@@ -50,7 +50,7 @@
                 <a href="javascript:void(0)" class="dt-list__link"><i class="icon icon-chat-new icon-xl"></i></a>
               </li>
             </ul> --}}
-        </div>
+        {{-- </div> --}}
         <!-- /sidebar notification -->
 
         <!-- Sidebar Navigation -->
@@ -74,12 +74,12 @@
             <!-- Sub-menu -->
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{route('asset.my')}}" class="dt-side-nav__link" title="My Assets">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">My Assets</span> </a>
+                    <a href="{{route('asset.index')}}" class="dt-side-nav__link" title="Asset List">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List Assets</span> </a>
                 </li>
                 <li class="dt-side-nav__item">
-                    <a href="{{route('asset.index')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                    <a href="{{route('asset.my')}}" class="dt-side-nav__link" title="My Assets">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">My Assets</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">

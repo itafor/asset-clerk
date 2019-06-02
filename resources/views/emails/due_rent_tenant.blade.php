@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>New Rental | Asset Clerk</title>
+    <title>Rent Due in 30 Days | Asset Clerk</title>
     
     <style>
     .invoice-box {
@@ -122,14 +122,11 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
-                                <b>Address:</b><br>
-                               {{$rental->unit->getTenant()->address}}
-                            </td>
-                            
-                            <td style="text-align:right">
-                                {{$rental->unit->getTenant()->name()}} <br>
-                                {{$rental->unit->getTenant()->email}}
+                            <td colspan="2">
+                                Dear {{$rental->unit->getTenant()->firstname}},
+                                <p>
+                                  Kindly be notified that your rent will be due in 30 days. Please find below rental information.
+                                </p>
                             </td>
                         </tr>
                     </table>

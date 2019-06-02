@@ -62,8 +62,9 @@ class TenantRent extends Model
             'tenant_uuid' => $rental->tenant_uuid,
             'due_date' => $rental->due_date,
             'amount' => $rental->price,
+            'balance' => $rental->balance,
             'rent_id' => $rental->id,
-            'user_id' => auth()->id(),
+            'user_id' => getOwnerUserID(),
         ]);
     }
 

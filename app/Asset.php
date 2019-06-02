@@ -25,7 +25,7 @@ class Asset extends Model
         'building_age_id',
         'bedrooms',
         'bathrooms',
-        'uuid',
+        'uuid', 'construction_year',
         'user_id',
     ];
 
@@ -73,7 +73,7 @@ class Asset extends Model
             'city_id' => $data['city'],
             'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'building_age_id' => $data['building_age'],
+            'construction_year' => $data['construction_year'],
             'features' => implode(',',$data['features']),
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
@@ -95,7 +95,7 @@ class Asset extends Model
             'city_id' => $data['city'],
             'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'building_age_id' => $data['building_age'],
+            'construction_year' => $data['construction_year'],
             'features' => implode(',',$data['features'])
         ]); 
 

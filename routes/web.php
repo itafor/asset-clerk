@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
+			Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 		});
 		Route::prefix('maintenance')->group(function(){
 			Route::get('/', 'MaintenanceController@index')->name('maintenance.index');
@@ -124,13 +125,12 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('legal', 'ReportController@legal')->name('report.legal');
 	});
 
-	
-
 	Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 	Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 	Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 	Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
 	Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
+	Route::get('fetch-service-charge-by-property/{property}', 'UtilsController@fetchServiceChargeByProperty');
 	Route::get('search-users', 'UtilsController@searchUsers');
 	Route::get('verification', 'UtilsController@resendVerification')->name('verification');
 	Route::get('verify/{email}/{token}', 'UtilsController@verify');

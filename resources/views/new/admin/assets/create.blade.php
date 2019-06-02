@@ -224,7 +224,7 @@
                             <div class="row">
                                 <div class="form-group{{ $errors->has('photos') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-photos">{{ __('Photos of Property') }}</label>
-                                    <input type="file" multiple name="photos[]" id="input-photos" class="form-control {{ $errors->has('photos') ? ' is-invalid' : '' }}" required>
+                                    <input type="file" multiple name="photos[]" id="input-photos" class="form-control {{ $errors->has('photos') ? ' is-invalid' : '' }}">
 
                                     @if ($errors->has('photos'))
                                         <span class="invalid-feedback" role="alert">
@@ -242,18 +242,21 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('building_age') ? ' has-danger' : '' }} col-4">
+                                <div class="form-group{{ $errors->has('construction_year') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-category">{{ __('Year of Construction (Optional)') }}</label>
-                                    <select class="form-control" name="building_age">
+                                    <select class="form-control" name="construction_year">
                                         <option value="">Select Year</option>
-                                        @foreach (getBuildingAges() as $age)
+                                        @for ($i = date('Y'); $i > (date('Y') - 50) ; $i--)
+                                            <option value="{{$i}}" {{old('construction_year') == $i ? 'selected' : ''}}>{{$i}}</option>
+                                        @endfor
+                                        {{-- @foreach (getBuildingAges() as $age)
                                             <option value="{{$age->id}}">{{$age->name}}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
 
-                                    @if ($errors->has('building_age'))
+                                    @if ($errors->has('construction_year'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('building_age') }}</strong>
+                                            <strong>{{ $errors->first('construction_year') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -284,7 +287,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save Asset') }}</button>
                                 </div>
                             </div>
                         </form>
