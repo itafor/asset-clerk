@@ -3,53 +3,28 @@
 @section('content')
     <div class="row">
 
-    </div>
-    <div class="row">
-
         <!-- Grid Item -->
-        <div class="col-xl-4 col-sm-4">
+        <div class="col-xl-4 col-sm-6">
 
             <!-- Card -->
             <div class="dt-card dt-card__full-height">
 
             <!-- Card Body -->
-            <div class="dt-card__body bg-gradient-orange text-white">
+            <div class="dt-card__body">
                 <!-- Media -->
                 <a href="{{route('asset.index')}}">
-                    <div class="media">
-                        <i class="icon icon-company text-geekblue icon-5x mr-6 align-self-center"></i>
+                <div class="media">
+                    
+                <i class="icon icon-company text-geekblue icon-5x mr-6 align-self-center"></i>
 
-                        <!-- Media Body -->
-                        <div class="media-body">
-                            <h2 class="display-3 font-weight-semibold text-white init-counter">{{number_format(getTotalAssets())}}</h2>
-                            <span class="d-block text-white">Active Properties</span>
-                        </div>
-                        <!-- /media body -->
-                    </div>
-                    <hr>
-                    <div class="media">
-                        <i class="icon icon-company text-primary icon-5x mr-6 align-self-center"></i>
+                <!-- Media Body -->
+                <div class="media-body">
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getTotalAssets())}}</h2>
+                    <span class="d-block text-light-gray">Active Properties</span>
+                </div>
+                <!-- /media body -->
 
-                        <!-- Media Body -->
-                        <div class="media-body">
-                            <h2 class="display-3 font-weight-semibold mb-1 text-white init-counter">{{number_format(getSlots()['totalSlots'])}}</h2>
-                            <span class="d-block text-white">Total Slots</span>
-                        </div>
-                        <!-- /media body -->
-                    </div>
-                    <hr>
-                    <div class="media">
-
-                        <i class="icon icon-company text-geekblue icon-5x mr-6 align-self-center"></i>
-
-                        <!-- Media Body -->
-                        <div class="media-body">
-                            <h2 class="display-3 font-weight-semibold mb-1 text-white init-counter">{{number_format(getSlots()['availableSlots'])}}</h2>
-                            <span class="d-block text-white">Available Slots</span>
-                        </div>
-                        <!-- /media body -->
-
-                    </div>
+                </div>
                 </a>
                 <!-- /media -->
             </div>
@@ -62,10 +37,72 @@
         <!-- /grid item -->
 
         <!-- Grid Item -->
-        <div class="col-xl-4 col-sm-4">
+        <div class="col-xl-4 col-sm-6">
 
             <!-- Card -->
-            <div class="dt-card dt-card__full-height bg-gradient-orange">
+            <div class="dt-card dt-card__full-height">
+
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <div class="media">
+
+                <i class="icon icon-company text-primary icon-5x mr-6 align-self-center"></i>
+
+                <!-- Media Body -->
+                <div class="media-body">
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getSlots()['totalSlots'])}}</h2>
+                    <span class="d-block text-light-gray">Total Slots</span>
+                </div>
+                <!-- /media body -->
+
+                </div>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
+        <!-- /grid item -->
+
+        <!-- Grid Item -->
+        <div class="col-xl-4 col-sm-6">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
+
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <div class="media">
+
+                <i class="icon icon-company text-geekblue icon-5x mr-6 align-self-center"></i>
+
+                <!-- Media Body -->
+                <div class="media-body">
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getSlots()['availableSlots'])}}</h2>
+                    <span class="d-block text-light-gray">Available Slots</span>
+                </div>
+                <!-- /media body -->
+
+                </div>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
+        <!-- /grid item -->
+
+        <!-- Grid Item -->
+        <div class="col-xl-4 col-sm-6">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
 
             <!-- Card Body -->
             <div class="dt-card__body">
@@ -73,42 +110,12 @@
                 <a href="{{route('tenant.index')}}">
                 <div class="media">
 
-                <i class="icon icon-user-o text-white icon-5x mr-6 align-self-center"></i>
-
-                <!-- Media Body -->
-                <div class="media-body">
-                    <h2 class="display-3 font-weight-semibold mb-1 text-white init-counter">{{number_format(getTotalTenants())}}</h2>
-                    <span class="d-block text-white">Tenants</span>
-                </div>
-                <!-- /media body -->
-
-                </div>
-                </a>
-                <hr>
-                <a href="{{route('landlord.index')}}">
-                <div class="media">
-
                 <i class="icon icon-user-o text-geekblue icon-5x mr-6 align-self-center"></i>
 
                 <!-- Media Body -->
                 <div class="media-body">
-                    <h2 class="display-3 font-weight-semibold mb-1 text-white init-counter">{{number_format(getTotalLandlords())}}</h2>
-                    <span class="d-block text-white">Landlords</span>
-                </div>
-                <!-- /media body -->
-
-                </div>
-                </a>
-                <hr>
-                <a href="{{route('subs.index')}}">
-                <div class="media">
-
-                <i class="icon icon-user-o text-white icon-5x mr-6 align-self-center"></i>
-
-                <!-- Media Body -->
-                <div class="media-body">
-                    <h2 class="display-3 font-weight-semibold text-white mb-1 init-counter">{{number_format(getTotalAgents())}}</h2>
-                    <span class="d-block text-white">Agents</span>
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getTotalTenants())}}</h2>
+                    <span class="d-block text-light-gray">Tenants</span>
                 </div>
                 <!-- /media body -->
 
@@ -122,78 +129,140 @@
             <!-- /card -->
 
         </div>
-
+        <!-- /grid item -->
         <!-- Grid Item -->
-        <div class="col-xl-4 col-sm-4">
+        <div class="col-xl-4 col-sm-6">
 
             <!-- Card -->
             <div class="dt-card dt-card__full-height">
 
-                <!-- Card Body -->
-                <div class="dt-card__body bg-gradient-orange">
-                    <!-- Media -->
-                    <div class="media">
-                        <i class="icon icon-card display-5 icon-5x mr-6 align-self-center"></i>
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <a href="{{route('landlord.index')}}">
+                <div class="media">
 
-                        <!-- Media Body -->
-                        <div class="media-body">
-                            <div style="float: left">
-                                <span class="d-block display-5" style="font-size:16px">Due Payments</span>
-                                <h2 class="display-5 text-white font-weight-semibold mb-1 init-counter">{{number_format(getDuePayments(),2)}}</h2>
-                                <span class="d-block display-5">No. of Tenants: {{number_format(getDebtors())}}</span>
-                            </div>
+                <i class="icon icon-user-o text-geekblue icon-5x mr-6 align-self-center"></i>
 
-                            <div style="float:right">
-                                <a href="{{route('payment.index')}}" class="btn btn-warning text-white">View Payments</a>
-                            </div>
-                        </div>
-                        <!-- /media body -->
-                    </div>
-                    <!-- /media -->
-                    <hr>
-                    <!-- Media -->
-                    <div class="media">
-                        <i class="icon icon-card display-5 icon-5x mr-6 align-self-center"></i>
-
-                        <!-- Media Body -->
-                        <div class=" media-body">
-                            <div style="float:left">
-                                <span class="d-block display-5" style="font-size:16px">Past Due Payments</span>
-                                <h2 class="display-5 text-white font-weight-semibold mb-1 init-counter">{{number_format(getDuePayments(true),2)}}</h2>
-                                <span class="d-block display-5">No. of Tenants: {{number_format(getDebtors(true))}}</span>
-                            </div>
-
-                            <div style="float:right">
-                                <a href="{{route('payment.index')}}" class="btn btn-warning text-white">View Payments</a>
-                            </div>
-                        </div>
-                        <!-- /media body -->
-                    </div>
-                    <!-- /media -->
-                    <hr>
-                    <!-- Media -->
-                    <div class="media">
-                        <i class="icon icon-card display-5 icon-5x mr-6 align-self-center"></i>
-
-                        <!-- Media Body -->
-                        <div class=" media-body">
-                            <div style="float:left">
-                                <span class="d-block display-5" style="font-size:16px"><b>Collections</b></span>
-                                <span class="d-block display-5 mb-2">Current Month: &#8358; 34,000,000.00</span>
-                                <span class="d-block display-5 mb-2">Commission: &#8358; 1,700,000.00</span>
-                            </div>
-                        </div>
-                        <!-- /media body -->
-                    </div>
-                    <!-- /media -->
+                <!-- Media Body -->
+                <div class="media-body">
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getTotalLandlords())}}</h2>
+                    <span class="d-block text-light-gray">Landlords</span>
                 </div>
-                <!-- /card body -->
+                <!-- /media body -->
+
+                </div>
+                </a>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
 
             </div>
             <!-- /card -->
 
         </div>
         <!-- /grid item -->
+
+        <!-- Grid Item -->
+        <div class="col-xl-4 col-sm-6">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
+
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <a href="{{route('subs.index')}}">
+                <div class="media">
+
+                <i class="icon icon-user-o text-geekblue icon-5x mr-6 align-self-center"></i>
+
+                <!-- Media Body -->
+                <div class="media-body">
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getTotalAgents())}}</h2>
+                    <span class="d-block text-light-gray">Agents</span>
+                </div>
+                <!-- /media body -->
+
+                </div>
+                </a>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
+        <!-- /grid item -->
+        
+        <!-- Grid Item -->
+        <div class="col-xl-4 col-sm-6">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
+
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <a href="{{route('tenant.index')}}">
+                <div class="media">
+
+                <i class="icon icon-card text-geekblue icon-5x mr-6 align-self-center"></i>
+
+                <!-- Media Body -->
+                <div class="media-body">
+                    <span class="d-block text-light-gray">Due Payments</span>
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getDuePayments(),2)}}</h2>
+                    <span class="d-block text-light-gray">No. of Tenants: {{number_format(getDebtors())}}</span>
+                </div>
+                <!-- /media body -->
+
+                </div>
+                </a>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
+        <!-- /grid item -->
+        <!-- Grid Item -->
+        <div class="col-xl-4 col-sm-6">
+
+            <!-- Card -->
+            <div class="dt-card dt-card__full-height">
+
+            <!-- Card Body -->
+            <div class="dt-card__body">
+                <!-- Media -->
+                <a href="{{route('landlord.index')}}">
+                <div class="media">
+
+                <i class="icon icon-card text-geekblue icon-5x mr-6 align-self-center"></i>
+
+                <!-- Media Body -->
+                <div class="media-body">
+                    <span class="d-block text-light-gray">Past Due Payments</span>
+                    <h2 class="display-3 font-weight-semibold mb-1 init-counter">{{number_format(getDuePayments(true),2)}}</h2>
+                    <span class="d-block text-light-gray">No. of Tenants: {{number_format(getDebtors(true))}}</span>
+                </div>
+                <!-- /media body -->
+
+                </div>
+                </a>
+                <!-- /media -->
+            </div>
+            <!-- /card body -->
+
+            </div>
+            <!-- /card -->
+
+        </div>
+        <!-- /grid item -->
+
 
     </div>
     <div class="row">
