@@ -65,7 +65,7 @@
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a href="{{ route('payment.edit', ['uuid'=>$payment->uuid]) }}" class="dropdown-item">Edit</a>
+                                        {{-- <a href="{{ route('payment.edit', ['uuid'=>$payment->uuid]) }}" class="dropdown-item">Edit</a> --}}
                                         <form action="{{ route('payment.delete', ['uuid'=>$payment->uuid]) }}" method="get">
                                             
                                             <button type="button" class="dropdown-item" onclick="confirm('Are you sure you want to delete this payment?') ? this.parentElement.submit() : ''">

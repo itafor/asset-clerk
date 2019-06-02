@@ -16,6 +16,7 @@ class AssetController extends Controller
     public function index(Request $request)
     {
         $plan = getUserPlan();
+
         $limit = $plan['details']->properties;
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
@@ -51,7 +52,6 @@ class AssetController extends Controller
             'city' => 'required',
             'address' => 'required',
             'detailed_information' => 'required',
-            'building_age' => 'required',
             'features.*' => 'required',
             'photos.*' => 'image',
             'commission' => 'required|numeric',
@@ -98,7 +98,6 @@ class AssetController extends Controller
             'city' => 'required',
             'address' => 'required',
             'detailed_information' => 'required',
-            'building_age' => 'required',
             // 'bedrooms' => 'required',
             // 'bathrooms' => 'required',
             'features.*' => 'required',

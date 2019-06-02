@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\RentDue;
+use App\Unit;
+use Carbon\Carbon;
 
 class Payment extends Model
 {
@@ -37,6 +40,30 @@ class Payment extends Model
 
     public static function createNew($data) 
     {
+        $rentalID = env('RENTAL_ID'); // Payment Type: Rental
+        if($data['payment_type'] == $rentalID){ //Payment is rental
+            $unit = Unit::where('uuid', $data['unit'])->first();
+            $rental = $unit->getRental();
+            $rent = RentDue::where([
+                ['tenant_uuid', $unit->getTenant()->uuid],
+                ['rent_id', $rental->id],
+                ['status', 'pending'],
+            ])->latest()->first();
+
+            if($rent){
+                $rent->amount_paid += $data['amount'];
+                if($rent->balance == $data['amount']){
+                    $rent->status = 'paid';
+                    $rent->balance = 0;
+                    $rent->payment_date = formatDate($data['payment_date'], 'm/d/Y', 'Y-m-d');
+                    self::addNewRentPayment($rental, $data);
+                } elseif($rent->balance > $data['amount']){
+                    $rent->balance -= $data['amount'];
+                }
+                $rent->save();
+            }
+        }
+
         return self::create([
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
@@ -47,6 +74,21 @@ class Payment extends Model
             'payment_description' => $data['description'],
             'service_charge_id' => $data['service_charge'],
             'payment_date' => formatDate($data['payment_date'], 'm/d/Y', 'Y-m-d'),
+        ]);
+    }
+
+    public static function addNewRentPayment($rental, $data)
+    {
+        $date = Carbon::parse($rental->due_date);
+        $dueDate = $date->addYears($rental->duration);
+        RentDue::create([
+            'status' => 'pending',
+            'tenant_uuid' => $rental->tenant_uuid,
+            'due_date' => $dueDate,
+            'amount' => $rental->price,
+            'balance' => $rental->price,
+            'rent_id' => $rental->id,
+            'user_id' => getOwnerUserID(),
         ]);
     }
 

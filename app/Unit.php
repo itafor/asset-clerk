@@ -16,6 +16,11 @@ class Unit extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    
+    public function propertyType()
+    {
+        return $this->belongsTo(PropertyType::class);
+    }
 
     public function isRented()
     {

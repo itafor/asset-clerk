@@ -325,18 +325,18 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('building_age') ? ' has-danger' : '' }} col-4">
+                                <div class="form-group{{ $errors->has('construction_year') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-category">{{ __('Year of Construction (Optional)') }}</label>
-                                    <select class="form-control" name="building_age">
+                                    <select class="form-control" name="construction_year">
                                         <option value="">Select Year</option>
-                                        @foreach (getBuildingAges() as $age)
-                                            <option value="{{$age->id}}" {{$age->id == $asset->building_age_id ? 'selected' : ''}}>{{$age->name}}</option>
-                                        @endforeach
+                                        @for ($i = date('Y'); $i > (date('Y') - 50) ; $i--)
+                                            <option value="{{$i}}" {{old('construction_year',$asset->construction_year) == $i ? 'selected' : ''}}>{{$i}}</option>
+                                        @endfor
                                     </select>
 
-                                    @if ($errors->has('building_age'))
+                                    @if ($errors->has('construction_year'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('building_age') }}</strong>
+                                            <strong>{{ $errors->first('construction_year') }}</strong>
                                         </span>
                                     @endif
                                 </div>

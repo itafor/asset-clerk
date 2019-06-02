@@ -78,7 +78,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="hide col-6 service">
+                                    {{-- <div class="hide col-6 service">
                                         <div class="form-group">
                                             <label class="form-control-label" for="input-category">{{ __('Type') }}<span class="text-danger">*</span></label>
                                             <div>
@@ -89,7 +89,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="hide col-6 service">
                                         <div class="form-group{{ $errors->has('service_charge') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-service_charge">{{ __('Service Charge') }}<span class="text-danger">*</span></label>
@@ -284,9 +284,36 @@
             }
         });
 
+        $('body').on('change', '#input-service_charge', function(){
+            var price = $("#input-service_charge option:selected").attr('data-price');
+            $('#input-amount').val(price);
+        });
+
         $('#input-pt').change(function() {
             var type = $("#input-pt option:selected").text();
             if(type == 'Service Charge'){
+                var property = $('#property').val();
+                if(property){
+                    $('#input-service_charge').empty();
+                    $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
+                    $.ajax({
+                        url: baseUrl+'/fetch-service-charge-by-property/'+property,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#input-service_charge').empty();
+                            $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
+                            $.each(data, function(k, v) {
+                                $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge').attr('data-price', v.price);
+                            });
+                        }
+                    });
+                } else {
+                    toast({
+                        type: 'info',
+                        title: 'Please select property'
+                    })
+                }
                 $('.service').removeClass('hide');
                 $("#input-service_charge, .sc_type").select2({
                     theme: "bootstrap"

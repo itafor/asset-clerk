@@ -8,6 +8,7 @@ use DB;
 use App\TenantRent;
 use Mail;
 use App\Mail\RentalCreated;
+use App\Mail\DueRentTenant;
 
 class RentalController extends Controller
 {
@@ -85,5 +86,27 @@ class RentalController extends Controller
     public function approvals()
     {
         return view('admin.rental.approvals');
+    }
+
+    /**
+     * Cron Job for rent due in 30 Days
+     * Send landlord list of due rents
+     * Send tentant due rent
+     *
+     * @return void
+     */
+    public function notifyDueRent()
+    {
+        $dueRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
+        ->where('rd.status', 'pending')
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 30 DAY) = rd.due_date") 
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+
+        foreach($dueRentals as $rental) {
+            $toEmail = $rental->tenant->email;
+            Mail::to($toEmail)->send(new DueRentTenant($rental));
+        }
+
+        return 'done';
     }
 }
