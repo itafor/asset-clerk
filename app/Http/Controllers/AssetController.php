@@ -292,10 +292,10 @@ class AssetController extends Controller
 
     public function serviceCharges()
     {
-        // $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-        // ->where('assets.user_id', getOwnerUserID())->with('asset')
-        // ->select('asset_service_charges.*')
-        // ->get();
+         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->select('asset_service_charges.*')
+         ->get();
 
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
@@ -305,7 +305,8 @@ class AssetController extends Controller
         ->where('assets.user_id', getOwnerUserID())->limit($limit);
 
         $data = [
-            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get()
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get(),
+            'charges' => $charges
         ];
         return view('new.admin.assets.service_charges', $data);
     }

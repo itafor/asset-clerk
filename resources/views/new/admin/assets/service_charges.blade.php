@@ -64,7 +64,7 @@
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">Add Service Charge</a>
+                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">View & Add Service Charge</a>
                                     </div>
                                 </div>
                                 @include('admin.assets.partials.assign')

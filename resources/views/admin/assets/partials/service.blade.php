@@ -1,6 +1,33 @@
 <div class="modal fade" id="serviceModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
+                <div class="modal-body" style="text-align:left">
+                    <div class="table-responsive" style="padding:15px">
+                        <table class="table align-items-center table-flush datatable">
+                            <thead class="thead-blue">
+                            <tr>
+                                <th>No</th>
+                                <th><b>Asset</b></th>
+                                <th><b>Service Charge</b></th>
+                                <th>Type</th>
+                                <th><b>Amount</b></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($charges as $charge)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$charge->asset->description}}</td>
+                                    <td>{{$charge->serviceCharge->name}}</td>
+                                    <td>{{ucwords($charge->serviceCharge->type)}}</td>
+                                    <td>&#8358; {{number_format($charge->price,2)}}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
                 <form id="forms" action="{{route('asset.service.add')}}" method="POST">
                     @csrf
                     <input type="hidden" name="asset" id="asset">
@@ -48,6 +75,7 @@
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 </form>
+
             </div>
         </div>
     </div>
