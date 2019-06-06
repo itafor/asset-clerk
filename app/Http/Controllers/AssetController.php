@@ -248,9 +248,9 @@ class AssetController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
         $asset = Asset::find($request['asset']);
+
         if($asset){
             foreach($request['service'] as $unit){
-
                 $exists = AssetServiceCharge::where([
                     ['asset_id', $asset->id],
                     ['service_charge_id', $unit['service_charge']],
@@ -259,7 +259,7 @@ class AssetController extends Controller
                 if(count($exists) > 0){
                     return back()->with('error', 'Service charge already added');
                 }
-                Asset::addServiceCharge($request->all(). $asset);
+                Asset::addServiceCharge($request->all(), $asset);
             }
             return back()->with('success', 'Service charge added successfully');
         }
