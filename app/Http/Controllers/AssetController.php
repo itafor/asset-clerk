@@ -33,8 +33,13 @@ class AssetController extends Controller
 
     public function create()
     {
+        $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->select('asset_service_charges.*')
+         ->get();
+
         chekUserPlan('property');
-        return view('new.admin.assets.create');
+        return view('new.admin.assets.create', compact('charges'));
     }
 
     public function store(Request $request)

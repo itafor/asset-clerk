@@ -114,7 +114,7 @@
                             </div>
 
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Office Location') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Office Address') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('office_country') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-country">{{ __('Country') }}</label>

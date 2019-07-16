@@ -29,7 +29,7 @@ class Maintenance extends Model
         self::create([
             'tenant_id' => $data['customer'],
             'building_section' => $data['building_section'],
-            'reported_date' => formatDate($data['reported_date'], 'm/d/Y', 'Y-m-d'),
+            'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
             'category' => $data['category'],
             'description' => $data['fault_description'],
             'asset_description_uuid' => $data['asset_description'],
@@ -44,7 +44,7 @@ class Maintenance extends Model
         self::where('uuid', $data['uuid'])->update([
             'tenant_id' => $data['customer'],
             'building_section' => $data['building_section'],
-            'reported_date' => formatDate($data['reported_date'], 'm/d/Y', 'Y-m-d'),
+            'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
             'category' => $data['category'],
             'description' => $data['fault_description'],
             'asset_description_uuid' => $data['asset_description'],

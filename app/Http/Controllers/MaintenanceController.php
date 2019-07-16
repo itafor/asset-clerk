@@ -27,7 +27,7 @@ class MaintenanceController extends Controller
             'category' => 'required',
             'asset_description' => 'required',
             'building_section' => 'required',
-            'reported_date' => 'required|date_format:"m/d/Y"',
+            'reported_date' => 'required|date_format:"d/m/Y"',
             'status' => 'required',
             'fault_description' => 'required',
         ]);
@@ -75,7 +75,7 @@ class MaintenanceController extends Controller
             'category' => 'required',
             'asset_description' => 'required',
             'building_section' => 'required',
-            'reported_date' => 'required|date_format:"m/d/Y"',
+            'reported_date' => 'required|date_format:"d/m/Y"',
             'status' => 'required',
             'fault_description' => 'required',
             'uuid' => 'required',

@@ -45,7 +45,7 @@ class Tenant extends Model
             'gender' => $data['gender'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
-            'date_of_birth' => formatDate($data['date_of_birth'], 'm/d/Y', 'Y-m-d'),
+            'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
             'occupation' => $data['occupation'],
             'office_country_id' => $data['office_country'],
             'office_state_id' => $data['office_state'],
@@ -69,7 +69,7 @@ class Tenant extends Model
         $tenant->gender = $data['gender'];
         $tenant->firstname = $data['firstname'];
         $tenant->lastname = $data['lastname'];
-        $tenant->date_of_birth = formatDate($data['date_of_birth'], 'm/d/Y', 'Y-m-d');
+        $tenant->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
         $tenant->occupation = $data['occupation'];
         $tenant->office_country_id = $data['office_country'];
         $tenant->office_state_id = $data['office_state'];
