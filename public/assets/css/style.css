@@ -332,3 +332,8 @@ table thead tr th{
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #bff2ff !important;
 }
+
+.btn-default {
+    background-color: #777 !important;
+    color: #fff !important;
+}

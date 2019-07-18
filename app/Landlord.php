@@ -13,7 +13,7 @@ class Landlord extends Model
     protected $fillable = [
         'designation', 'gender', 'firstname','lastname','date_of_birth','occupation','address','state','phone',
         'agent_id','referral_code','photo','user_id', 'asset_id', 'asset_description', 'price', 'asset_address',
-        'country_id', 'state_id', 'city_id', 'uuid', 'user_id', 'email'
+        'country_id', 'state_id', 'city_id', 'uuid', 'user_id', 'email', 'occupation_id'
     ];
     public function Asset(){
         return $this->hasMany('App\Asset');
@@ -36,8 +36,8 @@ class Landlord extends Model
             'gender' => $data['gender'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
-            'date_of_birth' => formatDate($data['date_of_birth'], 'm/d/Y', 'Y-m-d'),
-            'occupation' => $data['occupation'],
+            'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
+            'occupation_id' => $data['occupation'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
@@ -57,8 +57,8 @@ class Landlord extends Model
         $landlord->gender = $data['gender'];
         $landlord->firstname = $data['firstname'];
         $landlord->lastname = $data['lastname'];
-        $landlord->date_of_birth = formatDate($data['date_of_birth'], 'm/d/Y', 'Y-m-d');
-        $landlord->occupation = $data['occupation'];
+        $landlord->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
+        $landlord->occupation_id = $data['occupation'];
         $landlord->country_id = $data['country'];
         $landlord->state_id = $data['state'];
         $landlord->city_id = $data['city'];

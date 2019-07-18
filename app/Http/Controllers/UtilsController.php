@@ -7,6 +7,7 @@ use App\Asset;
 use App\ServiceCharge;
 use App\Unit;
 use App\User;
+use App\Tenant;
 use DB;
 use Mail;
 use App\Mail\EmailVerification;
@@ -136,6 +137,26 @@ class UtilsController extends Controller
             ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
             ->selectRaw('units.*, c.name, CONCAT(t.designation, " ", t.firstname, " ", t.lastname) as tenant')
             ->where('units.quantity_left', '>', 0)
+            ->whereNull('tr.deleted_at')
+            ->whereRaw('tr.due_date > CURDATE()')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+    
+    public function fetchTenantAsset($tenant)
+    {
+        $tenant = Tenant::find($tenant);
+        if($tenant){
+            $units = Unit::join('categories as c', 'c.id', '=', 'units.category_id')
+            ->join('assets as a', 'a.id', '=', 'units.asset_id')
+            ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')
+            ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
+            ->selectRaw('c.name as unit, a.description as asset, a.uuid as uuid')
+            ->where('tr.tenant_uuid', $tenant->uuid)
             ->whereNull('tr.deleted_at')
             ->whereRaw('tr.due_date > CURDATE()')
             ->get();
