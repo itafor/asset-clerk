@@ -168,7 +168,8 @@
             function init($this) {
                 var options = {
                     disableTouchKeyboard: true,
-                    autoclose: false
+                    autoclose: false,
+                    format: 'dd/mm/yyyy'
                 };
                 $this.datepicker(options);
             }

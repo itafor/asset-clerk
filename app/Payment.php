@@ -55,7 +55,7 @@ class Payment extends Model
                 if($rent->balance == $data['amount']){
                     $rent->status = 'paid';
                     $rent->balance = 0;
-                    $rent->payment_date = formatDate($data['payment_date'], 'm/d/Y', 'Y-m-d');
+                    $rent->payment_date = formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d');
                     self::addNewRentPayment($rental, $data);
                 } elseif($rent->balance > $data['amount']){
                     $rent->balance -= $data['amount'];
@@ -73,7 +73,7 @@ class Payment extends Model
             'payment_mode_id' => $data['payment_mode'],
             'payment_description' => $data['description'],
             'service_charge_id' => $data['service_charge'],
-            'payment_date' => formatDate($data['payment_date'], 'm/d/Y', 'Y-m-d'),
+            'payment_date' => formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d'),
         ]);
     }
 
@@ -102,7 +102,7 @@ class Payment extends Model
             'payment_mode_id' => $data['payment_mode'],
             'payment_description' => $data['description'],
             'service_charge_id' => $data['payment_type'] == $serviceChargeID ? $data['service_charge'] : null,
-            'payment_date' => formatDate($data['payment_date'], 'm/d/Y', 'Y-m-d'),
+            'payment_date' => formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d'),
         ]);
     }
 }

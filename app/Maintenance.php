@@ -20,6 +20,11 @@ class Maintenance extends Model
         return $this->belongsTo(BuildingSection::class,'building_section', 'id');
     }
 
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class, 'asset_description_uuid', 'uuid');
+    }
+
     public function categoryy(){
         return $this->belongsTo(Category::class,'category', 'id');
     }
@@ -29,8 +34,8 @@ class Maintenance extends Model
         self::create([
             'tenant_id' => $data['customer'],
             'building_section' => $data['building_section'],
-            'reported_date' => formatDate($data['reported_date'], 'm/d/Y', 'Y-m-d'),
-            'category' => $data['category'],
+            'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
+            // 'category' => $data['category'],
             'description' => $data['fault_description'],
             'asset_description_uuid' => $data['asset_description'],
             'status' => $data['status'],
@@ -44,8 +49,8 @@ class Maintenance extends Model
         self::where('uuid', $data['uuid'])->update([
             'tenant_id' => $data['customer'],
             'building_section' => $data['building_section'],
-            'reported_date' => formatDate($data['reported_date'], 'm/d/Y', 'Y-m-d'),
-            'category' => $data['category'],
+            'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
+            // 'category' => $data['category'],
             'description' => $data['fault_description'],
             'asset_description_uuid' => $data['asset_description'],
         ]);

@@ -57,7 +57,7 @@
         <ul class="dt-side-nav" style="margin-bottom:150px">
 
             <!-- Menu Header -->
-            <li class="dt-side-nav__item dt-side-nav__header">
+            <li class="dt-side-nav__item dt-side-nav__header"  style="padding-top:0">
                 <span class="dt-side-nav__text">main menu</span>
             </li>
             <!-- /menu header -->
