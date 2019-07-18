@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use App\PropertyType;
 use App\PaymentType;
 use App\PaymentMode;
+use App\Occupation;
 
 function generateUUID()
 {
@@ -323,4 +324,9 @@ function getPaymentTypes()
 function getPaymentModes()
 {
     return PaymentMode::all();
+}
+
+function getOccupations()
+{
+    return Occupation::orderBy('name')->get();
 }

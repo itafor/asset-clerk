@@ -101,8 +101,13 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
-                                    <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required>
-                                    
+                                    {{-- <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required> --}}
+                                    <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
+                                        <option value="">Select Occupation</option>
+                                        @foreach (getOccupations() as $oc)
+                                            <option value="{{$oc->id}}" {{old('occupation') == $oc->id ? 'selected' : ''}}>{{$oc->name}}</option>
+                                        @endforeach
+                                    </select>
                                     @if ($errors->has('occupation'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('occupation') }}</strong>
@@ -113,14 +118,14 @@
                             </div>
 
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Office Location') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Office Address') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('office_country') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-country">{{ __('Country') }}</label>
                                     <select name="office_country" class="form-control country" required>
                                         <option value="">Select Country</option>
                                         @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                            <option class="{{$c->sortname}}" value="{{$c->id}}">{{$c->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -165,7 +170,7 @@
                                     <select name="country" class="form-control country1" required>
                                         <option value="">Select Country</option>
                                         @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                            <option class="{{$c->sortname}}" value="{{$c->id}}">{{$c->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -347,6 +352,21 @@
                 });
             }
         });
+
+        function ipLookUp () {
+            $.ajax('http://ip-api.com/json')
+            .then(
+                function success(response) {
+                    $('.'+response.countryCode).attr('selected')
+                },
+
+                function fail(data, status) {
+                    console.log('Request failed.  Returned status of',
+                                status);
+                }
+            );
+        }
+        ipLookUp();
         
     </script>
 @endsection

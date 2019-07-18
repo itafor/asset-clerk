@@ -53,7 +53,7 @@
                             <td>{{$tenant->designation}}</td>
                             <td>{{$tenant->firstname}}</td>
                             <td>{{$tenant->lastname}}</td>
-                            <td>{{$tenant->occupation}}</td>
+                            <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td>
                             <td>{{$tenant->phone}}</td>
                             <td class="text-center">
                                 <div class="dropdown">

@@ -40,7 +40,7 @@ class RentalController extends Controller
             'unit' => 'required',
             'price' => 'required|numeric',
             'duration' => 'required|in:1,2,3,4,5',
-            'date' => 'required|date_format:"m/d/Y"'
+            'date' => 'required|date_format:"d/m/Y"'
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +54,7 @@ class RentalController extends Controller
             $toEmail = $rental->tenant->email;
             Mail::to($toEmail)->send(new RentalCreated($rental));
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             return back()->with('error', 'Whoops! An error occured. Please try again.');
         }

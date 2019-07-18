@@ -40,7 +40,7 @@
                             <div id="containerSC">
                             </div>   
                             <div class="form-group">
-                                <button type="button" id="addMoreSC" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
+                                <button type="button" id="addMoreSC" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                             </div>  
                 </div>
                 <div class="modal-footer">

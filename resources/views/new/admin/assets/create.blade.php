@@ -157,7 +157,7 @@
                                 <div id="container">
                                 </div>   
                                 <div class="form-group">
-                                    <button type="button" id="addMore" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
+                                    <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                                 </div> 
                             @else
                             <div class="row">
@@ -216,7 +216,7 @@
                                 <div id="container">
                                 </div>   
                                 <div class="form-group">
-                                    <button type="button" id="addMore" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
+                                    <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                                 </div>   
                             @endif
 

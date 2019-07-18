@@ -91,7 +91,7 @@
 
                                 <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-date_of_birth">{{ __('Date of Birth') }}</label>
-                                    <input type="text" name="date_of_birth" id="input-date_of_birth" class="datepicker form-control form-control-alternative{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}" placeholder="Select Date of Birth" value="{{old('date_of_birth',formatDate($landlord->date_of_birth,'Y-m-d','m/d/Y'))}}" required>
+                                    <input type="text" name="date_of_birth" id="input-date_of_birth" class="datepicker form-control form-control-alternative{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}" placeholder="Select Date of Birth" value="{{old('date_of_birth',formatDate($landlord->date_of_birth,'Y-m-d','d/m/Y'))}}" required>
 
                                     @if ($errors->has('date_of_birth'))
                                         <span class="invalid-feedback" role="alert">
@@ -101,8 +101,13 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
-                                    <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation',$landlord->occupation)}}" required>
-                                    
+                                    {{-- <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation',$landlord->occupation)}}" required> --}}
+                                    <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
+                                        <option value="">Select Occupation</option>
+                                        @foreach (getOccupations() as $oc)
+                                            <option value="{{$oc->id}}" {{old('occupation', $landlord->occupation_id) == $oc->id ? 'selected' : ''}}>{{$oc->name}}</option>
+                                        @endforeach
+                                    </select>
                                     @if ($errors->has('occupation'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('occupation') }}</strong>

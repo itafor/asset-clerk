@@ -135,5 +135,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('verification', 'UtilsController@resendVerification')->name('verification');
 	Route::get('verify/{email}/{token}', 'UtilsController@verify');
 	Route::get('fetch-rented-units/{property}', 'UtilsController@fetchRentedUnits');
+	Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 });
 

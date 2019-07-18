@@ -33,8 +33,13 @@ class AssetController extends Controller
 
     public function create()
     {
+        $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->select('asset_service_charges.*')
+         ->get();
+
         chekUserPlan('property');
-        return view('new.admin.assets.create');
+        return view('new.admin.assets.create', compact('charges'));
     }
 
     public function store(Request $request)
@@ -248,9 +253,9 @@ class AssetController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
         $asset = Asset::find($request['asset']);
+
         if($asset){
             foreach($request['service'] as $unit){
-
                 $exists = AssetServiceCharge::where([
                     ['asset_id', $asset->id],
                     ['service_charge_id', $unit['service_charge']],
@@ -259,7 +264,7 @@ class AssetController extends Controller
                 if(count($exists) > 0){
                     return back()->with('error', 'Service charge already added');
                 }
-                Asset::addServiceCharge($request->all(). $asset);
+                Asset::addServiceCharge($request->all(), $asset);
             }
             return back()->with('success', 'Service charge added successfully');
         }
@@ -292,10 +297,10 @@ class AssetController extends Controller
 
     public function serviceCharges()
     {
-        // $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-        // ->where('assets.user_id', getOwnerUserID())->with('asset')
-        // ->select('asset_service_charges.*')
-        // ->get();
+         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->select('asset_service_charges.*')
+         ->get();
 
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
@@ -305,7 +310,8 @@ class AssetController extends Controller
         ->where('assets.user_id', getOwnerUserID())->limit($limit);
 
         $data = [
-            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get()
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get(),
+            'charges' => $charges
         ];
         return view('new.admin.assets.service_charges', $data);
     }

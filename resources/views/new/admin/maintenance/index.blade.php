@@ -38,8 +38,8 @@
                     <thead>
                       <tr>
                           <th>No</th>
-                          <th><b>Customer Name</b></th>
-                          <th><b>Category</b></th>
+                          <th><b>Tenant</b></th>
+                          <th><b>Property</b></th>
                           <th><b>Section</b></th>
                           <th><b>Fault Description</b></th>
                           <th><b>Date Reported</b></th>
@@ -52,7 +52,7 @@
                           <tr>
                               <td>{{$loop->iteration}}</td>
                               <td>{{$m->tenant->name()}}</td>
-                              <td>{{$m->categoryy->name}}</td>
+                              <td>{{$m->asset->description}}</td>
                               <td>{{$m->buildingSection->name}}</td>
                               <td>{{$m->description}}</td>
                               <td>{{ formatDate($m->reported_date, 'Y-m-d', 'd/m/Y') }}</td>

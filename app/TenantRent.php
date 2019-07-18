@@ -34,7 +34,7 @@ class TenantRent extends Model
 
     public static function createNew($data)
     {
-        $rentalDate = formatDate($data['date'], 'm/d/Y', 'Y-m-d');
+        $rentalDate = formatDate($data['date'], 'd/m/Y', 'Y-m-d');
         $date = Carbon::parse($rentalDate);
         $dueDate = $date->addYears($data['duration']);
         $rental = self::create([
