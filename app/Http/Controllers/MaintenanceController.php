@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use DB;
 use App\Maintenance;
+use App\Asset;
 
 class MaintenanceController extends Controller
 {
@@ -17,14 +18,25 @@ class MaintenanceController extends Controller
 
     public function create()
     {
-        return view('new.admin.maintenance.create');
+        $plan = getUserPlan();
+        $limit = $plan['details']->properties;
+        $properties = Asset::select(
+            'assets.uuid',
+            'assets.id',
+            'assets.address',
+            'assets.description',
+            'assets.price'
+        )
+        ->where('assets.user_id', getOwnerUserID())->limit($limit)->get();
+
+        return view('new.admin.maintenance.create', compact('properties'));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'customer' => 'required',
-            'category' => 'required',
+            // 'category' => 'required',
             'asset_description' => 'required',
             'building_section' => 'required',
             'reported_date' => 'required|date_format:"d/m/Y"',
@@ -72,7 +84,7 @@ class MaintenanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'customer' => 'required',
-            'category' => 'required',
+            // 'category' => 'required',
             'asset_description' => 'required',
             'building_section' => 'required',
             'reported_date' => 'required|date_format:"d/m/Y"',
