@@ -166,4 +166,28 @@ class UtilsController extends Controller
             return [];
         }
     }
+
+    public function loadDB()
+    {
+        $statesNew = DB::table('states_new')->get();
+        
+        foreach($statesNew as $s) {
+            $lgas = DB::table('locals')->where('state_id', $s->id)->get();
+            
+            $state = DB::table('states')->where('name', $s->name)->first();
+
+            foreach($lgas as $lga) {
+                $city = DB::table('cities')->where('name', $lga->local_name)->first();
+                if(! $city) {
+                    DB::table('cities')->insert([
+                        'name' => $lga->local_name,
+                        'state_id' => $state->id
+                    ]);
+                }
+            }
+
+        }
+
+        return 'Done';
+    }
 }

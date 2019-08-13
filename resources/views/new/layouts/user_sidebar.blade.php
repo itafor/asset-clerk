@@ -66,6 +66,26 @@
                     <span class="dt-side-nav__text">Dashboard</span> </a>
             </li>
 
+            <li class="dt-side-nav__item {{isset($page) && $page == 'landlord' ? 'open' : ''}}"">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Landlord Management</span> </a>
+
+            <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('landlord.index')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('landlord.create')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+
+            </ul>
+            <!-- /sub-menu -->
+            </li>
+
             <!-- Menu Item -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'asset' ? 'open' : ''}}"">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Dashboard">
@@ -112,25 +132,7 @@
             <!-- /sub-menu -->
             </li>
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'landlord' ? 'open' : ''}}"">
-            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
-                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Landlord Management</span> </a>
-
-            <!-- Sub-menu -->
-            <ul class="dt-side-nav__sub-menu">
-                <li class="dt-side-nav__item">
-                    <a href="{{route('landlord.index')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
-                </li>
-
-                <li class="dt-side-nav__item">
-                    <a href="{{route('landlord.create')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New</span> </a>
-                </li>
-
-            </ul>
-            <!-- /sub-menu -->
-            </li>
+            
             <li class="dt-side-nav__item {{isset($page) && $page == 'rental' ? 'open' : ''}}"">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
                 <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Rentals</span> </a>
