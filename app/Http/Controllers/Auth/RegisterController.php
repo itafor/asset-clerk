@@ -87,7 +87,7 @@ class RegisterController extends Controller
             'user_id' => $user->id,
             'transaction_id' => $transaction->uuid,
             'start' => date('Y-m-d H:i:s'),
-            'end' => date('Y-m-d H:i:s', strtotime('+1 months')),
+            // 'end' => date('Y-m-d H:i:s', strtotime('+1 months')),
             'reference' => $transaction->reference,
             'plan_id' => $transaction->plan_id,
             'status' => 'Active'

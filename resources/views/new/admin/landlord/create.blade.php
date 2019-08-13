@@ -100,13 +100,13 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
-                                    {{-- <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required> --}}
-                                    <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
+                                    <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required>
+                                    {{-- <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
                                         <option value="">Select Occupation</option>
                                         @foreach (getOccupations() as $oc)
                                             <option value="{{$oc->id}}" {{old('occupation') == $oc->id ? 'selected' : ''}}>{{$oc->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                     @if ($errors->has('occupation'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('occupation') }}</strong>
