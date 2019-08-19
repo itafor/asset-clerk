@@ -49,15 +49,15 @@
                                 <div class="row">
 
                                     <!-- Grid item -->
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-3">
 
                                         <!-- Pricing -->
                                         <div class="dt-pricing dt-pricing-classic bg-light-yellow">
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-yellow">
-                                                <h2 class="dt-price">&#x20A6;5,000/month</h2>
-                                                <p class="dt-letter-spacing-base text-uppercase mb-0">Silver</p>
+                                                <h2 class="dt-price">&#x20A6;50,000/month</h2>
+                                                <p class="dt-letter-spacing-base text-uppercase mb-0">Standard</p>
                                             </div>
                                             <!-- /pricing header -->
 
@@ -65,7 +65,102 @@
                                             <div class="dt-pricing__body">
 
                                                 <ul class="dt-pricing-items">
-                                                    <li><i class="icon icon-fw icon-company mr-3"></i>Manage 20
+                                                    <li><i class="icon icon-fw icon-company mr-3"></i>Manage 50
+                                                        Properties
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-user mr-3"></i>Manage 1
+                                                        Sub-Accounts
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-user-o mr-3"></i>Manage Unlimited
+                                                        Tenants
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-company mr-3"></i>Manage Unlimited
+                                                        Rents
+                                                    </li>
+                                                </ul>
+
+                                                <div class="pt-7">
+                                                    <a href="{{ url('buy-plan/2312ad45-4c64-46c5-a71e-58f091044927') }}">
+                                                        <button class="btn btn-primary" type="button">Upgrade Now
+                                                        </button>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <!-- /pricing body -->
+
+                                        </div>
+                                        <!-- /pricing -->
+
+                                    </div>
+                                    <!-- /grid item -->
+
+                                    <!-- Grid item -->
+                                    <div class="col-xl-3">
+
+                                        <!-- Pricing -->
+                                        <div class="dt-pricing dt-pricing-classic bg-light-primary">
+
+                                            <!-- Pricing header -->
+                                            <div class="dt-pricing__header bg-primary">
+                                                <h2 class="dt-price text-white">&#x20A6;150,000/month</h2>
+                                                <p class="dt-letter-spacing-base text-white text-uppercase mb-0">
+                                                    Professional</p>
+                                            </div>
+                                            <!-- /pricing header -->
+
+                                            <!-- Pricing body -->
+                                            <div class="dt-pricing__body text-white">
+
+                                                <ul class="dt-pricing-items">
+                                                    <li><i class="icon icon-company icon-fw mr-3"></i>Manage 250
+                                                        Properties
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-user mr-3"></i>Manage 5
+                                                        Sub-Accounts
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-user-o mr-3"></i>Manage Unlimited
+                                                        Tenants
+                                                    </li>
+                                                    <li><i class="icon icon-fw icon-company mr-3"></i>Manage Unlimited
+                                                        Rents
+                                                    </li>
+                                                </ul>
+
+                                                <div class="pt-7">
+                                                    <a href="{{ url('buy-plan/aee1bfa9-1f68-4036-a602-11dbf7bcdc34') }}">
+                                                        <button class="btn btn-primary" type="button">Upgrade Now
+                                                        </button>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <!-- /pricing body -->
+
+                                        </div>
+                                        <!-- /pricing -->
+
+                                    </div>
+                                    <!-- /grid item -->
+
+                                    <!-- Grid item -->
+                                    <div class="col-xl-3">
+
+                                        <!-- Pricing -->
+                                        <div class="dt-pricing dt-pricing-classic bg-light-success">
+
+                                            <!-- Pricing header -->
+                                            <div class="dt-pricing__header bg-success">
+                                                <h2 class="dt-price">&#x20A6;300,000/month</h2>
+                                                <p class="dt-letter-spacing-base text-uppercase mb-0">Premium</p>
+                                            </div>
+                                            <!-- /pricing header -->
+
+                                            <!-- Pricing body -->
+                                            <div class="dt-pricing__body">
+
+                                                <ul class="dt-pricing-items">
+                                                    <li><i class="icon icon-company icon-fw mr-3"></i>Manage 750
                                                         Properties
                                                     </li>
                                                     <li><i class="icon icon-fw icon-user mr-3"></i>Manage 10
@@ -80,7 +175,7 @@
                                                 </ul>
 
                                                 <div class="pt-7">
-                                                    <a href="{{ url('buy-plan/5ca8edad-1878-47f2-a868-8af143b06212') }}">
+                                                    <a href="{{ url('buy-plan/5aae1947-eb88-4d18-81d9-7774fdc600ef') }}">
                                                         <button class="btn btn-primary" type="button">Upgrade Now
                                                         </button>
                                                     </a>
@@ -96,63 +191,15 @@
                                     <!-- /grid item -->
 
                                     <!-- Grid item -->
-                                    <div class="col-xl-4">
-
-                                        <!-- Pricing -->
-                                        <div class="dt-pricing dt-pricing-classic dt-highlight bg-light-primary">
-
-                                            <!-- Pricing header -->
-                                            <div class="dt-pricing__header bg-primary">
-                                                <h2 class="dt-price text-white">&#x20A6;10,000/month</h2>
-                                                <p class="dt-letter-spacing-base text-white text-uppercase mb-0">
-                                                    Gold</p>
-                                            </div>
-                                            <!-- /pricing header -->
-
-                                            <!-- Pricing body -->
-                                            <div class="dt-pricing__body text-white">
-
-                                                <ul class="dt-pricing-items">
-                                                    <li><i class="icon icon-company icon-fw mr-3"></i>Manage 50
-                                                        Properties
-                                                    </li>
-                                                    <li><i class="icon icon-fw icon-user mr-3"></i>Manage 20
-                                                        Sub-Accounts
-                                                    </li>
-                                                    <li><i class="icon icon-fw icon-user-o mr-3"></i>Manage Unlimited
-                                                        Tenants
-                                                    </li>
-                                                    <li><i class="icon icon-fw icon-company mr-3"></i>Manage Unlimited
-                                                        Rents
-                                                    </li>
-                                                </ul>
-
-                                                <div class="pt-7">
-                                                    <a href="{{ url('buy-plan/32abf0fb-0511-41d9-9065-bfd09a6d5dc8') }}">
-                                                        <button class="btn btn-primary" type="button">Upgrade Now
-                                                        </button>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                            <!-- /pricing body -->
-
-                                        </div>
-                                        <!-- /pricing -->
-
-                                    </div>
-                                    <!-- /grid item -->
-
-                                    <!-- Grid item -->
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-3">
 
                                         <!-- Pricing -->
                                         <div class="dt-pricing dt-pricing-classic bg-light-success">
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-success">
-                                                <h2 class="dt-price">&#x20A6;20,000/month</h2>
-                                                <p class="dt-letter-spacing-base text-uppercase mb-0">Platinum</p>
+                                                <h2 class="dt-price">&#x20A6;500,000/month</h2>
+                                                <p class="dt-letter-spacing-base text-uppercase mb-0">Premium Plus</p>
                                             </div>
                                             <!-- /pricing header -->
 
@@ -160,7 +207,7 @@
                                             <div class="dt-pricing__body">
 
                                                 <ul class="dt-pricing-items">
-                                                    <li><i class="icon icon-company icon-fw mr-3"></i>Manage 100
+                                                    <li><i class="icon icon-company icon-fw mr-3"></i>Manage Unlimited
                                                         Properties
                                                     </li>
                                                     <li><i class="icon icon-fw icon-user mr-3"></i>Manage 50
@@ -175,7 +222,7 @@
                                                 </ul>
 
                                                 <div class="pt-7">
-                                                    <a href="{{ url('buy-plan/3de72654-dbab-469f-b550-1b6860950e1e') }}">
+                                                    <a href="{{ url('buy-plan/2618ece9-1f73-4282-9ddc-059c2359d99e') }}">
                                                         <button class="btn btn-primary" type="button">Upgrade Now
                                                         </button>
                                                     </a>

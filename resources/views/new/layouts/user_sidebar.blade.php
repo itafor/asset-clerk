@@ -1,3 +1,7 @@
+@php
+    $user = auth()->user();
+    $plan = getUserPlan();
+@endphp
 <!-- Sidebar -->
 <aside id="main-sidebar" class="dt-sidebar">
     <div class="dt-sidebar__container container-fluid">
@@ -210,7 +214,7 @@
                 </a>
             </li>
 
-            @if(!auth()->user()->sub_account)
+            @if(!$user->sub_account && $plan != 'Free')
                 <li class="dt-side-nav__item {{isset($page) && $page == 'sub_account' ? 'open' : ''}}"">
                 <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
                     <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Sub Accounts</span> </a>
