@@ -78,6 +78,7 @@ class HomeController extends Controller
                 ],
                 'groupings' => $sub_group
             ];
+
             return view('new.admin_dashboard', compact('data'));
         }
     }
