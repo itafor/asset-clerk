@@ -15,9 +15,11 @@
                 <i class="fa fa-info-circle"></i></td>
             <td style="padding: 20px">
                 <strong>Info!</strong> You are on the {{ $plan['details']->name }} plan. You can only
-                manage {{ $plan['details']->properties }} properties and {{ $plan['details']->sub_accounts }} Sub Accounts. Your subscription ends
-                on {{ date("M jS, Y", strtotime($plan['plan']->end)) }}. Click <a href="{{route('profile.upgrade')}}"><kbd>HERE</kbd></a>
-                to upgrade.
+                manage {{ $plan['details']->properties }} properties and {{ $plan['details']->sub_accounts }} Sub Accounts. 
+                @if($plan['details']->name != 'Free')
+                Your subscription ends on {{ date("M jS, Y", strtotime($plan['plan']->end)) }}. 
+                @endif
+                Click <a href="{{route('profile.upgrade')}}"><kbd>HERE</kbd></a> to upgrade.
 
                 </p>
             </td>
