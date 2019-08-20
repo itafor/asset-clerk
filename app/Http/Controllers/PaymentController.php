@@ -22,6 +22,7 @@ class PaymentController extends Controller
     {
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
         $properties = Asset::select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
         ->where('assets.user_id', getOwnerUserID())->limit($limit)->get();
@@ -64,6 +65,8 @@ class PaymentController extends Controller
         if($payment){
             $plan = getUserPlan();
             $limit = $plan['details']->properties;
+            $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
+
             $properties = Asset::select('assets.uuid','assets.id','assets.address', 'assets.description',
                 'assets.price')
             ->where('assets.user_id', getOwnerUserID())->limit($limit)->get();
