@@ -83,7 +83,7 @@ function getSlots()
     $plan = $sub ? \App\SubscriptionPlan::where('uuid', $sub->plan_id)->first() : null;
     $totalSlots = $plan == null ? 0 : $plan->properties;
     return [
-        'availableSlots' => $totalSlots - getTotalAssets(),
+        'availableSlots' => $totalSlots == 'Unlimited' ? 'Unlimited' : ($totalSlots - getTotalAssets()),
         'totalSlots' => $totalSlots,
     ];
 }
@@ -271,8 +271,10 @@ function chekUserPlan($type = null){
         switch ($type){
             case 'property':
                 $customer_properties = Asset::where('user_id',$user)->count();
-                if ($customer_properties >= $no_properties){
-                    return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
+                if($no_properties != 'Unlimited') {
+                    if ($customer_properties >= $no_properties){
+                        return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
+                    }
                 }
                 break;
             case 'accounts':

@@ -170,7 +170,8 @@ class Asset extends Model
 
     public static function addPhoto($data,$asset)
     {
-        foreach($data['photos'] as $photo){
+        if(isset($data['photos'])){
+            foreach($data['photos'] as $photo){
             $path = uploadImage($photo);
             if($path){
                 AssetPhoto::create([
@@ -178,6 +179,7 @@ class Asset extends Model
                     'image_url' => $path
                 ]);
             }
+        }
         }
     }
 }
