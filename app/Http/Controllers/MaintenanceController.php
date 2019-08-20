@@ -20,6 +20,7 @@ class MaintenanceController extends Controller
     {
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
         $properties = Asset::select(
             'assets.uuid',
             'assets.id',
