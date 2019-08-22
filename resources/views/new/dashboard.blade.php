@@ -32,7 +32,11 @@
 
                     <!-- Media Body -->
                     <div class="media-body">
-                    <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['totalSlots'])}}</h2>
+                    @if (getSlots()['totalSlots'] == 'Unlimited')
+                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{getSlots()['totalSlots']}}</h2>
+                    @else
+                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['totalSlots'])}}</h2>
+                    @endif
                     <p class="mb-0">Total Slots</p>
                     </div>
                     <!-- /media body -->
@@ -46,7 +50,11 @@
 
                     <!-- Media Body -->
                     <div class="media-body">
-                    <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['availableSlots'])}}</h2>
+                    @if (getSlots()['availableSlots'] == 'Unlimited')
+                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{getSlots()['availableSlots']}}</h2>
+                    @else
+                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['availableSlots'])}}</h2>
+                    @endif
                     <p class="mb-0">Available Slots</p>
                     </div>
                     <!-- /media body -->

@@ -37,7 +37,8 @@ class Landlord extends Model
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
-            'occupation_id' => $data['occupation'],
+            'occupation' => $data['occupation'],
+            // 'occupation_id' => $data['occupation'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
@@ -58,7 +59,8 @@ class Landlord extends Model
         $landlord->firstname = $data['firstname'];
         $landlord->lastname = $data['lastname'];
         $landlord->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
-        $landlord->occupation_id = $data['occupation'];
+        $landlord->occupation = $data['occupation'];
+        // $landlord->occupation_id = $data['occupation'];
         $landlord->country_id = $data['country'];
         $landlord->state_id = $data['state'];
         $landlord->city_id = $data['city'];

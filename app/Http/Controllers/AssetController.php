@@ -18,6 +18,7 @@ class AssetController extends Controller
         $plan = getUserPlan();
 
         $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
@@ -304,6 +305,7 @@ class AssetController extends Controller
 
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
         $query = Asset::query()
         ->select('assets.uuid','assets.id','assets.address', 'assets.description',
             'assets.price')
