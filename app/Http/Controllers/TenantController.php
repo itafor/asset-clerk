@@ -52,7 +52,7 @@ class TenantController extends Controller
         }
         catch(\Exception $e)
         {
-            return back()->withInput()->with('error', 'Oops! An error occured. Please try again');
+            return back()->withInput()->with('error', 'Oops! An error occured.'.$e->getMessage());
         }
 
         return redirect()->route('tenant.index')->with('success', 'Tenant added successfully');
