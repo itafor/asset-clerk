@@ -58,7 +58,7 @@ class SubscriptionsController extends Controller
             'user_id' => auth()->id(),
             'transaction_id' => $transaction->uuid,
             'start' => date('Y-m-d H:i:s'),
-            'end' => date('Y-m-d H:i:s', strtotime('+'.$request->period.' months')),
+            'end' => date('Y-m-d H:i:s', strtotime('+'.$request->period.' years')),
             'reference' => $transaction->reference,
             'plan_id' => $request->plan_id,
             'status' => 'Pending'
