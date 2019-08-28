@@ -79,7 +79,7 @@
                                 <select name="period" class="form-control" id="period" onchange="calculate_total()" required>
                                     <option value="">Select Period</option>
                                     @for ($i = 1; $i <= 12; $i++)
-                                        <option value="{{ $i }}">{{$i}} Month(s)</option>
+                                        <option value="{{ $i }}">{{$i}} Year(s)</option>
                                     @endfor
                                 </select>
 

@@ -56,7 +56,7 @@
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-yellow">
-                                                <h2 class="dt-price">&#x20A6;50,000/month</h2>
+                                                <h2 class="dt-price">&#x20A6;50,000/ annum</h2>
                                                 <p class="dt-letter-spacing-base text-uppercase mb-0">Standard</p>
                                             </div>
                                             <!-- /pricing header -->
@@ -103,7 +103,7 @@
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-primary">
-                                                <h2 class="dt-price text-white">&#x20A6;150,000/month</h2>
+                                                <h2 class="dt-price text-white">&#x20A6;150,000/annum</h2>
                                                 <p class="dt-letter-spacing-base text-white text-uppercase mb-0">
                                                     Professional</p>
                                             </div>
@@ -151,7 +151,7 @@
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-success">
-                                                <h2 class="dt-price">&#x20A6;300,000/month</h2>
+                                                <h2 class="dt-price">&#x20A6;300,000/annum</h2>
                                                 <p class="dt-letter-spacing-base text-uppercase mb-0">Premium</p>
                                             </div>
                                             <!-- /pricing header -->
@@ -198,7 +198,7 @@
 
                                             <!-- Pricing header -->
                                             <div class="dt-pricing__header bg-success">
-                                                <h2 class="dt-price">&#x20A6;500,000/month</h2>
+                                                <h2 class="dt-price">&#x20A6;500,000/annum</h2>
                                                 <p class="dt-letter-spacing-base text-uppercase mb-0">Premium Plus</p>
                                             </div>
                                             <!-- /pricing header -->
