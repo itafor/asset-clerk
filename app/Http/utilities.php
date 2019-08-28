@@ -245,7 +245,7 @@ function getDebtors($past = false)
 }
 
 function getUserPlan(){
-    $user = auth()->id();
+    $user = getOwnerUserID();
     $plan = \App\Subscription::where('user_id',$user)->where('status','Active')->first();
     if (!is_null($plan)){
         $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
@@ -261,7 +261,7 @@ function getUserPlan(){
 }
 
 function chekUserPlan($type = null){
-    $user = auth()->id();
+    $user = getOwnerUserID();
     $plan = \App\Subscription::where('user_id',$user)->first();
     if($plan){
         $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();
@@ -273,14 +273,14 @@ function chekUserPlan($type = null){
                 $customer_properties = Asset::where('user_id',$user)->count();
                 if($no_properties != 'Unlimited') {
                     if ($customer_properties >= $no_properties){
-                        return back()->with('error','You cannot manage more than '.$no_properties.' on this plan.Please upgrade!');
+                        return back()->with('error','You cannot manage more than '.$no_properties.' on this plan. Please upgrade!');
                     }
                 }
                 break;
             case 'accounts':
                 $customer_accts = \Illuminate\Support\Facades\DB::table('staffs')->where('owner_id', $user)->count();
                 if ($customer_accts >= $no_accounts){
-                    return back()->with('error','You cannot add more than '.$no_properties.' on this plan.Please upgrade!');
+                    return back()->with('error','You cannot add more than '.$no_accounts.' sub accounts on this plan. Please upgrade!');
                 }
                 break;
             default:

@@ -23,11 +23,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-    Route::get('upgrade', ['as' => 'profile.upgrade', 'uses' => 'SubscriptionsController@subscribe']);
-    Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan']);
-    Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@process_buy_plan']);
+    Route::get('upgrade', ['as' => 'profile.upgrade', 'uses' => 'SubscriptionsController@subscribe'])->middleware('sub.account');;
+    Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan'])->middleware('sub.account');;
+    Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@process_buy_plan'])->middleware('sub.account');;
 
-	Route::resource('subs', 'SubAccountController', ['except' => ['show']]);
+	Route::resource('subs', 'SubAccountController', ['except' => ['show', 'index']])->middleware('sub.account');
+	Route::get('subs', 'SubAccountController@index')->name('subs.index');
     Route::prefix('transactions')->group(function(){
         Route::get('call-back', ['as' => 'payment.callback', 'uses' => 'SubscriptionsController@handleGatewayCallback']);
         Route::get('my-subscriptions', ['as' => 'subscription.history', 'uses' => 'SubscriptionsController@history']);

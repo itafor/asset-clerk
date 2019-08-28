@@ -55,6 +55,26 @@ class SubAccountController extends Controller
     public function store(SubRequest $request, User $model)
     {
         chekUserPlan('accounts');
+
+        $plan = getUserPlan();
+        $subAccounts = $plan['details']->sub_accounts;
+
+        if($subAccounts == 0) {
+            return back()->with('error', 'Please upgrade your plan to add sub account');
+        }
+        
+        $totalAccounts = Staff::query()
+        ->join('users as u', 'u.id', '=', 'staffs.staff_id')
+        ->join('assets as a', 'a.id', '=', 'staffs.asset_id')
+        ->where('owner_id', getOwnerUserID())
+        ->select('u.firstname', 'u.lastname', 'u.email', 'u.id', 'a.description')
+        ->count();
+        
+        if($totalAccounts >= $subAccounts) {
+            return back()->with('error', 'Please upgrade your plan to add more sub accounts');
+        }
+
+
         DB::beginTransaction();
         try{
             $user = $model->create($request->merge([
