@@ -1,4 +1,15 @@
-@extends('new.layouts.app', ['title' => 'List of Sub Accounts', 'page' => 'sub_account'])
+@extends('new.layouts.app', ['title' => 'Upgrade Account', 'page' => 'my_account'])
+
+@section('style')
+    <style>
+        .dt-price {
+            font-size: 20px !important;
+        }
+        .dt-pricing-items li{
+            font-size: 12px !important;
+        }
+    </style>
+@endsection
 
 @section('content')
     <!-- Page Header -->
