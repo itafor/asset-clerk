@@ -27,7 +27,7 @@
     <!-- Load Styles -->
 
     <link rel="stylesheet" href="{{url('assets/css/lite-style-1.min.css')}}">
-  <!-- /load styles -->
+    <!-- /load styles -->
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
@@ -63,7 +63,8 @@
 
                 <div class="dt-login__bg-content">
                     <!-- Login Title -->
-                    <h1 class="dt-login__title">Welcome to<br> <span style="font-size:30px"><b>Asset Clerk</b></span></h1>
+                    <h1 class="dt-login__title">Welcome to<br> <span style="font-size:30px"><b>Asset Clerk</b></span>
+                    </h1>
 
                     <p class="f-16">Sign up to gain access to our amazing features.</p>
 
@@ -89,11 +90,13 @@
                     <h2 class="dt-login__title text-black-50">Sign Up</h2>
                     <!-- Form -->
                     <form method="POST" action="{{ route('register') }}">
-                        @csrf
-                        <!-- Form Group -->
+                    @csrf
+                    <!-- Form Group -->
                         <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="firstname-1">First Name</label>
-                            <input type="text" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}" name="firstname" value="{{ old('firstname') }}" required id="firstname-1" aria-describedby="firstname-1" placeholder="Enter First Name">
+                            <input type="text" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}"
+                                   name="firstname" value="{{ old('firstname') }}" required id="firstname-1"
+                                   aria-describedby="firstname-1" placeholder="Enter First Name">
                             @if ($errors->has('firstname'))
                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                     <strong>{{ $errors->first('firstname') }}</strong>
@@ -104,10 +107,25 @@
                         <!-- Form Group -->
                         <div class="form-group{{ $errors->has('lastname') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="lastname-1">Last Name</label>
-                            <input type="text" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" name="lastname" value="{{ old('lastname') }}" required id="lastname-1" aria-describedby="lastname-1" placeholder="Enter Last Name">
+                            <input type="text" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}"
+                                   name="lastname" value="{{ old('lastname') }}" required id="lastname-1"
+                                   aria-describedby="lastname-1" placeholder="Enter Last Name">
                             @if ($errors->has('lastname'))
                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                     <strong>{{ $errors->first('lastname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <!-- /form group -->
+                        <!-- Form Group -->
+                        <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                            <label class="sr-only" for="lastname-1">Last Name</label>
+                            <input type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
+                                   name="phone" value="{{ old('phone') }}" required id="phone-1"
+                                   aria-describedby="phone-1" placeholder="Phone Number">
+                            @if ($errors->has('phone'))
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ $errors->first('phone') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -116,7 +134,9 @@
                         <!-- Form Group -->
                         <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="email-1">Email Address</label>
-                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required id="email-1" aria-describedby="email-1" placeholder="Enter Email Address">
+                            <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                   name="email" value="{{ old('email') }}" required id="email-1"
+                                   aria-describedby="email-1" placeholder="Enter Email Address">
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -128,7 +148,9 @@
                         <!-- Form Group -->
                         <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="password-1">Password</label>
-                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required id="password-1" placeholder="Password">
+                            <input type="password"
+                                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                   name="password" required id="password-1" placeholder="Password">
                             @if ($errors->has('password'))
                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                     <strong>{{ $errors->first('password') }}</strong>
@@ -136,20 +158,22 @@
                             @endif
                         </div>
                         <!-- /form group -->
-                        
+
                         <!-- Form Group -->
                         <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="password-1">Confirm Password</label>
-                            <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password_confirmation" required placeholder="Confirm Password">
+                            <input type="password"
+                                   class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                   name="password_confirmation" required placeholder="Confirm Password">
                         </div>
                         <!-- /form group -->
 
                         <!-- Form Group -->
-                        {{-- <div class="custom-control custom-checkbox mb-6 mb-lg-8">
-                            <input class="custom-control-input" name="pri" type="checkbox" id="checkbox-1">
-                            <label class="custom-control-label" for="checkbox-1">Remember Me</label>
-                        </div> --}}
-                        <!-- /form group -->
+                    {{-- <div class="custom-control custom-checkbox mb-6 mb-lg-8">
+                        <input class="custom-control-input" name="pri" type="checkbox" id="checkbox-1">
+                        <label class="custom-control-label" for="checkbox-1">Remember Me</label>
+                    </div> --}}
+                    <!-- /form group -->
 
                         <!-- Form Group -->
                         <div class="form-group">
@@ -168,7 +192,8 @@
                             <ul class="dt-list dt-list-sm dt-list-cm-0 ml-auto">
                                 <li class="dt-list__item">
                                     <!-- Fab Button -->
-                                    <a href="{{url('login/facebook')}}" class="btn btn-outline-primary dt-fab-btn size-30">
+                                    <a href="{{url('login/facebook')}}"
+                                       class="btn btn-outline-primary dt-fab-btn size-30">
                                         <i class="icon icon-facebook icon-xl"></i>
                                     </a>
                                     <!-- /fab button -->
@@ -176,7 +201,8 @@
 
                                 <li class="dt-list__item">
                                     <!-- Fab Button -->
-                                    <a href="{{ url('/login/google') }}" class="btn btn-outline-primary dt-fab-btn size-30">
+                                    <a href="{{ url('/login/google') }}"
+                                       class="btn btn-outline-primary dt-fab-btn size-30">
                                         <i class="icon icon-google-plus icon-xl"></i>
                                     </a>
                                     <!-- /fab button -->
@@ -216,7 +242,7 @@
 
     </div>
     <!-- /login container -->
-  
+
 </div>
 <!-- /root -->
 
