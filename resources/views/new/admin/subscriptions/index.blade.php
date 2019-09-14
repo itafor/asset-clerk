@@ -38,10 +38,7 @@
                     <thead>
                       <tr>
                           <th scope="col">{{ __('S/N') }}</th>
-                           <!-- <th scope="col">{{ __('Plan') }}</th> -->
-                           <th scope="col">{{ __('Name') }}</th>
-                          <th scope="col">{{ __('Email') }}</th>
-                          <th scope="col">{{ __('Email') }}</th>
+                          <th scope="col">{{ __('Plan') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
                           <th scope="col">{{ __('Status') }}</th>
                           <th scope="col">{{ __('Date Subscribed') }}</th>
@@ -54,9 +51,7 @@
                       <tr>
                           @php $p = getSubscriptionByUUid($user->plan_id); @endphp
                           <td>{{ $i++ }}</td>
-                          <!-- <td>{{ $p->name }}</td> -->
-                          <td>{{ $user->user->firstname }}</td>
-                          <td>{{ $user->user->email }}</td>
+                          <td>{{ $p->name }}</td>
                           <td>{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->status }}</td>
                           <td>{{ $user->start }}</td>
