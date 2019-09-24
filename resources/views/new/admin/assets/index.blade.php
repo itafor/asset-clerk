@@ -160,7 +160,7 @@
         $('#addMoreSC').click(function(e) {
             e.preventDefault();
 
-            if(rowsc >= 5){
+            if(rowsc >= 12){
                 alert("You've reached the maximum limit");
                 return;
             }
