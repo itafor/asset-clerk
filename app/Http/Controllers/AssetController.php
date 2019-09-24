@@ -35,7 +35,9 @@ class AssetController extends Controller
     public function create()
     {
         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->where('assets.user_id', getOwnerUserID())
+         ->where('status', 1)
+         ->with('asset')
          ->select('asset_service_charges.*')
          ->get();
 
@@ -186,7 +188,8 @@ class AssetController extends Controller
     {
         $sc = AssetServiceCharge::find($id);
         if($sc){
-            $sc->delete();
+            $sc->status = 0;
+            $sc->save();
             return back()->with('success', 'Service charge deleted successfully');
         }
         else{
@@ -299,7 +302,9 @@ class AssetController extends Controller
     public function serviceCharges()
     {
          $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-         ->where('assets.user_id', getOwnerUserID())->with('asset')
+         ->where('assets.user_id', getOwnerUserID())
+         ->where('status', 1)
+         ->with('asset')
          ->select('asset_service_charges.*')
          ->get();
 
