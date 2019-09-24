@@ -131,6 +131,7 @@ class UtilsController extends Controller
     {
         $property = Asset::where('uuid', $property)->where('user_id', getOwnerUserID())->first();
         if($property){
+
             $units = Unit::where('units.asset_id', $property->id)
             ->join('categories as c', 'c.id', '=', 'units.category_id')
             ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')

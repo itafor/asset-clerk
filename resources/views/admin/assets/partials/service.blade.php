@@ -11,6 +11,7 @@
                                 <th><b>Service Charge</b></th>
                                 <th>Type</th>
                                 <th><b>Amount</b></th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -21,6 +22,7 @@
                                     <td>{{$charge->serviceCharge->name}}</td>
                                     <td>{{ucwords($charge->serviceCharge->type)}}</td>
                                     <td>&#8358; {{number_format($charge->price,2)}}</td>
+                                    <th><a href="{{ url('asset/delete-service/'.$charge->id) }}"><button class="btn btn-danger">Delete</button></a></th>
                                 </tr>
                             @endforeach
                             </tbody>
