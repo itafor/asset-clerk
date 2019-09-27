@@ -40,12 +40,14 @@
                         <th>No</th>
                         <th><b>Description</b></th>
                         <th><b>Location</b></th>
-                        <th><b>Units</b></th>
+                        <th><b>Name</b></th>
+                        <th><b>Category</b></th>
+                        <th><b>Amount</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($assetsCategories as $asset)
+                    @foreach ($charges as $asset)
                         <tr>
                             <td>
                                 @php
@@ -53,22 +55,21 @@
                                 @endphp
                             {{$i}} 
                             </td>
-                            <td>{{ $asset->description }}</td>
-                            <td>{{ $asset->address }}</td>
-                            <td>
-                                <a href="#x" data-toggle="modal" data-target="#unit{{$i}}" class="text-underline">{{ $asset->units ? $asset->units->count() : 0 }}</a>
-                            </td>
+                            <td>{{ $asset->asset->description }}</td>
+                            <td>{{ $asset->asset->address }}</td>
+                            <td>{{$asset->serviceCharge->name}}</td>
+                            <td>{{ucwords($asset->serviceCharge->type)}}</td>
+                            <td>&#8358; {{number_format($asset->price,2)}}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">View & Add Service Charge</a>
+                                        <a href="{{ url('asset/delete-service/'.$asset->id) }}" class="dropdown-item addService">Delete Charge</a>
                                     </div>
                                 </div>
-                                @include('admin.assets.partials.assign')
-                                @include('admin.assets.partials.units')
+
                         </tr>
                     @endforeach
                     </tbody>

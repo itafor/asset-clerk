@@ -260,14 +260,14 @@ class AssetController extends Controller
 
         if($asset){
             foreach($request['service'] as $unit){
-                $exists = AssetServiceCharge::where([
+                /*$exists = AssetServiceCharge::where([
                     ['asset_id', $asset->id],
                     ['service_charge_id', $unit['service_charge']],
                 ])->get();
 
                 if(count($exists) > 0){
                     return back()->with('error', 'Service charge already added');
-                }
+                }*/
                 Asset::addServiceCharge($request->all(), $asset);
             }
             return back()->with('success', 'Service charge added successfully');
@@ -301,13 +301,16 @@ class AssetController extends Controller
 
     public function serviceCharges()
     {
-         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
+       /* $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
          ->where('assets.user_id', getOwnerUserID())
          ->where('status', 1)
          ->with('asset')
          ->select('asset_service_charges.*')
-         ->get();
-
+         ->get();*/
+        $charges = AssetServiceCharge::with('asset','serviceCharge')
+            ->where('user_id',getOwnerUserID())
+            ->where('status',1)
+            ->get();
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
         $limit = $limit == "Unlimited" ? '9999999999999' : $limit;

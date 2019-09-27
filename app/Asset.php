@@ -74,7 +74,7 @@ class Asset extends Model
             'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
             'construction_year' => $data['construction_year'],
-            'features' => implode(',',$data['features']),
+            'features' => isset($data['features']) ? implode(',',$data['features']) : null,
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]); 

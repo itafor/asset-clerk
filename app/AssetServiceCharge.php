@@ -12,11 +12,11 @@ class AssetServiceCharge extends Model
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo('App\Asset');
     }
    
     public function serviceCharge()
     {
-        return $this->belongsTo(ServiceCharge::class);
+        return $this->belongsTo('App\ServiceCharge');
     }
 }
