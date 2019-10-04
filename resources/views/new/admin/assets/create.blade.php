@@ -223,7 +223,7 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Additional information') }}</h6>
                             <div class="row">
                                 <div class="form-group{{ $errors->has('photos') ? ' has-danger' : '' }} col-12">
-                                    <label class="form-control-label" for="input-photos">{{ __('Photos of Property') }}</label>
+                                    <label class="form-control-label" for="input-photos">{{ __('Photos of Property (Optional)') }}</label>
                                     <input type="file" multiple name="photos[]" id="input-photos" class="form-control {{ $errors->has('photos') ? ' is-invalid' : '' }}">
 
                                     @if ($errors->has('photos'))

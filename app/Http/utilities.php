@@ -22,6 +22,7 @@ use App\PropertyType;
 use App\PaymentType;
 use App\PaymentMode;
 use App\Occupation;
+use App\Unit;
 
 function generateUUID()
 {
@@ -72,7 +73,8 @@ function getOwnerUserID()
 
 function getTotalAssets()
 {
-    return Asset::where('user_id', getOwnerUserID())->count();
+    //return Asset::where('user_id', getOwnerUserID())->count();
+    return Unit::where('user_id',getOwnerUserID())->sum('quantity');
 }
 
 function getSlots()

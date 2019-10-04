@@ -47,6 +47,9 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+
+       $this->checkAvailableSlot($request);
+
         chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
@@ -95,6 +98,8 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
+        // $this->checkAvailableSlot($request);
+
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'commission' => 'required|numeric',
@@ -279,6 +284,8 @@ class AssetController extends Controller
 
     public function addUnit(Request $request)
     {
+         $this->checkAvailableSlot($request);
+
         $validator = Validator::make($request->all(), [
             'unit.*.category' => 'required',
             'unit.*.quantity' => 'required',
@@ -325,4 +332,18 @@ class AssetController extends Controller
         ];
         return view('new.admin.assets.service_charges', $data);
     }
+
+    public function checkAvailableSlot($request){
+
+     $units = $request->unit ? $request->unit : $request->all;
+     $totalUnit = 0;
+       foreach ($units as $key => $unit) {
+            $totalUnit += $unit['quantity'];
+       }
+
+       if( $totalUnit > (int)getSlots()['availableSlots']){
+         dd('You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+       }
+    }
+
 }

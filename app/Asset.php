@@ -119,6 +119,7 @@ class Asset extends Model
         foreach($data['unit'] as $unit){
             Unit::create([
                 'asset_id' => $asset->id,
+                'user_id' => getOwnerUserID(),
                 'category_id' => $unit['category'],
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],
@@ -144,6 +145,7 @@ class Asset extends Model
             else{
                 Unit::create([
                     'asset_id' => $asset->id,
+                    'user_id' => getOwnerUserID(),
                     'category_id' => $unit['category'],
                     'quantity' => $unit['quantity'],
                     'quantity_left' => $unit['quantity'],
