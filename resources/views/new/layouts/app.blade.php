@@ -124,7 +124,7 @@
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000
+            timer: 10000
         });
 
         @if(session()->has('success'))

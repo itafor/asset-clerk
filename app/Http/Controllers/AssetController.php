@@ -48,7 +48,9 @@ class AssetController extends Controller
     public function store(Request $request)
     {
 
-      // $this->checkAvailableSlot($request);
+      if(!$this->checkAvailableSlot($request)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+            }
 
         chekUserPlan('property');
         $validator = Validator::make($request->all(), [
@@ -284,7 +286,9 @@ class AssetController extends Controller
 
     public function addUnit(Request $request)
     {
-         $this->checkAvailableSlot($request);
+         if(!$this->checkAvailableSlot($request)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+            }
 
         $validator = Validator::make($request->all(), [
             'unit.*.category' => 'required',
@@ -342,9 +346,9 @@ class AssetController extends Controller
        }
 
        if( $totalUnit > (int)getSlots()['availableSlots']){
-         dd('You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
-       }else if($totalUnit <= 0){
-        dd('Total unit must not be less than or equal to zero');
+         return false;
+       }else{
+        return true;
        }
     }
 

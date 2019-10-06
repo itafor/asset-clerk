@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
                                     <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
-    <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>
+                                        <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>
 
                                   <!--   <select name="unit[112211][category]"  class="form-control" required>
                                         <option value="">Select Category</option>
