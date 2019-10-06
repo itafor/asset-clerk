@@ -19,7 +19,7 @@
                     <!-- Media Body -->
                     <div class="media-body">
                     <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getTotalAssets())}}</h2>
-                    <p class="mb-0">Active Properties</p>
+                    <p class="mb-0">Active Tenants</p>
                     </div>
                     <!-- /media body -->
 
@@ -37,7 +37,7 @@
                     @else
                         <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['totalSlots'])}}</h2>
                     @endif
-                    <p class="mb-0">Total Slots</p>
+                    <p class="mb-0">Total Assets</p>
                     </div>
                     <!-- /media body -->
 
@@ -55,7 +55,7 @@
                     @else
                         <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots()['availableSlots'])}}</h2>
                     @endif
-                    <p class="mb-0">Available Slots</p>
+                    <p class="mb-0">Available Assets</p>
                     </div>
                     <!-- /media body -->
 

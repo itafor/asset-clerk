@@ -108,7 +108,7 @@
                                         @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-date">{{ __('Rental Date') }}</label>
+                                        <label class="form-control-label" for="input-date">{{ __('Start Date') }}</label>
                                         <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
                                         
                                         @if ($errors->has('date'))

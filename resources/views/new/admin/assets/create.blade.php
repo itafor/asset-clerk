@@ -143,8 +143,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group {{ $errors->has('unit.'.$key.'.quantity') ? 'has-danger':'' }} col-3">
-                                    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                    <input type="number" name="unit[{{$key}}][quantity]" id="input-quantity{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('unit.'.$key.'.quantity')}}" required>
+                                    <label class="form-control-label" for="input-quantity">{{ __('Unit (Unique Tenant)') }}</label>
+                                    <input type="number" name="unit[{{$key}}][quantity]" id="input-quantity{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter Quantity" value="{{old('unit.'.$key.'.quantity')}}" required>
 
                                 </div>                   
                                 <div class="form-group {{ $errors->has('unit.'.$key.'.standard_price') ? 'has-danger':'' }} col-3">
@@ -177,13 +177,15 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
-                                    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
-                                    <select name="unit[112211][category]"  class="form-control" required>
+                                    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
+    <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>
+
+                                  <!--   <select name="unit[112211][category]"  class="form-control" required>
                                         <option value="">Select Category</option>
                                         @foreach (getCategories() as $cat)
                                             <option value="{{$cat->id}}">{{$cat->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> -->
 
                                     @if ($errors->has('category'))
                                         <span class="invalid-feedback" role="alert">
@@ -192,8 +194,8 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
-                                    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                    <input type="number" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>
+                                    <label class="form-control-label" for="input-quantity">Unit (Unique Tenant)</label>
+                                    <input type="number" min="1" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter number of units" value="{{old('quantity')}}" required>
                                     
                                     @if ($errors->has('quantity'))
                                         <span class="invalid-feedback" role="alert">
@@ -203,7 +205,7 @@
                                 </div>                   
                                 <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
                                     <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
-                                    <input type="number" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
+                                    <input type="number" min="1" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
 
                                     @if ($errors->has('standard_price'))
                                         <span class="invalid-feedback" role="alert">
@@ -408,14 +410,17 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
-                        +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
-                        +'        <option value="">Select Category</option>'
-                        +'        @foreach (getCategories() as $cat)'
-                        +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
-                        +'        @endforeach'
-                        +'    </select>'
+                        +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-3">'
+                        +'    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>'
+
+                        + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
+
+                        // +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
+                        // +'        <option value="">Select Category</option>'
+                        // +'        @foreach (getCategories() as $cat)'
+                        // +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
+                        // +'        @endforeach'
+                        // +'    </select>'
 
                         +'    @if ($errors->has('category'))'
                         +'        <span class="invalid-feedback" role="alert">'
@@ -424,8 +429,8 @@
                         +'    @endif'
                         +'</div>'
                         +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
-                        +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
+                        +'    <label class="form-control-label" for="input-quantity">Unit (Unique Tenant)</label>'
+                        +'    <input type="number" min="1" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter Number of Unit" value="{{old('quantity')}}" required>' 
                         +'    @if ($errors->has('quantity'))'
                         +'        <span class="invalid-feedback" role="alert">'
                         +'            <strong>{{ $errors->first('quantity') }}</strong>'
@@ -434,7 +439,7 @@
                         +'</div>         '          
                         +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
-                        +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+                        +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="standard_price form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
 
                         +'    @if ($errors->has('standard_price'))'
                         +'        <span class="invalid-feedback" role="alert">'
@@ -511,5 +516,37 @@
         });
 
         
+//validate standard_price, quantity and units to not accept 0 and nigative numbers
+  $(document).on('keyup', '.standard_price', function(e){
+    let value = e.target.value;
+if(value <= 0){
+   alert('You entered Invalid price');
+    $(this).val('');
+}
+ });
+
+
+  $(document).on('keyup', '.quantity', function(e){
+    e.preventDefault();
+
+    let value = e.target.value;
+if(value <= 0){
+    alert('Invalid input');
+    $(this).val('');
+}
+ });
+
+
+  $(document).on('keyup', '.rooms', function(e){
+    e.preventDefault();
+    let value = e.target.value;
+if(value <= 0){
+    alert('Invalid input');
+     $(this).val('');
+}
+ });
+
+ 
+
     </script>
 @endsection
