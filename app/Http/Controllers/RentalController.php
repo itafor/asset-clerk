@@ -34,13 +34,18 @@ class RentalController extends Controller
 
     public function store(Request $request)
     {
+
+            if($request->due_date < $request->startDate){
+                return back()->withInput()->with('error','End Date cannot be less than start date');
+            }
+
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
             'property' => 'required',
             'unit' => 'required',
             'price' => 'required|numeric',
-            'duration' => 'required|in:1,2,3,4,5',
-            'date' => 'required|date_format:"d/m/Y"'
+            'startDate' => 'required|date_format:"d/m/Y"',
+            'due_date' => 'required|date_format:"d/m/Y"'
         ]);
 
         if ($validator->fails()) {

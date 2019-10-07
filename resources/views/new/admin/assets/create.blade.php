@@ -178,14 +178,14 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
                                     <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
-                                        <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>
+<!--                                         <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required> -->
 
-                                  <!--   <select name="unit[112211][category]"  class="form-control" required>
+                                    <select name="unit[112211][category]"  class="form-control" required>
                                         <option value="">Select Category</option>
                                         @foreach (getCategories() as $cat)
                                             <option value="{{$cat->id}}">{{$cat->name}}</option>
                                         @endforeach
-                                    </select> -->
+                                    </select>
 
                                     @if ($errors->has('category'))
                                         <span class="invalid-feedback" role="alert">
@@ -413,14 +413,14 @@
                         +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>'
 
-                        + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
+                        // + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
 
-                        // +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
-                        // +'        <option value="">Select Category</option>'
-                        // +'        @foreach (getCategories() as $cat)'
-                        // +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
-                        // +'        @endforeach'
-                        // +'    </select>'
+                        +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
+                        +'        <option value="">Select Category</option>'
+                        +'        @foreach (getCategories() as $cat)'
+                        +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
+                        +'        @endforeach'
+                        +'    </select>'
 
                         +'    @if ($errors->has('category'))'
                         +'        <span class="invalid-feedback" role="alert">'

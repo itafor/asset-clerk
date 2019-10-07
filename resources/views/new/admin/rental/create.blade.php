@@ -90,30 +90,33 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('duration') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-duration">{{ __('Duration') }}</label>
-                                        <select name="duration" id="duration" class="form-control" required>
+                                    <div class="form-group{{ $errors->has('startDate') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-duration">{{ __('Start Date') }}</label>
+
+                                         <input type="text" name="startDate" id="startDate" class="datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('startDate')}}" >
+
+                                       <!--  <select name="duration" id="duration" class="form-control" required>
                                             <option value="">Select Duration</option>
                                             <option value="1">1 Year</option>
                                             <option value="2">2 Years</option>
                                             <option value="3">3 Years</option>
                                             <option value="4">4 Years</option>
                                             <option value="5">5 Years</option>
-                                        </select>
+                                        </select> -->
                                         
-                                        @if ($errors->has('duration'))
+                                      <!--   @if ($errors->has('duration'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('duration') }}</strong>
                                             </span>
-                                        @endif
+                                        @endif -->
                                     </div>
-                                    <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-date">{{ __('Start Date') }}</label>
-                                        <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
+                                    <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-date">{{ __('End Date') }}</label>
+                                        <input type="text" name="due_date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('due_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('due_date')}}" required>
                                         
-                                        @if ($errors->has('date'))
+                                        @if ($errors->has('due_date'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('date') }}</strong>
+                                                <strong>{{ $errors->first('due_date') }}</strong>
                                             </span>
                                         @endif
                                     </div>
