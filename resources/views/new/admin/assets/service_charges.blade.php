@@ -36,6 +36,68 @@
               <!-- Card Body -->
               <div class="dt-card__body">
 
+
+ @if(isset($tenantsDetails))
+           @if(count($tenantsDetails) >=1)
+  <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tenants assigned to <strong>{{$asset->description}} asset</strong> service Charge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <br>
+                <!-- Tables -->
+                <div class="table-responsive">
+
+                  <table class="table table-striped table-bordered table-hover datatable">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th><b>Designation</b></th>
+                        <th><b>First Name</b></th>
+                        <th><b>Last Name</b></th>
+                        <th><b>Occupation</b></th>
+                        <th><b>Phone</b></th>
+                        <th class="text-center"><b>Action</b></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                       
+                      
+
+                       
+                                
+                    @foreach ($tenantsDetails as $tenant)
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$tenant->designation}}</td>
+                            <td>{{$tenant->firstname}}</td>
+                            <td>{{$tenant->lastname}}</td>
+                            <td>{{$tenant->occupation}}</td>
+                            {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
+                            <td>{{$tenant->phone}}</td>
+                            <td class="text-center">
+
+                                        <form action="{{ route('remove.tenant.from.sc', ['id'=>$tenant->id,request()->route('id')]) }}" method="get">
+                                            
+                                            <button type="button" class="btn-danger" onclick="confirm('{{ __("Are you sure you want to remove this tenant from this service charge?") }}') ? this.parentElement.submit() : ''">
+                                                {{ __('Remove Tenant') }}
+                                            </button>
+                                        </form> 
+                                 
+                             
+                            </td>
+                        </tr>
+                    @endforeach
+                  
+                    
+                    </tbody>
+                  </table>
+
+                </div>
+                <!-- /tables -->
+                @endif
+  @endif
+
                 <!-- Tables -->
                 <div class="table-responsive">
 
@@ -70,9 +132,19 @@
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Action
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a href="{{ url('asset/delete-service/'.$asset->id) }}" class="dropdown-item addService">Delete Charge</a>
+                                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                      
+                                            <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" class="dropdown-item">Tenants</a>
+                                      
+                                        <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
+                                        <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
+                                            
+                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        </form> 
                                     </div>
+
                                 </div>
 
                         </tr>
@@ -92,9 +164,12 @@
           </div>
           <!-- /grid item -->
 
+
         </div>
         <!-- /grid -->
         @include('admin.assets.partials.service')
+        @include('new.admin.assets.partials.tenants-service-charge')
+
 @endsection
 
 @section('script')

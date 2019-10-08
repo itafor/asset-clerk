@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetPhoto;
-use App\Unit;
-use App\AssignedAsset;
 use App\AssetServiceCharge;
-use Validator;
+use App\AssignedAsset;
+use App\Tenant;
+use App\Unit;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class AssetController extends Controller
 {
@@ -288,6 +289,56 @@ class AssetController extends Controller
             return back()->with('error', 'Error: asset not found');
         }
     }
+
+        public function tenantsServiceCharge($id){
+       
+           $assetSc = AssetServiceCharge::find($id);
+           $asset=$assetSc->asset;
+          $tenants = $assetSc->tenant_id;
+          $tenants_ids=explode(' ',$tenants); 
+
+         $tenantsDetails=array();
+          foreach ($tenants_ids as $key => $id) {
+         $tens = Tenant::where('id',(int)$id)->first();
+         if($tens){
+            $tenantsDetails[] = $tens;
+            }
+          }
+
+    $charges = AssetServiceCharge::with('asset','serviceCharge')
+            ->where('user_id',getOwnerUserID())
+            ->where('status',1)
+            ->orderBy('created_at','desc')
+            ->get();
+        $plan = getUserPlan();
+        $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
+        $query = Asset::query()
+        ->select('assets.uuid','assets.id','assets.address', 'assets.description',
+            'assets.price')
+        ->where('assets.user_id', getOwnerUserID())->limit($limit);
+
+        $data = [
+            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get(),
+            'charges' => $charges,
+            'tenantsDetails' => $tenantsDetails,
+            'asset'=>$asset
+        ];
+
+          return view('new.admin.assets.service_charges',compact('tenantsDetails','charges','tenants','asset'));
+        }
+
+        public function removeTenantFromCS($sc_id,$tenant_id){
+
+          $tenantId =  (int)$tenant_id;
+          $scId =  (int)$sc_id;
+
+          if(removeTenantFromServiceCharge($tenantId, $scId)){
+            return back()->with('success', 'The Selected Tenant has been removed from this service charge');
+          }
+           return back()->with('error', 'Error: An attempt to remove the selected tenant from this service charge failed, try again');
+        }
+
 
     public function addUnit(Request $request)
     {

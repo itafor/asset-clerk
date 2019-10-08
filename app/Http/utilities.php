@@ -1,28 +1,29 @@
 <?php
 
-use App\Country;
-use App\State;
-use App\City;
-use App\Category;
-use App\Landlord;
 use App\Asset;
-use App\Tenant;
-use App\BuildingSection;
 use App\AssetFeature;
+use App\AssetServiceCharge;
 use App\BuildingAge;
-use App\TenantRent;
+use App\BuildingSection;
+use App\Category;
+use App\City;
+use App\Country;
+use App\Landlord;
+use App\Occupation;
+use App\PaymentMode;
+use App\PaymentType;
+use App\PropertyType;
+use App\RentDue;
 use App\ServiceCharge;
 use App\Staff;
-use App\RentDue;
+use App\State;
+use App\Tenant;
+use App\TenantRent;
+use App\Unit;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
-use Carbon\Carbon;
-use App\PropertyType;
-use App\PaymentType;
-use App\PaymentMode;
-use App\Occupation;
-use App\Unit;
 
 function generateUUID()
 {
@@ -333,4 +334,27 @@ function getPaymentModes()
 function getOccupations()
 {
     return Occupation::orderBy('name')->get();
+}
+
+function removeTenantFromServiceCharge($sc_id, $tenant_id){
+  $asset = AssetServiceCharge::find($sc_id);
+
+          $tenants = $asset->tenant_id;
+          $tenants_ids=explode(' ',$tenants);
+
+          $key = array_search($tenant_id, $tenants_ids);
+
+          \array_splice($tenants_ids, $key, 1);
+
+           $tenantIds=implode(' ',$tenants_ids);
+
+          $updateNow = AssetServiceCharge::find($sc_id)
+           ->update([
+            'tenant_id' => $tenantIds
+           ]);
+
+           if($updateNow){
+        return true;
+           }
+         return false;
 }

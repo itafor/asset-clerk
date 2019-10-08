@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Unit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Input;
 
 class Asset extends Model
 {
@@ -160,13 +161,15 @@ class Asset extends Model
     public static function addServiceCharge($data,$asset)
     {
         AssetServiceCharge::where('asset_id', $asset->id)->delete();
+        $tenants_ids = implode(' ', Input::get('tenant_id'));
         foreach($data['service'] as $unit){
             AssetServiceCharge::create([
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
                 'user_id' => getOwnerUserID(),
-                'tenant_id' => $data['tenant_id']
+                'tenant_id' => $tenants_ids,
+                
             ]);
         }
     }

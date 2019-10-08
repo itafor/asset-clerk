@@ -19,4 +19,18 @@ class AssetServiceCharge extends Model
     {
         return $this->belongsTo('App\ServiceCharge');
     }
+
+    public function tenantsServiceCharge($id){
+            
+           $tenants = self::find($id);
+          $tenants = $tenants->tenant_id;
+          $tenants_ids=explode(' ',$tenants); 
+
+         $tenantsDetails=array();
+          foreach ($tenants_ids as $key => $id) {
+         $tenantsDetails[] = Tenant::where('id',(int)$id)->get();
+          }
+          return $tenantsDetails;
+        }
+
 }

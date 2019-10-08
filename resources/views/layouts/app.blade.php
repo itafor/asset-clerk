@@ -24,6 +24,7 @@
          
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <link type="text/css" href="{{ url('css/b4-select2.css') }}" rel="stylesheet">
+       
         <script>
             var baseUrl = "{{url('/')}}";
         </script>
@@ -183,6 +184,9 @@
             });
 
         </script>
+
+    
+
         @yield('script')
     </body>
 </html>
