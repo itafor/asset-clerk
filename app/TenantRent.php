@@ -48,7 +48,7 @@ class TenantRent extends Model
         $duration = $startDate->diff($dueDate)->days;
         $end_date = (new $startDate)->add(new DateInterval("P{$duration}D") );
         $dd = date_diff($startDate,$end_date);
-        $final_duration = $dd->y." years ".$dd->m." months ".$dd->d." days";
+        $final_duration = $dd->y." years, ".$dd->m." months, ".$dd->d." days";
         
 
         $rental = self::create([

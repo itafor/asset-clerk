@@ -22,6 +22,11 @@
               </div>
               <!-- /entry heading -->
 
+              <div class="dt-entry__heading">
+                <a href="/asset/add-service-charge"> <button class="btn-sm btn-primary"> Add Service Charge  </button>
+                 </a>
+              </div>
+
             </div>
             <!-- /entry header -->
 

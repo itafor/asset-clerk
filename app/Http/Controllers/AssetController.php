@@ -251,13 +251,18 @@ class AssetController extends Controller
         return view('new.admin.assets.my', $data);
     }
 
+    public function createServiceCharge(Request $request){
+        return view('new.admin.assets.create_asset_service_charge');
+    }
+
     public function addServiceCharge(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
             'service.*.price' => 'required',
-            'asset' => 'required'
+            'asset' => 'required',
+            'tenant_id' => 'required'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)
@@ -277,7 +282,7 @@ class AssetController extends Controller
                 }*/
                 Asset::addServiceCharge($request->all(), $asset);
             }
-            return back()->with('success', 'Service charge added successfully');
+            return redirect()->route('service.charges')->with('success', 'Service charge added successfully');
         }
         else{
             return back()->with('error', 'Error: asset not found');
@@ -321,6 +326,7 @@ class AssetController extends Controller
         $charges = AssetServiceCharge::with('asset','serviceCharge')
             ->where('user_id',getOwnerUserID())
             ->where('status',1)
+            ->orderBy('created_at','desc')
             ->get();
         $plan = getUserPlan();
         $limit = $plan['details']->properties;

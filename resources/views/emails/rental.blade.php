@@ -185,7 +185,7 @@
                 </td>
                 
                 <td>
-                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d/m/Y')}}
+                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
                 </td>
             </tr>
 

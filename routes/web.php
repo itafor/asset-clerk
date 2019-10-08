@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
 			Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 			Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
+			Route::get('/add-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
 			Route::post('/add-service-charge', 'AssetController@addServiceCharge')->name('asset.service.add');
 			Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 			Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');

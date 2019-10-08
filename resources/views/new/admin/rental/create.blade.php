@@ -104,11 +104,11 @@
                                             <option value="5">5 Years</option>
                                         </select> -->
                                         
-                                      <!--   @if ($errors->has('duration'))
+                                        @if ($errors->has('startDate'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('duration') }}</strong>
+                                                <strong>{{ $errors->first('startDate') }}</strong>
                                             </span>
-                                        @endif -->
+                                        @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-date">{{ __('End Date') }}</label>

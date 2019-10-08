@@ -165,7 +165,8 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
-                'user_id' => getOwnerUserID()
+                'user_id' => getOwnerUserID(),
+                'tenant_id' => $data['tenant_id']
             ]);
         }
     }
