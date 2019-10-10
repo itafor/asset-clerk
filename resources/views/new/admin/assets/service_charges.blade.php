@@ -101,7 +101,7 @@
   <div class="row">
      <div class="form-group col-2">
   <div>
-    <input type="text" class="form-control" name="search" id="search" placeholder="Search Description">
+    <input type="text" class="form-control" name="search" id="search" placeholder="Search Description" autocomplete="false">
     
   </div>
 </div>
