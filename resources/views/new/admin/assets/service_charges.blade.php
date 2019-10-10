@@ -40,7 +40,7 @@
  @if(isset($tenantsDetails))
            @if(count($tenantsDetails) >=1)
   <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tenants assigned to <strong>{{$asset->description}} asset</strong> service Charge</h5>
+                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong>{{$asset->description}} asset</strong> service Charge</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
@@ -97,6 +97,46 @@
                 <!-- /tables -->
                 @endif
   @endif
+<!-- search description -->
+  <div class="row">
+     <div class="form-group col-2">
+  <div>
+    <input type="text" class="form-control" name="search" id="search" placeholder="Search Description">
+    
+  </div>
+</div>
+     <div class="form-group col-2">
+  <div>
+     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="search Location">
+  </div>
+</div>
+
+   <div class="form-group col-2">
+  <div>
+      <input type="text" class="form-control" name="searchName" id="searchlocation" placeholder="search Name">
+  </div>
+</div>
+
+   <div class="form-group col-2">
+  <div>
+     <input type="text" class="form-control" name="searchCategory" id="searchlocation" placeholder="search Category">
+  </div>
+</div>
+
+   <div class="form-group col-2">
+  <div>
+     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="search Location">
+  </div>
+</div>
+
+  <div class="form-group col-2">
+  <div>
+     <input type="text" class="form-control" name="searchAmount" id="searchlocation" placeholder="search Amount">
+  </div>
+</div>
+</div>
+<!-- search description ends-->
+
 
                 <!-- Tables -->
                 <div class="table-responsive">
@@ -136,7 +176,8 @@
                                       
                                             <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" class="dropdown-item">Tenants</a>
                                       
-                                        <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
+                                        <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
+                                        
                                         <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
                                             
                                             <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
@@ -146,7 +187,7 @@
                                     </div>
 
                                 </div>
-
+</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -253,5 +294,27 @@
             var asset = $(this).data('asset');
             $('#asset').val(asset);
         })
+
+
+
+ $(document).on('keyup', '#search', function(){
+  var $value = $(this).val();
+    $.ajax({
+   type:'GET',
+   url:"{{URL::to('asset/search')}}",
+   data:{'search':$value},
+   success:function(data)
+   {
+    if(data){
+   $('tbody').html(data);
+   }else{
+    $('tbody').html('<tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>');
+   }
+}
+  })
+
+ });
+
+
     </script>
 @endsection

@@ -178,7 +178,7 @@ function getServiceCharge($type = null)
 
 function getServiceChargeType($serviceCharge)
 {
-    $sc = ServiceCharge::find($serviceCharge);
+    $sc = ServiceCharge::where('name',$serviceCharge)->first();
     if($sc){
         return $sc->type;
     }   
@@ -357,4 +357,17 @@ function removeTenantFromServiceCharge($sc_id, $tenant_id){
         return true;
            }
          return false;
+
+function searchServiceCharge($query){
+    $service_charges_data = AssetServiceCharge::join('assets as a', 'a.id', '=', 'asset_service_charges.asset_id')
+    ->join('service_charges as s', 's.id', '=', 'asset_service_charges.service_charge_id')
+      ->selectRaw('a.description')
+    ->where('a.description','like',"%{$query}%")
+->first();
+ return $service_charge;
+// foreach ($service_charges as $key => $service_charge) {
+//    return $service_charge; 
+//     }
+}
+
 }

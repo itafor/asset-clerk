@@ -169,9 +169,21 @@ class Asset extends Model
                 'price' => $unit['price'],
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
-                
             ]);
         }
+    }
+
+    public static function updateServiceCharge($data){
+
+         $tenants_ids = implode(' ', Input::get('tenant_id'));
+        AssetServiceCharge::where('id',$data['id'])
+        ->update([
+                'asset_id' => $data['asset_id'],
+                'service_charge_id' => $data['service_charge_id'],
+                'price' => $data['price'],
+                'user_id' => getOwnerUserID(),
+                'tenant_id' => $tenants_ids,
+        ]);
     }
 
     public static function addPhoto($data,$asset)

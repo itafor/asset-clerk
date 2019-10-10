@@ -258,6 +258,7 @@ class AssetController extends Controller
 
     public function addServiceCharge(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
@@ -288,6 +289,63 @@ class AssetController extends Controller
         else{
             return back()->with('error', 'Error: asset not found');
         }
+    }
+
+    public function editServiceCharge($id){
+        $service_ch = '';
+        $service_charge = AssetServiceCharge::find($id);
+        foreach (getServiceCharge() as $key => $sc) {
+          if($sc->id == $service_charge->service_charge_id){
+            $service_ch = $sc->name;
+          }
+        }
+
+         $tenants = $service_charge->tenant_id;
+          $tenants_ids=explode(' ',$tenants); 
+
+         $tenantsDetails=array();
+          foreach ($tenants_ids as $key => $id) {
+         $tens = Tenant::where('id',(int)$id)->first();
+         if($tens){
+            $tenantsDetails[] = $tens;
+            }
+          }
+
+       $serviceChType = getServiceChargeType($service_ch);
+
+        return view('new.admin.assets.edit-asset-service-charge',compact('service_charge','serviceChType','tenantsDetails'));
+    }
+
+
+    public function updateServiceCharge(Request $request){
+       
+        $data = $request->all();
+        dd($data);
+       $validator = validator::make($data,
+        [
+                'asset_id' => 'required',
+                'service_charge_id' => 'required',
+                'price' => 'required',
+                'user_id' => 'required',
+                'tenant_id' => 'required'
+        ]);
+
+       if($validator->fails()){
+            return back()->withErrors($validator)
+             ->withInput()->with('error', 'Please fill in a required fields');
+       }
+       
+        DB::beginTransaction();
+        try{
+            Asset::updateServiceCharge($data);
+            DB::commit();
+        }
+        catch(Exception $e){
+            DB::rollback();
+            return back()->withInput()->with('error', 'An error occured. Please try again');
+        }
+
+        return back()->with('success', 'Service Charge updated successfully');
     }
 
         public function tenantsServiceCharge($id){
@@ -409,4 +467,50 @@ class AssetController extends Controller
        }
     }
 
+public function search_Service_Charge(Request $request){
+    $sn = 1;
+    $outPut = "";
+    if($request->ajax()){
+    $service_charges = AssetServiceCharge::join('assets', 'assets.id', '=', 'asset_service_charges.asset_id')
+        // ->join('service_charges','service_charges.id','=','asset_service_charges.  service_charge_id')
+      ->selectRaw('assets.*,asset_service_charges.*')
+      ->where('assets.description', 'like','%'.$request->search.'%')
+      ->where('assets.user_id',getOwnerUserID())
+      ->where('asset_service_charges.status',1)
+      ->orderBy('asset_service_charges.created_at','desc')
+                            ->get();
+        if($service_charges){
+           foreach ($service_charges as $key => $sc) {
+               $outPut.='<tr>'.
+                '<td>'.$sn.'</td>'.
+                '<td>'.$sc->description.'</td>'.
+                '<td>'.'Lagos'.'</td>'.
+                '<td>'.'Security'.'</td>'.
+                '<td>'.$sc->status.'</td>'.
+                '<td>'.$sc->price.'</td>'.
+
+                '<td class="text-center">'.
+                                '<div class="dropdown">'.
+                                   '<a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                    </a>'.
+                                          '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'.
+                                      
+                                            '<a href="/asset/tenants-service-charge/'.$sc->id.'" class="dropdown-item">Tenants</a>'.
+                                      
+                                        '<a href="/asset/edit-service-charge/'.$sc->id.'" class="dropdown-item">Edit</a>'.
+                                        
+                                       '<a href="/asset/delete-service/'.$sc->id.'" onclick="return confirm(\'Are you sure?\')" class="dropdown-item">Delete</a>'.
+                                    '</div>'.
+
+                                '</div>'.
+                        '</td>'.
+            '</tr>';
+            $sn++;
+           }
+           return response($outPut);
+        }
+    }
+    
+    }
 }
