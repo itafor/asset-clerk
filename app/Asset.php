@@ -160,7 +160,7 @@ class Asset extends Model
     
     public static function addServiceCharge($data,$asset)
     {
-        AssetServiceCharge::where('asset_id', $asset->id)->delete();
+        //AssetServiceCharge::where('asset_id', $asset->id)->delete();
         $tenants_ids = implode(' ', Input::get('tenant_id'));
         foreach($data['service'] as $unit){
             AssetServiceCharge::create([

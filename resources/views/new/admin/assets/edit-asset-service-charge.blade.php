@@ -224,9 +224,9 @@
         })
 
 // remove duplicate option from dropdown
-    $(".chzn-select option").val(function(idx, val) {
-      $(this).siblings('[value="'+ val +'"]').remove();
-   });
+   //  $(".chzn-select option").val(function(idx, val) {
+   //    $(this).siblings('[value="'+ val +'"]').remove();
+   // });
 
     
         </script>

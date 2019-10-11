@@ -23,7 +23,7 @@
               <!-- /entry heading -->
 
               <div class="dt-entry__heading">
-                <a href="/asset/add-service-charge"> <button class="btn-sm btn-primary"> Add Service Charge  </button>
+                <a href="/asset/add-service-charge"> <button type="button" class="btn btn-primary btn-sm"> Add Service Charge  </button>
                  </a>
               </div>
 
@@ -101,37 +101,37 @@
   <div class="row">
      <div class="form-group col-2">
   <div>
-    <input type="text" class="form-control" name="search" id="search" placeholder="Search Description" autocomplete="false">
+    <input type="text" class="form-control" name="search" id="search" placeholder="&#128269 Description" autocomplete="false">
     
   </div>
 </div>
      <div class="form-group col-2">
   <div>
-     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="search Location">
+     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="&#128269 Location">
   </div>
 </div>
 
    <div class="form-group col-2">
   <div>
-      <input type="text" class="form-control" name="searchName" id="searchlocation" placeholder="search Name">
+      <input type="text" class="form-control" name="searchName" id="searchlocation" placeholder="&#128269 Name">
   </div>
 </div>
 
    <div class="form-group col-2">
   <div>
-     <input type="text" class="form-control" name="searchCategory" id="searchlocation" placeholder="search Category">
+     <input type="text" class="form-control" name="searchCategory" id="searchlocation" placeholder="&#128269 Category">
   </div>
 </div>
 
    <div class="form-group col-2">
   <div>
-     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="search Location">
+     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="&#128269 Location">
   </div>
 </div>
 
   <div class="form-group col-2">
   <div>
-     <input type="text" class="form-control" name="searchAmount" id="searchlocation" placeholder="search Amount">
+     <input type="text" class="form-control" name="searchAmount" id="searchlocation" placeholder="&#128269 Amount">
   </div>
 </div>
 </div>

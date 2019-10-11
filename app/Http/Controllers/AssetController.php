@@ -320,7 +320,7 @@ class AssetController extends Controller
     public function updateServiceCharge(Request $request){
        
         $data = $request->all();
-        dd($data);
+        // dd($data);
        $validator = validator::make($data,
         [
                 'asset_id' => 'required',

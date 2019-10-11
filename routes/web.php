@@ -127,6 +127,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('my-referals', 'TenantController@referals')->name('tenant.referals');
 		Route::get('my-maintenance', 'TenantController@myMaintenance')->name('tenant.maintenance');
 		Route::get('create-maintenance', 'TenantController@createMaintenance')->name('tenant.maintenance.create');
+		Route::get('fetch-tenants/{id}', 'TenantController@fetchTeanatThatBelongsToAnAsset')->name('fetch.tenants');
+		
 	});
 
 	Route::prefix('report')->group(function(){

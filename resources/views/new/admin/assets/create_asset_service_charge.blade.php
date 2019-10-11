@@ -35,8 +35,22 @@
                     <!-- <input type="hidden" name="asset" id="asset"> -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
+                   <section>
+
+
+      <div class="input-group mb-2 mr-sm-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text all-tenant-label">Select all tenants</div>
+    </div>
+
+        <div class="checkboxFour">
+        <input type="checkbox" value="1" id="checkboxFourInput" name="" />
+        <label for="checkboxFourInput"></label>
+    </div>
+
+  </div>
+
+</section>
                 </div>
                 <div class="modal-body" style="text-align:left">
                         @csrf
@@ -46,7 +60,7 @@
                              <div class="form-group col-4">
                                 <label class="form-control-label" for="input-category">{{ __('Property (Asset)') }}</label>
                                 <div>
-                                    <select name="asset" id="asset" class="form-control" style="width:100%" required>
+                                    <select name="asset" id="asset" class="form-control asset" style="width:100%" required>
                                     <option value="">Select Property</option>
                                     @foreach(getAssets() as $asset)
                                     <option value="{{$asset->id}}">{{$asset->description}}</option>
@@ -58,13 +72,10 @@
 
 
                             <div class="form-group col-8">
-                                <label class="form-control-label" for="input-category">{{ __('Tenants (Select Tenant)') }}</label>
+                                <label class="form-control-label" for="input-category">{{ __('Tenant') }}</label>
                                 <div>
-                                    <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select" style="width:100%" required multiple="true">
-                                    @foreach( getTenants() as $tenant)
-                                    <option value="{{$tenant->id}}">{{$tenant->firstname}}  {{$tenant->lastname}}</option>
-                                    @endforeach
-                                    
+                                    <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select tenant" style="width:100%" multiple="true" required>
+                                    <option value="">Select Tenants</option>
                                 </select>
                                 </div>
                             </div>
@@ -122,6 +133,9 @@
     <script>
 
 
+
+       
+
         $('body').on('change', '.sc_type', function(){
             var sc_type = $(this).val();
             var row = $(this).data('row');
@@ -143,6 +157,55 @@
                 });
             }
         });
+
+        // check whether to select all tenants or not begins
+                $allTenants = false;
+                 $("#checkboxFourInput").change(function() {
+                    if($(this).prop('checked')) {
+                       $allTenants = true
+                    } else {
+                        $allTenants = false
+                    }
+                });
+ // check whether to select all tenants or not ends
+
+        $('body').on('change', '.asset', function(){
+
+            var asset = $(this).val();
+            if(asset){
+
+                $('#tenant_id').empty();
+                $('<option>').val('').text('Loading...').appendTo('#tenant_id');
+                $.ajax({
+                    url:"{{URL::to('tenant/fetch-tenants')}}/"+asset,
+                    type: "GET",
+                    data: {'asset':'json'},
+                    success: function(data) {
+                        $('#tenant_id').empty();
+
+                         if($allTenants==true){
+                             $('<option>').val('').text('Select tenant').appendTo('#tenant_id');
+                         }else{
+
+                        $('<option>').attr('selected', true).val('').text('Select tenant').appendTo('#tenant_id');
+                         }
+
+
+                        $.each(data, function(k, v) {
+                            if($allTenants==true){
+                                $('<option>').attr('selected', true).val(v.tenantId).text(v.tenant + ' - ' + v.name).appendTo('#tenant_id');
+                            }else{
+                                $('<option>').val(v.tenantId).text(v.tenant + ' - ' + v.name).appendTo('#tenant_id');
+                            }
+                            
+                        });
+                    }
+                });
+            }
+        });
+
+
+
 
 
         // Remove parent of 'remove' link when link is clicked.

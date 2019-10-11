@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Asset;
+use App\Tenant;
+use App\TenantRent;
+use App\Unit;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
-use DB;
-use App\Tenant;
 
 class TenantController extends Controller
 {
@@ -113,6 +116,27 @@ class TenantController extends Controller
 
         Tenant::updateTenant($request->all());
         return redirect()->route('tenant.index')->with('success', 'Tenant updated successfully');
+    }
+
+      public function fetchTeanatThatBelongsToAnAsset($id)
+    {
+        $property = Asset::where('id', $id)->where('user_id', getOwnerUserID())->first();
+        if($property){
+
+            $units = Unit::where('units.asset_id', $property->id)
+            ->join('categories as c', 'c.id', '=', 'units.category_id')
+            ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')
+            ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
+            ->selectRaw('units.*, c.name, CONCAT(t.designation, " ", t.firstname, " ", t.lastname) as tenant, t.id as tenantId')
+            // ->where('units.quantity_left', '>', 0)
+            ->whereNull('tr.deleted_at')
+            ->whereRaw('tr.due_date > CURDATE()')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
     }
 
     public function myProfile()
