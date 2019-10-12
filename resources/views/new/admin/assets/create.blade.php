@@ -520,7 +520,7 @@
   $(document).on('keyup', '.standard_price', function(e){
     let value = e.target.value;
 if(value <= 0){
-   alert('You entered Invalid price');
+   // alert('You entered Invalid price');
     $(this).val('');
 }
  });
@@ -531,7 +531,6 @@ if(value <= 0){
 
     let value = e.target.value;
 if(value <= 0){
-    alert('Invalid input');
     $(this).val('');
 }
  });
@@ -541,7 +540,6 @@ if(value <= 0){
     e.preventDefault();
     let value = e.target.value;
 if(value <= 0){
-    alert('Invalid input');
      $(this).val('');
 }
  });

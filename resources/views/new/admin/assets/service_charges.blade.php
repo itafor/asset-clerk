@@ -104,7 +104,7 @@
    <div class="form-group col-2">
    <label class="form-control-label" for="input-quantity">{{ __('Min Amt') }}</label>
 
-     <input type="text"class="form-control {{$errors->has('minAmt') ? ' is-invalid' : ''}}" name="minAmt" id="searchAmount" placeholder="Min" autocomplete="off">
+     <input type="number" min="1" class="form-control {{$errors->has('minAmt') ? ' is-invalid' : ''}}" name="minAmt" id="minAmt" placeholder="Min. Amount" autocomplete="off">
   @if ($errors->has('minAmt'))
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $errors->first('minAmt') }}</strong>
@@ -115,7 +115,7 @@
  <div class="form-group col-2">
    <label class="form-control-label" for="input-quantity">{{ __('Max Amt') }}</label>
 
-     <input type="text" name="maxAmt" id="searchAmount" class="form-control {{$errors->has('maxAmt') ? ' is-invalid' : ''}}"  placeholder="Max" autocomplete="off">
+     <input type="number" min="1" name="maxAmt" id="maxAmt" class="form-control {{$errors->has('maxAmt') ? ' is-invalid' : ''}}"  placeholder="Max. Amount" autocomplete="off">
    @if ($errors->has('maxAmt'))
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $errors->first('maxAmt') }}</strong>
@@ -328,6 +328,15 @@
             }
         });
 
+
+  $(document).on('keyup', '#minAmt, #maxAmt', function(e){
+    e.preventDefault();
+    let $value = e.target.value;
+if($value <= 0){
+    // alert('Invalid input');
+     $(this).val('');
+}
+ });
 
 
 

@@ -320,7 +320,7 @@ class AssetController extends Controller
     public function updateServiceCharge(Request $request){
        
         $data = $request->all();
-      //  dd($data);
+        
        $validator = validator::make($data,
         [
                 'asset_id' => 'required',
@@ -455,7 +455,13 @@ public function getAssetLocation($asset_id){
 }
 public function search_Service_Charge(Request $request){
 
-    $validator = validator::make($request->all(),[
+     $data = $request->all();
+
+     if($data['minAmt'] > $data['maxAmt']){
+       return  back()->withInput()->with('error', 'Invalid amount range: Min. Amount cannot be more than max. Amount');
+     }
+
+    $validator = validator::make($data,[
         'asset' => 'required',
         'location' => 'required',
         'type' => 'required',
