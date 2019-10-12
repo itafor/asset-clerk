@@ -457,10 +457,6 @@ public function search_Service_Charge(Request $request){
 
      $data = $request->all();
 
-     if($data['minAmt'] > $data['maxAmt']){
-       return  back()->withInput()->with('error', 'Invalid amount range: Min. Amount cannot be more than max. Amount');
-     }
-
     $validator = validator::make($data,[
         'asset' => 'required',
         'location' => 'required',
@@ -474,6 +470,11 @@ public function search_Service_Charge(Request $request){
          return  back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
     }
+
+    if($data['minAmt'] > $data['maxAmt']){
+       return  back()->withInput()->with('error', 'Invalid amount range: Min. Amount cannot be more than max. Amount');
+     }
+
 
     $assetId = $request->asset;
      if($assetId){

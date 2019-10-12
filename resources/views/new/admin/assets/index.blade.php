@@ -243,14 +243,14 @@
                         +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>'
 
-                            + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
+                            // + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
 
-                        // +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
-                        // +'        <option value="">Select Category</option>'
-                        // +'        @foreach (getCategories() as $cat)'
-                        // +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
-                        // +'        @endforeach'
-                        // +'    </select>'
+                        +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
+                        +'        <option value="">Select Category</option>'
+                        +'        @foreach (getCategories() as $cat)'
+                        +'            <option value="{{$cat->id}}">{{$cat->name}}</option>'
+                        +'        @endforeach'
+                        +'    </select>'
 
                         +'    @if ($errors->has('category'))'
                         +'        <span class="invalid-feedback" role="alert">'
@@ -299,7 +299,6 @@
   $(document).on('keyup', '.standard_price', function(e){
     let value = e.target.value;
 if(value <= 0){
-   alert('You entered Invalid price');
     $(this).val('');
 }
  });
@@ -310,7 +309,6 @@ if(value <= 0){
 
     let value = e.target.value;
 if(value <= 0){
-    alert('Invalid input');
     $(this).val('');
 }
  });
@@ -320,7 +318,6 @@ if(value <= 0){
     e.preventDefault();
     let value = e.target.value;
 if(value <= 0){
-    alert('Invalid input');
      $(this).val('');
 }
  });

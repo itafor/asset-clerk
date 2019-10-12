@@ -32,14 +32,14 @@
                                 <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
                                 <div>
 
-                                    <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>
+                                   <!--  <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required> -->
 
-                               <!--      <select name="unit[112211][category]"  class="form-control" required style="width:100%">
+                                    <select name="unit[112211][category]"  class="form-control" required style="width:100%">
                                     <option value="">Select Category</option>
                                     @foreach (getCategories() as $cat)
                                         <option value="{{$cat->id}}">{{$cat->name}}</option>
                                     @endforeach
-                                </select> -->
+                                </select>
 
                                 </div>
                                 @if ($errors->has('category'))
