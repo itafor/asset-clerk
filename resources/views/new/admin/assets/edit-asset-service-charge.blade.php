@@ -66,7 +66,7 @@
                             <div class="form-group col-8">
                                 <label class="form-control-label" for="input-category">{{ __('Tenants (Select Tenant)') }}</label>
                                 <div>
-                                    <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select" style="width:100%" required multiple="true">
+                                    <select name="tenant_id[]" id="tenant_id" class="form-control {{$errors->has('tenant_id') ? ' is-invalid' : ''}} chzn-select" style="width:100%" required multiple="true">
                                   @foreach( $tenantsDetails as $detail)
                                     <option value="{{$detail->id}}" selected="true">{{$detail->firstname}}  {{$detail->lastname}}</option>
                                     @endforeach
@@ -76,6 +76,11 @@
                                     @endforeach
                                     
                                 </select>
+                                 @if ($errors->has('tenant_id'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('tenant_id') }}</strong>
+                      </span>
+                @endif    
                                 </div>
                             </div>
 
@@ -98,7 +103,7 @@
                             <div class="form-group col-4">
                                 <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
                                 <div>
-                                    <select name="service_charge_id" id="serviceCharge112211" style="width:100%" class="form-control" required>
+                                    <select name="service_charge_id" id="serviceCharge112211" style="width:100%" class="form-control {{$errors->has('service_charge_id') ? ' is-invalid' : ''}}" >
                                     <option value="">Select Service Charge</option>
                                      @foreach(getServiceCharge() as $sc)
 
@@ -107,11 +112,22 @@
                                 @endforeach
                                     </option>
                                 </select>
+
+                                 @if ($errors->has('service_charge_id'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('service_charge_id') }}</strong>
+                      </span>
+                @endif    
                                 </div>
                             </div>                   
                             <div class="form-group col-4">
                                 <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
-                                <input type="number" name="price" id="input-price" class="form-control" placeholder="Enter Price"  value="{{$service_charge->price}}">
+                                <input type="number" name="price" id="input-price" class="form-control {{$errors->has('price') ? ' is-invalid' : ''}}" placeholder="Enter Price"  value="{{$service_charge->price}}">
+                                 @if ($errors->has('price'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('price') }}</strong>
+                      </span>
+                @endif    
                             </div>
                         </div>
                             <div style="clear:both"></div>

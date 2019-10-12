@@ -64,7 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
 		  Route::get('/edit-service-charge/{id}', 'AssetController@editServiceCharge')->name('asset.service.charge.edit');
 
 		 Route::post('/update-service-charge', 'AssetController@updateServiceCharge')->name('asset.service.charge.update');
-		Route::get('/search', 'AssetController@search_Service_Charge')->name('search.service.charge');
+		
+
+		 Route::get('/get-asset-location/{asset_id}', 'AssetController@getAssetLocation')->name('getAssetLocation');
+
+		Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('search.service.charge');
 			
 			Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 			Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');

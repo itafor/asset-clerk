@@ -36,106 +36,170 @@
               <!-- Card Body -->
               <div class="dt-card__body">
 
+<!-- search description -->
+<form action="{{route('search.service.charge')}}" method="post">
+   @csrf
+  <div class="row">
+     <div class="form-group col-2">
+      <label class="form-control-label" for="input-category">{{ __('Property') }}</label>
+          
+              <select name="asset" id="asset" class="form-control {{$errors->has('asset') ? ' is-invalid' : ''}} asset" style="width:100%" required>
+              <option value="">Select Property</option>
+              @foreach(getAssets() as $asset)
+              <option value="{{$asset->id}}">{{$asset->description}}</option>
+              @endforeach
+              
+          </select>
+          
+             @if ($errors->has('asset'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('asset') }}</strong>
+                      </span>
+                @endif               
+</div>
+<div class="form-group col-2">
+              <label class="form-control-label" for="input-category">{{ __('Location') }}</label>
+              <div>
+                  <select name="location" id="searchlocation" class="form-control {{$errors->has('location') ? ' is-invalid' : ''}}" style="width:100%" required>
+                  <option value="" selected="selected">Select Location</option>
+              </select>
+               @if ($errors->has('location'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('location') }}</strong>
+                                        </span>
+                @endif
+              </div>
+  </div>
 
- @if(isset($tenantsDetails))
-           @if(count($tenantsDetails) >=1)
-  <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong>{{$asset->description}} asset</strong> service Charge</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <br>
-                <!-- Tables -->
+   <div class="form-group col-2">
+ <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
+                                <div>
+                                    <select name="type" class="form-control {{$errors->has('type') ? ' is-invalid' : ''}} sc_type" style="width:100%" >
+                                    <option value="">Select Type</option>
+                                    <option value="fixed">Fixed</option>
+                                    <option value="variable">Variable</option>
+                                </select>
+                    @if ($errors->has('type'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('type') }}</strong>
+                      </span>
+                @endif   
+                                </div>
+</div>
+
+   <div class="form-group col-2">
+  <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
+                  <div>
+                      <select name="service_name" id="service_name" style="width:100%" class="form-control {{$errors->has('service_name') ? ' is-invalid' : ''}}">
+                      <option value="">Select Service Charge</option>
+                  </select>
+                   @if ($errors->has('service_name'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('service_name') }}</strong>
+                      </span>
+                @endif   
+                  </div>
+</div>
+
+   <div class="form-group col-2">
+   <label class="form-control-label" for="input-quantity">{{ __('Min Amt') }}</label>
+
+     <input type="text"class="form-control {{$errors->has('minAmt') ? ' is-invalid' : ''}}" name="minAmt" id="searchAmount" placeholder="Min" autocomplete="off">
+  @if ($errors->has('minAmt'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('minAmt') }}</strong>
+                      </span>
+                @endif   
+</div>
+
+ <div class="form-group col-2">
+   <label class="form-control-label" for="input-quantity">{{ __('Max Amt') }}</label>
+
+     <input type="text" name="maxAmt" id="searchAmount" class="form-control {{$errors->has('maxAmt') ? ' is-invalid' : ''}}"  placeholder="Max" autocomplete="off">
+   @if ($errors->has('maxAmt'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('maxAmt') }}</strong>
+                      </span>
+                @endif   
+</div>
+
+  <div class="form-group col-2">
+  <div class="text-center">
+    <button type="submit" value="Search" class="btn-sm btn-info"> Search</button>
+  </div>
+</div>
+</div>
+</form>
+<!-- search description ends-->
+
+@if(isset($assetsServiceCharges))
+  @if(count($assetsServiceCharges) >=1)
+  <!-- Tables -->
                 <div class="table-responsive">
 
                   <table class="table table-striped table-bordered table-hover datatable">
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th><b>Designation</b></th>
-                        <th><b>First Name</b></th>
-                        <th><b>Last Name</b></th>
-                        <th><b>Occupation</b></th>
-                        <th><b>Phone</b></th>
+                        <th><b>Description</b></th>
+                        <th><b>Location</b></th>
+                        <th><b>Name</b></th>
+                        <th><b>Category</b></th>
+                        <th><b>Amount</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
                     <tbody>
-                       
-                      
-
-                       
-                                
-                    @foreach ($tenantsDetails as $tenant)
+                    @foreach ($assetsServiceCharges as $asset)
                         <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$tenant->designation}}</td>
-                            <td>{{$tenant->firstname}}</td>
-                            <td>{{$tenant->lastname}}</td>
-                            <td>{{$tenant->occupation}}</td>
-                            {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
-                            <td>{{$tenant->phone}}</td>
+                            <td>
+                                @php
+                                    $i = $loop->iteration;
+                                @endphp
+                            {{$i}} 
+                            </td>
+                            <td>{{ $asset->asset->description }}</td>
+                            <td>{{ $asset->asset->address }}</td>
+                            <td>{{$asset->serviceCharge->name}}</td>
+                            <td>{{ucwords($asset->serviceCharge->type)}}</td>
+                            <td>&#8358; {{number_format($asset->price,2)}}</td>
                             <td class="text-center">
-
-                                        <form action="{{ route('remove.tenant.from.sc', ['id'=>$tenant->id,request()->route('id')]) }}" method="get">
+                                <div class="dropdown">
+                                    <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                    </a>
+                                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                      
+                                            <a href="/asset/tenants-service-charge/{{$asset->id}}" target="_blank|_parent" class="dropdown-item" >Tenants</a>
+                                      
+                                        <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
+                                        
+                                        <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
                                             
-                                            <button type="button" class="btn-danger" onclick="confirm('{{ __("Are you sure you want to remove this tenant from this service charge?") }}') ? this.parentElement.submit() : ''">
-                                                {{ __('Remove Tenant') }}
+                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
+                                                {{ __('Delete') }}
                                             </button>
                                         </form> 
-                                 
-                             
-                            </td>
+                                    </div>
+
+                                </div>
+</td>
                         </tr>
                     @endforeach
-                  
-                    
+
+
                     </tbody>
+                                    @else
+  <tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>
+    @endif
                   </table>
 
                 </div>
                 <!-- /tables -->
-                @endif
-  @endif
-<!-- search description -->
-  <div class="row">
-     <div class="form-group col-2">
-  <div>
-    <input type="text" class="form-control" name="search" id="search" placeholder="&#128269 Description" autocomplete="false">
-    
-  </div>
-</div>
-     <div class="form-group col-2">
-  <div>
-     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="&#128269 Location">
-  </div>
-</div>
 
-   <div class="form-group col-2">
-  <div>
-      <input type="text" class="form-control" name="searchName" id="searchlocation" placeholder="&#128269 Name">
-  </div>
-</div>
 
-   <div class="form-group col-2">
-  <div>
-     <input type="text" class="form-control" name="searchCategory" id="searchlocation" placeholder="&#128269 Category">
-  </div>
-</div>
+@else
 
-   <div class="form-group col-2">
-  <div>
-     <input type="text"class="form-control" name="searchlocation" id="searchlocation" placeholder="&#128269 Location">
-  </div>
-</div>
-
-  <div class="form-group col-2">
-  <div>
-     <input type="text" class="form-control" name="searchAmount" id="searchlocation" placeholder="&#128269 Amount">
-  </div>
-</div>
-</div>
-<!-- search description ends-->
 
 
                 <!-- Tables -->
@@ -195,7 +259,7 @@
 
                 </div>
                 <!-- /tables -->
-
+@endif
               </div>
               <!-- /card body -->
 
@@ -208,8 +272,7 @@
 
         </div>
         <!-- /grid -->
-        @include('admin.assets.partials.service')
-        @include('new.admin.assets.partials.tenants-service-charge')
+       <!--  -->
 
 @endsection
 
@@ -220,100 +283,52 @@
             var row = $(this).data('row');
             if(sc_type){
 
-                $('#serviceCharge'+row).empty();
-                $('<option>').val('').text('Loading...').appendTo('#serviceCharge'+row);
+                $('#service_name').empty();
+                $('<option>').val('').text('Loading...').appendTo('#service_name');
                 $.ajax({
                     url: baseUrl+'/fetch-service-charge/'+sc_type,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        $('#serviceCharge'+row).empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#serviceCharge'+row);
+                        $('#service_name').empty();
+                        $('<option>').val('').text('Select Service Charge').appendTo('#service_name');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('#serviceCharge'+row);
+                            $('<option>').val(v.name).text(v.name).appendTo('#service_name');
                         });
                     }
                 });
             }
         });
 
-        // Remove parent of 'remove' link when link is clicked.
-        $('#containerSC').on('click', '.remove_project_file', function(e) {
-            e.preventDefault();
-            $(this).parent().remove();
-            rowsc--;
-        });
-        function identifier(){
-            return Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
-        }
-        var rowsc = 1;
 
-        $('#addMoreSC').click(function(e) {
-            e.preventDefault();
 
-            if(rowsc >= 5){
-                alert("You've reached the maximum limit");
-                return;
+ $('body').on('change', '.asset', function(){
+
+            var asset = $(this).val();
+            if(asset){
+
+                $('#searchlocation').empty();
+                $('<option>').val('').text('Loading...').appendTo('#searchlocation');
+                $.ajax({
+                    url:"{{URL::to('asset/get-asset-location')}}/"+asset,
+                    type: "GET",
+                    data: {'asset':asset},
+                    success: function(data) {
+                      console.log(data)
+                        $('#searchlocation').empty();
+                        
+                        $('<option>').attr('selected', true).val('').text('Select Location').appendTo('#searchlocation');
+
+                        $.each(data, function(k, v) {
+                                $('<option>').val(v.address).text(v.address).appendTo('#searchlocation');
+                            
+                        });
+                    }
+                });
             }
-
-            var rowId = identifier();
-
-            $("#containerSC").append(
-                '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
-                    +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
-                    +'<div style="clear:both"></div>'
-                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
-                    +'    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>'
-                    +'    <select name="service['+rowId+'][type]" class="form-control sc_type select'+rowId+'" data-row="'+rowId+'" required>'
-                    +'        <option value="">Select Type</option>'
-                    +'        <option value="fixed">Fixed</option>'
-                    +'        <option value="variable">Variable</option>'
-                    +'    </select>'
-                    +'</div>'
-                    +'<div class="form-group" style="width:31%; float:left; margin-right:25px">'
-                    +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
-                    +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
-                    +'        <option value="">Select Service Charge</option>'
-                    +'    </select>'
-                    +'</div>       '            
-                    +'<div class="form-group" style="width:31%; float:left">'
-                    +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
-                    +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
-                    +'</div>'
-                    +'<div style="clear:both"></div>'
-                +'</div>'
-            );
-            rowsc++;
-            $(".select"+rowId).select2({
-                theme: "bootstrap"
-            });
         });
 
 
-        $('.addService').click(function(){
-            var asset = $(this).data('asset');
-            $('#asset').val(asset);
-        })
-
-
-
- $(document).on('keyup', '#search', function(){
-  var $value = $(this).val();
-    $.ajax({
-   type:'GET',
-   url:"{{URL::to('asset/search')}}",
-   data:{'search':$value},
-   success:function(data)
-   {
-    if(data){
-   $('tbody').html(data);
-   }else{
-    $('tbody').html('<tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>');
-   }
-}
-  })
-
- });
 
 
     </script>

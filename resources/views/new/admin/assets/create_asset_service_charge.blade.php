@@ -40,7 +40,7 @@
 
       <div class="input-group mb-2 mr-sm-2">
     <div class="input-group-prepend">
-      <div class="input-group-text all-tenant-label">Select all tenants</div>
+      <div class="input-group-text all-tenant-label">Add all tenants</div>
     </div>
 
         <div class="checkboxFour">
@@ -75,7 +75,7 @@
                                 <label class="form-control-label" for="input-category">{{ __('Tenant') }}</label>
                                 <div>
                                     <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select tenant" style="width:100%" multiple="true" required>
-                                    <option value="">Select Tenants</option>
+                                    <option value="" selected="selected">Select Tenants</option>
                                 </select>
                                 </div>
                             </div>

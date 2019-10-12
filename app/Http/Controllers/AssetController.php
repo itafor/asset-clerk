@@ -320,13 +320,12 @@ class AssetController extends Controller
     public function updateServiceCharge(Request $request){
        
         $data = $request->all();
-        // dd($data);
+      //  dd($data);
        $validator = validator::make($data,
         [
                 'asset_id' => 'required',
                 'service_charge_id' => 'required',
                 'price' => 'required',
-                'user_id' => 'required',
                 'tenant_id' => 'required'
         ]);
 
@@ -352,6 +351,8 @@ class AssetController extends Controller
        
            $assetSc = AssetServiceCharge::find($id);
            $asset=$assetSc->asset;
+           $serviceChargeName = $assetSc->serviceCharge->name;
+           $amount = $assetSc->price;
           $tenants = $assetSc->tenant_id;
           $tenants_ids=explode(' ',$tenants); 
 
@@ -363,27 +364,7 @@ class AssetController extends Controller
             }
           }
 
-    $charges = AssetServiceCharge::with('asset','serviceCharge')
-            ->where('user_id',getOwnerUserID())
-            ->where('status',1)
-            ->orderBy('created_at','desc')
-            ->get();
-        $plan = getUserPlan();
-        $limit = $plan['details']->properties;
-        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
-        $query = Asset::query()
-        ->select('assets.uuid','assets.id','assets.address', 'assets.description',
-            'assets.price')
-        ->where('assets.user_id', getOwnerUserID())->limit($limit);
-
-        $data = [
-            'assetsCategories' => $query->orderBy('assets.id', 'desc')->get(),
-            'charges' => $charges,
-            'tenantsDetails' => $tenantsDetails,
-            'asset'=>$asset
-        ];
-
-          return view('new.admin.assets.service_charges',compact('tenantsDetails','charges','tenants','asset'));
+          return view('new.admin.assets.tenant-service_charges-list',compact('tenantsDetails','tenants','asset','serviceChargeName','amount'));
         }
 
         public function removeTenantFromCS($sc_id,$tenant_id){
@@ -467,50 +448,43 @@ class AssetController extends Controller
        }
     }
 
+public function getAssetLocation($asset_id){
+        $address = Asset::where('id',$asset_id)->get();
+
+         return response()->json($address);
+}
 public function search_Service_Charge(Request $request){
-    $sn = 1;
-    $outPut = "";
-    if($request->ajax()){
-    $service_charges = AssetServiceCharge::join('assets', 'assets.id', '=', 'asset_service_charges.asset_id')
-        // ->join('service_charges','service_charges.id','=','asset_service_charges.  service_charge_id')
-      ->selectRaw('assets.*,asset_service_charges.*')
-      ->where('assets.description', 'like','%'.$request->search.'%')
-      ->where('assets.user_id',getOwnerUserID())
-      ->where('asset_service_charges.status',1)
-      ->orderBy('asset_service_charges.created_at','desc')
-                            ->get();
-        if($service_charges){
-           foreach ($service_charges as $key => $sc) {
-               $outPut.='<tr>'.
-                '<td>'.$sn.'</td>'.
-                '<td>'.$sc->description.'</td>'.
-                '<td>'.'Lagos'.'</td>'.
-                '<td>'.'Security'.'</td>'.
-                '<td>'.$sc->status.'</td>'.
-                '<td>'.$sc->price.'</td>'.
 
-                '<td class="text-center">'.
-                                '<div class="dropdown">'.
-                                   '<a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </a>'.
-                                          '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'.
-                                      
-                                            '<a href="/asset/tenants-service-charge/'.$sc->id.'" class="dropdown-item">Tenants</a>'.
-                                      
-                                        '<a href="/asset/edit-service-charge/'.$sc->id.'" class="dropdown-item">Edit</a>'.
-                                        
-                                       '<a href="/asset/delete-service/'.$sc->id.'" onclick="return confirm(\'Are you sure?\')" class="dropdown-item">Delete</a>'.
-                                    '</div>'.
+    $validator = validator::make($request->all(),[
+        'asset' => 'required',
+        'location' => 'required',
+        'type' => 'required',
+        'service_name' => 'required',
+        'minAmt' => 'required',
+        'maxAmt' => 'required',
+    ]);
 
-                                '</div>'.
-                        '</td>'.
-            '</tr>';
-            $sn++;
-           }
-           return response($outPut);
+    if($validator->fails()){
+         return  back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+    }
+
+    $assetId = $request->asset;
+     if($assetId){
+            $assetsServiceCharges = AssetServiceCharge::where('asset_service_charges.asset_id', $assetId)
+            ->where('a.address', $request->location)
+            ->whereBetween('asset_service_charges.price', [$request->minAmt, $request->maxAmt])
+            ->where('s.type', $request->type)
+            ->where('s.name', $request->service_name)
+            ->where('asset_service_charges.user_id',getOwnerUserID())
+            ->join('service_charges as s', 's.id', '=', 'asset_service_charges.service_charge_id')
+            ->join('assets as a', 'a.id', '=', 'asset_service_charges.asset_id')
+            ->selectRaw('a.*, s.*,asset_service_charges.*')
+            ->get();
+           return view('new.admin.assets.service_charges',compact('assetsServiceCharges'));
+           
         }
-    }
+        
     
-    }
+}
 }
