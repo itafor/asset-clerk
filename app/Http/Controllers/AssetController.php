@@ -258,7 +258,41 @@ class AssetController extends Controller
 
     public function addServiceCharge(Request $request)
     {
-        // dd($request->all());
+         
+         $data=$request->all();
+
+         //dd($data);
+    //      $theTenantsId=$data['tenant_id'];
+    //      $testTenantIds=implode(' ', $theTenantsId);
+    //      $services =$data['service'];
+         
+    // $getASCs = AssetServiceCharge::where('asset_service_charges.asset_id', $data['asset'])
+    //         ->where('user_id', getOwnerUserID())
+    //                 ->join('service_charges as sc', 'sc.id', '=', 'asset_service_charges.service_charge_id')
+    //                 ->selectRaw('sc.*,asset_service_charges.*')
+    //                 ->get();
+      
+
+    //                 // $tenants_ids =array();
+    //                 // $service_charge=array();
+    //                 if($getASCs){
+    //                     foreach ($getASCs as $key => $sc) {
+    //                         // $tenants_ids[]=$sc->tenant_id;
+    //                         // $service_charge[]=$sc->service_charge_id;
+    //                           foreach ($services as $key => $service) {
+    //                 if(
+    //                            $sc->tenant_id == $testTenantIds
+    //                         && $sc->price == $service['price']
+    //                         && $sc->type == $service['type']
+    //                         && $sc->service_charge_id == $service['service_charge']
+    //                  ){
+    //                      return back()->withInput()->with('error', 'Supplied data already exist');
+    //                         }
+                            
+    //                     }
+    //                 }
+    //             }
+
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
@@ -273,7 +307,7 @@ class AssetController extends Controller
         $asset = Asset::find($request['asset']);
 
         if($asset){
-            foreach($request['service'] as $unit){
+           // foreach($request['service'] as $unit){
                 /*$exists = AssetServiceCharge::where([
                     ['asset_id', $asset->id],
                     ['service_charge_id', $unit['service_charge']],
@@ -282,8 +316,11 @@ class AssetController extends Controller
                 if(count($exists) > 0){
                     return back()->with('error', 'Service charge already added');
                 }*/
+                //Asset::addServiceCharge($request->all(), $asset);
+            //}
+
                 Asset::addServiceCharge($request->all(), $asset);
-            }
+
             return redirect()->route('service.charges')->with('success', 'Service charge added successfully');
         }
         else{
@@ -493,5 +530,13 @@ public function search_Service_Charge(Request $request){
         }
         
     
+}
+public function array_equal($a, $b) {
+    return (
+         is_array($a) 
+         && is_array($b) 
+         && count($a) == count($b) 
+         && array_diff($a, $b) === array_diff($b, $a)
+    );
 }
 }

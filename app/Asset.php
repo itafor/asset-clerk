@@ -5,6 +5,7 @@ namespace App;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Unit;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Input;
@@ -161,12 +162,13 @@ class Asset extends Model
     public static function addServiceCharge($data,$asset)
     {
         //AssetServiceCharge::where('asset_id', $asset->id)->delete();
-        $tenants_ids = implode(' ', Input::get('tenant_id'));
-        foreach($data['service'] as $unit){
+        $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
+                foreach($data['service'] as $unit){
             AssetServiceCharge::create([
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
+                'dueDate' => Carbon::parse(formatDate($unit['dueDate'], 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
             ]);

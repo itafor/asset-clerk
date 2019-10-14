@@ -146,6 +146,7 @@
                         <th><b>Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
+                        <th><b>Due Date</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
@@ -163,6 +164,7 @@
                             <td>{{$asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
+                            <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -214,6 +216,7 @@
                         <th><b>Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
+                        <th><b>Due date</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
@@ -231,6 +234,7 @@
                             <td>{{$asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
+                            <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -238,7 +242,7 @@
                                     </a>
                                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                       
-                                            <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" class="dropdown-item">Tenants</a>
+                                            <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a>
                                       
                                         <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
                                         
