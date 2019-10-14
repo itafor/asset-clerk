@@ -24,7 +24,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$unit->propertyType ? $unit->propertyType->name : 'N/A'}}</td>
-                                 <td>{{$unit->category_id}}</td>
+                                 <td>{{$unit->category->name}}</td>
                                 <td>{{$unit->quantity}}</td>
                                 <td>&#8358; {{number_format($unit->standard_price, 2)}}</td>
                             </tr>
