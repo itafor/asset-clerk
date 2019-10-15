@@ -33,4 +33,12 @@ class AssetServiceCharge extends Model
           return $tenantsDetails;
         }
 
+
+  
+
+    public function tenants(){
+      return $this->hasMany(Tenant::class,'tenant_id');
+    }
+
+
 }

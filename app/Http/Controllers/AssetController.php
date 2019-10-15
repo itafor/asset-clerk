@@ -7,6 +7,7 @@ use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\AssignedAsset;
 use App\Tenant;
+use App\TenantServiceCharge;
 use App\Unit;
 use DB;
 use Illuminate\Http\Request;
@@ -328,6 +329,19 @@ class AssetController extends Controller
         }
     }
 
+
+ public function  getTenantsServiceCharge($id){
+        
+    $tsc =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenants=array();
+    foreach ($tsc as $key => $ts) {
+       $tenants[] =$ts->myTenants($ts->tenant_id);
+    }
+
+    dd($tenants);
+}
+
     public function editServiceCharge($id){
         $service_ch = '';
         $service_charge = AssetServiceCharge::find($id);
@@ -338,15 +352,23 @@ class AssetController extends Controller
         }
 
          $tenants = $service_charge->tenant_id;
+
           $tenants_ids=explode(' ',$tenants); 
 
-         $tenantsDetails=array();
-          foreach ($tenants_ids as $key => $id) {
-         $tens = Tenant::where('id',(int)$id)->first();
-         if($tens){
-            $tenantsDetails[] = $tens;
-            }
-          }
+         // $tenantsDetails=array();
+         //  foreach ($tenants_ids as $key => $id) {
+         // $tens = Tenant::where('id',(int)$id)->first();
+         // if($tens){
+         //    $tenantsDetails[] = $tens;
+         //    }
+         //  }
+
+           $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenantsDetails=array();
+    foreach ($tenantsServiceCharges as $key => $ts) {
+       $tenantsDetails[] =$ts->myTenants($ts->tenant_id);
+    }
 
        $serviceChType = getServiceChargeType($service_ch);
 
@@ -390,26 +412,26 @@ class AssetController extends Controller
            $asset=$assetSc->asset;
            $serviceChargeName = $assetSc->serviceCharge->name;
            $amount = $assetSc->price;
-          $tenants = $assetSc->tenant_id;
-          $tenants_ids=explode(' ',$tenants); 
+           $tenants = $assetSc->tenant_id;
 
-         $tenantsDetails=array();
-          foreach ($tenants_ids as $key => $id) {
-         $tens = Tenant::where('id',(int)$id)->first();
-         if($tens){
-            $tenantsDetails[] = $tens;
-            }
-          }
+           $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenantsDetails=array();
+    foreach ($tenantsServiceCharges as $key => $ts) {
+       $tenantsDetails[] =$ts->myTenants($ts->tenant_id);
+    }
 
           return view('new.admin.assets.tenant-service_charges-list',compact('tenantsDetails','tenants','asset','serviceChargeName','amount'));
         }
 
-        public function removeTenantFromCS($sc_id,$tenant_id){
+        public function removeTenantFromCS($tenant_id,$sc_id){
 
-          $tenantId =  (int)$tenant_id;
           $scId =  (int)$sc_id;
-
+          $tenantId =  (int)$tenant_id;
+         
+            //dd($tenant_id);
           if(removeTenantFromServiceCharge($tenantId, $scId)){
+            removeServiceChargeWithoutTenant($scId);
             return back()->with('success', 'The Selected Tenant has been removed from this service charge');
           }
            return back()->with('error', 'Error: An attempt to remove the selected tenant from this service charge failed, try again');

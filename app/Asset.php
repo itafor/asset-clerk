@@ -4,6 +4,7 @@ namespace App;
 
 use App\AssetPhoto;
 use App\AssetServiceCharge;
+use App\TenantServiceCharge;
 use App\Unit;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -162,9 +163,11 @@ class Asset extends Model
     public static function addServiceCharge($data,$asset)
     {
         //AssetServiceCharge::where('asset_id', $asset->id)->delete();
+        $tenantIds=$data['tenant_id'];
+        $service_chargeIDs=$data['service'];
         $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
                 foreach($data['service'] as $unit){
-            AssetServiceCharge::create([
+        $asc =  AssetServiceCharge::create([
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
@@ -172,13 +175,33 @@ class Asset extends Model
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
             ]);
+
+                if($asc){
+                    self::addTenantToServiceCharge($tenantIds,$asc->id, $unit['service_charge'],$unit['price']);
+                 }
         }
     }
+
+    public static function addTenantToServiceCharge($tenantIds,$sc_id,$service_charge_ids,$bal){
+        foreach ($tenantIds as $key => $id) {
+            TenantServiceCharge::create([
+                'tenant_id' => $id,
+                'asc_id' =>$sc_id,
+                'service_chargeId' => $service_charge_ids,
+                'user_id' =>getOwnerUserID(),
+                'bal' => $bal
+            ]);
+        }
+    }
+
+
+
 
     public static function updateServiceCharge($data){
 
          $tenants_ids = implode(' ', Input::get('tenant_id'));
-        AssetServiceCharge::where('id',$data['id'])
+         $tenantIds=$data['tenant_id'];
+      $updateASC =  AssetServiceCharge::where('id',$data['id'])
         ->update([
                 'asset_id' => $data['asset_id'],
                 'service_charge_id' => $data['service_charge_id'],
@@ -186,6 +209,31 @@ class Asset extends Model
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
         ]);
+
+        if($updateASC){
+           //dd($data['id']);
+           self::updateTenantAddedToServiceCharge($tenantIds,$data['id']);
+        }
+    }
+
+
+ public static function updateTenantAddedToServiceCharge($tenantIds,$sc_id){
+   // dd($tenantIds);
+         $updatetsc =   TenantServiceCharge::where('asc_id',$sc_id)->first();
+
+        foreach ($tenantIds as $key => $tenantId) {
+         if($updatetsc){
+            $updatetsc->update([
+                'tenant_id' => $tenantId,
+                 'asc_id' =>$sc_id,
+            ]);
+                // $updatetsc->tenant_id = $tenantId;
+                
+                // $updatetsc->asc_id = $sc_id;
+                // $updatetsc->save();
+         }
+            
+        }
     }
 
     public static function addPhoto($data,$asset)

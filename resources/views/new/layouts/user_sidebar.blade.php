@@ -207,12 +207,38 @@
             <!-- /sub-menu -->
             </li>
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">
-                <a href="{{ route('service.charges') }}" class="dt-side-nav__link">
-                    <i class="icon icon-card icon-fw icon-xl"></i>
-                    <span class="dt-side-nav__text">Service Charges</span>
+                <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}"">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Service Charges</span> </a>
+
+            <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{ route('service.charges') }}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>
+                    <span class="dt-side-nav__text">List</span>
                 </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Pay</span> </a>
+                </li>
+
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('debtors.get')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Debt</span> </a>
+                </li>
+
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">History</span> </a>
+                </li>
+
+            </ul>
+            <!-- /sub-menu -->
             </li>
+
 
             @if(!$user->sub_account && $plan['details']->name != 'Free')
                 <li class="dt-side-nav__item {{isset($page) && $page == 'sub_account' ? 'open' : ''}}"">

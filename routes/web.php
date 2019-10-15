@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 			Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
 			Route::get('/tenants-service-charge/{id}', 'AssetController@tenantsServiceCharge')->name('asset.tenants.service');
+
+			Route::get('/get-tenants-service-charge/{id}', 'AssetController@getTenantsServiceCharge')->name('get.tenants.service');
+
 			Route::get('/add-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
 
 			Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
@@ -73,6 +76,16 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 			Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
 			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
+		});
+
+			Route::prefix('service-charge')->group(function(){
+			Route::get('/debtors', 'AssetServiceChargeController@getDebtors')->name('debtors.get');
+			Route::get('/pay-service-chatge', 'AssetServiceChargeController@payServiveCharge')->name('pay.service.charge');
+			Route::get('/fetch-tenant-service-charge/{id}', 'AssetServiceChargeController@getTenantServiceCharge')->name('fetch.tenant.service.charge');
+
+			Route::get('/fetch-service-charge-amount/{id}/{tenantId}', 'AssetServiceChargeController@getServiceChargeAmount')->name('fetch.service.charge.amount');
+
+			
 		});
 		Route::prefix('tenant')->group(function(){
 			Route::get('/', 'TenantController@index')->name('tenant.index');

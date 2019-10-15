@@ -19,6 +19,7 @@ use App\Staff;
 use App\State;
 use App\Tenant;
 use App\TenantRent;
+use App\TenantServiceCharges;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -336,38 +337,40 @@ function getOccupations()
     return Occupation::orderBy('name')->get();
 }
 
-function removeTenantFromServiceCharge($sc_id, $tenant_id){
+function removeTenantFromServiceCharge($tenant_id,$sc_id){
   $asset = AssetServiceCharge::find($sc_id);
 
-          $tenants = $asset->tenant_id;
-          $tenants_ids=explode(' ',$tenants);
+//           $tenants = $asset->tenant_id;
+//           $tenants_ids=explode(' ',$tenants);
 
-          $key = array_search($tenant_id, $tenants_ids);
+// //search for $tenant_id in $tenants_ids array
+//           $key = array_search($tenant_id, $tenants_ids);
+// //if the id is found, remove it
+//           \array_splice($tenants_ids, $key, 1);
 
-          \array_splice($tenants_ids, $key, 1);
+//            $tenantIds=implode(' ',$tenants_ids);
 
-           $tenantIds=implode(' ',$tenants_ids);
+          $deleteTenantfromSC = TenantServiceCharges::where('asc_id',$sc_id)
+          ->where('tenant_id',$tenant_id)->first();
 
-          $updateNow = AssetServiceCharge::find($sc_id)
-           ->update([
-            'tenant_id' => $tenantIds
-           ]);
-
-           if($updateNow){
+           if($deleteTenantfromSC->delete()){
         return true;
            }
          return false;
-
-function searchServiceCharge($query){
-    $service_charges_data = AssetServiceCharge::join('assets as a', 'a.id', '=', 'asset_service_charges.asset_id')
-    ->join('service_charges as s', 's.id', '=', 'asset_service_charges.service_charge_id')
-      ->selectRaw('a.description')
-    ->where('a.description','like',"%{$query}%")
-->first();
- return $service_charge;
-// foreach ($service_charges as $key => $service_charge) {
-//    return $service_charge; 
-//     }
 }
 
+function removeServiceChargeWithoutTenant($ascId){
+   // dd($ascId);
+    $getTenantServiceCharges=TenantServiceCharges::all();
+    foreach ($getTenantServiceCharges as $key => $tsc) {
+       if($tsc->asc_id != $ascId){
+          $checkASC =  AssetServiceCharge::where('id',$ascId)->first();
+          if($checkASC){
+            $checkASC->delete();
+          }
+       }else{
+        return false;
+       }
+    }
 }
+

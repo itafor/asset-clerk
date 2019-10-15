@@ -19,6 +19,7 @@
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
                 <h3 class="dt-entry__title">List of Service Charges</h3>
+                <a href="/service-charge/debtors">view debtor</a>
               </div>
               <!-- /entry heading -->
 
@@ -243,6 +244,9 @@
                                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                       
                                             <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a>
+
+                                            <!-- <a href="{{route('get.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a> -->
+
                                       
                                         <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
                                         
