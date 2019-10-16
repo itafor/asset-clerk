@@ -14,8 +14,9 @@ class AssetServiceChargeController extends Controller
     	  $debtors = TenantServiceCharge::join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
     	  ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
     	  ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
+           ->join('assets','assets.id','=','asset_service_charges.asset_id')
          ->where('tenant_service_charges.user_id', getOwnerUserID())
-         ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*')
+         ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
          ->get();
           return view('new.admin.assetServiceCharge.debtors', compact('debtors'));
          

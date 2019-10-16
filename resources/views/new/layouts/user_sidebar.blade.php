@@ -207,6 +207,31 @@
             <!-- /sub-menu -->
             </li>
 
+            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}"">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Wallet</span> </a>
+
+            <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('tenant.wallet')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('wallet.index')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Fund Wallet</span> </a>
+                </li>
+
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('wallet.history')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Wallet History</span> </a>
+                </li>
+
+            </ul>
+            <!-- /sub-menu -->
+            </li>
+
                 <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}"">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
                 <i class="icon icon-card icon-fw icon-xl"></i> <span class="dt-side-nav__text">Service Charges</span> </a>
@@ -221,17 +246,17 @@
                 </li>
 
                 <li class="dt-side-nav__item">
-                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Pay</span> </a>
+                    <a href="{{route('pay.service.charge')}}" class="dt-side-nav__link">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Payment</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('debtors.get')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Debt</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Debtors</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
-                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
+                    <a href="{{route('fetch.service.charge.payment.history')}}" class="dt-side-nav__link">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">History</span> </a>
                 </li>
 

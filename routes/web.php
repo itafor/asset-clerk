@@ -93,6 +93,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::prefix('wallet')->group(function(){
 			Route::get('/', 'WalletController@index')->name('wallet.index');
 			Route::get('/fetch-tenant-balance/{tenant_id}', 'WalletController@fetchBalance')->name('wallet.balance');
+			Route::get('/tenants-wallets', 'WalletController@fetchTenantWallet')->name('tenant.wallet');
+			Route::get('/wallet-history', 'WalletController@fetchWalletHistory')->name('wallet.history');
 			Route::post('/fund-wallet', 'WalletController@fundWallet')->name('wallet.fund');
 		});
 

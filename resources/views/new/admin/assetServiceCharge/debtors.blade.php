@@ -3,9 +3,7 @@
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-card"></i> Service Charges Debtors <a href="/service-charge/pay-service-chatge">pay now</a></h1>
-          <a href="/service-charge/service-charge-payment-histories">payment history</a>
-          <a href="/wallet">deposit</a>
+          <h1 class="dt-page__title"><i class="icon icon-card"></i> Service Charges Debtors </h1>
         </div>
         <!-- /page header -->
 
@@ -25,8 +23,7 @@
               <!-- /entry heading -->
 
               <div class="dt-entry__heading">
-                <a href="/asset/service-charges"> <button type="button" class="btn btn-primary btn-sm"> Back  </button>
-                 </a>
+             
               </div>
 
             </div>
@@ -74,12 +71,13 @@
                             <td>{{$tenant->designation}}
                            {{$tenant->firstname}}
                             {{$tenant->lastname}}</td>
-                            <td>{{$tenant->asset_id}}</td>
+                            <td>{{$tenant->assetName}}</td>
                             <td>{{$tenant->type}}</td>
                             <td>{{$tenant->name}}</td>
                             {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
-                            <td>{{$tenant->price}}</td>
-                            <td>{{$tenant->bal}}</td>
+                            <td>&#8358;{{number_format($tenant->price,2)}}</td>
+                            <td>&#8358;{{number_format($tenant->bal,2)}}</td>
+                            
                             <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
                              <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
                           <td class="text-center">

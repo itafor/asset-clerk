@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Wallet;
-use Illuminate\Http\Request;
+use App\WalletHistory;
 use DB;
+use Illuminate\Http\Request;
 use Validator;
 
 class WalletController extends Controller
@@ -23,7 +24,26 @@ public function fetchBalance($tenant_id){
 		return response()->json(['balance'=>0]);
 	}
 }
+ public function fetchTenantWallet(){
 
+ 	$tenantWallets = Wallet::join('tenants','tenants.id','=','wallets.tenant_id')
+ 	->where('wallets.user_id',getOwnerUserID())
+    ->select('wallets.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
+ 	->get();
+
+ 	return view('new.admin.wallet.list-wallet',compact('tenantWallets'));
+ }
+
+ public function fetchWalletHistory(){
+ 	$tenantWalletsHistories = WalletHistory::join('tenants','tenants.id','=','wallet_histories.tenant_id')
+ 	->where('wallet_histories.user_id',getOwnerUserID())
+    ->select('wallet_histories.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
+ 	->get();
+
+ 	return view('new.admin.wallet.wallet-history',compact('tenantWalletsHistories'));
+ }
     public function fundWallet(Request $request){
     	  $validator = validator::make($request->all(),[
         'tenant_id' => 'required',
