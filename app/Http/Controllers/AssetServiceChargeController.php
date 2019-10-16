@@ -82,4 +82,17 @@ class AssetServiceChargeController extends Controller
         }
         return redirect()->route('asset.index')->with('success', 'Asset added successfully');
     }
+
+    public function getServiveChargePaymentHistory(Request $request){
+              $service_charge_payment_histories = ServiceChargePaymentHistory::join('tenants','tenants.id','=','service_charge_payment_histories.tenant')
+          ->join('service_charges','service_charges.id','=','service_charge_payment_histories.service_charge')
+         ->where('service_charge_payment_histories.user_id', getOwnerUserID())
+         ->select('service_charge_payment_histories.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'),
+            'tenants.*','service_charges.*')
+         ->orderby('service_charge_payment_histories.created_at','desc')
+         ->get();
+        // dd($service_charge_payment_histories);
+          return view('new.admin.assetServiceCharge.paymentHistories', compact('service_charge_payment_histories'));
+    }
 }

@@ -4,6 +4,8 @@
     <!-- Page Header -->
         <div class="dt-page__header">
           <h1 class="dt-page__title"><i class="icon icon-card"></i> Service Charges Debtors <a href="/service-charge/pay-service-chatge">pay now</a></h1>
+          <a href="/service-charge/service-charge-payment-histories">payment history</a>
+          <a href="/wallet">deposit</a>
         </div>
         <!-- /page header -->
 

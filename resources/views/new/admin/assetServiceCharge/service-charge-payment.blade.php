@@ -313,8 +313,13 @@
                         $('#durationPaidFor').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#durationPaidFor');
                         $.each(data, function(k, v) {
-                            console.log(v.expireingDate);
-                            $('#durationPaidFor').val(v.expireingDate + ' - '+ v.expireingDate)
+                           var formattedDate = new Date(v.expireingDate);
+                            var d = formattedDate.getDate();
+                            var m =  formattedDate.getMonth();
+                            m += 1;  // JavaScript months are 0-11
+                            var y = formattedDate.getFullYear();
+                            startdate = d + "/" + m + "/" + y
+                            $('#durationPaidFor').val( startdate + ' - '+ startdate)
                         });
                     }
                 });
