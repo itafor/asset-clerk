@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::prefix('service-charge')->group(function(){
 			Route::get('/debtors', 'AssetServiceChargeController@getDebtors')->name('debtors.get');
 			Route::get('/pay-service-chatge', 'AssetServiceChargeController@payServiveCharge')->name('pay.service.charge');
+			Route::post('/pay-service-chatge', 'AssetServiceChargeController@storeServiveChargePaymentHistory')->name('store.service.charge.payment.history');
 			Route::get('/fetch-tenant-service-charge/{id}', 'AssetServiceChargeController@getTenantServiceCharge')->name('fetch.tenant.service.charge');
 
 			Route::get('/fetch-service-charge-amount/{id}/{tenantId}', 'AssetServiceChargeController@getServiceChargeAmount')->name('fetch.service.charge.amount');

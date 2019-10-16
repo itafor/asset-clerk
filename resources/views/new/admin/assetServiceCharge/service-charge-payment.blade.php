@@ -30,9 +30,11 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                    <form method="post" action="{{ route('payment.store') }}" autocomplete="off">
+                    <form method="post" action="{{ route('store.service.charge.payment.history') }}" autocomplete="off">
                             @csrf
                             <p>Fields marked (<span class="text-danger">*</span>) are required.</p>
+                            <input type="hidden" name="tenant_id" id="tenant_id" >
+                            <input type="hidden" name="service_charge_id" id="service_charge_id" >
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
@@ -63,26 +65,10 @@
                                             </span>
                                         @endif
                                     </div>
-                              
-                         
-                                    <div class="hide col-6 service">
-                                        <div class="form-group{{ $errors->has('service_charge') ? ' has-danger' : '' }}">
-                                            <label class="form-control-label" for="input-service_charge">{{ __('Service Charge') }}<span class="text-danger">*</span></label>
-                                            <select name="service_charge" id="input-service_charge" class="form-control">
-                                                <option value="">Select Service Charge</option>
-                                            </select>
-
-                                            @if ($errors->has('service_charge'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('service_charge') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
 
                                         <div class="form-group{{ $errors->has('amount') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-amount">{{ __('Amount') }}<span class="text-danger">*</span></label>
-                                        <select  name="amount" id="input-amount" class="form-control form-control-alternative{{ $errors->has('amount') ? ' is-invalid' : '' }}" required>
+                                        <label class="form-control-label" for="input-amount">{{ __('Actual Amount') }}<span class="text-danger">*</span></label>
+                                        <select  name="actualAmount" min="1" id="input-amount" class="form-control form-control-alternative{{ $errors->has('amount') ? ' is-invalid' : '' }}"  required>
                                             <option>Select AMOUNT</option>
                                             </select>
                                         
@@ -95,13 +81,53 @@
 
                                          <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-amount">{{ __('Balance') }}<span class="text-danger">*</span></label>
-                                        <select  name="balance" id="input-balance" class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}" required>
+                                        <select  name="balance" min="1" id="input-balance" class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}" required>
                                             <option>Select Balance</option>
                                             </select>
-                                        
                                         @if ($errors->has('balance'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('balance') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                           <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
+                                        <label class="form-control-label" for="input-amount">{{ __('Property') }}<span class="text-danger">*</span></label>
+                                        <select  name="property" id="input-property" class="form-control form-control-alternative{{ $errors->has('property') ? ' is-invalid' : '' }}" required>
+                                            <option>Select Property</option>
+                                            </select>
+                                        
+                                        @if ($errors->has('property'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('property') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                        <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
+                                        <label class="form-control-label" for="input-amount">{{ __('Amount Paid') }}<span class="text-danger">*</span></label>
+                                        <input type="number" min="1" name="amountPaid" id="amountPaid" class="form-control form-control-alternative{{ $errors->has('amountPaid') ? ' is-invalid' : '' }}" placeholder="Amount Paid"  required>
+                                            
+                                        
+                                        @if ($errors->has('amountPaid'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('amountPaid') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+
+                                            <div class="form-group{{ $errors->has('payment_mode') ? ' has-danger' : '' }} col-6">
+                                        <label class="form-control-label" for="input-payment_mode">{{ __('Payment Mode') }}<span class="text-danger">*</span></label>
+                                        <select name="payment_mode" id="payment_mode" class="form-control" required>
+                                            <option value="">Select Payment Mode</option>
+                                            @foreach (getPaymentModes() as $pm)
+                                                <option value="{{$pm->name}}" {{old('payment_mode') == $pm->id ? 'selected' : ''}}>{{$pm->name}}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @if ($errors->has('payment_mode'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('payment_mode') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -116,24 +142,20 @@
                                             </span>
                                         @endif
                                     </div>
-                                
 
-                                    <div class="form-group{{ $errors->has('payment_mode') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-payment_mode">{{ __('Payment Mode') }}<span class="text-danger">*</span></label>
-                                        <select name="payment_mode" id="payment_mode" class="form-control" required>
-                                            <option value="">Select Payment Mode</option>
-                                            @foreach (getPaymentModes() as $pm)
-                                                <option value="{{$pm->id}}" {{old('payment_mode') == $pm->id ? 'selected' : ''}}>{{$pm->name}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @if ($errors->has('payment_mode'))
+                                            <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
+                                        <label class="form-control-label" for="input-amount">{{ __('Duration Paid For') }}<span class="text-danger">*</span></label>
+                                        <input type="text" name="durationPaidFor" id="durationPaidFor" class="form-control form-control-alternative{{ $errors->has('durationPaidFor') ? ' is-invalid' : '' }}" placeholder="Duration Paid For"  required>
+                                        
+                                        @if ($errors->has('durationPaidFor'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('payment_mode') }}</strong>
+                                                <strong>{{ $errors->first('durationPaidFor') }}</strong>
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
+                                
+
+                                                                    <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-date">{{ __('Payment Description') }}<span class="text-danger">*</span></label>
                                         <textarea rows="5" name="description" id="input-description" class="form-control form-control-alternative{{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="Enter Description" required>{{old('description')}}</textarea>
                                         
@@ -167,10 +189,14 @@
 
 @section('script')
     <script>
+        //select tenant
         $tenantId =0;
+        $balance =0;
+        $newBalance='';
         $('body').on('change', '#tenant', function(){
             var tenant = $(this).val();
             $tenantId=tenant;
+            $('#tenant_id').val($tenantId)
             if(tenant){
 
                 $('#input-service_charge').empty();
@@ -183,22 +209,22 @@
                         $('#input-service_charge').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name +' '+v.type).appendTo('#input-service_charge');
+                           
+                            $('<option>').val(v.id).text(v.name +', Type: ' + v.type + '  - Duration: ' + v.expireingDate).appendTo('#input-service_charge');
+                        
                         });
                     }
                 });
             }
         });
 
-        $('body').on('change', '#input-service_charge', function(){
-            var price = $("#input-service_charge option:selected").attr('data-price');
-            $('#input-amount').val(price);
-        });
-
+    
+//select actual price
       $('body').on('change', '#input-service_charge', function(){
             var service_charge = $(this).val();
-            if(service_charge){
 
+            if(service_charge){
+                $('#service_charge_id').val(service_charge)
                 $('#input-amount').empty();
                 $('<option>').val('').text('Loading...').appendTo('#input-amount');
                 $.ajax({
@@ -210,13 +236,14 @@
                         $('#input-amount').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#input-amount');
                         $.each(data, function(k, v) {
-                            $('<option>').attr('selected', true).val(v.id).text(v.price).appendTo('#input-amount');
+                            $('<option>').attr('selected', true).val(v.price).text(v.price).appendTo('#input-amount');
                         });
                     }
                 });
             }
         });
 
+//select balance
        $('body').on('change', '#input-service_charge', function(){
             var service_charge = $(this).val();
             if(service_charge){
@@ -228,11 +255,41 @@
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        console.log(data)
                         $('#input-balance').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#input-balance');
                         $.each(data, function(k, v) {
-                            $('<option>').attr('selected', true).val(v.id).text(v.bal).appendTo('#input-balance');
+                            
+                            $balance = v.bal
+                            if($newBalance ==''){
+                            $('<option>').attr('selected', true).val(v.bal).text(v.bal).appendTo('#input-balance');
+                        }else{
+                            $newBalance;
+                        }
+                       
+
+                        });
+                    }
+                });
+            }
+        });
+
+//select property
+  $('body').on('change', '#input-service_charge', function(){
+            var service_charge = $(this).val();
+            if(service_charge){
+
+                $('#input-property').empty();
+                $('<option>').val('').text('Loading...').appendTo('#input-property');
+                $.ajax({
+                    url: baseUrl+'/service-charge/fetch-service-charge-amount/'+service_charge +'/'+$tenantId,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        $('#input-property').empty();
+                        $('<option>').val('').text('Select Service Charge').appendTo('#input-property');
+                        $.each(data, function(k, v) {
+                            $('<option>').attr('selected', true).val(v.property).text(v.property + ' ' + v.asset_id).appendTo('#input-property');
                         });
                     }
                 });
@@ -240,44 +297,79 @@
         });
 
 
+  //select Duration paid for
+      $('body').on('change', '#input-service_charge', function(){
+            var service_charge = $(this).val();
+            if(service_charge){
 
-        $('#input-pt').change(function() {
-            var type = $("#input-pt option:selected").text();
-            if(type == 'Service Charge'){
-                var property = $('#property').val();
-                if(property){
-                    $('#input-service_charge').empty();
-                    $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
-                    $.ajax({
-                        url: baseUrl+'/fetch-service-charge-by-property/'+property,
-                        type: "GET",
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#input-service_charge').empty();
-                            $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
-                            $.each(data, function(k, v) {
-                                $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge').attr('data-price', v.price);
-                            });
-                        }
-                    });
-                } else {
-                    toast({
-                        type: 'info',
-                        title: 'Please select property'
-                    })
-                }
-                $('.service').removeClass('hide');
-                $("#input-service_charge, .sc_type").select2({
-                    theme: "bootstrap"
+                $('#durationPaidFor').empty();
+                 $('#durationPaidFor').val('').text('Loading...').appendTo('#durationPaidFor');
+                $.ajax({
+                    url: baseUrl+'/service-charge/fetch-service-charge-amount/'+service_charge +'/'+$tenantId,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        $('#durationPaidFor').empty();
+                        $('<option>').val('').text('Select Service Charge').appendTo('#durationPaidFor');
+                        $.each(data, function(k, v) {
+                            console.log(v.expireingDate);
+                            $('#durationPaidFor').val(v.expireingDate + ' - '+ v.expireingDate)
+                        });
+                    }
                 });
-                $('#sc_type').prop('required', true);
-                $('#input-service_charge').prop('required', true);
             }
-            else{
-                $('.service').addClass('hide');
-                $('#sc_type').prop('required', false);
-                $('#input-service_charge').prop('required', false);
+        });
+
+//check if balance is negative
+$('body').on('keyup', '#amountPaid', function(){
+            var amountPaid = $(this).val();
+              $balState = $balance - amountPaid;
+            if($balState >= 0){
+                  $newBalance = $('<option>').attr('selected', true).val($balState).text($balState).appendTo('#input-balance');
+            }else{
+                  $newBalance = $('<option>').attr('selected', true).val('').text('Invalid Balance').appendTo('#input-balance');
             }
-        })
+        });
+ 
+
+        // $('#input-pt').change(function() {
+        //     var type = $("#input-pt option:selected").text();
+        //     if(type == 'Service Charge'){
+        //         var property = $('#property').val();
+        //         if(property){
+        //             $('#input-service_charge').empty();
+        //             $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
+        //             $.ajax({
+        //                 url: baseUrl+'/fetch-service-charge-by-property/'+property,
+        //                 type: "GET",
+        //                 dataType: 'json',
+        //                 success: function(data) {
+        //                     $('#input-service_charge').empty();
+        //                     $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
+        //                     $.each(data, function(k, v) {
+        //                         $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge').attr('data-price', v.price);
+        //                     });
+        //                 }
+        //             });
+        //         } else {
+        //             toast({
+        //                 type: 'info',
+        //                 title: 'Please select property'
+        //             })
+        //         }
+        //         $('.service').removeClass('hide');
+        //         $("#input-service_charge, .sc_type").select2({
+        //             theme: "bootstrap"
+        //         });
+        //         $('#sc_type').prop('required', true);
+        //         $('#input-service_charge').prop('required', true);
+        //     }
+        //     else{
+        //         $('.service').addClass('hide');
+        //         $('#sc_type').prop('required', false);
+        //         $('#input-service_charge').prop('required', false);
+        //     }
+        // })
     </script>
 @endsection
