@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'List of Landlords', 'page' => 'landlord'])
+@extends('new.layouts.app', ['title' => 'Tenant\'s Wallets', 'page' => 'landlord'])
 
 @section('content')
     <!-- Page Header -->
@@ -19,6 +19,10 @@
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
                 <h3 class="dt-entry__title">List of Tenant's Wallets</h3>
+              </div>
+               <div class="dt-entry__heading">
+                 <a href="/wallet/wallet-history"> <button type="button" class="btn btn-primary btn-sm"> Wallet Histories  </button>
+                 </a>
               </div>
               <!-- /entry heading -->
 

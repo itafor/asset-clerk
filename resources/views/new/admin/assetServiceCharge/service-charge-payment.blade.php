@@ -1,9 +1,9 @@
-@extends('new.layouts.app', ['title' => 'Add New Payment', 'page' => 'payment'])
+@extends('new.layouts.app', ['title' => 'Record New Service Charge Payment', 'page' => 'Service Charge'])
 
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-card"></i> Payments</h1>
+          <h1 class="dt-page__title"><i class="icon icon-card"></i>Service Charge Payments</h1>
         </div>
         <!-- /page header -->
 
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Payment</h3>
+                <h3 class="dt-entry__title">Record New Service Charge Payment</h3>
               </div>
               <!-- /entry heading -->
 

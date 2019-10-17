@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'List of Landlords', 'page' => 'landlord'])
+@extends('new.layouts.app', ['title' => 'Service Charge Payment History', 'page' => 'landlord'])
 
 @section('content')
     <!-- Page Header -->
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Service Service Payment Histories</h3>
+                <h3 class="dt-entry__title">Service Charge Payment History</h3>
               </div>
               <!-- /entry heading -->
 

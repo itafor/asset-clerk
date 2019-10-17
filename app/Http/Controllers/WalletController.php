@@ -72,6 +72,6 @@ public function fetchBalance($tenant_id){
              DB::rollback();
             return back()->withInput()->with('error', 'An error occured. Please try again');
         }
-        return redirect()->route('asset.index')->with('success', 'Wallet successfully funded');
+        return redirect()->route('tenant.wallet')->with('success', 'Wallet successfully funded');
     }
 }

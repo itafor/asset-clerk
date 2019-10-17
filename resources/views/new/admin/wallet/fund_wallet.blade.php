@@ -1,9 +1,9 @@
-@extends('new.layouts.app', ['title' => 'Add New Payment', 'page' => 'payment'])
+@extends('new.layouts.app', ['title' => 'Fund Tenant Wallet', 'page' => 'Wallet'])
 
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-card"></i> Payments</h1>
+          <h1 class="dt-page__title"><i class="icon icon-card"></i> Wallet Management</h1>
         </div>
         <!-- /page header -->
 
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Payment</h3>
+                <h3 class="dt-entry__title">Fund tenant wallet</h3>
               </div>
               <!-- /entry heading -->
 
@@ -33,7 +33,7 @@
                     <form method="post" action="{{ route('wallet.fund') }}" autocomplete="off">
                             @csrf
                             <p>Fields marked (<span class="text-danger">*</span>) are required.</p>
-                            <input type="text" name="tenant_id" id="tenant_id" placeholder="tenant_id">
+                            <input type="hidden" name="tenant_id" id="tenant_id" placeholder="tenant_id">
                            
 
                             <div class="pl-lg-4">

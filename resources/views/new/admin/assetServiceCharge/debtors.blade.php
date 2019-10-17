@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'List of Service Charges', 'page' => 'service'])
+@extends('new.layouts.app', ['title' => 'Service Charge Debtors', 'page' => 'service'])
 
 @section('content')
     <!-- Page Header -->
@@ -39,7 +39,7 @@
  @if(isset($debtors))
            @if(count($debtors) >=1)
   <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added </h5>
+                <h5 class="modal-title" id="exampleModalLabel">List of Service Charge Debtors </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>

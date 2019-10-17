@@ -91,9 +91,9 @@ class AssetServiceChargeController extends Controller
          ->select('service_charge_payment_histories.*',
             DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'),
             'tenants.*','service_charges.*')
-         ->orderby('service_charge_payment_histories.created_at','desc')
+         ->orderby('service_charge_payment_histories.created_at','asc')
          ->get();
-        // dd($service_charge_payment_histories);
+
           return view('new.admin.assetServiceCharge.paymentHistories', compact('service_charge_payment_histories'));
     }
 }
