@@ -32,9 +32,22 @@
                 <div class="dt-card__body">
                     <form method="post" action="{{ route('store.service.charge.payment.history') }}" autocomplete="off">
                             @csrf
-                            <p>Fields marked (<span class="text-danger">*</span>) are required.</p>
+                            <div class="row">
+                               <div class="col-md-12">
+                                    <p class="float-left">Fields marked (<span class="text-danger">*</span>) are required.</p>
+
+                                 <p class="float-right" id="tenant_wallet_balance">Fields marked</p>
+                                
+                               </div>
+                             </div>
                             <input type="hidden" name="tenant_id" id="tenant_id" >
-                            <input type="hidden" name="service_charge_id" id="service_charge_id" >
+                            <input type="hidden" name="service_charge_id" id="input-service_charge_id" >
+                            <input type="number" name="previous_balance" id="input-previous_balance" placeholder="previous_balance">
+
+                             <input type="number" name="new_balance" id="input-new_balance" placeholder="new balance">
+
+                              <input type="number" name="new_wallet_amount" id="input-new_wallet_amount" placeholder="new wallet Amount">
+
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
@@ -193,6 +206,7 @@
         $tenantId =0;
         $balance =0;
         $newBalance='';
+        $amountPaid =0;
         $('body').on('change', '#tenant', function(){
             var tenant = $(this).val();
             $tenantId=tenant;
@@ -326,9 +340,37 @@
             }
         });
 
+
+//get tenant wallet details
+
+        $('body').on('change', '#tenant', function(){
+            var tenant = $(this).val();
+            if(tenant){
+
+                $('#input-previous_balance').empty();
+                $('<option>').val('').text('Loading...').appendTo('#input-previous_balance');
+                $.ajax({
+                    url: baseUrl+'/wallet/tenant-wallet-balance/'+tenant,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#input-previous_balance').empty();
+                        if(data.amount){
+                        $('#tenant_wallet_balance').html(data.tenantDetail + ' wallet\'s Balance: &#8358; ' + data.amount)
+                        $('#input-previous_balance').val(data.amount)
+                    }else{
+                        $('#input-previous_balance').val(data.balance)
+                        $('#tenant_wallet_balance').text('This tenant has not created a wallet')
+                    }
+                    }
+                });
+            }
+        });
+ 
+
 //check if balance is negative
 $('body').on('keyup', '#amountPaid', function(){
-            var amountPaid = $(this).val();
+             amountPaid = $(this).val();
               $balState = $balance - amountPaid;
             if($balState >= 0){
                   $newBalance = $('<option>').attr('selected', true).val($balState).text($balState).appendTo('#input-balance');
@@ -336,45 +378,21 @@ $('body').on('keyup', '#amountPaid', function(){
                   $newBalance = $('<option>').attr('selected', true).val('').text('Invalid Balance').appendTo('#input-balance');
             }
         });
- 
 
-        // $('#input-pt').change(function() {
-        //     var type = $("#input-pt option:selected").text();
-        //     if(type == 'Service Charge'){
-        //         var property = $('#property').val();
-        //         if(property){
-        //             $('#input-service_charge').empty();
-        //             $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
-        //             $.ajax({
-        //                 url: baseUrl+'/fetch-service-charge-by-property/'+property,
-        //                 type: "GET",
-        //                 dataType: 'json',
-        //                 success: function(data) {
-        //                     $('#input-service_charge').empty();
-        //                     $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
-        //                     $.each(data, function(k, v) {
-        //                         $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge').attr('data-price', v.price);
-        //                     });
-        //                 }
-        //             });
-        //         } else {
-        //             toast({
-        //                 type: 'info',
-        //                 title: 'Please select property'
-        //             })
-        //         }
-        //         $('.service').removeClass('hide');
-        //         $("#input-service_charge, .sc_type").select2({
-        //             theme: "bootstrap"
-        //         });
-        //         $('#sc_type').prop('required', true);
-        //         $('#input-service_charge').prop('required', true);
-        //     }
-        //     else{
-        //         $('.service').addClass('hide');
-        //         $('#sc_type').prop('required', false);
-        //         $('#input-service_charge').prop('required', false);
-        //     }
-        // })
+$('body').on('keyup', '#amountPaid', function(){
+//get new wallet amount
+            // amountPaid = $(this).val();
+            let newWalletBalance = 0;
+            let previousWalletbalance = $('#input-previous_balance').val();
+            if(parseFloat(amountPaid) > parseFloat(previousWalletbalance) || parseFloat(previousWalletbalance) ==0){
+               alert('Insufficient wallet balance, please fund this tenant\'s wallet to continue')
+            }else{
+                 newWalletBalance = previousWalletbalance - amountPaid;
+              $('#input-new_balance').val(newWalletBalance)
+              $('#input-new_wallet_amount').val(newWalletBalance)
+            }
+        })
+
+
     </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ServiceChargePaymentHistory;
 use App\TenantServiceCharge;
+use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -55,7 +56,7 @@ class AssetServiceChargeController extends Controller
     }
 
      public function storeServiveChargePaymentHistory(Request $request){
-
+        $data=$request->all();
         $validator = validator::make($request->all(),[
         'tenant' => 'required',
         'service_charge' => 'required',
@@ -67,6 +68,9 @@ class AssetServiceChargeController extends Controller
         'payment_date' => 'required',
         'durationPaidFor' => 'required',
         'payment_mode' => 'required',
+        'previous_balance' =>'required',
+        'new_balance' => 'required',
+        'new_wallet_amount' => 'required',
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)
@@ -74,8 +78,12 @@ class AssetServiceChargeController extends Controller
         }
        DB::beginTransaction();
        try{
-        ServiceChargePaymentHistory::payServiceCharge($request->all());
+
+       ServiceChargePaymentHistory::payServiceCharge($request->all());
+
+        Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_wallet_amount'],$data['amountPaid']);
          DB::commit();
+
     }
   catch(exception $e){
              DB::rollback();

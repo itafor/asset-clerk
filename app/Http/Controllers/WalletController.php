@@ -45,6 +45,7 @@ public function fetchBalance($tenant_id){
  	return view('new.admin.wallet.wallet-history',compact('tenantWalletsHistories'));
  }
     public function fundWallet(Request $request){
+    	$data=$request->all();
     	  $validator = validator::make($request->all(),[
         'tenant_id' => 'required',
         'amount' => 'required',
@@ -63,15 +64,30 @@ public function fetchBalance($tenant_id){
      	 Wallet::deposite($request->all());
          DB::commit();
      		}else{
-     	 Wallet::updateWallet($request->all());	
+     	 Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_balance'],$data['amount']);	
      	  DB::commit();
      		}                
      	}
-        
+
   catch(exception $e){
              DB::rollback();
             return back()->withInput()->with('error', 'An error occured. Please try again');
         }
         return redirect()->route('tenant.wallet')->with('success', 'Wallet successfully funded');
     }
+
+    public function getTenantWalletForPayment($tenant_id){
+
+ 	$tenantWallets = Wallet::join('tenants','tenants.id','=','wallets.tenant_id')
+ 	->where('wallets.user_id',getOwnerUserID())
+ 	->where('wallets.tenant_id',$tenant_id)
+    ->select('wallets.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
+ 	->first();
+ 	if($tenantWallets){
+ 		return $tenantWallets;
+ 	} else {
+ 		return response()->json(['balance'=>0]);
+ 	}
+ }
 }

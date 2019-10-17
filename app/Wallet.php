@@ -30,13 +30,15 @@ class Wallet extends Model
      	]);
      }
 
-     public static function updateWallet($data){
-     	self::where('tenant_id',$data['tenant_id'])
+     public static function updateWallet($tenant_id,$previous_balance,$new_balance,$amount){
+     	self::where('tenant_id',$tenant_id)
      		->where('user_id',getOwnerUserID())
      		->update([
-     		'amount' => $data['new_balance'],
+     		'amount' => $new_balance,
      	]);
 
-     self::saveWallHistory($data['tenant_id'],$data['previous_balance'],$data['new_balance'],$data['amount']);
+     self::saveWallHistory($tenant_id,$previous_balance,$new_balance,$amount);
      }
+
+
 }
