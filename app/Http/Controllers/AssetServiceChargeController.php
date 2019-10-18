@@ -81,7 +81,10 @@ class AssetServiceChargeController extends Controller
 
        ServiceChargePaymentHistory::payServiceCharge($request->all());
 
-        Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_wallet_amount'],$data['amountPaid']);
+        Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_wallet_amount'],$data['amountPaid'],'Withdrawal');
+
+       Wallet::updateTenantServiceChargeAmount($data['tenant_id'],$data['service_charge'],$data['balance']);
+
          DB::commit();
 
     }

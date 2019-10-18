@@ -39,10 +39,10 @@
                       <tr>
                           <th>No</th>
                           <th><b>Tenant</b></th>
+                           <th><b>Transaction Type</b></th>
+                          <th><b>Amount</b></th>
                           <th><b>Previous Balance</b></th>
                           <th><b>New Balance</b></th>
-                          <th><b>Amount</b></th>
-                          <th><b>Transaction Type</b></th>
                           <th><b>Created At</b></th>
                       </tr>
                     </thead>
@@ -51,10 +51,10 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$history->tenantDetail}}</td>
+                          <td>{{$history->transaction_type}}</td>
+                          <td>&#8358; {{number_format($history->amount,2)}}</td>
                           <td>&#8358; {{number_format($history->previous_balance,2)}}</td>
                           <td> &#8358; {{number_format($history->new_balance,2)}}</td>
-                          <td>&#8358; {{number_format($history->amount,2)}}</td>
-                          <td>{{$history->transaction_type}}</td>
                           <td>{{\Carbon\Carbon::parse($history->created_at)->format('d M Y')}}</td>
                       </tr>
                       @endforeach

@@ -57,9 +57,9 @@
                         <th><b>Service Name</b></th>
                         <th><b>Amount</b></th>
                         <th><b>Balance</b></th>
+                        <th><b>Updated At</b></th>
                         <th><b>Start Date</b></th>
                         <th><b>Due Date</b></th>
-                        <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,25 +78,10 @@
                             <td>&#8358;{{number_format($tenant->price,2)}}</td>
                             <td>&#8358;{{number_format($tenant->bal,2)}}</td>
                             
-                            <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
+                            <td>   {{  \Carbon\Carbon::parse($tenant->updated_at)->format('d M Y')}}</td>
                              <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
-                          <td class="text-center">
-                                <div class="dropdown">
-                                    <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </a>
-                                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        
-                                        <form action="{{ route('asset.delete.service', ['id'=>$tenant->id]) }}" method="get">
-                                            
-                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form> 
-                                    </div>
-
-                                </div>
-</td>
+                             <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
+    
                         </tr>
                     @endforeach
 
