@@ -47,10 +47,10 @@ public function fetchBalance($tenant_id){
     public function fundWallet(Request $request){
     	$data=$request->all();
     	  $validator = validator::make($request->all(),[
-        'tenant_id' => 'required',
-        'amount' => 'required',
-        'previous_balance' => 'required',
-        'new_balance' => 'required',
+        'tenant_id' => 'required|numeric',
+        'amount' => 'required|numeric',
+        'previous_balance' => 'required|numeric',
+        'new_balance' => 'required|numeric',
         ]);
     if($validator->fails()){
             return back()->withErrors($validator)

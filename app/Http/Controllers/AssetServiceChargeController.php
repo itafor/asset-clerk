@@ -58,19 +58,19 @@ class AssetServiceChargeController extends Controller
      public function storeServiveChargePaymentHistory(Request $request){
         $data=$request->all();
         $validator = validator::make($request->all(),[
-        'tenant' => 'required',
-        'service_charge' => 'required',
-        'actualAmount' => 'required',
-        'balance' => 'required',
+        'tenant' => 'required|numeric',
+        'service_charge' => 'required|numeric',
+        'actualAmount' => 'required|numeric',
+        'balance' => 'required|numeric',
         'property' => 'required',
-        'amountPaid' => 'required',
+        'amountPaid' => 'required|numeric',
         'payment_mode' => 'required',
         'payment_date' => 'required',
         'durationPaidFor' => 'required',
         'payment_mode' => 'required',
-        'previous_balance' =>'required',
-        'new_balance' => 'required',
-        'new_wallet_amount' => 'required',
+        'previous_balance' =>'required|numeric',
+        'new_balance' => 'required|numeric',
+        'new_wallet_amount' => 'required|numeric',
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)

@@ -68,7 +68,7 @@
 
                                           <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-amount">{{ __('Previous Amount') }}<span class="text-danger">*</span></label>
-                                        <input type="Number" min="0" name="previous_balance" id="previous_balance" class="form-control form-control-alternative{{ $errors->has('previous_balance') ? ' is-invalid' : '' }}" placeholder="Previous Amount"  required>
+                                        <input type="Number" min="0" name="previous_balance" id="previous_balance" class="form-control form-control-alternative{{ $errors->has('previous_balance') ? ' is-invalid' : '' }}" placeholder="Previous Amount" readonly="readonly"  required>
                                         
                                         @if ($errors->has('previous_balance'))
                                             <span class="invalid-feedback" role="alert">
@@ -79,7 +79,7 @@
 
                                          <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-amount">{{ __('New Balance') }}<span class="text-danger">*</span></label>
-                                        <input type="text" min="1" name="new_balance" id="new_balance" class="form-control form-control-alternative{{ $errors->has('new_balance') ? ' is-invalid' : '' }}" placeholder="New Balance"  required>
+                                        <input type="text" min="1" name="new_balance" id="new_balance" class="form-control form-control-alternative{{ $errors->has('new_balance') ? ' is-invalid' : '' }}" placeholder="New Balance" readonly="readonly"  required>
                                         
                                         @if ($errors->has('new_balance'))
                                             <span class="invalid-feedback" role="alert">
@@ -149,6 +149,10 @@ $('body').on('keyup', '#amount', function(){
             }else{
                   $('#new_balance').val('Invalid Input');
                   // $('#new_balance').val(' ');
+            }
+
+            if(amountPaid <= 0){
+             $(this).val('');
             }
         });
 
