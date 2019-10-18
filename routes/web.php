@@ -107,6 +107,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/edit/{uuid}', 'TenantController@edit')->name('tenant.edit');
 			Route::post('/update', 'TenantController@update')->name('tenant.update');
 			Route::get('/delete/{uuid}', 'TenantController@delete')->name('tenant.delete');
+			Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('tenant.profile');
+
 		});
 		Route::prefix('customer')->group(function(){
 			Route::get('/', 'CustomerController@index')->name('customer.index');

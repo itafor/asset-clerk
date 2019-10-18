@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Asset;
 use App\Tenant;
 use App\TenantRent;
+use App\TenantServiceCharge;
 use App\Unit;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Validator;
 
 class TenantController extends Controller
@@ -136,6 +138,32 @@ class TenantController extends Controller
         }
         else{
             return [];
+        }
+    }
+
+   public function  tenantProfile($id){
+     $tenantId = Crypt::decrypt($id);
+     
+         $tenantDetail = Tenant::where('tenants.id', $tenantId)
+            ->join('countries as co','co.id','=','tenants.country_id')
+            ->join('states as st','st.id','=','tenants.state_id')
+            ->join('cities as c','c.id','=','tenants.city_id')
+            ->select('tenants.*','co.name as countryName','st.name as stateName','c.name as cityName')
+            ->first();
+
+$tenantsAssignedScs = TenantServiceCharge::where('tenant_service_charges.tenant_id',$tenantId)
+         ->where('tenant_service_charges.user_id', getOwnerUserID())
+          ->join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
+          ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
+          ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
+           ->join('assets','assets.id','=','asset_service_charges.asset_id')
+         ->select(DB::raw("SUM(tenant_service_charges.bal) as totalDebt"),'tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
+          ->groupBy('tenant_service_charges.tenant_id')
+         ->get();
+         dd($tenantsAssignedScs);
+
+        if($tenantDetail){
+            return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs'));
         }
     }
 

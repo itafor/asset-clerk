@@ -108,4 +108,10 @@ class AssetServiceChargeController extends Controller
 
           return view('new.admin.assetServiceCharge.paymentHistories', compact('service_charge_payment_histories'));
     }
+
+      public function unpaidTenantServiceCharges($tenant_id){
+          
+          return view('new.admin.assetServiceCharge.debtors', compact('debtors'));
+         
+    }
 }
