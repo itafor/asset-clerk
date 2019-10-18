@@ -46,7 +46,7 @@ class AssetServiceChargeController extends Controller
          ->where('tenant_service_charges.user_id', getOwnerUserID())
         ->where('tenant_service_charges.service_chargeId', $id)
         ->where('tenant_service_charges.tenant_id', $tenantId)
-         ->select('service_charges.*','asset_service_charges.*','tenant_service_charges.*','assets.description as property','asset_service_charges.dueDate as expireingDate')
+         ->select('service_charges.*','asset_service_charges.*','tenant_service_charges.*','tenant_service_charges.asc_id as ascId','assets.description as property','asset_service_charges.dueDate as expireingDate')
          ->get();
          return $ServiceChargesAmount;
     }
@@ -71,6 +71,7 @@ class AssetServiceChargeController extends Controller
         'previous_balance' =>'required|numeric',
         'new_balance' => 'required|numeric',
         'new_wallet_amount' => 'required|numeric',
+        'asset_service_charge_id' => 'required|numeric'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)
@@ -83,7 +84,7 @@ class AssetServiceChargeController extends Controller
 
         Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_wallet_amount'],$data['amountPaid'],'Withdrawal');
 
-       Wallet::updateTenantServiceChargeAmount($data['tenant_id'],$data['service_charge'],$data['balance']);
+       Wallet::updateTenantServiceChargeAmount($data['tenant_id'],$data['service_charge'],$data['balance'],$data['asset_service_charge_id']);
 
          DB::commit();
 
@@ -92,7 +93,7 @@ class AssetServiceChargeController extends Controller
              DB::rollback();
             return back()->withInput()->with('error', 'An error occured. Please try again');
         }
-        return redirect()->route('asset.index')->with('success', 'Asset added successfully');
+        return redirect()->route('store.service.charge.payment.history')->with('success', 'Asset Service Charge payment recorded successfully');
     }
 
     public function getServiveChargePaymentHistory(Request $request){

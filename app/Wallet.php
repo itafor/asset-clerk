@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AssetServiceCharge;
 use App\TenantServiceCharge;
 use App\WalletHistory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,9 +42,10 @@ class Wallet extends Model
      self::saveWallHistory($tenant_id,$previous_balance,$new_balance,$amount,$transactionType);
      }
 
-public static function updateTenantServiceChargeAmount($tenant_id,$service_charge_Id,$balance){
+public static function updateTenantServiceChargeAmount($tenant_id,$service_charge_Id,$balance,$asc_id){
   $findTSC = TenantServiceCharge::where('tenant_id',$tenant_id)
-                        ->where('service_chargeId',$service_charge_Id)->first();
+                        ->where('service_chargeId',$service_charge_Id)
+                        ->where('user_id',getOwnerUserID())->first();
                         if($findTSC){
                            $findTSC->bal = $balance;
                            $findTSC->save();
@@ -52,5 +54,25 @@ public static function updateTenantServiceChargeAmount($tenant_id,$service_charg
             if($findTSC->bal == 0){
                 $findTSC->delete();
             }
+
+   self::remove_ASC_without_tenant_attashed($asc_id);
+   
+        }
+
+public static function remove_ASC_without_tenant_attashed($asc_id){
+         $fetchTSC= TenantServiceCharge::where('asc_id',$asc_id)
+                        ->where('user_id',getOwnerUserID())->get();
+                        if(count($fetchTSC) <= 0){
+                           self::updateASC($asc_id);
+                        }
+        }
+
+public static function updateASC($ascId){
+    $fetchASC = AssetServiceCharge::where('id',$ascId)
+                        ->where('user_id',getOwnerUserID())->first();
+        if($fetchASC){
+           $fetchASC->status = 0;
+           $fetchASC->save();
+             }
         }
 }
