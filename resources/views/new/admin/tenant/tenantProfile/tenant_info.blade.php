@@ -29,7 +29,9 @@
 }
 </style>
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-user-o"></i> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Profile</h1>
+          <h1 class="dt-page__title"><i class="icon icon-user-o"></i> 
+        Tenant Profile Management
+          </h1>
         </div>
         <!-- /page header -->
 
@@ -44,7 +46,7 @@
 
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title">Tenant Profile</h3>
+                    <h3 class="dt-entry__title"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Profile</h3>
                 </div>
                 <!-- /entry heading -->
 
@@ -58,11 +60,11 @@
                     <div class="dt-card__body">
                        
 <div class="col-md-12 pull-left">
-    <div class="image-container">
-<img src="{{$tenantDetail->photo}}}}" class="profile-image">
-<div class="title">
-<h2>{{$tenantDetail->firstname}}</h2>
-</div>
+    <div class="tenant-profile-container">
+         @if($tenantDetail->photo)
+<img src="{{$tenantDetail->photo}}" class="tenant-profile-image">
+     @else
+      <img src="{{ url('img/defaultprofilePhoto.jpg') }}" class="tenant-profile-image">  @endif                        
 </div>
 <div class="row">
    <table class="table align-items-center table-flush">
@@ -161,6 +163,19 @@
                         </span>
                         </h4> 
                         <table class="table align-items-center table-flush">
+
+                            <tr><td>Current Wallet Balance:</td>
+                                  @if(isset($tenantWalletBal->amount))
+                                <td>
+                                 &#8358; {{number_format($tenantWalletBal->amount,2)}}
+                                </td>
+                                @else
+                                <td>
+                                <span>Wallet Account not found</span>
+                                </td>
+                                @endif
+                            </tr>
+
                             <tr><td>Unpaid Service Charges:</td>
                                 <td>
                                     <a href="#" class="" data-toggle="modal" data-target=".tenant-service-charges"> 
@@ -171,7 +186,7 @@
                                 </td>
                             </tr>
 
-                            <tr><td>Service Charge Payment Histories:</td>
+                            <tr><td>Service Charge Payment History:</td>
                                 <td>
                                     <a href="#"  data-toggle="modal" data-target=".tenantSCPaymentHistory">
                                     View details 

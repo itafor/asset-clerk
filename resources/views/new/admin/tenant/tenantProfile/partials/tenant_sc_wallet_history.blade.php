@@ -11,10 +11,15 @@
 <div class="row col-md-12">
   <h5 class="modal-title col-md-6" id="tenantServiceCharges"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}} Service Charge Wallet's Transaction History
                              </h5>
-
+     @if(isset($tenantWalletBal->amount))
    <h5 class="modal-title col-md-6" id="tenantServiceCharges"> 
    Current Wallet BALANCE:  &#8358; {{number_format($tenantWalletBal->amount,2)}}
  </h5>
+ @else
+  <h5 class="modal-title col-md-6" id="tenantServiceCharges"> 
+   Current Wallet BALANCE:  <span>Wallet Account not found</span>
+ </h5>
+ @endif
 </div>
                 
 

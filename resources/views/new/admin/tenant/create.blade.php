@@ -243,7 +243,7 @@
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('passport') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-passport">{{ __('Passport') }}</label>
-                                    <input type="file" name="passport" id="input-passport" class="form-control form-control-alternative{{ $errors->has('passport') ? ' is-invalid' : '' }}" required>
+                                    <input type="file" name="passport" id="input-passport" class="form-control form-control-alternative{{ $errors->has('passport') ? ' is-invalid' : '' }}" >
                                     
                                     @if ($errors->has('passport'))
                                         <span class="invalid-feedback" role="alert">
