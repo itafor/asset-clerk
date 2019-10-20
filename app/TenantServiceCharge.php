@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TenantServiceCharge extends Model
 {
-    protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal'];
+    protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal','startDate','dueDate'];
 
  public function myServiceCharges($id){
       //return $this->hasMany(AssetServiceCharge::class);

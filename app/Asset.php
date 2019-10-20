@@ -163,8 +163,38 @@ class Asset extends Model
     public static function addServiceCharge($data,$asset)
     {
         //AssetServiceCharge::where('asset_id', $asset->id)->delete();
-        //dd($data['service']);
+
         $tenantIds=$data['tenant_id'];
+        $startDate = $data['startDate'];
+        $dueDate = $data['dueDate'];
+        $services = $data['service'];
+
+        $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
+        
+       if($allTenantServiceCharges){
+            foreach ($allTenantServiceCharges as $key => $aTSC) {
+                foreach ($services as $key => $service) {
+                    foreach ($tenantIds as $key => $tenantId) {
+
+                    if(
+                            $tenantId == $aTSC->tenant_id
+                        &&  $service['service_charge'] == $aTSC->service_chargeId
+                        &&  $startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
+                         &&  $dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
+                    ){
+                         return back()->withInput()->with('error','A tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
+                    }
+
+                    }
+                }
+               
+            }
+        }
+
+  if($dueDate < $startDate){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+
         $service_chargeIDs=$data['service'];
         $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
                 foreach($data['service'] as $unit){
@@ -172,26 +202,28 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
-                'startDate' => Carbon::parse(formatDate($unit['startDate'], 'd/m/Y', 'Y-m-d')),
-                'dueDate' => Carbon::parse(formatDate($unit['dueDate'], 'd/m/Y', 'Y-m-d')),
+                'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
+                'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
             ]);
 
                 if($asc){
-                    self::addTenantToServiceCharge($tenantIds,$asc->id, $unit['service_charge'],$unit['price']);
+                    self::addTenantToServiceCharge($tenantIds,$asc->id, $unit['service_charge'],$unit['price'],$startDate,$dueDate);
                  }
         }
     }
 
-    public static function addTenantToServiceCharge($tenantIds,$sc_id,$service_charge_ids,$bal){
+    public static function addTenantToServiceCharge($tenantIds,$sc_id,$service_charge_ids,$bal,$startDate,$dueDate){
         foreach ($tenantIds as $key => $id) {
             TenantServiceCharge::create([
                 'tenant_id' => $id,
                 'asc_id' =>$sc_id,
                 'service_chargeId' => $service_charge_ids,
                 'user_id' =>getOwnerUserID(),
-                'bal' => $bal
+                'bal' => $bal,
+                'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
+                'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
             ]);
         }
     }

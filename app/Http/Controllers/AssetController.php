@@ -298,8 +298,8 @@ class AssetController extends Controller
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
             'service.*.price' => 'required',
-            'service.*.dueDate' => 'required',
-            'service.*.startDate' => 'required',
+            'dueDate' => 'required',
+            'startDate' => 'required',
             'asset' => 'required',
             'tenant_id' => 'required',
         ]);

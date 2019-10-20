@@ -72,7 +72,20 @@
                             </div>
 
 
-                            <div class="form-group col-8">
+                                <div class="form-group col-4">
+                                <label class="form-control-label" for="input-price">{{ __('Start Date') }}</label>
+                                <input type="text" name="startDate" id="input-startDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
+                            </div>
+
+                             <div class="form-group col-4">
+                                <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
+                                <input type="text" name="dueDate" id="input-dueDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
+                            </div>
+
+                          </div>
+                          <div class="row">
+
+                            <div class="form-group col-12">
                                 <label class="form-control-label" for="input-category">{{ __('Tenant') }}</label>
                                 <div>
                                     <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select tenant" style="width:100%" multiple="true" required>
@@ -80,10 +93,9 @@
                                 </select>
                                 </div>
                             </div>
-
                           </div>
                         <div class="row">
-                            <div class="form-group col-2">
+                            <div class="form-group col-4">
                                 <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
                                 <div>
                                     <select name="service[112211][type]" class="form-control sc_type" data-row="112211" style="width:100%" required>
@@ -93,7 +105,7 @@
                                 </select>
                                 </div>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-4">
                                 <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
                                 <div>
                                     <select name="service[112211][service_charge]" id="serviceCharge112211" style="width:100%" class="form-control" required>
@@ -101,12 +113,12 @@
                                 </select>
                                 </div>
                             </div>                   
-                            <div class="form-group col-3">
+                            <div class="form-group col-4">
                                 <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
                                 <input type="number" name="service[112211][price]" id="input-price" class="form-control" placeholder="Enter Price" required>
                             </div>
 
-                             <div class="form-group col-2">
+                         <!--     <div class="form-group col-2">
                                 <label class="form-control-label" for="input-price">{{ __('Start Date') }}</label>
                                 <input type="text" name="service[112211][startDate]" id="input-startDate" class="datepicker form-control" placeholder="Enter Price" autocomplete="off" required>
                             </div>
@@ -114,7 +126,7 @@
                              <div class="form-group col-2">
                                 <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
                                 <input type="text" name="service[112211][dueDate]" id="input-dueDate" class="datepicker form-control" placeholder="Enter Price" autocomplete="off" required>
-                            </div>
+                            </div> -->
 
                         </div>
                             <div style="clear:both"></div>
@@ -245,7 +257,7 @@
                 '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
                     +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
                     +'<div style="clear:both"></div>'
-                    +'<div class="form-group col-2" style="width:31%; float:left; margin-left:-20px">'
+                    +'<div class="form-group col-4" style="width:31%; float:left; margin-left:-20px">'
                     +'    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>'
                     +'    <select name="service['+rowId+'][type]" class="form-control sc_type select'+rowId+'" data-row="'+rowId+'" required>'
                     +'        <option value="">Select Type</option>'
@@ -253,24 +265,24 @@
                     +'        <option value="variable">Variable</option>'
                     +'    </select>'
                     +'</div>'
-                    +'<div class="form-group col-3" style="width:31%; float:left; margin-right:10px">'
+                    +'<div class="form-group col-4" style="width:31%; float:left; margin-right:10px">'
                     +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
                     +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
                     +'        <option value="">Select Service Charge</option>'
                     +'    </select>'
                     +'</div>       '            
-                    +'<div class="form-group col-3" style="width:31%; float:left">'
+                    +'<div class="form-group col-4" style="width:31%; float:left">'
                     +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
                     +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
                     +'</div>'
-                    +'<div class="form-group col-2" style="width:31%; float:left">'
-                    +'    <label class="form-control-label" for="input-price">{{ __('Start date') }}</label>'
-                    +'    <input type="text" name="service['+rowId+'][startDate]" id="input-startDate" class="datepicker form-control" required>'
-                    +'</div>'
-                     +'<div class="form-group col-2" style="width:31%; float:left">'
-                    +'    <label class="form-control-label" for="input-price">{{ __('Due date') }}</label>'
-                    +'    <input type="text" name="service['+rowId+'][dueDate]" id="input-dueDate" class="datepicker form-control" required>'
-                    +'</div>'
+                    // +'<div class="form-group col-2" style="width:31%; float:left">'
+                    // +'    <label class="form-control-label" for="input-price">{{ __('Start date') }}</label>'
+                    // +'    <input type="text" name="service['+rowId+'][startDate]" id="input-startDate" class="datepicker form-control" required>'
+                    // +'</div>'
+                    //  +'<div class="form-group col-2" style="width:31%; float:left">'
+                    // +'    <label class="form-control-label" for="input-price">{{ __('Due date') }}</label>'
+                    // +'    <input type="text" name="service['+rowId+'][dueDate]" id="input-dueDate" class="datepicker form-control" required>'
+                    // +'</div>'
                     +'<div style="clear:both"></div>'
                 +'</div>'
             );
