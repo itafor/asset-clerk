@@ -66,7 +66,7 @@
                             <td>&#8358;{{number_format($tenant->bal,2)}}</td>
                             
                             <td>   {{  \Carbon\Carbon::parse($tenant->updated_at)->format('d M Y')}}</td>
-                             <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
+                             <td>   {{  \Carbon\Carbon::parse($tenant->startDate)->format('d M Y')}}</td>
                              <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
     
                         </tr>

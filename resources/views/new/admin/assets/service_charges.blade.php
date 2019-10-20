@@ -147,6 +147,7 @@
                         <th><b>Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
+                        <th><b>Start Date</b></th>
                         <th><b>Due Date</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
@@ -165,7 +166,8 @@
                             <td>{{$asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
-                            <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
+                            <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
+                             <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -217,6 +219,7 @@
                         <th><b>Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
+                        <th><b>Start date</b></th>
                         <th><b>Due date</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
@@ -235,6 +238,7 @@
                             <td>{{$asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
+                             <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
                             <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
                             <td class="text-center">
                                 <div class="dropdown">

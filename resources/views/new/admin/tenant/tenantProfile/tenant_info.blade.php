@@ -68,59 +68,59 @@
 </div>
 <div class="row">
    <table class="table align-items-center table-flush">
-      <tr><td>Full Name:</td>
+      <tr><td><strong>Full Name :</strong></td>
         <td>
       {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}
         </td>
     </tr>
 
- <tr><td>Gender:</td>
+ <tr><td><strong>Gender :</strong></td>
         <td>
        {{$tenantDetail->gender}}
         </td>
     </tr>
 
-     <tr><td> Date Of Birth:</td>
+     <tr><td><strong>Date Of Birth :</strong> </td>
         <td>
       {{$tenantDetail->date_of_birth}}
         </td>
     </tr>
 
-    <tr><td> Phone: </td>
+    <tr><td><strong> Phone :</strong> </td>
         <td>
       {{$tenantDetail->phone}}
         </td>
     </tr>
-    <tr><td> Email: </td>
+    <tr><td> <strong>Email :</strong> </td>
         <td>
       {{$tenantDetail->email}}
         </td>
     </tr>
 
-    <tr><td>  Occupation:  </td>
+    <tr><td> <strong> Occupation : </strong> </td>
         <td>
     {{$tenantDetail->occupation}}
         </td>
     </tr>
 
-     <tr><td>  Address:  </td>
+     <tr><td>  <strong>Address : </strong></td>
         <td>
      {{$tenantDetail->address}}
         </td>
     </tr>
 
-     <tr><td>  Country:  </td>
+     <tr><td>  <strong>Country :</strong>  </td>
         <td>
     {{$tenantDetail->countryName}}
         </td>
     </tr>
-     <tr><td>  State:  </td>
+     <tr><td>  <strong>State :</strong>  </td>
         <td>
     {{$tenantDetail->stateName}}
         </td>
     </tr>
 
-     <tr><td>  City:  </td>
+     <tr><td> <strong> City :</strong>  </td>
         <td>
    {{$tenantDetail->cityName}}
         </td>
@@ -158,7 +158,7 @@
                     <!-- Card Body -->
                     <div class="dt-card__body">
                        <h4>Outstanding Asset Service Charge balance:
-                         <span style="color: gray; font-family: monospace; font-size: 16px;">
+                         <span style="color: red; font-family: monospace; font-size: 16px;">
                             &#8358; {{number_format($tenantTotalDebt,2)}}
                         </span>
                         </h4> 

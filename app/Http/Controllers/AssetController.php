@@ -298,8 +298,10 @@ class AssetController extends Controller
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
             'service.*.price' => 'required',
+            'service.*.dueDate' => 'required',
+            'service.*.startDate' => 'required',
             'asset' => 'required',
-            'tenant_id' => 'required'
+            'tenant_id' => 'required',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)

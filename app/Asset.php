@@ -163,6 +163,7 @@ class Asset extends Model
     public static function addServiceCharge($data,$asset)
     {
         //AssetServiceCharge::where('asset_id', $asset->id)->delete();
+        //dd($data['service']);
         $tenantIds=$data['tenant_id'];
         $service_chargeIDs=$data['service'];
         $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
@@ -171,6 +172,7 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
+                'startDate' => Carbon::parse(formatDate($unit['startDate'], 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($unit['dueDate'], 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
                 'tenant_id' => $tenants_ids,
