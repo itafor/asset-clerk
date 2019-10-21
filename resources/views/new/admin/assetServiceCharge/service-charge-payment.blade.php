@@ -224,8 +224,21 @@
                         $('#input-service_charge').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
                         $.each(data, function(k, v) {
-                           
-                            $('<option>').val(v.id).text(v.name +', Type: ' + v.type + '  - Duration: ' + v.expireingDate).appendTo('#input-service_charge');
+                             var formattedDate = new Date(v.startingDate);
+                            var d = formattedDate.getDate();
+                            var m =  formattedDate.getMonth();
+                            m += 1;  // JavaScript months are 0-11
+                            var y = formattedDate.getFullYear();
+                            startingDate = d + "/" + m + "/" + y
+
+                             var formattedDate = new Date(v.expiringDate);
+                            var d = formattedDate.getDate();
+                            var m =  formattedDate.getMonth();
+                            m += 1;  // JavaScript months are 0-11
+                            var y = formattedDate.getFullYear();
+                            expiringDate = d + "/" + m + "/" + y
+
+                            $('<option>').val(v.id).text(v.name +', Type: ' + v.type + '  - Duration: ' + startingDate+ '-' + expiringDate).appendTo('#input-service_charge');
                         
                         });
                     }
@@ -329,15 +342,15 @@
                         $('#durationPaidFor').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#durationPaidFor');
                         $.each(data, function(k, v) {
-                            
-                           var formattedDate = new Date(v.startDate);
+
+                           var formattedDate = new Date(v.startingDate);
                             var d = formattedDate.getDate();
                             var m =  formattedDate.getMonth();
                             m += 1;  // JavaScript months are 0-11
                             var y = formattedDate.getFullYear();
                             startingDate = d + "/" + m + "/" + y
 
-                             var formattedDate = new Date(v.dueDate);
+                             var formattedDate = new Date(v.expiringDate);
                             var d = formattedDate.getDate();
                             var m =  formattedDate.getMonth();
                             m += 1;  // JavaScript months are 0-11

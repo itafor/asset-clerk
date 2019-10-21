@@ -19,7 +19,6 @@
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
                 <h3 class="dt-entry__title">List of Service Charges</h3>
-                <a href="/service-charge/debtors">view debtor</a>
               </div>
               <!-- /entry heading -->
 
