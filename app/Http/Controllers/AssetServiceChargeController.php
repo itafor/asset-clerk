@@ -46,7 +46,7 @@ class AssetServiceChargeController extends Controller
          ->where('tenant_service_charges.user_id', getOwnerUserID())
         ->where('tenant_service_charges.service_chargeId', $id)
         ->where('tenant_service_charges.tenant_id', $tenantId)
-         ->select('service_charges.*','asset_service_charges.*','tenant_service_charges.*','tenant_service_charges.asc_id as ascId','assets.description as property','asset_service_charges.dueDate as expireingDate')
+         ->select('service_charges.*','asset_service_charges.*','tenant_service_charges.*','tenant_service_charges.asc_id as ascId','assets.description as property','asset_service_charges.dueDate as expiringDate','asset_service_charges.startDate as startingDate')
          ->get();
          return $ServiceChargesAmount;
     }

@@ -177,11 +177,11 @@
                                       
                                             <a href="/asset/tenants-service-charge/{{$asset->id}}" target="_blank|_parent" class="dropdown-item" >Tenants</a>
                                       
-                                        <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
+                                       <!--  <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a> -->
                                         
                                         <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
                                             
-                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
+                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge? This action will also remove tenants assigned to this Service Charge") }}') ? this.parentElement.submit() : ''">
                                                 {{ __('Delete') }}
                                             </button>
                                         </form> 
@@ -256,7 +256,7 @@
                                         
                                         <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
                                             
-                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge?") }}') ? this.parentElement.submit() : ''">
+                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge? This action will also remove tenants assigned to this Service Charge") }}') ? this.parentElement.submit() : ''">
                                                 {{ __('Delete') }}
                                             </button>
                                         </form> 

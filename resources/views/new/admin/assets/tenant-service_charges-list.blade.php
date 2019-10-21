@@ -18,7 +18,11 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
+                @if(isset($tenantsDetails))
+                 @if(count($tenantsDetails) >=1)
                 <h3 class="dt-entry__title">Tenants assigned to <strong>{{$asset->description}}'s asset {{$serviceChargeName}} </strong> service Charge</h3>
+                @endif
+                @endif
               </div>
               <!-- /entry heading -->
 

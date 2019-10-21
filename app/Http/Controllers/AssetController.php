@@ -199,6 +199,16 @@ class AssetController extends Controller
         if($sc){
             $sc->status = 0;
             $sc->save();
+
+            $deleteTenantsfromSC = TenantServiceCharge::where('asc_id',$id)
+            ->where('user_id',getOwnerUserID())->get();
+         
+          if($deleteTenantsfromSC){
+            foreach ($deleteTenantsfromSC as $key => $value) {
+                $value->delete();
+            }
+          }
+
             return back()->with('success', 'Service charge deleted successfully');
         }
         else{
@@ -262,37 +272,6 @@ class AssetController extends Controller
          
          $data=$request->all();
 
-         //dd($data);
-    //      $theTenantsId=$data['tenant_id'];
-    //      $testTenantIds=implode(' ', $theTenantsId);
-    //      $services =$data['service'];
-         
-    // $getASCs = AssetServiceCharge::where('asset_service_charges.asset_id', $data['asset'])
-    //         ->where('user_id', getOwnerUserID())
-    //                 ->join('service_charges as sc', 'sc.id', '=', 'asset_service_charges.service_charge_id')
-    //                 ->selectRaw('sc.*,asset_service_charges.*')
-    //                 ->get();
-      
-
-    //                 // $tenants_ids =array();
-    //                 // $service_charge=array();
-    //                 if($getASCs){
-    //                     foreach ($getASCs as $key => $sc) {
-    //                         // $tenants_ids[]=$sc->tenant_id;
-    //                         // $service_charge[]=$sc->service_charge_id;
-    //                           foreach ($services as $key => $service) {
-    //                 if(
-    //                            $sc->tenant_id == $testTenantIds
-    //                         && $sc->price == $service['price']
-    //                         && $sc->type == $service['type']
-    //                         && $sc->service_charge_id == $service['service_charge']
-    //                  ){
-    //                      return back()->withInput()->with('error', 'Supplied data already exist');
-    //                         }
-                            
-    //                     }
-    //                 }
-    //             }
 
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
@@ -357,14 +336,6 @@ class AssetController extends Controller
 
           $tenants_ids=explode(' ',$tenants); 
 
-         // $tenantsDetails=array();
-         //  foreach ($tenants_ids as $key => $id) {
-         // $tens = Tenant::where('id',(int)$id)->first();
-         // if($tens){
-         //    $tenantsDetails[] = $tens;
-         //    }
-         //  }
-
            $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
 
     $tenantsDetails=array();
@@ -408,14 +379,20 @@ class AssetController extends Controller
         return back()->with('success', 'Service Charge updated successfully');
     }
 
-        public function tenantsServiceCharge($id){
-       
+public function tenantsServiceCharge($id){
+            $asset='';
+            $tenants=0;
+            $serviceChargeName='';
+            $amount=0;
            $assetSc = AssetServiceCharge::find($id);
+
+           if($assetSc){
            $asset=$assetSc->asset;
            $serviceChargeName = $assetSc->serviceCharge->name;
            $amount = $assetSc->price;
            $tenants = $assetSc->tenant_id;
-
+          
+             }
            $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
 
     $tenantsDetails=array();
@@ -424,6 +401,7 @@ class AssetController extends Controller
     }
 
           return view('new.admin.assets.tenant-service_charges-list',compact('tenantsDetails','tenants','asset','serviceChargeName','amount'));
+
         }
 
         public function removeTenantFromCS($tenant_id,$sc_id){

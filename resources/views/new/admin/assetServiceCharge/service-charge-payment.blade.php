@@ -329,13 +329,22 @@
                         $('#durationPaidFor').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#durationPaidFor');
                         $.each(data, function(k, v) {
-                           var formattedDate = new Date(v.expireingDate);
+                            
+                           var formattedDate = new Date(v.startDate);
                             var d = formattedDate.getDate();
                             var m =  formattedDate.getMonth();
                             m += 1;  // JavaScript months are 0-11
                             var y = formattedDate.getFullYear();
-                            startdate = d + "/" + m + "/" + y
-                            $('#durationPaidFor').val( startdate + ' - '+ startdate)
+                            startingDate = d + "/" + m + "/" + y
+
+                             var formattedDate = new Date(v.dueDate);
+                            var d = formattedDate.getDate();
+                            var m =  formattedDate.getMonth();
+                            m += 1;  // JavaScript months are 0-11
+                            var y = formattedDate.getFullYear();
+                            expiringDate = d + "/" + m + "/" + y
+
+                            $('#durationPaidFor').val( startingDate + ' - '+ expiringDate)
                         });
                     }
                 });

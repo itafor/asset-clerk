@@ -19,7 +19,7 @@ use App\Staff;
 use App\State;
 use App\Tenant;
 use App\TenantRent;
-use App\TenantServiceCharges;
+use App\TenantServiceCharge;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -350,7 +350,7 @@ function removeTenantFromServiceCharge($tenant_id,$sc_id){
 
 //            $tenantIds=implode(' ',$tenants_ids);
 
-          $deleteTenantfromSC = TenantServiceCharges::where('asc_id',$sc_id)
+          $deleteTenantfromSC = TenantServiceCharge::where('asc_id',$sc_id)
           ->where('tenant_id',$tenant_id)->first();
 
            if($deleteTenantfromSC->delete()){
@@ -361,7 +361,7 @@ function removeTenantFromServiceCharge($tenant_id,$sc_id){
 
 function removeServiceChargeWithoutTenant($ascId){
    // dd($ascId);
-    $getTenantServiceCharges=TenantServiceCharges::all();
+    $getTenantServiceCharges=TenantServiceCharge::all();
     foreach ($getTenantServiceCharges as $key => $tsc) {
        if($tsc->asc_id != $ascId){
           $checkASC =  AssetServiceCharge::where('id',$ascId)->first();
