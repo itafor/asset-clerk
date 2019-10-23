@@ -43,6 +43,7 @@
                             <input type="hidden" name="tenant_id" id="tenant_id" >
                             <input type="hidden" name="service_charge_id" id="input-service_charge_id" >
                             <input type="hidden" name="previous_balance" id="input-previous_balance" placeholder="previous_balance">
+                            <input type="hidden" name="tenant_email" id="input-tenant_email" placeholder="tenant_email">
 
                              <input type="hidden" name="new_balance" id="input-new_balance" placeholder="new balance">
 
@@ -385,6 +386,28 @@
                     }else{
                         $('#input-previous_balance').val(data.balance)
                         $('#tenant_wallet_balance').text('This tenant has not created a wallet')
+                    }
+                    }
+                });
+            }
+        });
+
+// get tenant email
+         $('body').on('change', '#tenant', function(){
+            var tenant = $(this).val();
+            if(tenant){
+
+                $('#input-tenant_email').empty();
+                $('<option>').val('').text('Loading...').appendTo('#input-tenant_email');
+                $.ajax({
+                    url: baseUrl+'/tenant/get-tenant-email/'+tenant,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                       
+                        $('#input-tenant_email').empty();
+                        if(data.email){
+                        $('#input-tenant_email').val(data.email)
                     }
                     }
                 });

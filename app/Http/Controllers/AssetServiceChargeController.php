@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\serviceChargePaid;
 use App\ServiceChargePaymentHistory;
 use App\TenantServiceCharge;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mail;
 use Validator;
 
 class AssetServiceChargeController extends Controller
@@ -71,7 +73,8 @@ class AssetServiceChargeController extends Controller
         'previous_balance' =>'required|numeric',
         'new_balance' => 'required|numeric',
         'new_wallet_amount' => 'required|numeric',
-        'asset_service_charge_id' => 'required|numeric'
+        'asset_service_charge_id' => 'required|numeric',
+        'tenant_email' => 'required'
         ]);
         if($validator->fails()){
             return back()->withErrors($validator)
@@ -80,7 +83,9 @@ class AssetServiceChargeController extends Controller
        DB::beginTransaction();
        try{
 
-       ServiceChargePaymentHistory::payServiceCharge($request->all());
+       $serviceChargePayment = ServiceChargePaymentHistory::payServiceCharge($request->all());
+
+         Mail::to($data['tenant_email'])->send(new serviceChargePaid($request->all()));
 
         Wallet::updateWallet($data['tenant_id'],$data['previous_balance'],$data['new_wallet_amount'],$data['amountPaid'],'Withdrawal');
 
@@ -109,9 +114,5 @@ class AssetServiceChargeController extends Controller
           return view('new.admin.assetServiceCharge.paymentHistories', compact('service_charge_payment_histories'));
     }
 
-      public function unpaidTenantServiceCharges($tenant_id){
-          
-          return view('new.admin.assetServiceCharge.debtors', compact('debtors'));
-         
-    }
+      
 }

@@ -127,11 +127,18 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'RentalController@index')->name('rental.index');
 			Route::get('/my', 'RentalController@myRentals')->name('rental.my');
 			Route::get('/create', 'RentalController@create')->name('rental.create');
+			Route::get('/pay-rent/{uuid}', 'RentalController@rentPayment')->name('rental.pay');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 			Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 		});
+
+		Route::prefix('rent-payment')->group(function(){
+			Route::get('/pay-rent/{uuid}', 'RentPaymentController@create')->name('rentalPayment.create');
+		});
+
+
 		Route::prefix('maintenance')->group(function(){
 			Route::get('/', 'MaintenanceController@index')->name('maintenance.index');
 			Route::get('/create', 'MaintenanceController@create')->name('maintenance.create');
@@ -160,6 +167,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('my-maintenance', 'TenantController@myMaintenance')->name('tenant.maintenance');
 		Route::get('create-maintenance', 'TenantController@createMaintenance')->name('tenant.maintenance.create');
 		Route::get('fetch-tenants/{id}', 'TenantController@fetchTeanatThatBelongsToAnAsset')->name('fetch.tenants');
+
+		Route::get('/get-tenant-email/{id}','TenantController@getTenantEmail')->name('tenant.email');
 		
 	});
 

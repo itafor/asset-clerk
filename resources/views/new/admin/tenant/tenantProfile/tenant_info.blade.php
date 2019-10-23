@@ -82,7 +82,7 @@
 
      <tr><td><strong>Date Of Birth :</strong> </td>
         <td>
-      {{$tenantDetail->date_of_birth}}
+      {{\Carbon\Carbon::parse($tenantDetail->date_of_birth)->format('d M Y')}}
         </td>
     </tr>
 

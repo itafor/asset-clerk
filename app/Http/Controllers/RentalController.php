@@ -41,6 +41,7 @@ class RentalController extends Controller
             'property' => 'required',
             'unit' => 'required',
             'price' => 'required|numeric',
+            'amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
             'due_date' => 'required|date_format:"d/m/Y"'
         ]);

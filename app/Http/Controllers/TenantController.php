@@ -221,5 +221,13 @@ $tenantsAssignedScs = TenantServiceCharge::join('asset_service_charges', 'asset_
             return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs','tenantTotalDebt','tenantSCHs','tenantWalletsHistories','tenantWalletBal'));
         }
     }
+
+    public function getTenantEmail($tenant_id){
+          
+          $tenants = Tenant::where('id',$tenant_id)
+              ->where('user_id', getOwnerUserID())->first();
+         if($tenants){
+         return  $tenants;
+         }
+    }
 }
-//DB::raw("SUM(tenant_service_charges.bal) as totalDebt"),

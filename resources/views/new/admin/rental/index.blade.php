@@ -41,9 +41,11 @@
                           <th><b>Tenant Name</b></th>
                           <th><b>Unit</b></th>
                           <th><b>Description</b></th>
-                          <th><b>Price</b></th>
+                          <th><b>Proposed Price</b></th>
+                          <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
+                          <th><b>Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -55,14 +57,17 @@
                           <td>{{$rental->unit->category->name}}</td>
                           <td>{{$rental->asset->description}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
+                          <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{getNextRentPayment($rental)['due_date']}}</td>
+                          <td>{{$rental->status}}</td>
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       Action
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Payment</a>
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
                                           <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">

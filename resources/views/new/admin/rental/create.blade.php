@@ -36,7 +36,7 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
                                         <select name="property" id="property" class="form-control" required autofocus>
                                             <option value="">Select Property</option>
@@ -51,7 +51,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
                                         <select name="unit" id="unit" class="form-control" required>
                                             <option value="">Select Unit</option>
@@ -63,13 +63,24 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
-                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" placeholder="Enter Price" required>
+                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-price">{{ __('Proposed Price') }}</label>
+                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
                                         @if ($errors->has('price'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-price">{{ __('Amount') }}</label>
+                                        <input type="text" name="amount" id="amount" class="form-control" value="{{old('amount')}}" placeholder="Enter amount" required>
+                                        
+                                        @if ($errors->has('amount'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('amount') }}</strong>
                                             </span>
                                         @endif
                                     </div>

@@ -7,11 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceChargePaymentHistory extends Model
 {
+
+
+
     protected $fillable=['user_id','tenant','service_charge','actualAmount','balance','property','amountPaid','payment_mode','payment_date','durationPaidFor','description'];
+
+
+   public function unit() 
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');//To be added to SCPH model
+    }
+
+
+
+   public function tenants() 
+    {
+        return $this->hasMany(Tenant::class, 'tenant');
+    }
+
+     public function serviceCharge()
+    {
+        return $this->hasMany(ServiceCharge::class,'service_charge');
+    }
+
 
    public static function payServiceCharge($data){
 
-   	self::create([
+  return 	self::create([
    			'user_id' => getOwnerUserID(),
    			'tenant' => $data['tenant'],
    			'service_charge' => $data['service_charge'],

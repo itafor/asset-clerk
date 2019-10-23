@@ -15,11 +15,17 @@ class AssetServiceCharge extends Model
     {
         return $this->belongsTo('App\Asset');
     }
+
+    public function tenant()
+    {
+        return $this->belongsTo('App\Tenant');
+    }
    
     public function serviceCharge()
     {
         return $this->belongsTo('App\ServiceCharge');
     }
+
 
     public function tenantsServiceCharge($id){
             
