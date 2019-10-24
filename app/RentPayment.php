@@ -28,10 +28,6 @@ class RentPayment extends Model
         return $this->belongsTo(PaymentMode::class);
     }
 
-    // public function paymentType()
-    // {
-    //     return $this->belongsTo(PaymentType::class);
-    // }
 
     public static function createNew($data){
     	//dd($data);
