@@ -60,7 +60,38 @@
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                          <td>{{$rental->status}}</td>
+                          
+                          <td>
+                            
+                         <!--   @if ($rental->balance < $rental->amount)
+                           <span style="color: brown;">Incomplete</span>
+
+                           @elseif($rental->balance === 0)
+                           <span style="color: green;">paid</span> 
+                            @else
+                           <span style="color: red;">{{$rental->status}}</span>
+                           @endif -->
+
+
+                      <!-- @switch($rental->balance)
+                        @case($rental->balance < $rental->amount)
+                           <span style="color: brown;">Incomplete</span>
+                            @break
+
+                        @case($rental->balance === $rental->amount)
+                           <span style="color: green;">paid</span> 
+                            @break
+
+                        @case($rental->balance === $rental->amount)
+                           <span style="color: red;">{{$rental->status}}</span>
+                            @break
+
+                        @default
+                            <span>Something went wrong, please try again</span>
+                      @endswitch -->
+                       <span>{{$rental->status}}</span>
+                          </td>
+
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

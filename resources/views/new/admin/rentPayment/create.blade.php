@@ -30,12 +30,13 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                    <form method="post" action="{{ route('payment.store') }}" autocomplete="off">
+                    <form method="post" action="{{ route('rentalPayment.store') }}" autocomplete="off">
                             @csrf
                            <div class="row">
                              <div class="col-md-12">
-                                <input type="text" name="proposed_amount" value="{{$tenantRent->price}}">
-                                <input type="text" name="tenantRent_uuid" value="{{$tenantRent->uuid}}">
+                                <input type="hidden" name="proposed_amount" value="{{$tenantRent->price}}">
+                                <input type="hidden" name="tenantRent_uuid" value="{{$tenantRent->uuid}}">
+                                
                                <div class="float-left"> <p>Fields marked (<span class="text-danger">*</span>) are required.</p></div>
                                <div class="float-right"><span></span>Landlord (
                                 {{$tenantRent->asset->Landlord->designation}}.
@@ -47,9 +48,9 @@
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
-                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-property">{{ __('Property') }}<span class="text-danger">*</span></label>
-                                        <select name="property" id="property" class="form-control" required>
+                                    <div class="form-group{{ $errors->has('asset_uuid') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="asset_uuid">{{ __('Property') }}<span class="text-danger">*</span></label>
+                                        <select name="asset_uuid" id="asset_uuid" class="form-control" required>
                                            
                                                 <option value="{{$tenantRent->asset_uuid}}" selected="true">
                                                      {{$tenantRent->unit->getProperty()->description}} 
@@ -57,28 +58,28 @@
                                            
                                         </select>
                                         
-                                        @if ($errors->has('property'))
+                                        @if ($errors->has('asset_uuid'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('property') }}</strong>
+                                                <strong>{{ $errors->first('asset_uuid') }}</strong>
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}<span class="text-danger">*</span></label>
-                                        <select name="unit" id="unit" class="form-control" required>
+                                        <select name="unit_uuid" id="unit_uuid" class="form-control" required>
                                             <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit->category->name}}
                                             </option>
                                         </select>
                                        
-                                        @if ($errors->has('unit'))
+                                        @if ($errors->has('unit_uuid'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('unit') }}</strong>
+                                                <strong>{{ $errors->first('unit_uuid') }}</strong>
                                             </span>
                                         @endif
                                     </div>
 
                                      <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-unit">{{ __('Tenant') }}<span class="text-danger">*</span></label>
+                                        <label class="form-control-label" for="input-tenant_uuid">{{ __('Tenant') }}<span class="text-danger">*</span></label>
                                         <select name="tenant_uuid" id="tenant_uuid" class="form-control" required>
                                             <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->tenant->name()}}
                                             </option>
@@ -92,7 +93,7 @@
                                     </div>
                                       <div class="form-group{{ $errors->has('actual_amount') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-amount">{{ __('Amount') }}<span class="text-danger">*</span></label>
-                                        <input type="integer" name="actual_amount" id="actual_amount"  value="{{$tenantRent->amount}}"  class="form-control form-control-alternative{{ $errors->has('actual_amount') ? ' is-invalid' : '' }}" placeholder="Enter Actual price" value="{{old('actual_amount')}}" required>
+                                        <input type="integer" name="actual_amount" id="actual_amount"  value="{{$tenantRent->amount}}"  class="form-control form-control-alternative{{ $errors->has('actual_amount') ? ' is-invalid' : '' }}" readonly="readonly" placeholder="Enter Actual price" value="{{old('actual_amount')}}" required>
                                         
                                         @if ($errors->has('actual_amount'))
                                             <span class="invalid-feedback" role="alert">
@@ -102,7 +103,7 @@
                                     </div>
                                      <div class="form-group{{ $errors->has('Amount Price') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-amount">{{ __('Amount Paid') }}<span class="text-danger">*</span></label>
-                                        <input type="integer" name="amount_paid" id="actual_amount"   class="form-control form-control-alternative{{ $errors->has('actual_amount') ? ' is-invalid' : '' }}" placeholder="Enter amount Paid" value="{{old('amount_paid')}}" required>
+                                        <input type="number" min="1" name="amount_paid" id="amount_paid"   class="form-control form-control-alternative{{ $errors->has('actual_amount') ? ' is-invalid' : '' }}" placeholder="Enter amount Paid" value="{{old('amount_paid')}}" required>
                                         
                                         @if ($errors->has('amount_paid'))
                                             <span class="invalid-feedback" role="alert">
@@ -110,16 +111,23 @@
                                             </span>
                                         @endif
                                     </div>
+                                  
                                      <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-amount">{{ __('Balance') }}<span class="text-danger">*</span></label>
-                                        <input type="integer" name="balance" id="balance"   class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}" placeholder="Enter balance" value="{{old('balance')}}" required>
+                                        <input type="integer"   name="currentBalance" id="currentBalance"  class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}"  value="{{$tenantRent->balance}}" readonly="readonly" >
+                                       
+                                    </div>
+
+                                    
+                                       
+                                        <input type="hidden" name="balance" id="balance"   class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}" placeholder="Enter balance" value="{{old('balance')}}" readonly="readonly" required>
                                         
                                         @if ($errors->has('balance'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('balance') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
+                                    
                                  
                                
                                     <div class="form-group{{ $errors->has('payment_date') ? ' has-danger' : '' }} col-4">
@@ -135,7 +143,7 @@
 
                                       <div class="form-group{{ $errors->has('payment_date') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-payment_date">{{ __('Start Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="payment_date" id="startDate" class="datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{$tenantRent->startDate}}" required>
+                                        <input type="text" name="startDate" id="startDate" class=" form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{$tenantRent->startDate}}" readonly="readonly" required>
                                         
                                         @if ($errors->has('startDate'))
                                             <span class="invalid-feedback" role="alert">
@@ -147,11 +155,26 @@
 
                                     <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-due_date">{{ __('Due Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="due_date" value="{{$tenantRent->due_date}}" class="form-control">
+                                        <input type="text" name="due_date" value="{{$tenantRent->due_date}}" class="form-control" readonly="readonly">
 
                                         @if ($errors->has('due_date'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('due_date') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                <div class="form-group{{ $errors->has('payment_mode_id') ? ' has-danger' : '' }} col-6">
+                                        <label class="form-control-label" for="input-payment_mode">{{ __('Payment Mode') }}<span class="text-danger">*</span></label>
+                                        <select name="payment_mode_id" id="payment_mode_id" class="form-control" required>
+                                            <option value="">Select Payment Mode</option>
+                                            @foreach (getPaymentModes() as $pm)
+                                                <option value="{{$pm->id}}" {{old('payment_mode') == $pm->id ? 'selected' : ''}}>{{$pm->name}}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @if ($errors->has('payment_mode_id'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('payment_mode_id') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -189,158 +212,33 @@
 
 @section('script')
     <script>
-        $('#category').change(function(){
-            var category = $(this).val();
-            if(category){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
-                $.ajax({
-                    url: baseUrl+'/fetch-assets/'+category,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-            }
-        });
-        
-        $('#property').change(function(){
-            var property = $(this).val();
-            if(property){
-                $('#unit').empty();
-                $('<option>').val('').text('Loading...').appendTo('#unit');
-                $.ajax({
-                    url: baseUrl+'/fetch-rented-units/'+property,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#unit');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' - '+v.tenant).appendTo('#unit');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#unit').empty();
-                $('<option>').val('').text('Select Unit').appendTo('#unit');
-            }
-        });
+$('body').on('keyup', '#amount_paid', function(){
+            let amountPaid = $(this).val();
+           
+            let balance = 0;
+            let currentBalance = $('#currentBalance').val();
 
-        $(document).ready(function(){
-            @if(old('property'))
-                $.ajax({
-                    url: baseUrl+'/fetch-rented-units/{{old('property')}}',
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#unit');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' - '+v.tenant).appendTo('#unit');
-                        });
-                        @if(!empty(old('unit')))
-                        $('#unit').val("{{old('unit')}}");
-                        @endif
-                    }
-                });
-            @endif
 
-            @if(old('service') != null && old('service_charge') != null)
-                $.ajax({
-                    url: baseUrl+'/fetch-service-charge/{{old('service')}}',
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#input-service_charge').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge');
-                        });
-                        $('#input-service_charge').val("{{old('service_charge')}}");
-                    }
-                });
 
-                $('.service').removeClass('hide');
-                $("#input-service_charge, .sc_type").select2({
-                    theme: "bootstrap"
-                });
-            @endif
-        })
-
-        $('body').on('change', '.sc_type', function(){
-            var sc_type = $(this).val();
-            if(sc_type){
-
-                $('#input-service_charge').empty();
-                $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
-                $.ajax({
-                    url: baseUrl+'/fetch-service-charge/'+sc_type,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#input-service_charge').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge');
-                        });
-                    }
-                });
-            }
-        });
-
-        $('body').on('change', '#input-service_charge', function(){
-            var price = $("#input-service_charge option:selected").attr('data-price');
-            $('#input-amount').val(price);
-        });
-
-        $('#input-pt').change(function() {
-            var type = $("#input-pt option:selected").text();
-            if(type == 'Service Charge'){
-                var property = $('#property').val();
-                if(property){
-                    $('#input-service_charge').empty();
-                    $('<option>').val('').text('Loading...').appendTo('#input-service_charge');
-                    $.ajax({
-                        url: baseUrl+'/fetch-service-charge-by-property/'+property,
-                        type: "GET",
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#input-service_charge').empty();
-                            $('<option>').val('').text('Select Service Charge').appendTo('#input-service_charge');
-                            $.each(data, function(k, v) {
-                                $('<option>').val(v.id).text(v.name).appendTo('#input-service_charge').attr('data-price', v.price);
-                            });
-                        }
-                    });
-                } else {
-                    toast({
+            if( parseFloat(amountPaid) > parseFloat(currentBalance) ){
+                toast({
                         type: 'info',
-                        title: 'Please select property'
+                        title: 'Ooops!! Amount paid exceed expected amount, please check and try again'
                     })
-                }
-                $('.service').removeClass('hide');
-                $("#input-service_charge, .sc_type").select2({
-                    theme: "bootstrap"
-                });
-                $('#sc_type').prop('required', true);
-                $('#input-service_charge').prop('required', true);
+              $('#balance').val('')
+            }else{
+                 balance = currentBalance - amountPaid;
+              $('#balance').val(balance)
+              
             }
-            else{
-                $('.service').addClass('hide');
-                $('#sc_type').prop('required', false);
-                $('#input-service_charge').prop('required', false);
+
+
+             if(parseFloat(amountPaid) <= 0){
+                 $(this).val('');
+                $('#balance').val(' ')
             }
         })
+
+
     </script>
 @endsection

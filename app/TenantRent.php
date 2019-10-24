@@ -18,7 +18,7 @@ class TenantRent extends Model
 
     protected $fillable = [
         'tenant_id', 'asset_uuid', 'price','amount','startDate', 'user_id', 'status', 'uuid',
-        'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date'
+        'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date','balance'
     ];
 
     public function tenant()
@@ -58,6 +58,7 @@ class TenantRent extends Model
             'unit_uuid' => $data['unit'],
             'price' => $data['price'],
             'amount' => $data['amount'],
+            'balance' => $data['amount'],
             'startDate' => $startDate,
             'due_date' => $dueDate,//end date
             'uuid' => generateUUID(),

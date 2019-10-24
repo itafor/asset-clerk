@@ -28,9 +28,9 @@ class CreateRentPaymentsTable extends Migration
             $table->integer('balance')->nullable();
             $table->integer('payment_mode_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->date('payment_date')->nullable();
-            $table->date('startDate')->nullable();
-            $table->date('due_date')->nullable();
+            $table->string('payment_date')->nullable();
+            $table->string('startDate')->nullable();
+            $table->string('due_date')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

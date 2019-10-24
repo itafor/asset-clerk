@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use Validator;
 use App\RentPayment;
 use App\TenantRent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RentPaymentController extends Controller
 {
@@ -48,7 +50,38 @@ class RentPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+       // dd($request->all());
+
+        $validator = validator::make($request->all(),[
+        'tenant_uuid' => 'required',
+        'asset_uuid' => 'required',
+        'unit_uuid' => 'required',
+        'tenantRent_uuid' => 'required',
+        'proposed_amount' => 'required|numeric',
+        'actual_amount' => 'required|numeric',
+        'amount_paid' => 'required|numeric',
+        'balance' => 'required|numeric',
+        'payment_mode_id' => 'required|numeric',
+        'payment_date' =>'required',
+        'balance' => 'required|numeric',
+        'startDate' => 'required',
+        'due_date' => 'required',
+        ]);
+        if($validator->fails()){
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in required fields');
+        }
+
+        DB::beginTransaction();
+        try {
+            RentPayment::createNew($request->all());
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withInput()->with('error', 'An error occured. Please try again');
+        }
+         return back()->with('success', 'Rent payment recorded successfully');
     }
 
     /**
