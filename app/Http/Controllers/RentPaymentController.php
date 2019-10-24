@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
-use Validator;
+use App\Mail\PaymentCreated;
 use App\RentPayment;
 use App\TenantRent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Validator;
 
 class RentPaymentController extends Controller
 {
@@ -64,6 +66,7 @@ class RentPaymentController extends Controller
         'balance' => 'required|numeric',
         'payment_mode_id' => 'required|numeric',
         'payment_date' =>'required',
+        'payment_description' => 'required',
         'balance' => 'required|numeric',
         'startDate' => 'required',
         'due_date' => 'required',
@@ -75,7 +78,9 @@ class RentPaymentController extends Controller
 
         DB::beginTransaction();
         try {
-            RentPayment::createNew($request->all());
+          $payment = RentPayment::createNew($request->all());
+              $toEmail = $payment->unit->getTenant()->email;
+            Mail::to($toEmail)->send(new PaymentCreated($payment));
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

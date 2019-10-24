@@ -184,12 +184,10 @@
             </tr>
             
             <tr class="item">
-                <td>
-                    {{$payment->paymentType->name}} {{getPaymentServiceCharge($payment)}}
-                </td>
+               
                 
                 <td>
-                    &#8358; {{number_format($payment->amount, 2)}}
+                    &#8358; {{number_format($payment->amount_paid, 2)}}
                 </td>
             </tr>
             
@@ -203,7 +201,7 @@
                 <td></td>
                 
                 <td>
-                   Total: &#8358; {{number_format($payment->amount, 2)}}
+                   Total: &#8358; {{number_format($payment->amount_paid, 2)}}
                 </td>
             </tr>
         </table>

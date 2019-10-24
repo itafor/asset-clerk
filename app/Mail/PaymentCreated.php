@@ -2,10 +2,11 @@
 
 namespace App\Mail;
 
+use App\Payment;
+use App\RentPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Payment;
 
 class PaymentCreated extends Mailable
 {
@@ -19,7 +20,7 @@ class PaymentCreated extends Mailable
      *
      * @return void
      */
-    public function __construct(Payment $payment)
+    public function __construct(RentPayment $payment)
     {
         $this->payment = $payment;
         $this->landlord = $payment->unit->getProperty()->landlord;

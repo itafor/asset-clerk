@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-card"></i> Payments</h1>
+          <h1 class="dt-page__title"><i class="icon icon-card"></i> Rent Payment Management</h1>
         </div>
         <!-- /page header -->
 
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Payment</h3>
+                <h3 class="dt-entry__title">Add New Rent Payment</h3>
               </div>
               <!-- /entry heading -->
 
@@ -143,7 +143,7 @@
 
                                       <div class="form-group{{ $errors->has('payment_date') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-payment_date">{{ __('Start Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="startDate" id="startDate" class=" form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{$tenantRent->startDate}}" readonly="readonly" required>
+                                        <input type="text" name="startDate" id="startDate" class=" form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{\Carbon\Carbon::parse($tenantRent->startDate)->format('d M Y')}}" readonly="readonly" required>
                                         
                                         @if ($errors->has('startDate'))
                                             <span class="invalid-feedback" role="alert">
@@ -155,7 +155,7 @@
 
                                     <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-due_date">{{ __('Due Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="due_date" value="{{$tenantRent->due_date}}" class="form-control" readonly="readonly">
+                                        <input type="text" name="due_date" value="{{\Carbon\Carbon::parse($tenantRent->due_date)->format('d M Y')}}" class="form-control" readonly="readonly">
 
                                         @if ($errors->has('due_date'))
                                             <span class="invalid-feedback" role="alert">
@@ -178,13 +178,13 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
+                                    <div class="form-group{{ $errors->has('payment_description') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-date">{{ __('Payment Description') }}<span class="text-danger">*</span></label>
-                                        <textarea rows="5" name="description" id="input-description" class="form-control form-control-alternative{{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="Enter Description" required>{{old('description')}}</textarea>
+                                        <textarea rows="5" name="payment_description" id="input-description" class="form-control form-control-alternative{{ $errors->has('payment_description') ? ' is-invalid' : '' }}" placeholder="Enter Description" required>{{old('payment_description')}}</textarea>
                                         
-                                        @if ($errors->has('description'))
+                                        @if ($errors->has('payment_description'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('description') }}</strong>
+                                                <strong>{{ $errors->first('payment_description') }}</strong>
                                             </span>
                                         @endif
                                     </div>

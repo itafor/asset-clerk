@@ -15,7 +15,7 @@ class RentPayment extends Model
         'uuid','tenant_uuid', 'asset_uuid','unit_uuid','tenantRent_uuid',
         'proposed_amount','actual_amount',
         'amount_paid','balance','payment_mode_id',
-        'user_id','payment_date','startDate','due_date'
+        'user_id','payment_date','payment_description','startDate','due_date'
     ];
 
    public function unit() 
@@ -28,10 +28,10 @@ class RentPayment extends Model
         return $this->belongsTo(PaymentMode::class);
     }
 
-    public function paymentType()
-    {
-        return $this->belongsTo(PaymentType::class);
-    }
+    // public function paymentType()
+    // {
+    //     return $this->belongsTo(PaymentType::class);
+    // }
 
     public static function createNew($data){
     	//dd($data);
@@ -47,7 +47,8 @@ class RentPayment extends Model
     			'balance'     => $data['balance'],
     			'payment_mode_id' => $data['payment_mode_id'],
     			'user_id' => getOwnerUserID(),
-    			//'payment_date' => Carbon::parse(formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d')),
+    			'payment_date' => Carbon::parse(formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d')),
+    			'payment_description' => $data['payment_description'],
     			'startDate' => $data['startDate'],
     			'due_date' => $data['due_date'],
     	]);
@@ -58,7 +59,7 @@ class RentPayment extends Model
     		self::updateTenantRentBalance($data,$rentPayment);
     	}
 
-    	
+    	return $rentPayment;
     }
 
       public static function updateRentDebtorBalance($data, $rentPayment){
