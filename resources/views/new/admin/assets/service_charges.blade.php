@@ -247,11 +247,7 @@
                                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                       
                                             <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a>
-
-                                            <!-- <a href="{{route('get.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a> -->
-
-                                      
-                                        <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a>
+                                           
                                         
                                         <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
                                             
