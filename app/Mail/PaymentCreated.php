@@ -34,7 +34,7 @@ class PaymentCreated extends Mailable
     public function build()
     {
         return $this->view('emails.payment')
-        ->subject('Payment Invoice')
+        ->subject('Rent Payment Invoice')
         ->cc($this->landlord->email, $this->landlord->name());
     }
 }

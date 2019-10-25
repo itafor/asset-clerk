@@ -181,13 +181,31 @@
                 <td>
                     Price
                 </td>
+
+                 <td>
+                    Amount Paid
+                </td>
+
+                 <td>
+                   Balance
+                </td>
             </tr>
             
             <tr class="item">
-               
-                
                 <td>
+                   {{$payment->unit->category->name}}
+                </td>
+
+                <td>
+                    &#8358; {{number_format($payment->actual_amount, 2)}}
+                </td>
+
+                 <td>
                     &#8358; {{number_format($payment->amount_paid, 2)}}
+                </td>
+
+                 <td>
+                    &#8358; {{number_format($payment->balance, 2)}}
                 </td>
             </tr>
             

@@ -131,6 +131,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
+			Route::get('/auto-renew-rent','RentalController@autoAddNewRental')->name('rental.renew');
 			Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 		});
 

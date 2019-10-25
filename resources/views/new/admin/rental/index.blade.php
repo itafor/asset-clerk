@@ -63,33 +63,16 @@
                           
                           <td>
                             
-                         <!--   @if ($rental->balance < $rental->amount)
-                           <span style="color: brown;">Incomplete</span>
+                           @if ($rental->balance !==null && $rental->amount !==null && $rental->balance !==0  && $rental->balance < $rental->amount )
+                           <span class="text-warning">Part payment</span>
 
-                           @elseif($rental->balance === 0)
-                           <span style="color: green;">paid</span> 
+                           @elseif($rental->balance !==null && $rental->amount !==null  && $rental->balance === 0 )
+                           <span class="text-success">paid</span> 
+
                             @else
-                           <span style="color: red;">{{$rental->status}}</span>
-                           @endif -->
+                           <span class="text-danger">{{$rental->status}}</span>
+                           @endif
 
-
-                      <!-- @switch($rental->balance)
-                        @case($rental->balance < $rental->amount)
-                           <span style="color: brown;">Incomplete</span>
-                            @break
-
-                        @case($rental->balance === $rental->amount)
-                           <span style="color: green;">paid</span> 
-                            @break
-
-                        @case($rental->balance === $rental->amount)
-                           <span style="color: red;">{{$rental->status}}</span>
-                            @break
-
-                        @default
-                            <span>Something went wrong, please try again</span>
-                      @endswitch -->
-                       <span>{{$rental->status}}</span>
                           </td>
 
                           <td class="text-center">
@@ -98,7 +81,12 @@
                                       Action
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                    @if($rental->balance !==0)
                                     <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Payment</a>
+                                    @else
+                               <span  class="dropdown-item" style="color: green;">Paid</span>
+                                    @endif
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
                                           <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">

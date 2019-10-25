@@ -214,8 +214,7 @@ $tenantsAssignedScs = TenantServiceCharge::join('asset_service_charges', 'asset_
 
     $tenantWalletBal = Wallet::where('tenant_id',$tenantId)
     ->where('user_id',getOwnerUserID())->first();
-   // dd($tenantWalletBal);
-        //dd($tenantWalletsHistories);
+   
 
         if($tenantDetail){
             return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs','tenantTotalDebt','tenantSCHs','tenantWalletsHistories','tenantWalletBal'));

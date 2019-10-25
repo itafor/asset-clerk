@@ -32,6 +32,7 @@
                 <div class="dt-card__body">
                    <form method="post" action="{{ route('rental.store') }}" autocomplete="off">
                             @csrf
+                                <input type="hidden" name="user_id" value="">
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">

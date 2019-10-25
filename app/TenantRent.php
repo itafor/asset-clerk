@@ -62,7 +62,7 @@ class TenantRent extends Model
             'startDate' => $startDate,
             'due_date' => $dueDate,//end date
             'uuid' => generateUUID(),
-            'user_id' => getOwnerUserID(),
+            'user_id' => $data['user_id'] ? $data['user_id'] : getOwnerUserID(),
             'status' => 'pending',
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
@@ -83,7 +83,7 @@ class TenantRent extends Model
             'amount_paid' => $rental->amount,
             'balance' => $rental->balance,
             'rent_id' => $rental->id,
-            'user_id' => getOwnerUserID(),
+            'user_id' => $rental->user_id ? $rental->user_id : getOwnerUserID(),
         ]);
     }
 
@@ -121,7 +121,7 @@ class TenantRent extends Model
             'startDate' => $rental->startDate,
             'due_date' => $rental->due_date,//end date
             'uuid' => generateUUID(),
-            'user_id' => getOwnerUserID(),
+            'user_id' => $rental->user_id ? $rental->user_id : getOwnerUserID(),
             'tenantRent_uuid' => $rental->uuid,
             'duration' => $rental->duration,
         ]);

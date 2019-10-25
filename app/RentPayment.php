@@ -28,7 +28,6 @@ class RentPayment extends Model
         return $this->belongsTo(PaymentMode::class);
     }
 
-
     public static function createNew($data){
     	//dd($data);
     	$rentPayment = self::create([
