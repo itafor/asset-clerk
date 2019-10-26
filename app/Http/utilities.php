@@ -199,9 +199,10 @@ function getPaymentServiceCharge($payment)
 
 function getNextRentPayment($rental)
 {
-    $rent = RentDue::where('rent_id', $rental->id)->latest()->first();
+    $rent = TenantRent::where('id', $rental->id)->latest()->first();
     return [
         'due_date' => formatDate($rent->due_date, 'Y-m-d', 'd M Y'),
+        'startDate' => formatDate($rent->startDate, 'Y-m-d', 'd M Y'),
         'status' => ucwords($rent->status)
     ];
 }
@@ -212,14 +213,14 @@ function getNextRentPayment($rental)
 function getDuePayments($past = false)
 {
     if($past){
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) < CURDATE()")
             ->sum('amount');
     }
     else{
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) = CURDATE()")
@@ -233,14 +234,15 @@ function getDuePayments($past = false)
 function getDebtors($past = false)
 {
     if($past){
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
-            ['status', 'pending']])
+            ['status', 'pending'],
+            ['status', 'Partly paid']])
             ->whereRaw("DATE(due_date) < CURDATE()")
             ->count();
     }
     else{
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) = CURDATE()")

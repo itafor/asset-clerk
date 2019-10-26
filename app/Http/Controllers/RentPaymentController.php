@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asset;
 use App\Mail\PaymentCreated;
+use App\RentDebtor;
 use App\RentPayment;
 use App\TenantRent;
 use Illuminate\Http\Request;
@@ -79,7 +80,7 @@ class RentPaymentController extends Controller
         DB::beginTransaction();
         try {
           $payment = RentPayment::createNew($request->all());
-              $toEmail = $payment->unit->getTenant()->email;
+              $toEmail = $payment->unitt->getTenant()->email;
             Mail::to($toEmail)->send(new PaymentCreated($payment));
             DB::commit();
         } catch (Exception $e) {
@@ -133,4 +134,24 @@ class RentPaymentController extends Controller
     {
         //
     }
+
+    public function fetchRentalPaymentHistory(){
+     $rentPayments  = RentPayment::where('user_id',getOwnerUserID())->get();
+
+     return view('new.admin.rentPayment.history',compact('rentPayments'));
+    }
+
+ public function fetchRentalDebtors(){
+     $rentalDebtors  = RentDebtor::where('user_id',getOwnerUserID())
+                        ->whereNull('deleted_at')
+                        ->get();
+
+      $totalSumOfRentalsNotPaid = DB::table('rent_debtors')
+    ->where('user_id',getOwnerUserID())
+    ->sum('rent_debtors.balance');
+
+     return view('new.admin.rentPayment.debtors',compact('rentalDebtors','totalSumOfRentalsNotPaid'));
+    }
+
+
 }

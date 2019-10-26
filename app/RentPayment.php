@@ -18,9 +18,14 @@ class RentPayment extends Model
         'user_id','payment_date','payment_description','startDate','due_date'
     ];
 
-   public function unit() 
+   public function unitt() 
     {
         return $this->belongsTo(Unit::class, 'unit_uuid', 'uuid');
+    }
+
+    public function asset() 
+    {
+        return $this->belongsTo(Asset::class, 'asset_uuid', 'uuid');
     }
 
     public function paymentMode()
@@ -29,7 +34,7 @@ class RentPayment extends Model
     }
 
     public static function createNew($data){
-    	//dd($data);
+
     	$rentPayment = self::create([
     			'uuid' =>  generateUUID(),
     			'tenant_uuid' => $data['tenant_uuid'],
@@ -59,24 +64,28 @@ class RentPayment extends Model
 
       public static function updateRentDebtorBalance($data, $rentPayment){
       		$getRentDebtor = RentDebtor::where('tenantRent_uuid',$rentPayment->tenantRent_uuid)
+                ->where('tenant_uuid',$rentPayment->tenant_uuid)
       					->where('user_id',getOwnerUserID())
       					->first();
 
       		if($getRentDebtor){
       			$getRentDebtor->balance = $rentPayment->balance;
       			$getRentDebtor->save();
-      		}
 
-      		 if($getRentDebtor->balance == 0){
+            if($getRentDebtor->balance == 0){
                 $getRentDebtor->delete();
             }
+      		}
+
+      		 
       }
 
       public static function updateTenantRentBalance($data, $rentPayment){
        		$getTenantRent = TenantRent::where('uuid', $rentPayment->tenantRent_uuid)
        						->where('user_id',getOwnerUserID())->first();
        		if($getTenantRent){
-      			$getTenantRent->balance = $rentPayment->balance;
+            $getTenantRent->balance = $rentPayment->balance;
+      			$getTenantRent->status = $rentPayment->balance == 0 ? 'Paid' : 'Partly paid';
       			$getTenantRent->save();
       		}	
        }

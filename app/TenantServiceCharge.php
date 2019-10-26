@@ -6,9 +6,12 @@ use App\AssetServiceCharge;
 use App\ServiceCharge;
 use App\Tenant;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+	
 class TenantServiceCharge extends Model
 {
+	 use SoftDeletes;
+	 
     protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal','startDate','dueDate'];
 
  public function myServiceCharges($id){

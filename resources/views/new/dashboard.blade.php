@@ -201,10 +201,11 @@
 
             <!-- Card -->
             <div class="dt-card dt-card__full-height">
-
+            
             <!-- Card Body -->
             <div class="dt-card__body">
                 <div class="table-responsive">
+                    <h2>List of Rents to be due between today and next three months</h2>
                     <table class="table table-striped table-bordered table-hover datatable">
                         <thead>
                             <tr>
@@ -216,13 +217,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rentals as $rental)
+                            @foreach ($rentalsDueInNextThreeMonths as $rental)
                                 <tr>
                                     <td>{{$rental->tenant->name()}}</td>
                                     <td>{{$rental->asset->description}}</td>
                                     <td>&#8358; {{number_format($rental->price,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                                    <td>{{getNextRentPayment($rental)['status']}}</td>
+                                        <td>
+                            
+                           @if ($rental->status == 'Partly paid' )
+                           <span class="text-warning">{{$rental->status}}</span>
+
+                           @elseif($rental->status == 'Paid')
+                           <span class="text-success">{{$rental->status}}</span> 
+
+                            @else
+                           <span class="text-danger">{{$rental->status}}</span>
+                           @endif
+
+                          </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -246,7 +259,7 @@
             <div class="dt-card dt-card__full-height">
 
             <!-- Card Body -->
-            <div class="dt-card__body">
+           <!--  <div class="dt-card__body">
                 <h3>Recent Activities</h3>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover datatable">
@@ -259,26 +272,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rentalsDue as $rental)
-                                <tr>
-                                    <td>{{$rental->tenant->name()}}</td>
-                                    <td>{{$rental->asset->description}}</td>
-                                    <td>&#8358; {{number_format($rental->price,2)}}</td>
-                                    <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                                </tr>
-                            @endforeach
-                            @foreach ($rentalsDueNotPaid as $rental)
-                                <tr>
-                                    <td>{{$rental->tenant->name()}}</td>
-                                    <td>{{$rental->asset->description}}</td>
-                                    <td>&#8358; {{number_format($rental->price,2)}}</td>
-                                    <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                                </tr>
-                            @endforeach
+                           
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
             <!-- /card body -->
 
             </div>

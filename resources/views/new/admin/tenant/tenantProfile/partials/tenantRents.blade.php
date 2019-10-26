@@ -1,35 +1,26 @@
-@extends('new.layouts.app', ['title' => 'List of Rentals', 'page' => 'rental'])
+<div class="modal fade tenantRents" tabindex="-1" role="dialog" aria-labelledby="tenantRents" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+     
 
-@section('content')
-    <!-- Page Header -->
-        <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-company"></i> Rental Management</h1>
-        </div>
-        <!-- /page header -->
 
-        <!-- Grid -->
-        <div class="row">
-
-          <!-- Grid Item -->
-          <div class="col-xl-12">
-
-            <!-- Entry Header -->
-            <div class="dt-entry__header">
-
-              <!-- Entry Heading -->
-              <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">List of Rentals</h3>
-              </div>
-              <!-- /entry heading -->
-
-            </div>
-            <!-- /entry header -->
 
             <!-- Card -->
             <div class="dt-card">
+  <div class="modal-header ">
+<div class="row col-md-12">
+  <h5 class="modal-title col-md-6" id="tenantServiceCharges"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}} Rents
+                             </h5>
+</div>
+                
 
+            
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
               <!-- Card Body -->
               <div class="dt-card__body">
+
 
                 <!-- Tables -->
                 <div class="table-responsive">
@@ -50,7 +41,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach ($rentals as $rental)
+                    @foreach ($tenantRents as $rental)
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$rental->tenant->name()}}</td>
@@ -100,7 +91,7 @@
                       @endforeach
                     </tbody>
                   </table>
-
+                
                 </div>
                 <!-- /tables -->
 
@@ -110,9 +101,6 @@
             </div>
             <!-- /card -->
 
-          </div>
-          <!-- /grid item -->
-
-        </div>
-        <!-- /grid -->
-@endsection
+    </div>
+  </div>
+</div>

@@ -46,7 +46,7 @@
             <br>
                 <!-- Tables -->
                 <div class="table-responsive">
-
+                   <h2>Overall unpaid Service Charges: <span class="text-danger">&#8358; {{number_format($overAllSCdebts,2)}}</span></h2>
                   <table class="table table-striped table-bordered table-hover datatable">
                     <thead>
                     <tr>

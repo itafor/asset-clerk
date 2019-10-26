@@ -147,13 +147,24 @@
                     <a href="{{route('rental.my')}}" title="My Rented Apartments" class="dt-side-nav__link">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">My Rented Apartments</span> </a>
                 </li>
+
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('rentalPayment.history')}}" class="dt-side-nav__link" title="Rent Payment History">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">History</span> </a>
+                </li>
+
                 <li class="dt-side-nav__item">
-                    <a href="{{route('rental.index')}}" class="dt-side-nav__link">
+                    <a href="{{route('rentalPayment.debtors')}}" class="dt-side-nav__link" title="Rent Debtors">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Debtors</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('rental.index')}}" class="dt-side-nav__link" title="List Rentals">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
-                    <a href="{{route('rental.create')}}" class="dt-side-nav__link">
+                    <a href="{{route('rental.create')}}" class="dt-side-nav__link" title="Add New Rental">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
                 </li>
 
@@ -180,36 +191,9 @@
             <!-- /sub-menu -->
             </li>
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'debt' ? 'open' : ''}}">
-                <a href="{{route('debt.debt')}}" class="dt-side-nav__link">
-                    <i class="icon icon-card icon-fw icon-xl text-white"></i>
-                    <span class="dt-side-nav__text text-white">Debts</span>
-                </a>
-            </li>
+            
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}">
-            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
-                <i class="icon icon-card icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Payments</span> </a>
-
-            <!-- Sub-menu -->
-            <ul class="dt-side-nav__sub-menu">
-                <li class="dt-side-nav__item">
-                    <a href="{{route('payment.index')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
-                </li>
-
-                <li class="dt-side-nav__item">
-                    <a href="{{route('payment.create')}}" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
-                </li>
-
-            </ul>
-            <!-- /sub-menu -->
-            </li>
-
-      
-
-                <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">
+          <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Service Charge">
                 <i class="icon icon-card icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Service Charges</span> </a>
 

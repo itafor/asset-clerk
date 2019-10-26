@@ -125,12 +125,12 @@
                         <tr>
                             <td>
                                 <b>Address:</b><br>
-                               {{$payment->unit->getTenant()->address}}
+                               {{$payment->unitt->getTenant()->address}}
                             </td>
                             
                             <td style="text-align:right">
-                                {{$payment->unit->getTenant()->name()}} <br>
-                                {{$payment->unit->getTenant()->email}}
+                                {{$payment->unitt->getTenant()->name()}} <br>
+                                {{$payment->unitt->getTenant()->email}}
                             </td>
                         </tr>
                     </table>
@@ -149,7 +149,7 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$payment->unit->getProperty()->description}}
+                    {{$payment->unitt->getProperty()->description}}
                 </td>
             </tr>
 
@@ -193,7 +193,7 @@
             
             <tr class="item">
                 <td>
-                   {{$payment->unit->category->name}}
+                   {{$payment->unitt->category->name}}
                 </td>
 
                 <td>

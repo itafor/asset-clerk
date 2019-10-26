@@ -201,15 +201,26 @@
                             </tr>
 
                             <tr><td>Tenant Rents:</td>
-                                <td><a href="#">   View details</a></td>
+                                <td><a href="#" data-toggle="modal" data-target=".tenantRents">   View details</a>
+                                </td>
+                            </tr>
+
+                            <tr><td>Rental Payment History</td>
+                                <td><a href="#" data-toggle="modal" data-target=".rentalPaymentHistory">   View details</a>
+                                </td>
+                            </tr>
+
+                             <tr><td>Unpaid Rental</td>
+                                <td><a href="#" data-toggle="modal" data-target=".unpaidRental">   View details</a>
+                                </td>
                             </tr>
 
                             <tr><td>Tenant Referals:</td>
-                                <td><a href="#">   View details</a></td>
+                                <!-- <td><a href="#">   View details</a></td> -->
                             </tr>
 
-                            <tr><td>Tenant Maintaince:</td>
-                                <td><a href="#">   View details</a></td>
+                            <tr><td>Tenant Maintainance:</td>
+                               <!--  <td><a href="#">   View details</a></td> -->
                             </tr>
                         </table>
                     </div>
@@ -223,8 +234,9 @@
  @include('new.admin.tenant.tenantProfile.partials.tenant_service_charges')
  @include('new.admin.tenant.tenantProfile.partials.tenant_sc_payment_history')
  @include('new.admin.tenant.tenantProfile.partials.tenant_sc_wallet_history')
-
-
+ @include('new.admin.tenant.tenantProfile.partials.tenantRentalPaymentHistories')
+ @include('new.admin.tenant.tenantProfile.partials.tenantRentalDebts')
+ @include('new.admin.tenant.tenantProfile.partials.tenantRents')
 
         </div>
         <!-- /grid -->

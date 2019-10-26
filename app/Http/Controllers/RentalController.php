@@ -145,9 +145,9 @@ class RentalController extends Controller
         
         $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
         ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 7 DAY) = rd.due_date") 
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 6 DAY) = rd.due_date") 
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
-
+        dd($newRentals);
         foreach($newRentals as $rental) {
            
 

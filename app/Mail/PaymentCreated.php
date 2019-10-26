@@ -23,7 +23,7 @@ class PaymentCreated extends Mailable
     public function __construct(RentPayment $payment)
     {
         $this->payment = $payment;
-        $this->landlord = $payment->unit->getProperty()->landlord;
+        $this->landlord = $payment->unitt->getProperty()->landlord;
     }
 
     /**

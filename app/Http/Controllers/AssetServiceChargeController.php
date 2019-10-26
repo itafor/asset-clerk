@@ -21,7 +21,12 @@ class AssetServiceChargeController extends Controller
          ->where('tenant_service_charges.user_id', getOwnerUserID())
          ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
          ->get();
-          return view('new.admin.assetServiceCharge.debtors', compact('debtors'));
+
+     $overAllSCdebts = DB::table('tenant_service_charges')
+    ->join('tenants', 'tenants.id', '=', 'tenant_service_charges.tenant_id')
+    ->where('tenant_service_charges.user_id', getOwnerUserID())
+    ->sum('tenant_service_charges.bal');
+          return view('new.admin.assetServiceCharge.debtors', compact('debtors','overAllSCdebts'));
          
     }
 

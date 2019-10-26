@@ -51,6 +51,9 @@ class Unit extends Model
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
         ->whereRaw('due_date > CURDATE()')->latest()->with('asset.landlord')->first();
+        
+        if($rental){
         return $rental->asset;
+        }
     }
 }

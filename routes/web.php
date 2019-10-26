@@ -137,6 +137,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::prefix('rent-payment')->group(function(){
 			Route::get('/pay-rent/{uuid}', 'RentPaymentController@create')->name('rentalPayment.create');
+			Route::get('/rental-payment-history', 'RentPaymentController@fetchRentalPaymentHistory')->name('rentalPayment.history');
+		    Route::get('/rental-debtors', 'RentPaymentController@fetchRentalDebtors')->name('rentalPayment.debtors');
 			Route::post('/store-rent-payment', 'RentPaymentController@store')->name('rentalPayment.store');
 		});
 
