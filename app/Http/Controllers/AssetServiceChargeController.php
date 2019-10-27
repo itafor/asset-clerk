@@ -66,6 +66,7 @@ class AssetServiceChargeController extends Controller
         $data=$request->all();
         $validator = validator::make($request->all(),[
         'tenant' => 'required|numeric',
+        'asset_id' =>'required|numeric',
         'service_charge' => 'required|numeric',
         'actualAmount' => 'required|numeric',
         'balance' => 'required|numeric',

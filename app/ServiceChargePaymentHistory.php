@@ -10,7 +10,7 @@ class ServiceChargePaymentHistory extends Model
 
 
 
-    protected $fillable=['user_id','tenant','service_charge','actualAmount','balance','property','amountPaid','payment_mode','payment_date','durationPaidFor','description'];
+    protected $fillable=['user_id','tenant','asset_id','service_charge','actualAmount','balance','property','amountPaid','payment_mode','payment_date','durationPaidFor','description'];
 
 
    public function unit() 
@@ -25,6 +25,11 @@ class ServiceChargePaymentHistory extends Model
         return $this->belongsTo(Tenant::class, 'tenant');
     }
 
+    public function getAsset() 
+    {
+        return $this->belongsTo(Asset::class, 'asset_id');
+    }
+
      public function serviceCharge()
     {
         return $this->belongsTo(ServiceCharge::class,'service_charge');
@@ -35,7 +40,8 @@ class ServiceChargePaymentHistory extends Model
 
   return 	self::create([
    			'user_id' => getOwnerUserID(),
-   			'tenant' => $data['tenant'],
+        'tenant' => $data['tenant'],
+   			'asset_id' => $data['asset_id'],
    			'service_charge' => $data['service_charge'],
    			'actualAmount' => $data['actualAmount'],
    			'balance' => $data['balance'],

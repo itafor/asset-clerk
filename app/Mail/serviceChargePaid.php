@@ -18,10 +18,12 @@ class serviceChargePaid extends Mailable
      * @return void
      */
     public $serviceChargePayment;
+    public $landlord;
     
     public function __construct($serviceChargePayment)
     {
         $this->serviceChargePayment =  $serviceChargePayment;
+        $this->landlord = $serviceChargePayment->getAsset->landlord;
     }
 
     /**
@@ -33,6 +35,6 @@ class serviceChargePaid extends Mailable
     {
         return $this->view('emails.service_charge_paid')
         ->subject('Service Charge Payment Invoice')
-        ->cc('itaforfrancis@gmail.com');
+        ->cc($this->landlord->email, $this->landlord->name());
     }
 }

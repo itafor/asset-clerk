@@ -50,6 +50,8 @@
                               <input type="hidden" name="new_wallet_amount" id="input-new_wallet_amount" placeholder="new wallet Amount">
 
                               <input type="hidden" name="asset_service_charge_id" id="asset_service_charge_id">
+
+                              <input type="text" name="asset_id" id="asset_id">
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
@@ -319,7 +321,8 @@
                         $('#input-property').empty();
                         $('<option>').val('').text('Select Service Charge').appendTo('#input-property');
                         $.each(data, function(k, v) {
-                            $('<option>').attr('selected', true).val(v.property).text(v.property + ' ' + v.asset_id).appendTo('#input-property');
+                            $('#asset_id').val(v.asset_id);
+                            $('<option>').attr('selected', true).val(v.property).text(v.property).appendTo('#input-property');
                         });
                     }
                 });
