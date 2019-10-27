@@ -22,12 +22,12 @@ class ServiceChargePaymentHistory extends Model
 
    public function tenants() 
     {
-        return $this->hasMany(Tenant::class, 'tenant');
+        return $this->belongsTo(Tenant::class, 'tenant');
     }
 
      public function serviceCharge()
     {
-        return $this->hasMany(ServiceCharge::class,'service_charge');
+        return $this->belongsTo(ServiceCharge::class,'service_charge');
     }
 
 
