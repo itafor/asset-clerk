@@ -51,7 +51,7 @@
 
                               <input type="hidden" name="asset_service_charge_id" id="asset_service_charge_id">
 
-                              <input type="text" name="asset_id" id="asset_id">
+                              <input type="hidden" name="asset_id" id="asset_id">
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
