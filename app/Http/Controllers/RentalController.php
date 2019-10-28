@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessRentalCreatedEmail;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
 use App\TenantRent;
@@ -80,8 +81,11 @@ class RentalController extends Controller
         DB::beginTransaction();
         try {
             $rental = TenantRent::createNew($request->all());
-            $toEmail = $rental->tenant->email;
-            Mail::to($toEmail)->send(new RentalCreated($rental));
+
+            dispatch(new ProcessRentalCreatedEmail($rental));
+            // ProcessRentalCreatedEmail::dispatch($rental)
+            //     ->delay(Carbon::now()->addSeconds(5));
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
@@ -145,9 +149,9 @@ class RentalController extends Controller
         
         $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
         ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 6 DAY) = rd.due_date") 
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 4 DAY) = rd.due_date") 
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
-        dd($newRentals);
+       // dd($newRentals);
         foreach($newRentals as $rental) {
            
 
@@ -165,8 +169,17 @@ class RentalController extends Controller
                 DB::beginTransaction();
         try {
             $rental = TenantRent::createNew($newRentDetails);
-            $toEmail = $rental->tenant->email;
-            Mail::to($toEmail)->send(new RentalCreated($rental));
+
+          //  dispatch(new ProcessRentalCreatedEmail($rental));
+
+     //         $toEmail = $rental->tenant->email;
+     // Mail::to($toEmail)->send(new RentalCreated($rental));
+
+            $job = (new ProcessRentalCreatedEmail($rental))
+                         ->delay(Carbon::now()->addSeconds(5));
+                         dispatch($job);
+
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
