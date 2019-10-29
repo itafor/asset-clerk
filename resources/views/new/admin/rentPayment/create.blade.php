@@ -42,7 +42,7 @@
                                 {{$tenantRent->asset->Landlord->designation}}.
                                 {{$tenantRent->asset->Landlord->firstname}}
                                 {{$tenantRent->asset->Landlord->lastname}}
-                                ) Proposed Price : &#8358; {{number_format($tenantRent->price,2)}} </div>
+                                ) Property Estimate : &#8358; {{number_format($tenantRent->price,2)}} </div>
                            </div>
                            </div>
                             <div class="pl-lg-4">

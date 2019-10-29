@@ -122,8 +122,8 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                           <p>Hi, <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
-                            Your renewed rental have been updated, please see below the new price and rental duration;
+                           <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
+                            Your renewed rental have been updated, Please find below rental information.
                            </p>
                         </tr>
                         <tr>
@@ -170,7 +170,7 @@
                 </td>
                 
                 <td>
-                    &#8358; {{number_format($rental->price,2)}}
+                    &#8358; {{number_format($rental->amount,2)}}
                 </td>
             </tr>
 

@@ -6,19 +6,20 @@
  <!-- Card -->
             <div class="dt-card">
 
-              <!-- Card Body -->
-              <div class="dt-card__body">
-
-  <div class="modal-header ">
+ <div class="modal-header ">
 <div class="row col-md-12">
 
   <h5 class="modal-title " id="tenantServiceCharges"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Service Charges Payment History
                              </h5>
 </div>
             
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">x
                 </button>
             </div>
+              <!-- Card Body -->
+              <div class="dt-card__body">
+
+ 
                 <!-- Tables -->
                 <div class="table-responsive">
 

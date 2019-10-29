@@ -45,12 +45,16 @@ class HomeController extends Controller
                 ->whereRaw("due_date < CURDATE()")// Get payments due
                 ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
 
+        $renewedRentals = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
+                ->where('new_rental_status','New')
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+
             $data = [
                 'rentals' => $rentals,
                 'rentalsDue' => $rentalsDueInNextThreeMonths,
                 'rentalsDueNotPaid' => $rentalsDueNotPaid,
             ];
-            return view('new.dashboard',compact('rentalsDueInNextThreeMonths'),$data);
+            return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals'),$data);
         } else {
             $users = User::where('role', 'agent')->count();
             $landlords = Landlord::count();

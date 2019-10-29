@@ -24,7 +24,7 @@
                 
 
             
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">x
                 </button>
             </div>
               <!-- Card Body -->

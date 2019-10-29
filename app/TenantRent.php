@@ -17,7 +17,7 @@ class TenantRent extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'tenant_id', 'asset_uuid', 'price','amount','startDate', 'user_id', 'status', 'uuid',
+        'tenant_id', 'asset_uuid', 'price','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
         'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date','balance'
     ];
 
@@ -64,6 +64,7 @@ class TenantRent extends Model
             'uuid' => generateUUID(),
             'user_id' => $data['user_id'] ? $data['user_id'] : getOwnerUserID(),
             'status' => 'pending',
+            'new_rental_status' => $data['new_rental_status'] ? $data['new_rental_status'] : null,
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
@@ -127,4 +128,45 @@ class TenantRent extends Model
         ]);
 
     }
+
+public static function editTenantRent($data){
+
+   //$rentalDate = formatDate($data['date'], 'd/m/Y', 'Y-m-d');
+        $startDate = formatDate($data['startDate'], 'd/m/Y', 'Y-m-d');
+        $startDate = Carbon::parse($startDate);
+        //$dueDate = $date->addYears($data['duration']);
+        $dueDate = formatDate($data['due_date'], 'd/m/Y', 'Y-m-d');
+        $dueDate = Carbon::parse($dueDate);
+           
+
+        $duration = $startDate->diff($dueDate)->days;
+        $end_date = (new $startDate)->add(new DateInterval("P{$duration}D") );
+        $dd = date_diff($startDate,$end_date);
+        $final_duration = $dd->y." years, ".$dd->m." months, ".$dd->d." days";
+        
+
+     $rental =  self::where('uuid', $data['tenantRent_uuid'])
+                ->where('tenant_uuid', $data['tenant_uuid'])
+                ->where('user_id', getOwnerUserID())->first();
+        
+if($rental){
+    $rental->amount = $data['actual_amount'];
+    $rental->startDate = $startDate;
+    $rental->due_date = $dueDate;
+    $rental->new_rental_status = null;
+    $rental->duration = $final_duration;//star date
+   if($rental->save()){
+    return $rental;
+   }
+}
+
+ // ->update([
+ //            'amount'=> $data['actual_amount'],
+ //            'startDate' => $startDate,
+ //            'due_date' =>  $dueDate,
+ //            'new_rental_status' => null,
+ //            'duration' => $final_duration,//star date
+ //            ]);
+}
+
 }

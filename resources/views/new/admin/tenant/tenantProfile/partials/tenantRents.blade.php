@@ -15,7 +15,7 @@
                 
 
             
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">x
                 </button>
             </div>
               <!-- Card Body -->
@@ -31,12 +31,12 @@
                           <th>No</th>
                           <th><b>Tenant Name</b></th>
                           <th><b>Unit</b></th>
-                          <th><b>Description</b></th>
-                          <th><b>Proposed Price</b></th>
+                          <th><b>Property</b></th>
+                          <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
-                          <th><b>Status</b></th>
+                          <th><b>Payment Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -74,7 +74,7 @@
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
                                     @if($rental->status !=='Paid')
-                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Pay</a>
+                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Record Payment</a>
                                     @else
                                <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
                                     @endif

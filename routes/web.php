@@ -126,6 +126,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'RentalController@index')->name('rental.index');
 			Route::get('/my', 'RentalController@myRentals')->name('rental.my');
 			Route::get('/create', 'RentalController@create')->name('rental.create');
+			Route::get('/edit-rental/{uuid}', 'RentalController@edit')->name('rental.edit');
+			Route::post('/update-rental', 'RentalController@update')->name('rental.update');
 			Route::get('/pay-rent/{uuid}', 'RentalController@rentPayment')->name('rental.pay');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');

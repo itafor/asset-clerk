@@ -214,14 +214,14 @@
                                 <td><a href="#" data-toggle="modal" data-target=".unpaidRental">   View details</a>
                                 </td>
                             </tr>
-
+<!-- 
                             <tr><td>Tenant Referals:</td>
-                                <!-- <td><a href="#">   View details</a></td> -->
+                                <td><a href="#">   View details</a></td>
                             </tr>
 
                             <tr><td>Tenant Maintainance:</td>
-                               <!--  <td><a href="#">   View details</a></td> -->
-                            </tr>
+                                <td><a href="#">   View details</a></td>
+                            </tr> -->
                         </table>
                     </div>
                     <!-- /card body -->

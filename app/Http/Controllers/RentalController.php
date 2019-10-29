@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Asset;
 use App\Jobs\RentalCreatedEmailJob;
+use App\Jobs\RentalUpdatedEmailJob;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
 use App\TenantRent;
@@ -105,7 +107,7 @@ class RentalController extends Controller
             }
             catch(\Exception $e)
             {
-                DB::rolback();
+                DB::rollback();
                 return back()->with('error', 'Oops! An error occured. Please try agian');
             }
             return back()->with('success', 'Rental deleted successfully');
@@ -114,6 +116,56 @@ class RentalController extends Controller
             return back()->with('error', 'Oops! Could not find rental');
         }
     }
+
+  public  function edit($uuid) {
+         $tenantRent = TenantRent::where('uuid',$uuid)
+       ->where('user_id',getOwnerUserID())->first();
+
+        $plan = getUserPlan();
+        $limit = $plan['details']->properties;
+        $limit = $limit == "Unlimited" ? '9999999999999' : $limit;
+        $properties = Asset::select('assets.uuid','assets.id','assets.address', 'assets.description',
+            'assets.price')
+        ->where('assets.user_id', getOwnerUserID())->limit($limit)->get();
+
+        return view('new.admin.rental.edit', compact('tenantRent','properties'));
+    }
+
+public function update(Request $request){
+              $data = $request->all();
+     $validator = Validator::make($data, [
+            'tenant_uuid' => 'required',
+            'asset_uuid' => 'required',
+            'unit_uuid' => 'required',
+            'tenantRent_uuid'=>'required',
+            'actual_amount' => 'required|numeric',
+            'startDate' => 'required|date_format:"d/m/Y"',
+            'due_date' => 'required|date_format:"d/m/Y"'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+        }
+
+          DB::beginTransaction();
+            try{
+               $rental = TenantRent::editTenantRent($request->all());
+
+            RentalUpdatedEmailJob::dispatch($rental)
+                ->delay(now()->addSeconds(3));
+
+                DB::commit();
+            }
+            catch(\Exception $e)
+            {
+                DB::rollback();
+                return back()->with('error', 'Oops! An error occured. Please try agian');
+            }
+
+     
+        return redirect()->route('rental.index')->with('success', 'Rental updated successfully');
+}
 
     public function approvals()
     {

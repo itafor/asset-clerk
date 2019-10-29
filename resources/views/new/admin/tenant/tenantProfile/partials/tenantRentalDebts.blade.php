@@ -21,7 +21,7 @@
                 
 
             
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">x
                 </button>
             </div>
               <!-- Card Body -->
@@ -36,7 +36,7 @@
                           <th>No</th>
                           <th><b>Full Name</b></th>
                           <th><b>Asset</b></th>
-                          <th><b>Proposed Price</b></th>
+                          <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Balance</b></th>
                           <th><b>Payment Date</b></th>

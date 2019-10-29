@@ -40,12 +40,12 @@
                           <th>No</th>
                           <th><b>Tenant Name</b></th>
                           <th><b>Unit</b></th>
-                          <th><b>Description</b></th>
-                          <th><b>Proposed Price</b></th>
+                          <th><b>Property</b></th>
+                          <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
-                          <th><b>Status</b></th>
+                          <th><b>Payment Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -53,6 +53,7 @@
                     @foreach ($rentals as $rental)
                       <tr>
                           <td>{{$loop->iteration}}</td>
+                         
                           <td>{{$rental->tenant->name()}}</td>
                           <td>{{$rental->unit->category->name}}</td>
                           <td>{{$rental->asset->description}}</td>
@@ -83,9 +84,15 @@
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
                                     @if($rental->status !=='Paid')
-                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Pay</a>
+                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Record Payment</a>
                                     @else
                                <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
+                                    @endif
+
+
+                            @if ($rental->new_rental_status == 'New' )
+
+                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
                                     @endif
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           

@@ -165,7 +165,7 @@
                 </td>
                 
                 <td>
-                    &#8358; {{number_format($rental->price,2)}}
+                    &#8358; {{number_format($rental->amount,2)}}
                 </td>
             </tr>
 

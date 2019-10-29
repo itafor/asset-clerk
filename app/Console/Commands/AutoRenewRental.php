@@ -44,7 +44,7 @@ class AutoRenewRental extends Command
     {
         $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
         ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 3 DAY) = rd.due_date") 
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 2 DAY) = rd.due_date") 
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         
        //dd($newRentals);
@@ -59,6 +59,7 @@ class AutoRenewRental extends Command
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
     $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
     $newRentDetails['user_id']    = $rental['user_id'];
+    $newRentDetails['new_rental_status'] = 'New';
 
             if(!empty($newRentDetails)){
 

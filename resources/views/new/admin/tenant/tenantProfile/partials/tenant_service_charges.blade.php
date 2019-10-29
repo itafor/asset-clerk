@@ -9,8 +9,7 @@
             <!-- Card -->
             <div class="dt-card">
 
-              <!-- Card Body -->
-              <div class="dt-card__body">
+             
 
 
  @if(isset($tenantsAssignedScs))
@@ -27,10 +26,13 @@
                 
 
             
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">x
                 </button>
             </div>
-            <br>
+
+             <!-- Card Body -->
+              <div class="dt-card__body">
+            
                 <!-- Tables -->
                 <div class="table-responsive">
 
@@ -39,7 +41,7 @@
                     <tr>
                         <th>No</th>
                         <th><b>Tenant</b></th>
-                        <th><b>Asset</b></th>
+                        <th><b>Property</b></th>
                         <th><b>Service Type</b></th>
                         <th><b>Service Name</b></th>
                         <th><b>Amount</b></th>

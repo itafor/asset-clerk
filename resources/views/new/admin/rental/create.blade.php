@@ -33,7 +33,7 @@
                    <form method="post" action="{{ route('rental.store') }}" autocomplete="off">
                             @csrf
                                 <input type="hidden" name="user_id" value="">
-                            
+                                <input type="hidden" name="new_rental_status" value="">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
@@ -65,7 +65,7 @@
                                         @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
-                                        <label class="form-control-label" for="input-price">{{ __('Proposed Price') }}</label>
+                                        <label class="form-control-label" for="input-price">{{ __('Property Estimate') }}</label>
                                         <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
                                         @if ($errors->has('price'))

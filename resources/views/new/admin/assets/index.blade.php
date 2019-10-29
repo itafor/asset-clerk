@@ -65,7 +65,6 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
-                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">Add Service Charge</a>
                                         <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a>
                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
                                         <form action="{{ route('asset.delete', ['uuid'=>$asset->uuid]) }}" method="get">
@@ -268,8 +267,8 @@
                         +'    @endif'
                         +'</div>         '          
                         +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
-                        +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>'
+                        +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>'
 
                         +'    @if ($errors->has('standard_price'))'
                         +'        <span class="invalid-feedback" role="alert">'
