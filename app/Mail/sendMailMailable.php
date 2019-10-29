@@ -2,17 +2,18 @@
 
 namespace App\Mail;
 
+use App\TenantRent;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\TenantRent;
 
-class RentalCreated extends Mailable
+class sendMailMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $rental;
-
+    public $landlord;
     /**
      * Create a new message instance.
      *
@@ -21,7 +22,7 @@ class RentalCreated extends Mailable
     public function __construct($rental)
     {
         $this->rental = $rental;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+         $this->landlord = $rental->unit->getProperty()->landlord;
     }
 
     /**
@@ -31,8 +32,8 @@ class RentalCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.rental')
-        ->subject('New Rental')
-        ->cc($this->landlord->email, $this->landlord->name());
+        return $this->view('testmail')
+         ->subject('Testt New Rental')
+          ->cc($this->landlord->email, $this->landlord->name());
     }
 }

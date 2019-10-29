@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ProcessRentalCreatedEmail;
+use App\Jobs\RentalCreatedEmailJob;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
 use App\TenantRent;
@@ -82,9 +82,8 @@ class RentalController extends Controller
         try {
             $rental = TenantRent::createNew($request->all());
 
-            dispatch(new ProcessRentalCreatedEmail($rental));
-            // ProcessRentalCreatedEmail::dispatch($rental)
-            //     ->delay(Carbon::now()->addSeconds(5));
+            RentalCreatedEmailJob::dispatch($rental)
+                ->delay(now()->addSeconds(3));
 
             DB::commit();
         } catch (Exception $e) {
@@ -143,52 +142,5 @@ class RentalController extends Controller
         return 'done';
     }
 
-
-     public function autoAddNewRental()
-    {
-        
-        $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
-        ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 4 DAY) = rd.due_date") 
-        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
-       // dd($newRentals);
-        foreach($newRentals as $rental) {
-           
-
-    $newRentDetails['tenant']    =  $rental['tenant_uuid'];
-    $newRentDetails['property']  = $rental['asset_uuid'];
-    $newRentDetails['unit']      = $rental['unit_uuid'];
-    $newRentDetails['price']     = $rental['price'];
-    $newRentDetails['amount']    = $rental['amount'];
-    $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
-    $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rental['user_id'];
-
-            if(!empty($newRentDetails)){
-
-                DB::beginTransaction();
-        try {
-            $rental = TenantRent::createNew($newRentDetails);
-
-          //  dispatch(new ProcessRentalCreatedEmail($rental));
-
-     //         $toEmail = $rental->tenant->email;
-     // Mail::to($toEmail)->send(new RentalCreated($rental));
-
-            $job = (new ProcessRentalCreatedEmail($rental))
-                         ->delay(Carbon::now()->addSeconds(5));
-                         dispatch($job);
-
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollback();
-            return false;
-            }
-
-        }
-    }
-
- }
 }
 

@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\RentalCreated;
-use App\TenantRent;
+use App\Mail\sendMailMailable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,19 +11,19 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class ProcessRentalCreatedEmail implements ShouldQueue
+class RentalCreatedEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-  public  $rental;
+public $theRental; 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(TenantRent $rental)
+    public function __construct($theRental)
     {
-        $this->rental = $rental;
+        $this->theRental = $theRental;
     }
 
     /**
@@ -33,7 +33,7 @@ class ProcessRentalCreatedEmail implements ShouldQueue
      */
     public function handle()
     {
-     $toEmail = $this->rental->tenant->email;
-         Mail::to($toEmail)->send(new RentalCreated($this->rental));
+        $toEmail = $this->theRental->tenant->email;
+        Mail::to($toEmail)->send(new RentalCreated($this->theRental));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\ProcessRentalCreatedEmail;
+use App\Jobs\RentalCreatedEmailJob;
 use App\TenantRent;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -44,10 +44,10 @@ class AutoRenewRental extends Command
     {
         $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
         ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 4 DAY) = rd.due_date") 
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 3 DAY) = rd.due_date") 
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         
-        //dd($newRentals);
+       //dd($newRentals);
 
             foreach($newRentals as $rental) {
 
@@ -66,9 +66,8 @@ class AutoRenewRental extends Command
         try {
             $rental = TenantRent::createNew($newRentDetails);
 
-            $job = (new ProcessRentalCreatedEmail($rental))
-            ->delay(Carbon::now()->addSeconds(5));
-            dispatch($job);
+            RentalCreatedEmailJob::dispatch($rental)
+            ->delay(now()->addSeconds(5));
                          
             DB::commit();
 

@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -196,4 +195,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-rented-units/{property}', 'UtilsController@fetchRentedUnits');
 	Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 });
+
 

@@ -106,8 +106,8 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                             <td class="title">
-                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                            <td class="title">
+                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
                             </td>
                             
                             <td style="text-align:right">
