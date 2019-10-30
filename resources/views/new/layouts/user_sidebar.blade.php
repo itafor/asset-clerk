@@ -61,9 +61,9 @@
         <ul class="dt-side-nav" style="margin-bottom:150px">
 
             <!-- Menu Header -->
-            <li class="dt-side-nav__item dt-side-nav__header"  style="padding-top:0">
+           <!--  <li class="dt-side-nav__item dt-side-nav__header"  style="padding-top:0">
                 <span class="dt-side-nav__text">main menu</span>
-            </li>
+            </li> -->
             <!-- /menu header -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'dashboard' ? 'open' : ''}}">
                 <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl text-white"></i>
@@ -72,7 +72,7 @@
 
             <li class="dt-side-nav__item {{isset($page) && $page == 'landlord' ? 'open' : ''}} text-white">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Landlord Management">
-                <i class="icon icon-user-o icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Landlord Management</span> </a>
+                <i class="icon icon-user-o icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Landlord</span> </a>
 
             <!-- Sub-menu -->
             <ul class="dt-side-nav__sub-menu">

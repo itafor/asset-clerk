@@ -38,7 +38,7 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th><b>Description</b></th>
+                        <th><b>Property</b></th>
                         <th><b>Location</b></th>
                         <th><b>Units</b></th>
                         <th class="text-center"><b>Action</b></th>

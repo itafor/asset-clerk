@@ -37,7 +37,7 @@
                       <tr>
                           <th>No</th>
                           <th><b>Full Name</b></th>
-                          <th><b>Asset</b></th>
+                          <th><b>Property</b></th>
                           <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Amount Paid</b></th>

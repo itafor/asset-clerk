@@ -76,7 +76,9 @@ function getOwnerUserID()
 function getTotalAssets()
 {
     //return Asset::where('user_id', getOwnerUserID())->count();
-    return Unit::where('user_id',getOwnerUserID())->sum('quantity');
+    return Unit::where('user_id',getOwnerUserID())
+            ->where('plan_id', activePlanId())
+            ->sum('quantity');
 }
 
 function getSlots()
@@ -90,6 +92,14 @@ function getSlots()
         'availableSlots' => $totalSlots == 'Unlimited' ? 'Unlimited' : ($totalSlots - getTotalAssets()),
         'totalSlots' => $totalSlots,
     ];
+}
+
+function activePlanId(){
+    $user = User::find(getOwnerUserID());
+    $sub = \App\Subscription::where('user_id', $user->id)->where('status', 'Active')->first();
+    if($sub){
+        return $sub->plan_id;
+    }
 }
 
 function getTotalAgents()

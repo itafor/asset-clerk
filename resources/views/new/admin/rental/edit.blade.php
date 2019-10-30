@@ -35,7 +35,7 @@
                            <div class="row">
                              <div class="col-md-12">
                                 <input type="hidden" name="proposed_amount" value="{{$tenantRent->price}}">
-                                <input type="text" name="tenantRent_uuid" value="{{$tenantRent->uuid}}">
+                                <input type="hidden" name="tenantRent_uuid" value="{{$tenantRent->uuid}}">
                                 
                                <div class="float-left"> <p>Fields marked (<span class="text-danger">*</span>) are required.</p></div>
                                <div class="float-right"><span></span>Landlord (

@@ -123,6 +123,7 @@ class Asset extends Model
             Unit::create([
                 'asset_id' => $asset->id,
                 'user_id' => getOwnerUserID(),
+                'plan_id' => activePlanId(),
                 'category_id' => $unit['category'],
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],

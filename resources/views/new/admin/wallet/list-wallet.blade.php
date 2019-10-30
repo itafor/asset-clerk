@@ -45,7 +45,6 @@
                           <th><b>Tenant</b></th>
                           <th><b>Current Balance</b></th>
                           <th><b>Created At</b></th>
-                          <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -55,23 +54,6 @@
                           <td>{{$wallet->tenantDetail}}</td>
                           <td>&#8358; {{number_format($wallet->amount,2)}}</td>
                           <td>{{ \Carbon\Carbon::parse($wallet->created_at)->format('d M Y')}}</td>
-                         
-                          <td class="text-center">
-                              <div class="dropdown">
-                                  <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Action
-                                  </a>
-                                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                      <!-- <a href="{{ route('landlord.edit', ['id'=>$wallet->id]) }}" class="dropdown-item">Edit</a> -->
-                                      <form action="{{ route('landlord.delete', ['id'=>$wallet->id]) }}" method="get">
-                                          
-                                          <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this landlord?") }}') ? this.parentElement.submit() : ''">
-                                              {{ __('Delete') }}
-                                          </button>
-                                      </form> 
-                                  </div>
-                              </div>
-                          </td>
                       </tr>
                       @endforeach
                     </tbody>

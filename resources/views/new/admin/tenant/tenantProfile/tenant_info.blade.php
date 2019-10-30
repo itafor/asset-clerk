@@ -171,7 +171,7 @@
                                 </td>
                                 @else
                                 <td>
-                                <span>Wallet Account not found</span>
+                                <span> Inactive </span>
                                 </td>
                                 @endif
                             </tr>
