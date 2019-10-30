@@ -14,6 +14,13 @@ class AddUserIdToUnits extends Migration
     public function up()
     {
         Schema::table('units', function (Blueprint $table) {
+             if (Schema::hasColumn('units', 'user_id'))
+            {
+            Schema::table('units', function (Blueprint $table)
+            {
+               $table->dropColumn('user_id');
+            });
+          }
              $table->integer('user_id')->after('category_id')->nullable();
         });
     }

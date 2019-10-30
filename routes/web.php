@@ -197,12 +197,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 });
 
-Route::get('/get-active-plan', function(){
-$user = \App\User::find(getOwnerUserID());
-    $sub = \App\Subscription::where('user_id', $user->id)->where('status', 'Active')->first();
-
-    $plan = $sub ? \App\SubscriptionPlan::where('uuid', $sub->plan_id)->first() : null;
-
-    dd($plan);
-});
 
