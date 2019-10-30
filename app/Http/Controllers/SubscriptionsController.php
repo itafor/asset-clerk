@@ -205,11 +205,14 @@ class SubscriptionsController extends Controller
 
 public function updateUnitSetPlanIdNull($plan_id){
 
-    $getPlanIds = Unit::where('plan_id', $plan_id)->get();
+    $getPlanIds = Unit::where('plan_id', $plan_id)
+          ->where('user_id',getOwnerUserID())
+          ->get();
     
     if($getPlanIds){
       foreach ($getPlanIds as $key => $value) {
           Unit::where('plan_id',$value->plan_id)
+          ->where('user_id',getOwnerUserID())
           ->update([
             'plan_id' => null
           ]);
