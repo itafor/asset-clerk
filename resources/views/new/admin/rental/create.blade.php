@@ -32,11 +32,12 @@
                 <div class="dt-card__body">
                    <form method="post" action="{{ route('rental.store') }}" autocomplete="off">
                             @csrf
-                            
+                                <input type="hidden" name="user_id" value="">
+                                <input type="hidden" name="new_rental_status" value="">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
                                         <select name="property" id="property" class="form-control" required autofocus>
                                             <option value="">Select Property</option>
@@ -51,7 +52,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
                                         <select name="unit" id="unit" class="form-control" required>
                                             <option value="">Select Unit</option>
@@ -63,13 +64,24 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
-                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" placeholder="Enter Price" required>
+                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-price">{{ __('Property Estimate') }}</label>
+                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
                                         @if ($errors->has('price'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-price">{{ __('Amount') }}</label>
+                                        <input type="text" name="amount" id="amount" class="form-control" value="{{old('amount')}}" placeholder="Enter amount" required>
+                                        
+                                        @if ($errors->has('amount'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('amount') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -90,30 +102,33 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('duration') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-duration">{{ __('Duration') }}</label>
-                                        <select name="duration" id="duration" class="form-control" required>
+                                    <div class="form-group{{ $errors->has('startDate') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-duration">{{ __('Start Date') }}</label>
+
+                                         <input type="text" name="startDate" id="startDate" class="datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('startDate')}}" >
+
+                                       <!--  <select name="duration" id="duration" class="form-control" required>
                                             <option value="">Select Duration</option>
                                             <option value="1">1 Year</option>
                                             <option value="2">2 Years</option>
                                             <option value="3">3 Years</option>
                                             <option value="4">4 Years</option>
                                             <option value="5">5 Years</option>
-                                        </select>
+                                        </select> -->
                                         
-                                        @if ($errors->has('duration'))
+                                        @if ($errors->has('startDate'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('duration') }}</strong>
+                                                <strong>{{ $errors->first('startDate') }}</strong>
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-date">{{ __('Rental Date') }}</label>
-                                        <input type="text" name="date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('date')}}" required>
+                                    <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-date">{{ __('End Date') }}</label>
+                                        <input type="text" name="due_date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('due_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('due_date')}}" required>
                                         
-                                        @if ($errors->has('date'))
+                                        @if ($errors->has('due_date'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('date') }}</strong>
+                                                <strong>{{ $errors->first('due_date') }}</strong>
                                             </span>
                                         @endif
                                     </div>

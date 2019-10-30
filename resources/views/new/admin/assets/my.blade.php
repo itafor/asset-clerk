@@ -265,8 +265,8 @@
                         +'    @endif'
                         +'</div>         '          
                         +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
-                        +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>'
+                        +'    <input type="number" name="unit['+rowId+'][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>'
 
                         +'    @if ($errors->has('standard_price'))'
                         +'        <span class="invalid-feedback" role="alert">'

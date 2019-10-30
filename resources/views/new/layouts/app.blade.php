@@ -28,7 +28,6 @@
     <link type="text/css" href="{{ url('assets/css/style.css') }}" rel="stylesheet">
     <!-- Data table stylesheet -->
     <link href="{{url('assets/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
-
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
@@ -101,6 +100,8 @@
             {{-- @include('new.layouts.customizer_sidebar') --}}
         </main>
     </div>
+   
+     <script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
     
     <script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
     <script src="{{url('assets/moment/moment.js')}}"></script>
@@ -124,7 +125,7 @@
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 3000
+            timer: 10000
         });
 
         @if(session()->has('success'))

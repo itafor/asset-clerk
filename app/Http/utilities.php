@@ -1,27 +1,30 @@
 <?php
 
-use App\Country;
-use App\State;
-use App\City;
-use App\Category;
-use App\Landlord;
 use App\Asset;
-use App\Tenant;
-use App\BuildingSection;
 use App\AssetFeature;
+use App\AssetServiceCharge;
 use App\BuildingAge;
-use App\TenantRent;
+use App\BuildingSection;
+use App\Category;
+use App\City;
+use App\Country;
+use App\Landlord;
+use App\Occupation;
+use App\PaymentMode;
+use App\PaymentType;
+use App\PropertyType;
+use App\RentDue;
 use App\ServiceCharge;
 use App\Staff;
-use App\RentDue;
+use App\State;
+use App\Tenant;
+use App\TenantRent;
+use App\TenantServiceCharge;
+use App\Unit;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
-use Carbon\Carbon;
-use App\PropertyType;
-use App\PaymentType;
-use App\PaymentMode;
-use App\Occupation;
 
 function generateUUID()
 {
@@ -72,7 +75,10 @@ function getOwnerUserID()
 
 function getTotalAssets()
 {
-    return Asset::where('user_id', getOwnerUserID())->count();
+    //return Asset::where('user_id', getOwnerUserID())->count();
+    return Unit::where('user_id',getOwnerUserID())
+            ->where('plan_id', activePlanId())
+            ->sum('quantity');
 }
 
 function getSlots()
@@ -86,6 +92,14 @@ function getSlots()
         'availableSlots' => $totalSlots == 'Unlimited' ? 'Unlimited' : ($totalSlots - getTotalAssets()),
         'totalSlots' => $totalSlots,
     ];
+}
+
+function activePlanId(){
+    $user = User::find(getOwnerUserID());
+    $sub = \App\Subscription::where('user_id', $user->id)->where('status', 'Active')->first();
+    if($sub){
+        return $sub->plan_id;
+    }
 }
 
 function getTotalAgents()
@@ -175,7 +189,7 @@ function getServiceCharge($type = null)
 
 function getServiceChargeType($serviceCharge)
 {
-    $sc = ServiceCharge::find($serviceCharge);
+    $sc = ServiceCharge::where('name',$serviceCharge)->first();
     if($sc){
         return $sc->type;
     }   
@@ -195,9 +209,10 @@ function getPaymentServiceCharge($payment)
 
 function getNextRentPayment($rental)
 {
-    $rent = RentDue::where('rent_id', $rental->id)->latest()->first();
+    $rent = TenantRent::where('id', $rental->id)->latest()->first();
     return [
         'due_date' => formatDate($rent->due_date, 'Y-m-d', 'd M Y'),
+        'startDate' => formatDate($rent->startDate, 'Y-m-d', 'd M Y'),
         'status' => ucwords($rent->status)
     ];
 }
@@ -208,14 +223,14 @@ function getNextRentPayment($rental)
 function getDuePayments($past = false)
 {
     if($past){
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) < CURDATE()")
             ->sum('amount');
     }
     else{
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) = CURDATE()")
@@ -229,14 +244,15 @@ function getDuePayments($past = false)
 function getDebtors($past = false)
 {
     if($past){
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
-            ['status', 'pending']])
+            ['status', 'pending'],
+            ['status', 'Partly paid']])
             ->whereRaw("DATE(due_date) < CURDATE()")
             ->count();
     }
     else{
-        return RentDue::where([
+        return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
             ->whereRaw("DATE(due_date) = CURDATE()")
@@ -332,3 +348,41 @@ function getOccupations()
 {
     return Occupation::orderBy('name')->get();
 }
+
+function removeTenantFromServiceCharge($tenant_id,$sc_id){
+  $asset = AssetServiceCharge::find($sc_id);
+
+//           $tenants = $asset->tenant_id;
+//           $tenants_ids=explode(' ',$tenants);
+
+// //search for $tenant_id in $tenants_ids array
+//           $key = array_search($tenant_id, $tenants_ids);
+// //if the id is found, remove it
+//           \array_splice($tenants_ids, $key, 1);
+
+//            $tenantIds=implode(' ',$tenants_ids);
+
+          $deleteTenantfromSC = TenantServiceCharge::where('asc_id',$sc_id)
+          ->where('tenant_id',$tenant_id)->first();
+
+           if($deleteTenantfromSC->delete()){
+        return true;
+           }
+         return false;
+}
+
+function removeServiceChargeWithoutTenant($ascId){
+   // dd($ascId);
+    $getTenantServiceCharges=TenantServiceCharge::all();
+    foreach ($getTenantServiceCharges as $key => $tsc) {
+       if($tsc->asc_id != $ascId){
+          $checkASC =  AssetServiceCharge::where('id',$ascId)->first();
+          if($checkASC){
+            $checkASC->delete();
+          }
+       }else{
+        return false;
+       }
+    }
+}
+

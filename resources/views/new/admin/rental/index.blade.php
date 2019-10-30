@@ -40,10 +40,12 @@
                           <th>No</th>
                           <th><b>Tenant Name</b></th>
                           <th><b>Unit</b></th>
-                          <th><b>Description</b></th>
-                          <th><b>Price</b></th>
+                          <th><b>Property</b></th>
+                          <th><b>Property Estimate</b></th>
+                          <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
+                          <th><b>Payment Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -51,18 +53,47 @@
                     @foreach ($rentals as $rental)
                       <tr>
                           <td>{{$loop->iteration}}</td>
+                         
                           <td>{{$rental->tenant->name()}}</td>
                           <td>{{$rental->unit->category->name}}</td>
                           <td>{{$rental->asset->description}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
-                          <td>{{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}</td>
+                          <td>&#8358; {{number_format($rental->amount,2)}}</td>
+                          <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{getNextRentPayment($rental)['due_date']}}</td>
+                          
+                          <td>
+                            
+                           @if ($rental->status == 'Partly paid' )
+                           <span class="text-warning">{{$rental->status}}</span>
+
+                           @elseif($rental->status == 'Paid')
+                           <span class="text-success">{{$rental->status}}</span> 
+
+                            @else
+                           <span class="text-danger">{{$rental->status}}</span>
+                           @endif
+
+                          </td>
+
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       Action
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                    @if($rental->status !=='Paid')
+                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Record Payment</a>
+                                    @else
+                               <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
+                                    @endif
+
+
+                            @if ($rental->new_rental_status == 'New' )
+
+                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
+                                    @endif
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
                                           <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">

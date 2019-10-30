@@ -29,8 +29,11 @@
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
-                                <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
+                                <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
                                 <div>
+
+                                   <!--  <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required> -->
+
                                     <select name="unit[112211][category]"  class="form-control" required style="width:100%">
                                     <option value="">Select Category</option>
                                     @foreach (getCategories() as $cat)
@@ -46,8 +49,8 @@
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
-                                <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                <input type="number" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>
+                                <label class="form-control-label" for="input-quantity">{{ __('Unit (Unique Tenant)') }}</label>
+                                <input type="number" min="1" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter number of units" value="{{old('quantity')}}" required>
                                 
                                 @if ($errors->has('quantity'))
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +60,7 @@
                             </div>                   
                             <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
                                 <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
-                                <input type="number" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
+                                <input type="number" min="1" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
 
                                 @if ($errors->has('standard_price'))
                                     <span class="invalid-feedback" role="alert">

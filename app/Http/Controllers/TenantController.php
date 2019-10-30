@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Validator;
-use DB;
+use App\Asset;
+use App\RentDebtor;
+use App\RentPayment;
+use App\ServiceChargePaymentHistory;
 use App\Tenant;
+use App\TenantRent;
+use App\TenantServiceCharge;
+use App\Unit;
+use App\Wallet;
+use App\WalletHistory;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Validator;
 
 class TenantController extends Controller
 {
@@ -115,6 +125,29 @@ class TenantController extends Controller
         return redirect()->route('tenant.index')->with('success', 'Tenant updated successfully');
     }
 
+      public function fetchTeanatThatBelongsToAnAsset($id)
+    {
+        $property = Asset::where('id', $id)->where('user_id', getOwnerUserID())->first();
+        if($property){
+
+            $units = Unit::where('units.asset_id', $property->id)
+            ->join('categories as c', 'c.id', '=', 'units.category_id')
+            ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')
+            ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
+            ->selectRaw('units.*, c.name, CONCAT(t.designation, " ", t.firstname, " ", t.lastname) as tenant, t.id as tenantId')
+            // ->where('units.quantity_left', '>', 0)
+            ->whereNull('tr.deleted_at')
+            ->whereRaw('tr.due_date > CURDATE()')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+
+
     public function myProfile()
     {
         return view('admin.tenant.my_profile');
@@ -138,5 +171,84 @@ class TenantController extends Controller
     public function createMaintenance()
     {
         return view('admin.tenant.create_maintenance');
+    }
+
+       public function  tenantProfile($id){
+     $tenantId = Crypt::decrypt($id);
+     
+         $tenantDetail = Tenant::where('tenants.id', $tenantId)
+            ->join('countries as co','co.id','=','tenants.country_id')
+            ->join('states as st','st.id','=','tenants.state_id')
+            ->join('cities as c','c.id','=','tenants.city_id')
+            ->select('tenants.*','co.name as countryName','st.name as stateName','c.name as cityName')
+            ->first();
+
+ $tenantRents  = TenantRent::where('user_id', getOwnerUserID())
+                ->where('tenant_uuid',$tenantDetail->uuid)
+                ->orderBy('id', 'desc')->get();
+
+ $tenantRentalPaymentHistories  = RentPayment::where('user_id',getOwnerUserID())
+                                ->where('tenant_uuid',$tenantDetail->uuid)->get();
+
+ $tenantRentalDebts = RentDebtor::where('user_id',getOwnerUserID())
+                             ->where('tenant_uuid', $tenantDetail->uuid)
+                             ->whereNull('deleted_at')
+                             ->get();
+
+
+ $tenantRentalTotalDebt = DB::table('rent_debtors')
+    ->join('tenants', 'tenants.uuid', '=', 'rent_debtors.tenant_uuid')
+    ->where('rent_debtors.tenant_uuid', $tenantDetail->uuid)
+    ->sum('rent_debtors.balance');
+
+  
+
+$tenantsAssignedScs = TenantServiceCharge::join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
+          ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
+          ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
+           ->join('assets','assets.id','=','asset_service_charges.asset_id')
+         ->where('tenant_service_charges.tenant_id',$tenantId)
+         ->where('tenant_service_charges.user_id', getOwnerUserID())
+         ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
+         ->get();
+
+         $tenantTotalDebt = DB::table('tenant_service_charges')
+    ->join('tenants', 'tenants.id', '=', 'tenant_service_charges.tenant_id')
+    ->where('tenant_service_charges.tenant_id', $tenantId)
+    ->sum('tenant_service_charges.bal');
+
+     $tenantSCHs = ServiceChargePaymentHistory::join('tenants','tenants.id','=','service_charge_payment_histories.tenant')
+          ->join('service_charges','service_charges.id','=','service_charge_payment_histories.service_charge')
+         ->where('service_charge_payment_histories.user_id', getOwnerUserID())
+        ->where('service_charge_payment_histories.tenant',$tenantId)
+         ->select('service_charge_payment_histories.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'),
+            'tenants.*','service_charges.*')
+         ->orderby('service_charge_payment_histories.created_at','asc')
+         ->get();
+
+    $tenantWalletsHistories = WalletHistory::join('tenants','tenants.id','=','wallet_histories.tenant_id')
+    ->where('wallet_histories.user_id',getOwnerUserID())
+    ->where('wallet_histories.tenant_id',$tenantId)
+    ->select('wallet_histories.*',
+            DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
+    ->get();
+
+    $tenantWalletBal = Wallet::where('tenant_id',$tenantId)
+    ->where('user_id',getOwnerUserID())->first();
+   
+  
+        if($tenantDetail){
+            return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs','tenantTotalDebt','tenantSCHs','tenantWalletsHistories','tenantWalletBal','tenantRentalPaymentHistories','tenantRentalTotalDebt','tenantRentalDebts','tenantRents'));
+        }
+    }
+
+    public function getTenantEmail($tenant_id){
+          
+          $tenants = Tenant::where('id',$tenant_id)
+              ->where('user_id', getOwnerUserID())->first();
+         if($tenants){
+         return  $tenants;
+         }
     }
 }

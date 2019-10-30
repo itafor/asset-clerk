@@ -8,7 +8,7 @@ use App\TenantRent;
 class Unit extends Model
 {
     protected $fillable = [
-        'asset_id', 'category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid',
+        'asset_id','user_id','plan_id','category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid',
         'property_type_id'
     ];
 
@@ -51,6 +51,9 @@ class Unit extends Model
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
         ->whereRaw('due_date > CURDATE()')->latest()->with('asset.landlord')->first();
+        
+        if($rental){
         return $rental->asset;
+        }
     }
 }

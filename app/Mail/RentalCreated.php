@@ -18,7 +18,7 @@ class RentalCreated extends Mailable
      *
      * @return void
      */
-    public function __construct(TenantRent $rental)
+    public function __construct($rental)
     {
         $this->rental = $rental;
         $this->landlord = $rental->unit->getProperty()->landlord;

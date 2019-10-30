@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetPhoto;
-use App\Unit;
-use App\AssignedAsset;
 use App\AssetServiceCharge;
-use Validator;
+use App\AssignedAsset;
+use App\Tenant;
+use App\TenantServiceCharge;
+use App\Unit;
 use DB;
+use Illuminate\Http\Request;
+use Validator;
 
 class AssetController extends Controller
 {
@@ -47,6 +49,11 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
+
+      if(!$this->checkAvailableSlot($request)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+            }
+
         chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
@@ -95,6 +102,8 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
+        // $this->checkAvailableSlot($request);
+
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'commission' => 'required|numeric',
@@ -190,6 +199,16 @@ class AssetController extends Controller
         if($sc){
             $sc->status = 0;
             $sc->save();
+
+            $deleteTenantsfromSC = TenantServiceCharge::where('asc_id',$id)
+            ->where('user_id',getOwnerUserID())->get();
+         
+          if($deleteTenantsfromSC){
+            foreach ($deleteTenantsfromSC as $key => $value) {
+                $value->delete();
+            }
+          }
+
             return back()->with('success', 'Service charge deleted successfully');
         }
         else{
@@ -244,13 +263,24 @@ class AssetController extends Controller
         return view('new.admin.assets.my', $data);
     }
 
+    public function createServiceCharge(Request $request){
+        return view('new.admin.assets.create_asset_service_charge');
+    }
+
     public function addServiceCharge(Request $request)
     {
+         
+         $data=$request->all();
+
+
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
             'service.*.price' => 'required',
-            'asset' => 'required'
+            'dueDate' => 'required',
+            'startDate' => 'required',
+            'asset' => 'required',
+            'tenant_id' => 'required',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)
@@ -259,7 +289,7 @@ class AssetController extends Controller
         $asset = Asset::find($request['asset']);
 
         if($asset){
-            foreach($request['service'] as $unit){
+           // foreach($request['service'] as $unit){
                 /*$exists = AssetServiceCharge::where([
                     ['asset_id', $asset->id],
                     ['service_charge_id', $unit['service_charge']],
@@ -268,17 +298,132 @@ class AssetController extends Controller
                 if(count($exists) > 0){
                     return back()->with('error', 'Service charge already added');
                 }*/
+                //Asset::addServiceCharge($request->all(), $asset);
+            //}
+
                 Asset::addServiceCharge($request->all(), $asset);
-            }
-            return back()->with('success', 'Service charge added successfully');
+
+            return redirect()->route('service.charges')->with('success', 'Service charge added successfully');
         }
         else{
             return back()->with('error', 'Error: asset not found');
         }
     }
 
+
+ public function  getTenantsServiceCharge($id){
+        
+    $tsc =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenants=array();
+    foreach ($tsc as $key => $ts) {
+       $tenants[] =$ts->myTenants($ts->tenant_id);
+    }
+
+    dd($tenants);
+}
+
+    public function editServiceCharge($id){
+        $service_ch = '';
+        $service_charge = AssetServiceCharge::find($id);
+        foreach (getServiceCharge() as $key => $sc) {
+          if($sc->id == $service_charge->service_charge_id){
+            $service_ch = $sc->name;
+          }
+        }
+
+         $tenants = $service_charge->tenant_id;
+
+          $tenants_ids=explode(' ',$tenants); 
+
+           $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenantsDetails=array();
+    foreach ($tenantsServiceCharges as $key => $ts) {
+       $tenantsDetails[] =$ts->myTenants($ts->tenant_id);
+    }
+
+       $serviceChType = getServiceChargeType($service_ch);
+
+        return view('new.admin.assets.edit-asset-service-charge',compact('service_charge','serviceChType','tenantsDetails'));
+    }
+
+
+    public function updateServiceCharge(Request $request){
+       
+        $data = $request->all();
+        
+       $validator = validator::make($data,
+        [
+                'asset_id' => 'required',
+                'service_charge_id' => 'required',
+                'price' => 'required',
+                'tenant_id' => 'required'
+        ]);
+
+       if($validator->fails()){
+            return back()->withErrors($validator)
+             ->withInput()->with('error', 'Please fill in a required fields');
+       }
+       
+        DB::beginTransaction();
+        try{
+            Asset::updateServiceCharge($data);
+            DB::commit();
+        }
+        catch(Exception $e){
+            DB::rollback();
+            return back()->withInput()->with('error', 'An error occured. Please try again');
+        }
+
+        return back()->with('success', 'Service Charge updated successfully');
+    }
+
+public function tenantsServiceCharge($id){
+            $asset='';
+            $tenants=0;
+            $serviceChargeName='';
+            $amount=0;
+           $assetSc = AssetServiceCharge::find($id);
+
+           if($assetSc){
+           $asset=$assetSc->asset;
+           $serviceChargeName = $assetSc->serviceCharge->name;
+           $amount = $assetSc->price;
+           $tenants = $assetSc->tenant_id;
+          
+             }
+           $tenantsServiceCharges =  TenantServiceCharge::where('asc_id',$id)->get();
+
+    $tenantsDetails=array();
+    foreach ($tenantsServiceCharges as $key => $ts) {
+       $tenantsDetails[] =$ts->myTenants($ts->tenant_id);
+    }
+
+          return view('new.admin.assets.tenant-service_charges-list',compact('tenantsDetails','tenants','asset','serviceChargeName','amount'));
+
+        }
+
+        public function removeTenantFromCS($tenant_id,$sc_id){
+
+          $scId =  (int)$sc_id;
+          $tenantId =  (int)$tenant_id;
+         
+            //dd($tenant_id);
+          if(removeTenantFromServiceCharge($tenantId, $scId)){
+            removeServiceChargeWithoutTenant($scId);
+            return back()->with('success', 'The Selected Tenant has been removed from this service charge');
+          }
+           return back()->with('error', 'Error: An attempt to remove the selected tenant from this service charge failed, try again');
+        }
+
+
     public function addUnit(Request $request)
     {
+         if(!$this->checkAvailableSlot($request)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+            }
+
         $validator = Validator::make($request->all(), [
             'unit.*.category' => 'required',
             'unit.*.quantity' => 'required',
@@ -310,6 +455,7 @@ class AssetController extends Controller
         $charges = AssetServiceCharge::with('asset','serviceCharge')
             ->where('user_id',getOwnerUserID())
             ->where('status',1)
+            ->orderBy('created_at','desc')
             ->get();
         $plan = getUserPlan();
         $limit = $plan['details']->properties;
@@ -325,4 +471,74 @@ class AssetController extends Controller
         ];
         return view('new.admin.assets.service_charges', $data);
     }
+
+    public function checkAvailableSlot($request){
+
+     $units = $request->unit ? $request->unit : $request->all;
+     $totalUnit = 0;
+       foreach ($units as $key => $unit) {
+            $totalUnit += $unit['quantity'];
+       }
+
+       if( $totalUnit > (int)getSlots()['availableSlots']){
+         return false;
+       }else{
+        return true;
+       }
+    }
+
+public function getAssetLocation($asset_id){
+        $address = Asset::where('id',$asset_id)->get();
+
+         return response()->json($address);
+}
+public function search_Service_Charge(Request $request){
+
+     $data = $request->all();
+
+    $validator = validator::make($data,[
+        'asset' => 'required',
+        'location' => 'required',
+        'type' => 'required',
+        'service_name' => 'required',
+        'minAmt' => 'required',
+        'maxAmt' => 'required',
+    ]);
+
+    if($validator->fails()){
+         return  back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+    }
+
+    if($data['minAmt'] > $data['maxAmt']){
+       return  back()->withInput()->with('error', 'Invalid amount range: Min. Amount cannot be more than max. Amount');
+     }
+
+
+    $assetId = $request->asset;
+     if($assetId){
+            $assetsServiceCharges = AssetServiceCharge::where('asset_service_charges.asset_id', $assetId)
+            ->where('a.address', $request->location)
+            ->whereBetween('asset_service_charges.price', [$request->minAmt, $request->maxAmt])
+            ->where('s.type', $request->type)
+            ->where('s.name', $request->service_name)
+            ->where('asset_service_charges.user_id',getOwnerUserID())
+            ->join('service_charges as s', 's.id', '=', 'asset_service_charges.service_charge_id')
+            ->join('assets as a', 'a.id', '=', 'asset_service_charges.asset_id')
+            ->selectRaw('a.*, s.*,asset_service_charges.*')
+            ->get();
+           return view('new.admin.assets.service_charges',compact('assetsServiceCharges'));
+           
+        }
+        
+    
+}
+public function array_equal($a, $b) {
+    return (
+         is_array($a) 
+         && is_array($b) 
+         && count($a) == count($b) 
+         && array_diff($a, $b) === array_diff($b, $a)
+    );
+}
 }

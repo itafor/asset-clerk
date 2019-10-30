@@ -154,7 +154,7 @@
 
                                         </div>                   
                                     <div class="form-group {{ $errors->has('unit.'.$key.'.standard_price') ? 'has-danger':'' }} col-3">
-                                        <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
+                                        <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
                                         <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('unit.'.$key.'.standard_price')}}" required>
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@
                                             @endif
                                         </div>                   
                                         <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
-                                            <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
+                                            <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
                                             <input type="number" name="unit[{{$unit->uuid}}][standard_price]" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('standard_price', $unit->standard_price)}}" required>
 
                                             @if ($errors->has('standard_price'))

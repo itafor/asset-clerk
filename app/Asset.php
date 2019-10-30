@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
+use App\TenantServiceCharge;
 use App\Unit;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Input;
 
 class Asset extends Model
 {
@@ -119,6 +122,8 @@ class Asset extends Model
         foreach($data['unit'] as $unit){
             Unit::create([
                 'asset_id' => $asset->id,
+                'user_id' => getOwnerUserID(),
+                'plan_id' => activePlanId(),
                 'category_id' => $unit['category'],
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],
@@ -144,6 +149,7 @@ class Asset extends Model
             else{
                 Unit::create([
                     'asset_id' => $asset->id,
+                    'user_id' => getOwnerUserID(),
                     'category_id' => $unit['category'],
                     'quantity' => $unit['quantity'],
                     'quantity_left' => $unit['quantity'],
@@ -157,14 +163,111 @@ class Asset extends Model
     
     public static function addServiceCharge($data,$asset)
     {
-        AssetServiceCharge::where('asset_id', $asset->id)->delete();
-        foreach($data['service'] as $unit){
-            AssetServiceCharge::create([
+        //AssetServiceCharge::where('asset_id', $asset->id)->delete();
+
+        $tenantIds=$data['tenant_id'];
+        $startDate = $data['startDate'];
+        $dueDate = $data['dueDate'];
+        $services = $data['service'];
+
+        $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
+        
+       if($allTenantServiceCharges){
+            foreach ($allTenantServiceCharges as $key => $aTSC) {
+                foreach ($services as $key => $service) {
+                    foreach ($tenantIds as $key => $tenantId) {
+
+                    if(
+                            $tenantId == $aTSC->tenant_id
+                        &&  $service['service_charge'] == $aTSC->service_chargeId
+                        &&  $startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
+                         &&  $dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
+                    ){
+                         return back()->withInput()->with('error','A tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
+                    }
+
+                    }
+                }
+               
+            }
+        }
+
+  if($dueDate < $startDate){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+
+        $service_chargeIDs=$data['service'];
+        $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
+                foreach($data['service'] as $unit){
+        $asc =  AssetServiceCharge::create([
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
-                'user_id' => getOwnerUserID()
+                'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
+                'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
+                'user_id' => getOwnerUserID(),
+                'tenant_id' => $tenants_ids,
             ]);
+
+                if($asc){
+                    self::addTenantToServiceCharge($tenantIds,$asc->id, $unit['service_charge'],$unit['price'],$startDate,$dueDate);
+                 }
+        }
+    }
+
+    public static function addTenantToServiceCharge($tenantIds,$sc_id,$service_charge_ids,$bal,$startDate,$dueDate){
+        foreach ($tenantIds as $key => $id) {
+            TenantServiceCharge::create([
+                'tenant_id' => $id,
+                'asc_id' =>$sc_id,
+                'service_chargeId' => $service_charge_ids,
+                'user_id' =>getOwnerUserID(),
+                'bal' => $bal,
+                'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
+                'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
+            ]);
+        }
+    }
+
+
+
+
+    public static function updateServiceCharge($data){
+
+         $tenants_ids = implode(' ', Input::get('tenant_id'));
+         $tenantIds=$data['tenant_id'];
+      $updateASC =  AssetServiceCharge::where('id',$data['id'])
+        ->update([
+                'asset_id' => $data['asset_id'],
+                'service_charge_id' => $data['service_charge_id'],
+                'price' => $data['price'],
+                'user_id' => getOwnerUserID(),
+                'tenant_id' => $tenants_ids,
+        ]);
+
+        if($updateASC){
+           //dd($data['id']);
+           self::updateTenantAddedToServiceCharge($tenantIds,$data['id']);
+        }
+    }
+
+
+ public static function updateTenantAddedToServiceCharge($tenantIds,$sc_id){
+   // dd($tenantIds);
+         $updatetsc =   TenantServiceCharge::where('asc_id',$sc_id)->first();
+
+        foreach ($tenantIds as $key => $tenantId) {
+         if($updatetsc){
+            $updatetsc->update([
+                'tenant_id' => $tenantId,
+                 'asc_id' =>$sc_id,
+            ]);
+                // $updatetsc->tenant_id = $tenantId;
+                
+                // $updatetsc->asc_id = $sc_id;
+                // $updatetsc->save();
+         }
+            
         }
     }
 

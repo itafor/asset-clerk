@@ -106,8 +106,8 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
-                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                             <td class="title">
+                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
                             </td>
                             
                             <td style="text-align:right">
@@ -165,7 +165,7 @@
                 </td>
                 
                 <td>
-                    &#8358; {{number_format($rental->price,2)}}
+                    &#8358; {{number_format($rental->amount,2)}}
                 </td>
             </tr>
 
@@ -185,7 +185,7 @@
                 </td>
                 
                 <td>
-                    {{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}
+                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
                 </td>
             </tr>
 

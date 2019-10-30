@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,11 +53,52 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
 			Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 			Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
+			Route::get('/tenants-service-charge/{id}', 'AssetController@tenantsServiceCharge')->name('asset.tenants.service');
+
+			Route::get('/get-tenants-service-charge/{id}', 'AssetController@getTenantsServiceCharge')->name('get.tenants.service');
+
+			Route::get('/create-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
+
+			Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
+			
 			Route::post('/add-service-charge', 'AssetController@addServiceCharge')->name('asset.service.add');
+
+		  Route::get('/edit-service-charge/{id}', 'AssetController@editServiceCharge')->name('asset.service.charge.edit');
+
+		 Route::post('/update-service-charge', 'AssetController@updateServiceCharge')->name('asset.service.charge.update');
+		
+
+		 Route::get('/get-asset-location/{asset_id}', 'AssetController@getAssetLocation')->name('getAssetLocation');
+
+		Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('search.service.charge');
+			
 			Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 			Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
 			Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 		});
+
+			Route::prefix('service-charge')->group(function(){
+			Route::get('/debtors', 'AssetServiceChargeController@getDebtors')->name('debtors.get');
+			Route::get('/pay-service-chatge', 'AssetServiceChargeController@payServiveCharge')->name('pay.service.charge');
+			Route::post('/pay-service-chatge', 'AssetServiceChargeController@storeServiveChargePaymentHistory')->name('store.service.charge.payment.history');
+			Route::get('/fetch-tenant-service-charge/{id}', 'AssetServiceChargeController@getTenantServiceCharge')->name('fetch.tenant.service.charge');
+
+			Route::get('/fetch-service-charge-amount/{id}/{tenantId}', 'AssetServiceChargeController@getServiceChargeAmount')->name('fetch.service.charge.amount');
+
+			Route::get('/service-charge-payment-histories', 'AssetServiceChargeController@getServiveChargePaymentHistory')->name('fetch.service.charge.payment.history');
+		});
+
+			
+			Route::prefix('wallet')->group(function(){
+			Route::get('/', 'WalletController@index')->name('wallet.index');
+			Route::get('/fetch-tenant-balance/{tenant_id}', 'WalletController@fetchBalance')->name('wallet.balance');
+			Route::get('/tenants-wallets', 'WalletController@fetchTenantWallet')->name('tenant.wallet');
+			Route::get('/wallet-history', 'WalletController@fetchWalletHistory')->name('wallet.history');
+			Route::post('/fund-wallet', 'WalletController@fundWallet')->name('wallet.fund');
+
+			Route::get('/tenant-wallet-balance/{tenant_id}', 'WalletController@getTenantWalletForPayment')->name('tenant.wallet.balance');
+		});
+
 		Route::prefix('tenant')->group(function(){
 			Route::get('/', 'TenantController@index')->name('tenant.index');
 			Route::get('/create', 'TenantController@create')->name('tenant.create');
@@ -66,6 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/edit/{uuid}', 'TenantController@edit')->name('tenant.edit');
 			Route::post('/update', 'TenantController@update')->name('tenant.update');
 			Route::get('/delete/{uuid}', 'TenantController@delete')->name('tenant.delete');
+			Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('tenant.profile');
+
 		});
 		Route::prefix('customer')->group(function(){
 			Route::get('/', 'CustomerController@index')->name('customer.index');
@@ -84,11 +126,23 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/', 'RentalController@index')->name('rental.index');
 			Route::get('/my', 'RentalController@myRentals')->name('rental.my');
 			Route::get('/create', 'RentalController@create')->name('rental.create');
+			Route::get('/edit-rental/{uuid}', 'RentalController@edit')->name('rental.edit');
+			Route::post('/update-rental', 'RentalController@update')->name('rental.update');
+			Route::get('/pay-rent/{uuid}', 'RentalController@rentPayment')->name('rental.pay');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 			Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 		});
+
+		Route::prefix('rent-payment')->group(function(){
+			Route::get('/pay-rent/{uuid}', 'RentPaymentController@create')->name('rentalPayment.create');
+			Route::get('/rental-payment-history', 'RentPaymentController@fetchRentalPaymentHistory')->name('rentalPayment.history');
+		    Route::get('/rental-debtors', 'RentPaymentController@fetchRentalDebtors')->name('rentalPayment.debtors');
+			Route::post('/store-rent-payment', 'RentPaymentController@store')->name('rentalPayment.store');
+		});
+
+
 		Route::prefix('maintenance')->group(function(){
 			Route::get('/', 'MaintenanceController@index')->name('maintenance.index');
 			Route::get('/create', 'MaintenanceController@create')->name('maintenance.create');
@@ -116,6 +170,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('my-referals', 'TenantController@referals')->name('tenant.referals');
 		Route::get('my-maintenance', 'TenantController@myMaintenance')->name('tenant.maintenance');
 		Route::get('create-maintenance', 'TenantController@createMaintenance')->name('tenant.maintenance.create');
+		Route::get('fetch-tenants/{id}', 'TenantController@fetchTeanatThatBelongsToAnAsset')->name('fetch.tenants');
+
+		Route::get('/get-tenant-email/{id}','TenantController@getTenantEmail')->name('tenant.email');
+		
 	});
 
 	Route::prefix('report')->group(function(){
@@ -138,4 +196,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('fetch-rented-units/{property}', 'UtilsController@fetchRentedUnits');
 	Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 });
+
 

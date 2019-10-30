@@ -62,6 +62,11 @@
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                        <?php $tenantId = $tenant->id; 
+                                    $cryptId = Crypt::encrypt($tenantId);       
+                                    ?>
+                                        <a href="{{ route('tenant.profile', ['id'=> $cryptId]) }}" class="dropdown-item">View Profile</a>
+
                                         <a href="{{ route('tenant.edit', ['uuid'=>$tenant->uuid]) }}" class="dropdown-item">Edit</a>
                                         <form action="{{ route('tenant.delete', ['uuid'=>$tenant->uuid]) }}" method="get">
                                             

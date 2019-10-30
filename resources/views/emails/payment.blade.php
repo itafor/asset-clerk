@@ -125,12 +125,12 @@
                         <tr>
                             <td>
                                 <b>Address:</b><br>
-                               {{$payment->unit->getTenant()->address}}
+                               {{$payment->unitt->getTenant()->address}}
                             </td>
                             
                             <td style="text-align:right">
-                                {{$payment->unit->getTenant()->name()}} <br>
-                                {{$payment->unit->getTenant()->email}}
+                                {{$payment->unitt->getTenant()->name()}} <br>
+                                {{$payment->unitt->getTenant()->email}}
                             </td>
                         </tr>
                     </table>
@@ -149,7 +149,7 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$payment->unit->getProperty()->description}}
+                    {{$payment->unitt->getProperty()->description}}
                 </td>
             </tr>
 
@@ -181,15 +181,31 @@
                 <td>
                     Price
                 </td>
+
+                 <td>
+                    Amount Paid
+                </td>
+
+                 <td>
+                   Balance
+                </td>
             </tr>
             
             <tr class="item">
                 <td>
-                    {{$payment->paymentType->name}} {{getPaymentServiceCharge($payment)}}
+                   {{$payment->unitt->category->name}}
                 </td>
-                
+
                 <td>
-                    &#8358; {{number_format($payment->amount, 2)}}
+                    &#8358; {{number_format($payment->actual_amount, 2)}}
+                </td>
+
+                 <td>
+                    &#8358; {{number_format($payment->amount_paid, 2)}}
+                </td>
+
+                 <td>
+                    &#8358; {{number_format($payment->balance, 2)}}
                 </td>
             </tr>
             
@@ -203,7 +219,7 @@
                 <td></td>
                 
                 <td>
-                   Total: &#8358; {{number_format($payment->amount, 2)}}
+                   Total: &#8358; {{number_format($payment->amount_paid, 2)}}
                 </td>
             </tr>
         </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Subscription;
 use App\SubscriptionPlan;
 use App\Transaction;
+use App\Unit;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -63,6 +64,9 @@ class SubscriptionsController extends Controller
             'plan_id' => $request->plan_id,
             'status' => 'Pending'
         ]);
+        if($sub){
+          $this->updateUnitSetPlanIdNull($sub->plan_id);
+        }
         $paymentData = [
             'email' => $request->email,
             'amount' => fixKobo($transaction->amount), // amount is in kobo so add 00
@@ -199,7 +203,17 @@ class SubscriptionsController extends Controller
         }
     }
 
+public function updateUnitSetPlanIdNull($plan_id){
 
-
-
+    $getPlanIds = Unit::where('plan_id', $plan_id)->get();
+    
+    if($getPlanIds){
+      foreach ($getPlanIds as $key => $value) {
+          Unit::where('plan_id',$value->plan_id)
+          ->update([
+            'plan_id' => null
+          ]);
+      }
+   }
+ }
 }
