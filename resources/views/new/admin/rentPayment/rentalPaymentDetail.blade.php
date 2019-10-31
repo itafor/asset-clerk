@@ -49,7 +49,7 @@
                           <th><b>Start Date</b></th>
                           <th><b>End Date</b></th>
                           <th><b>Created At</b></th>
-                          
+
                       </tr>
                     </thead>
                     <tbody>
@@ -67,11 +67,13 @@
                           <td>&#8358;{{number_format($rent->amount_paid,2)}}</td>
                           <td>&#8358;{{number_format($rent->balance,2)}}</td>
                           <td>{{$rent->paymentMode->name}}</td>
-                           <td>{{\Carbon\Carbon::parse($rent->payment_date)->format('d M Y')}}</td>
+                          <td>{{\Carbon\Carbon::parse($rent->payment_date)->format('d M Y')}}</td>
 
                           <td>{{$rent->startDate}}</td>
                           <td>{{$rent->due_date}}</td>
                           <td>{{\Carbon\Carbon::parse($rent->created_at)->format('d M Y')}}</td>
+
+                          
                       </tr>
                       @endforeach
                     </tbody>

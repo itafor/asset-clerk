@@ -243,6 +243,34 @@ $tenantsAssignedScs = TenantServiceCharge::join('asset_service_charges', 'asset_
         }
     }
 
+public function searchTenantGlobally(Request $request){
+     if($request->get('query2'))
+     {
+      $query2 = $request->get('query2');
+      $users = Tenant::where('firstname','like',"%{$query2}%")
+      ->orwhere('lastname','like',"%{$query2}%")
+      ->orwhere('date_of_birth','like',"%{$query2}%")
+      ->orwhere('address','like',"%{$query2}%")
+      ->orwhere('state','like',"%{$query2}%")
+      ->orwhere('phone','like',"%{$query2}%")
+    ->get();
+    $output = '<ul class="dropdown-menu" 
+    style="display: block; 
+    position: absolute; z-index: 1; width:300px; padding-left:20px; margin-left:10px;">';
+    foreach ($users as $row) {
+       $tenant_id = Crypt::encrypt($row->id);
+       if($row){
+$output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname.'  '.$row->lastname.'</a></li>';
+ }else{
+    $output.='<li>Nothing found</li>';
+ }
+    }
+   $output .='</ul>';
+   echo $output;
+    ;
+    }
+   }
+
     public function getTenantEmail($tenant_id){
           
           $tenants = Tenant::where('id',$tenant_id)

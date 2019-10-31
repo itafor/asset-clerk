@@ -153,5 +153,12 @@ class RentPaymentController extends Controller
      return view('new.admin.rentPayment.debtors',compact('rentalDebtors','totalSumOfRentalsNotPaid'));
     }
 
+public function viewPaymentRecord($rental_uuid){
+    $rentPayments  = RentPayment::where('user_id',getOwnerUserID())
+    ->where('tenantRent_uuid',$rental_uuid)->get();
+
+     return view('new.admin.rentPayment.rentalPaymentDetail',compact('rentPayments'));
+}
+
 
 }

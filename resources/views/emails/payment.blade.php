@@ -208,6 +208,26 @@
                     &#8358; {{number_format($payment->balance, 2)}}
                 </td>
             </tr>
+
+                <tr class="heading">
+                <td>
+                   Rent Duration
+                </td>
+                
+                <td>
+                  
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td colspan="2">
+                    {{$payment->startDate}}  <strong>to</strong>  {{$payment->due_date}}
+                </td>
+                
+                <td>
+               
+                </td>
+            </tr>
             
             <tr class="item">
                 <td colspan="2">

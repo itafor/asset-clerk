@@ -37,20 +37,22 @@ class Unit extends Model
     public function getRental() 
     {
         return TenantRent::where('unit_uuid', $this->uuid)
-        ->whereRaw('due_date > CURDATE()')->latest()->with('tenant', 'asset')->first();
+       ->latest()->with('tenant', 'asset')->first();
     }
 
     public function getTenant()
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
-        ->whereRaw('due_date > CURDATE()')->latest()->with('tenant')->first();
+        ->latest()->with('tenant')->first();
+         if($rental){
         return $rental->tenant;
+        }
     }
 
     public function getProperty()
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
-        ->whereRaw('due_date > CURDATE()')->latest()->with('asset.landlord')->first();
+       ->latest()->with('asset.landlord')->first();
         
         if($rental){
         return $rental->asset;

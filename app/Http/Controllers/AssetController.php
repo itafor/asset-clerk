@@ -249,13 +249,7 @@ class AssetController extends Controller
     {
         $query = AssignedAsset::where('user_id', getOwnerUserID())
         ->orderBy('id', 'desc')->with('asset.units')->get();
-
-        // if($request->has('search') && $request['search']){
-        //     $search = $request['search'];
-        //     $query->where('assets.description', 'like', "%{$search}%")
-        //     ->orWhere('assets.address', 'like', "%{$search}%")
-        //     ->orWhere('categories.name', 'like', "%{$search}%");
-        // }
+        
         $data = [
             'assets' => $query,
             'term' => ''
@@ -267,7 +261,7 @@ class AssetController extends Controller
         return view('new.admin.assets.create_asset_service_charge');
     }
 
-    public function addServiceCharge(Request $request)
+    public function add_Service_Charge(Request $request)
     {
          
          $data=$request->all();
@@ -289,17 +283,7 @@ class AssetController extends Controller
         $asset = Asset::find($request['asset']);
 
         if($asset){
-           // foreach($request['service'] as $unit){
-                /*$exists = AssetServiceCharge::where([
-                    ['asset_id', $asset->id],
-                    ['service_charge_id', $unit['service_charge']],
-                ])->get();
 
-                if(count($exists) > 0){
-                    return back()->with('error', 'Service charge already added');
-                }*/
-                //Asset::addServiceCharge($request->all(), $asset);
-            //}
 
                 Asset::addServiceCharge($request->all(), $asset);
 
@@ -446,12 +430,7 @@ public function tenantsServiceCharge($id){
 
     public function serviceCharges()
     {
-       /* $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
-         ->where('assets.user_id', getOwnerUserID())
-         ->where('status', 1)
-         ->with('asset')
-         ->select('asset_service_charges.*')
-         ->get();*/
+      
         $charges = AssetServiceCharge::with('asset','serviceCharge')
             ->where('user_id',getOwnerUserID())
             ->where('status',1)
@@ -470,6 +449,18 @@ public function tenantsServiceCharge($id){
             'charges' => $charges
         ];
         return view('new.admin.assets.service_charges', $data);
+    }
+
+  public function  AssetServiceCharges($assetId){
+     $charges = AssetServiceCharge::with('asset','serviceCharge')
+            ->where('user_id',getOwnerUserID())
+            ->where('status',1)
+            ->where('asset_id',$assetId)
+            ->orderBy('created_at','desc')->get();
+    $asset = Asset::find($assetId);
+    $asset = $asset->description;
+   return view('new.admin.assets.partials.viewServiceCharge', compact('charges','asset'));
+
     }
 
     public function checkAvailableSlot($request){
