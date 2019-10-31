@@ -38,6 +38,109 @@
         <!-- Grid -->
         <div class="row">
 
+
+
+                      <!-- Grid Item -->
+            <div class="col-xl-6">
+
+                <!-- Entry Header -->
+                <div class="dt-entry__header">
+
+                <!-- Entry Heading -->
+                <div class="dt-entry__heading">
+                    <h3 class="dt-entry__title">Payment Details</h3>
+                </div>
+                <!-- /entry heading -->
+
+                </div>
+                <!-- /entry header -->
+
+                <!-- Card -->
+                <div class="dt-card" style="height: 500px;">
+
+                    <!-- Card Body -->
+                    <div class="dt-card__body">
+                       <h4>Outstanding Service charge:
+                         <span style="color: red; font-family: monospace; font-size: 16px;">
+                            &#8358; {{number_format($tenantTotalDebt,2)}} 
+                        </span>
+                        </h4>
+                        <hr>
+                        <h4>Outstanding Rent:
+                         <span style="color: red; font-family: monospace; font-size: 16px;">
+                            &#8358; {{number_format($tenantRentalTotalDebt,2)}}
+                        </span>
+                        </h4> 
+                        <table class="table align-items-center table-flush">
+
+                            <tr><td>Current Wallet Balance:</td>
+                                  @if(isset($tenantWalletBal->amount))
+                                <td>
+                                 &#8358; {{number_format($tenantWalletBal->amount,2)}}
+                                </td>
+                                @else
+                                <td>
+                                <span> Inactive </span>
+                                </td>
+                                @endif
+                            </tr>
+
+                            <tr><td>Unpaid Service Charges:</td>
+                                <td>
+                                    <a href="#" class="" data-toggle="modal" data-target=".tenant-service-charges"> 
+                                 View details
+                             </a>
+
+                            
+                                </td>
+                            </tr>
+
+                            <tr><td>Service Charge Payment History:</td>
+                                <td>
+                                    <a href="#"  data-toggle="modal" data-target=".tenantSCPaymentHistory">
+                                    View details 
+                                      </a>
+                                
+                              </td>
+                            </tr>
+
+                             <tr><td>Service Charge Wallet History:</td>
+                                <td><a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">   View details</a>
+                                </td>
+                            </tr>
+
+                            <tr><td>Tenant Rents:</td>
+                                <td><a href="#" data-toggle="modal" data-target=".tenantRents">   View details</a>
+                                </td>
+                            </tr>
+
+                            <tr><td>Rental Payment History</td>
+                                <td><a href="#" data-toggle="modal" data-target=".rentalPaymentHistory">   View details</a>
+                                </td>
+                            </tr>
+
+                             <tr><td>Unpaid Rental</td>
+                                <td><a href="#" data-toggle="modal" data-target=".unpaidRental">   View details</a>
+                                </td>
+                            </tr>
+<!-- 
+                            <tr><td>Tenant Referals:</td>
+                                <td><a href="#">   View details</a></td>
+                            </tr>
+
+                            <tr><td>Tenant Maintainance:</td>
+                                <td><a href="#">   View details</a></td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <!-- /card body -->
+
+                </div>
+                <!-- /card -->
+
+            </div>
+            <!-- /grid item -->
+
             <!-- Grid Item -->
             <div class="col-xl-6">
 
@@ -46,7 +149,7 @@
 
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Profile</h3>
+                    <h3 class="dt-entry__title"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Info</h3>
                 </div>
                 <!-- /entry heading -->
 
@@ -64,7 +167,7 @@
          @if($tenantDetail->photo)
 <img src="{{$tenantDetail->photo}}" class="tenant-profile-image">
      @else
-      <img src="{{ url('img/defaultprofilePhoto.jpg') }}" class="tenant-profile-image">  @endif                        
+      <img src="{{ url('img/defaultprofilePhoto.jpg') }}" class="tenant-profile-image" alt="Tenant Photo">  @endif                        
 </div>
 <div class="row">
    <table class="table align-items-center table-flush">
@@ -137,100 +240,7 @@
 
             </div>
             <!-- /grid item -->
-            <!-- Grid Item -->
-            <div class="col-xl-6">
 
-                <!-- Entry Header -->
-                <div class="dt-entry__header">
-
-                <!-- Entry Heading -->
-                <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title">Other Details</h3>
-                </div>
-                <!-- /entry heading -->
-
-                </div>
-                <!-- /entry header -->
-
-                <!-- Card -->
-                <div class="dt-card" style="height: 500px;">
-
-                    <!-- Card Body -->
-                    <div class="dt-card__body">
-                       <h4>Outstanding Asset Service Charge balance:
-                         <span style="color: red; font-family: monospace; font-size: 16px;">
-                            &#8358; {{number_format($tenantTotalDebt,2)}}
-                        </span>
-                        </h4> 
-                        <table class="table align-items-center table-flush">
-
-                            <tr><td>Current Wallet Balance:</td>
-                                  @if(isset($tenantWalletBal->amount))
-                                <td>
-                                 &#8358; {{number_format($tenantWalletBal->amount,2)}}
-                                </td>
-                                @else
-                                <td>
-                                <span> Inactive </span>
-                                </td>
-                                @endif
-                            </tr>
-
-                            <tr><td>Unpaid Service Charges:</td>
-                                <td>
-                                    <a href="#" class="" data-toggle="modal" data-target=".tenant-service-charges"> 
-                                 View details
-                             </a>
-
-                            
-                                </td>
-                            </tr>
-
-                            <tr><td>Service Charge Payment History:</td>
-                                <td>
-                                    <a href="#"  data-toggle="modal" data-target=".tenantSCPaymentHistory">
-                                    View details 
-                                      </a>
-                                
-                              </td>
-                            </tr>
-
-                             <tr><td>Service Charge Wallet History:</td>
-                                <td><a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">   View details</a>
-                                </td>
-                            </tr>
-
-                            <tr><td>Tenant Rents:</td>
-                                <td><a href="#" data-toggle="modal" data-target=".tenantRents">   View details</a>
-                                </td>
-                            </tr>
-
-                            <tr><td>Rental Payment History</td>
-                                <td><a href="#" data-toggle="modal" data-target=".rentalPaymentHistory">   View details</a>
-                                </td>
-                            </tr>
-
-                             <tr><td>Unpaid Rental</td>
-                                <td><a href="#" data-toggle="modal" data-target=".unpaidRental">   View details</a>
-                                </td>
-                            </tr>
-<!-- 
-                            <tr><td>Tenant Referals:</td>
-                                <td><a href="#">   View details</a></td>
-                            </tr>
-
-                            <tr><td>Tenant Maintainance:</td>
-                                <td><a href="#">   View details</a></td>
-                            </tr> -->
-                        </table>
-                    </div>
-                    <!-- /card body -->
-
-                </div>
-                <!-- /card -->
-
-            </div>
-            <!-- /grid item -->
  @include('new.admin.tenant.tenantProfile.partials.tenant_service_charges')
  @include('new.admin.tenant.tenantProfile.partials.tenant_sc_payment_history')
  @include('new.admin.tenant.tenantProfile.partials.tenant_sc_wallet_history')

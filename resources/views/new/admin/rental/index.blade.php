@@ -89,6 +89,8 @@
                                <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
                                     @endif
 
+                                 <a href="{{ route('rent-payment.payment.record', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View Payment record </a>
+
 
                             @if ($rental->new_rental_status == 'New' )
 

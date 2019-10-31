@@ -167,6 +167,7 @@ public function update(Request $request){
         return redirect()->route('rental.index')->with('success', 'Rental updated successfully');
 }
 
+
     public function approvals()
     {
         return view('admin.rental.approvals');

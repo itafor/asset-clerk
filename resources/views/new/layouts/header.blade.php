@@ -1,5 +1,6 @@
 <!-- Header -->
   <header class="dt-header">
+     <script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
 
     <!-- Header container -->
     <div class="dt-header__container">
@@ -30,10 +31,11 @@
       <div class="dt-header__toolbar">
 
         <!-- Search box -->
-        {{-- <form class="search-box d-none d-lg-block">
-          <input class="form-control border-0" placeholder="Search in app..." value="" type="search">
+       <form class="search-box d-none d-lg-block">
+          <input class="form-control border-0" placeholder="Search tenants..." value="" type="search" id="searchTenant" autocomplete="off">
           <span class="search-icon text-light-gray"><i class="icon icon-search icon-lg"></i></span>
-        </form> --}}
+           <div id="tenantList"></div>
+        </form> 
         <!-- /search box -->
 
         <!-- Header Menu Wrapper -->
@@ -408,3 +410,34 @@
 
   </header>
   <!-- /header -->
+
+  <script>
+  $(document).ready(function(){
+  $('#searchTenant').keyup(function(){
+    //alert('ok');
+    var searchskills=document.querySelector('#searchTenant')
+    
+    var query2=$(this).val();
+    if(query2!==''){
+      var _token = $('input[name="_token"').val();
+      $.ajax({
+        url:"{{ route('search.tenant')}}",
+        method:"get",
+        data:{query2:query2, _token:_token},
+        success:function(user){
+          console.log(user)
+          $('#tenantList').fadeIn();
+          $('#tenantList').html(user);
+        }
+      })
+    }
+  }); 
+
+  $(document).on('click', 'li', function(e){  
+        $('#searchTenant').val($(this).text());  
+        $('#tenantList').fadeOut();  
+    });  
+ 
+});
+
+  </script>

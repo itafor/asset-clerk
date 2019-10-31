@@ -61,9 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
 			
-			Route::post('/add-service-charge', 'AssetController@addServiceCharge')->name('asset.service.add');
+			Route::post('/add-service-charge', 'AssetController@add_Service_Charge')->name('asset.service.add');
 
 		  Route::get('/edit-service-charge/{id}', 'AssetController@editServiceCharge')->name('asset.service.charge.edit');
+
+		   Route::get('/view-service-charge/{id}', 'AssetController@AssetServiceCharges')->name('asset.servicecharges');
 
 		 Route::post('/update-service-charge', 'AssetController@updateServiceCharge')->name('asset.service.charge.update');
 		
@@ -107,6 +109,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::post('/update', 'TenantController@update')->name('tenant.update');
 			Route::get('/delete/{uuid}', 'TenantController@delete')->name('tenant.delete');
 			Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('tenant.profile');
+			Route::get('/search/tenant', 'TenantController@searchTenantGlobally')->name('search.tenant');
 
 		});
 		Route::prefix('customer')->group(function(){
@@ -140,6 +143,9 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/rental-payment-history', 'RentPaymentController@fetchRentalPaymentHistory')->name('rentalPayment.history');
 		    Route::get('/rental-debtors', 'RentPaymentController@fetchRentalDebtors')->name('rentalPayment.debtors');
 			Route::post('/store-rent-payment', 'RentPaymentController@store')->name('rentalPayment.store');
+
+			Route::get('payment-record/{uuid}', 'RentPaymentController@viewPaymentRecord')->name('rent-payment.payment.record');
+			
 		});
 
 
