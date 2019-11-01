@@ -264,9 +264,6 @@ class AssetController extends Controller
     public function add_Service_Charge(Request $request)
     {
          
-         $data=$request->all();
-
-
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
@@ -283,10 +280,7 @@ class AssetController extends Controller
         $asset = Asset::find($request['asset']);
 
         if($asset){
-
-
                 Asset::addServiceCharge($request->all(), $asset);
-
             return redirect()->route('service.charges')->with('success', 'Service charge added successfully');
         }
         else{

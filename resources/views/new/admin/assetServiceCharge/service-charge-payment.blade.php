@@ -98,7 +98,7 @@
 
                                          <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-amount">{{ __('Balance') }}<span class="text-danger">*</span></label>
-                                        <select  name="balance" min="1" id="input-balance" class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}" required>
+                                        <select  name="balance" min="1" id="input-balance" class="form-control form-control-alternative{{ $errors->has('balance') ? ' is-invalid' : '' }}"  required>
                                             <option>Select Balance</option>
                                             </select>
                                         @if ($errors->has('balance'))
@@ -162,7 +162,7 @@
 
                                             <div class="form-group{{ $errors->has('balance') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-amount">{{ __('Duration Paid For') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="durationPaidFor" id="durationPaidFor" class="form-control form-control-alternative{{ $errors->has('durationPaidFor') ? ' is-invalid' : '' }}" placeholder="Duration Paid For"  required>
+                                        <input type="text" name="durationPaidFor" id="durationPaidFor" class="form-control form-control-alternative{{ $errors->has('durationPaidFor') ? ' is-invalid' : '' }}" placeholder="Duration Paid For" readonly="readonly"  required>
                                         
                                         @if ($errors->has('durationPaidFor'))
                                             <span class="invalid-feedback" role="alert">
@@ -265,7 +265,7 @@
                     success: function(data) {
                         console.log(data)
                         $('#input-amount').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#input-amount');
+                       
                         $.each(data, function(k, v) {
                             $('#asset_service_charge_id').val(v.ascId)
                             $('<option>').attr('selected', true).val(v.price).text(v.price).appendTo('#input-amount');
@@ -288,7 +288,6 @@
                     dataType: 'json',
                     success: function(data) {
                         $('#input-balance').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#input-balance');
                         $.each(data, function(k, v) {
                             
                             $balance = v.bal
@@ -319,7 +318,6 @@
                     success: function(data) {
                         console.log(data)
                         $('#input-property').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#input-property');
                         $.each(data, function(k, v) {
                             $('#asset_id').val(v.asset_id);
                             $('<option>').attr('selected', true).val(v.property).text(v.property).appendTo('#input-property');
@@ -344,7 +342,6 @@
                     success: function(data) {
                         console.log(data)
                         $('#durationPaidFor').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#durationPaidFor');
                         $.each(data, function(k, v) {
 
                            var formattedDate = new Date(v.startingDate);
@@ -430,8 +427,7 @@ $('body').on('keyup', '#amountPaid', function(){
         });
 
 $('body').on('keyup', '#amountPaid', function(){
-//get new wallet amount
-            // amountPaid = $(this).val();
+
             let newWalletBalance = 0;
             let previousWalletbalance = $('#input-previous_balance').val();
             if(parseFloat(amountPaid) > parseFloat(previousWalletbalance) || parseFloat(previousWalletbalance) ==0){
@@ -443,6 +439,12 @@ $('body').on('keyup', '#amountPaid', function(){
             }
         })
 
-
+  $(document).on('keyup', '#amountPaid', function(e){
+    e.preventDefault();
+    let value = e.target.value;
+if(value <= 0){
+     $(this).val('');
+}
+ });
     </script>
 @endsection

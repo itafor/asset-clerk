@@ -231,14 +231,16 @@ $('body').on('keyup', '#amount_paid', function(){
               $('#balance').val(balance)
               
             }
-
-
-             if(parseFloat(amountPaid) <= 0){
-                 $(this).val('');
-                $('#balance').val(' ')
-            }
         })
 
 
+  $(document).on('keyup', '#amount_paid', function(e){
+    e.preventDefault();
+    let value = e.target.value;
+if(value <= 0){
+     $(this).val('');
+    $('#balance').val(' ')
+}
+ });
     </script>
 @endsection
