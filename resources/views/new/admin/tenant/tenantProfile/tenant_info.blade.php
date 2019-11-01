@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Update Profile', 'page' => 'profile'])
+@extends('new.layouts.app', ['title' => 'Tenant Profile', 'page' => 'profile'])
 
 @section('content')
 <style>
@@ -30,7 +30,7 @@
 </style>
         <div class="dt-page__header">
           <h1 class="dt-page__title"><i class="icon icon-user-o"></i> 
-        Tenant Profile Management
+        Tenant Details Management
           </h1>
         </div>
         <!-- /page header -->
@@ -149,7 +149,20 @@
 
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Info</h3>
+                    <h3 class="dt-entry__title"> {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}'s Profile</h3>
+                </div>
+
+                <!-- Entry Heading -->
+                <div class="dt-entry__heading">
+                    <!-- <h3 class="dt-entry__title"> 
+                    -->
+                     <a href="{{ route('tenant.edit', ['uuid'=>$tenantDetail->uuid]) }}" class="dropdown-item">
+
+                     <button class="btn btn-xs btn-primary"> Edit Profile</button>
+
+                   </a>
+
+                 <!--  </h3> -->
                 </div>
                 <!-- /entry heading -->
 
