@@ -1,6 +1,5 @@
 <!-- Header -->
   <header class="dt-header">
-     <script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
 
     <!-- Header container -->
     <div class="dt-header__container">
@@ -407,9 +406,7 @@
 
     </div>
     <!-- /header container -->
-
-  </header>
-  <!-- /header -->
+ <script src="{{url('assets/jquery/dist/jquery.min.js')}}"></script>
 
   <script>
   $(document).ready(function(){
@@ -441,3 +438,6 @@
 });
 
   </script>
+
+  </header>
+  <!-- /header -->

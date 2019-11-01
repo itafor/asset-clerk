@@ -260,7 +260,7 @@ public function searchTenantGlobally(Request $request){
     foreach ($users as $row) {
        $tenant_id = Crypt::encrypt($row->id);
        if($row){
-$output.='<li><a href="../tenant/profile-details/'.$tenant_id.'">'.$row->firstname.'  '.$row->lastname.'</a></li>';
+$output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname.'  '.$row->lastname.'</a></li>';
  }else{
     $output.='<li>Nothing found</li>';
  }
