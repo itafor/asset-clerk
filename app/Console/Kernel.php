@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->command('renew:AutoRenewRental')
-        ->dailyAt('03:20');// ->everyMinute();//
+        ->everyMinute();//  ->dailyAt('03:20');//
     }
 
     /**
