@@ -31,7 +31,7 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                     <form id="forms" action="{{route('asset.service.add')}}" method="POST">
+                     <form id="forms" action="{{route('asset.addservicecharge')}}" method="POST">
                     @csrf
                     <!-- <input type="hidden" name="asset" id="asset"> -->
                 <div class="modal-header">
