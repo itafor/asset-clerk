@@ -19,6 +19,7 @@ class RentalController extends Controller
     public function index()
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
+        
         ->orderBy('id', 'desc')->get();
         return view('new.admin.rental.index', compact('rentals'));
     }

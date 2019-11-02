@@ -56,7 +56,7 @@
                          
                           <td>{{$rental->tenant->name()}}</td>
                           <td>{{$rental->unit->category->name}}</td>
-                          <td>{{$rental->asset->description}}</td>
+                          <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
