@@ -77,7 +77,7 @@
 
                                      <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-price">{{ __('Amount') }}</label>
-                                        <input type="text" name="amount" id="amount" class="form-control" value="{{old('amount')}}" placeholder="Enter amount" required>
+                                        <input type="number" min="1" name="amount" id="amount" class="form-control" value="{{old('amount')}}" placeholder="Enter amount" required>
                                         
                                         @if ($errors->has('amount'))
                                             <span class="invalid-feedback" role="alert">
@@ -223,5 +223,14 @@
                 $('#input-standard_price').val(price)
             }
         })
+
+$(document).on('keyup', '#amount', function(e){
+    e.preventDefault();
+    let value = e.target.value;
+if(value <= 0){
+     $(this).val('');
+    $('#balance').val(' ')
+}
+ });
     </script>
 @endsection
