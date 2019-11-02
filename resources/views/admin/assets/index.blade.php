@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        @include('admin.assets.partials.service')
+       
         @include('admin.assets.partials.addUnit')
             
         @include('layouts.footers.auth')

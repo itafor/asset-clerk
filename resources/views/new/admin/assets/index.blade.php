@@ -103,7 +103,6 @@
 
         </div>
         <!-- /grid -->
-        @include('new.admin.assets.partials.service')
         @include('new.admin.assets.partials.addUnit')
 @endsection
 

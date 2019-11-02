@@ -305,7 +305,7 @@
 
         </div>
         <!-- /grid -->
-        @include('admin.assets.partials.service')
+       
         @include('admin.assets.partials.addUnit')
 @endsection
 
