@@ -168,6 +168,27 @@ public function update(Request $request){
         return redirect()->route('rental.index')->with('success', 'Rental updated successfully');
 }
 
+public function yesRenewRent($uuid){
+  $renewThisRental = TenantRent::where('uuid',$uuid)
+   ->where('user_id',getOwnerUserID())->first();
+   if($renewThisRental){
+    $renewThisRental->renewable = 'yes';
+    $renewThisRental->save();
+   }
+
+   return redirect()->route('rental.index')->with('success', 'This rent will be renewed once it expired');
+}
+
+public function noRenewRent($uuid){
+  $renewThisRental = TenantRent::where('uuid',$uuid)
+   ->where('user_id',getOwnerUserID())->first();
+   if($renewThisRental){
+    $renewThisRental->renewable = 'no';
+    $renewThisRental->save();
+   }
+
+   return redirect()->route('rental.index')->with('error', 'This rent will not be renewed once it expired');
+}
 
     public function approvals()
     {
