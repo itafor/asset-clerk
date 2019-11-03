@@ -19,6 +19,7 @@ class RentalController extends Controller
     public function index()
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
+         ->whereNull('new_rental_status')
         ->orderBy('id', 'desc')->get();
         return view('new.admin.rental.index', compact('rentals'));
     }
@@ -155,6 +156,7 @@ public function update(Request $request){
             RentalUpdatedEmailJob::dispatch($rental)
                 ->delay(now()->addSeconds(3));
 
+               TenantRent::rentalDebtorsNewRentalStatusUpdate($request->all());
                 DB::commit();
             }
             catch(\Exception $e)
@@ -164,10 +166,36 @@ public function update(Request $request){
             }
 
      
-        return redirect()->route('rental.index')->with('success', 'Rental updated successfully');
+        return redirect()->route('rental.index')->with('success', 'Rental approved successfully');
 }
 
+public function yesRenewRent($uuid){
+  $renewThisRental = TenantRent::where('uuid',$uuid)
+   ->where('user_id',getOwnerUserID())->first();
+   if($renewThisRental){
+    $renewThisRental->renewable = 'yes';
+    $renewThisRental->save();
+   }
+ 
+ return 'yes';
+}
 
+public function noRenewRent($uuid){
+  $renewThisRental = TenantRent::where('uuid',$uuid)
+   ->where('user_id',getOwnerUserID())->first();
+   if($renewThisRental){
+    $renewThisRental->renewable = 'no';
+    $renewThisRental->save();
+   }
+return 'no';
+}
+
+public function viewDetail($uuid){
+
+    $rental3 = TenantRent::where('uuid',$uuid)
+    ->where('user_id',getOwnerUserID())->first();
+    return view('new.admin.rental.partials.view_rentals', compact('rental3'));
+}
     public function approvals()
     {
         return view('admin.rental.approvals');

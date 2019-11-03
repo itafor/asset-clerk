@@ -180,6 +180,57 @@
                 });
             }
         })();
+
+//activate and deactivate rental renewal
+        $(document).ready(function(){
+  $('div.no').click(function() {
+    var rentaluuid = $.trim($(this).text());
+    var row = $(this).data('row');
+               if(rentaluuid){
+                 var _token = $('input[name="_token"').val();
+               $.ajax({
+                    url: baseUrl+'/rental/no-renew-rental/'+rentaluuid,
+                    type: "get",
+                    data:{rentaluuid:rentaluuid, _token:_token},
+                    success: function(data) {
+                      if(data == 'no'){
+                        $('div#rowNumber'+$.trim(row)).removeClass('active');
+                               toast({
+                        type: 'error',
+                        title: 'Rental renewal has been deactivated successfully'
+                    })
+                      }
+                    }
+                });
+            }
+      });
+})
+
+$(document).ready(function(){
+
+$('div.yes').click(function() {
+    var rentaluuid = $(this).text();
+     var row = $(this).data('row');
+               if(rentaluuid){
+                 var _token = $('input[name="_token"').val();
+               $.ajax({
+                    url: baseUrl+'/rental/yes-renew-rental/'+$.trim(rentaluuid),
+                    type: "get",
+                    data:{rentaluuid:rentaluuid, _token:_token},
+                    success: function(data) {
+                      if(data == 'yes'){
+                        $('div#rowNumber'+$.trim(row)).addClass('active');
+                           toast({
+                        type: 'success',
+                        title: 'Rental renewal has been activated successfully'
+                    })
+                      }
+                    }
+                });
+            }
+    });   
+})
+
     </script>
 
     @yield('script')

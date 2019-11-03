@@ -60,10 +60,7 @@ class Asset extends Model
         return AssetServiceCharge::where('asset_id', $this->id)->get();
     }
 
-//    public function Tenant(){
-//        return $this->BelongsToMany('App\Tenant', 'asset_tenant', 'asset_id', 'tenant_id')->withPivot('description',
-//            'address', 'price','occupation_date');
-//    }
+
 
     public static function createNew($data)
     {
@@ -84,7 +81,6 @@ class Asset extends Model
 
         self::createUnit($data,$asset);
         self::addPhoto($data,$asset); 
-        // self::addServiceCharge($data,$asset);
     }
 
     public static function updateAsset($data)
@@ -107,9 +103,7 @@ class Asset extends Model
         if(isset($data['photos'])){
             self::addPhoto($data,$asset);
         }
-        //self::removeUnits($asset);
         self::updateUnits($data,$asset);
-        // self::addServiceCharge($data,$asset);
     }
 
     public static function removeUnits($asset)
@@ -163,7 +157,6 @@ class Asset extends Model
     
     public static function addServiceCharge($data,$asset)
     {
-        //AssetServiceCharge::where('asset_id', $asset->id)->delete();
 
         $tenantIds=$data['tenant_id'];
         $startDate = $data['startDate'];

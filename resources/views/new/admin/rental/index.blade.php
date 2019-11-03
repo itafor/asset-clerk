@@ -2,6 +2,10 @@
 
 @section('content')
     <!-- Page Header -->
+    <style type="text/css">
+  
+
+    </style>
         <div class="dt-page__header">
           <h1 class="dt-page__title"><i class="icon icon-company"></i> Rental Management</h1>
         </div>
@@ -39,13 +43,13 @@
                       <tr>
                           <th>No</th>
                           <th><b>Tenant Name</b></th>
-                          <th><b>Unit</b></th>
                           <th><b>Property</b></th>
-                          <th><b>Property Estimate</b></th>
+                         <!--  <th><b>Property Estimate</b></th> -->
                           <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
                           <th><b>Payment Status</b></th>
+                          <th><b>Renewable Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -55,9 +59,9 @@
                           <td>{{$loop->iteration}}</td>
                          
                           <td>{{$rental->tenant->name()}}</td>
-                          <td>{{$rental->unit->category->name}}</td>
-                          <td>{{$rental->asset->description}}</td>
-                          <td>&#8358; {{number_format($rental->price,2)}}</td>
+                         
+                          <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
+                         <!--  <td>&#8358; {{number_format($rental->price,2)}}</td> -->
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{getNextRentPayment($rental)['due_date']}}</td>
@@ -73,8 +77,25 @@
                             @else
                            <span class="text-danger">{{$rental->status}}</span>
                            @endif
-
                           </td>
+
+
+      @if($rental->renewable == 'yes')
+           <td> 
+            <div class="toggle-btn active no" style="font-size: 0;" id="rowNumber{{$rental->uuid}}" data-row=" {{$rental->uuid}}">
+              {{$rental->uuid}}
+        </div> 
+           </td>
+           @else
+          <td> 
+            <div class="toggle-btn yes" style="font-size: 0;" id="rowNumber{{$rental->uuid}}" data-row=" {{$rental->uuid}}">
+               {{$rental->uuid}}
+        </div> 
+         </td>
+          @endif
+
+
+                          
 
                           <td class="text-center">
                               <div class="dropdown">
@@ -88,7 +109,7 @@
                                     @else
                                <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
                                     @endif
-
+                                     <a href="{{ route('rental.view.detail', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View</a>
                                  <a href="{{ route('rent-payment.payment.record', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View Payment record </a>
 
 
@@ -118,10 +139,11 @@
 
             </div>
             <!-- /card -->
-
+       
+           
+           
           </div>
           <!-- /grid item -->
-
         </div>
         <!-- /grid -->
 @endsection

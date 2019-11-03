@@ -43,8 +43,8 @@ class AutoRenewRental extends Command
     public function handle()
     {
         $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
-        ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 29 DAY) = rd.due_date") 
+        ->where('renewable', 'yes')
+        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 0 DAY) = rd.due_date") 
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         
        //dd($newRentals);

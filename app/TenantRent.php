@@ -123,6 +123,7 @@ class TenantRent extends Model
             'due_date' => $rental->due_date,//end date
             'uuid' => generateUUID(),
             'user_id' => $rental->user_id ? $rental->user_id : getOwnerUserID(),
+            'new_rental_status' => $data['new_rental_status'] ? $data['new_rental_status'] : null,
             'tenantRent_uuid' => $rental->uuid,
             'duration' => $rental->duration,
         ]);
@@ -160,13 +161,18 @@ if($rental){
    }
 }
 
- // ->update([
- //            'amount'=> $data['actual_amount'],
- //            'startDate' => $startDate,
- //            'due_date' =>  $dueDate,
- //            'new_rental_status' => null,
- //            'duration' => $final_duration,//star date
- //            ]);
+}
+
+public static function rentalDebtorsNewRentalStatusUpdate($data){
+    
+    $rental =  RentDebtor::where('tenantRent_uuid', $data['tenantRent_uuid'])
+                ->where('tenant_uuid', $data['tenant_uuid'])
+                ->where('user_id', getOwnerUserID())->first();
+
+     if($rental){
+    $rental->new_rental_status = null;
+    $rental->save();
+    }
 }
 
 }

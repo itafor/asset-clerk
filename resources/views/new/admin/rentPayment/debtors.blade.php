@@ -58,7 +58,7 @@
                             {{$rent->unit->getTenant()->firstname}}
                             {{$rent->unit->getTenant()->lastname}}
                           </td>
-                          <td>{{$rent->asset->description}}</td>
+                          <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
                           <td>&#8358;{{number_format($rent->proposed_price,2)}}</td>
                           <td>&#8358;{{number_format($rent->actual_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->balance,2)}}</td>

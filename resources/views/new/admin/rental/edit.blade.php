@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Update Rental</h3>
+                <h3 class="dt-entry__title">Approve Rental</h3>
               </div>
               <!-- /entry heading -->
 
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save Payment') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Approve') }}</button>
                                 </div>                     
                             </div>
 

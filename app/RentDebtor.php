@@ -11,7 +11,7 @@ class RentDebtor extends Model
 
     protected $fillable = [
         'asset_uuid','tenantRent_uuid','proposed_price','actual_amount','balance','startDate', 
-        'user_id','uuid','tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date'
+        'user_id','new_rental_status','uuid','tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date'
     ];
 
     public function tenant()

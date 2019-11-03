@@ -134,7 +134,10 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/pay-rent/{uuid}', 'RentalController@rentPayment')->name('rental.pay');
 			Route::post('/store', 'RentalController@store')->name('rental.store');
 			Route::get('/approvals', 'RentalController@approvals')->name('rental.approvals');
+			Route::get('/yes-renew-rental/{uuid}', 'RentalController@yesRenewRent')->name('renewable.yes');
+			Route::get('/no-renew-rental/{uuid}', 'RentalController@noRenewRent')->name('renewable.no');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
+			Route::get('/view-detail/{uuid}', 'RentalController@viewDetail')->name('rental.view.detail');
 			Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 		});
 
