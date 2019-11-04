@@ -2,10 +2,6 @@
 
 @section('content')
     <!-- Page Header -->
-    <style type="text/css">
-  
-
-    </style>
         <div class="dt-page__header">
           <h1 class="dt-page__title"><i class="icon icon-company"></i> Rental Management</h1>
         </div>

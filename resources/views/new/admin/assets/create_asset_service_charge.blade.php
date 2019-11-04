@@ -33,7 +33,6 @@
                 <div class="dt-card__body">
                      <form id="forms" action="{{route('asset.addservicecharge')}}" method="POST">
                     @csrf
-                    <!-- <input type="hidden" name="asset" id="asset"> -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5>
                    <section>
@@ -54,8 +53,6 @@
 </section>
                 </div>
                 <div class="modal-body" style="text-align:left">
-                        @csrf
-
                           <div class="row">
 
                              <div class="form-group col-4">
