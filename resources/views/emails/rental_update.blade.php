@@ -123,7 +123,7 @@
                     <table>
                         <tr>
                            <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
-                            Your renewed rental have been updated, Please find below rental information.
+                            Your renewed rental have been approved, Please find below rental information.
                            </p>
                         </tr>
                         <tr>

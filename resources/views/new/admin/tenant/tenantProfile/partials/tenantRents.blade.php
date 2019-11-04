@@ -37,6 +37,7 @@
                           <th><b>Rental Start Date</b></th>
                           <th><b>Next Due Date</b></th>
                           <th><b>Payment Status</b></th>
+                           <th><b>Renewable Status</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -65,6 +66,20 @@
                            @endif
 
                           </td>
+
+           @if($rental->renewable == 'yes')
+           <td> 
+            <div class="toggle-btn active no" style="font-size: 0;" id="rowNumber{{$rental->uuid}}" data-row=" {{$rental->uuid}}">
+              {{$rental->uuid}}
+        </div> 
+           </td>
+           @else
+          <td> 
+            <div class="toggle-btn yes" style="font-size: 0;" id="rowNumber{{$rental->uuid}}" data-row=" {{$rental->uuid}}">
+               {{$rental->uuid}}
+        </div> 
+         </td>
+          @endif
 
                           <td class="text-center">
                               <div class="dropdown">

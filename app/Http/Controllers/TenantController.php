@@ -184,6 +184,7 @@ class TenantController extends Controller
             ->first();
 
  $tenantRents  = TenantRent::where('user_id', getOwnerUserID())
+                ->whereNull('new_rental_status')
                 ->where('tenant_uuid',$tenantDetail->uuid)
                 ->orderBy('id', 'desc')->get();
 
@@ -192,6 +193,7 @@ class TenantController extends Controller
 
  $tenantRentalDebts = RentDebtor::where('user_id',getOwnerUserID())
                              ->where('tenant_uuid', $tenantDetail->uuid)
+                             ->whereNull('new_rental_status')
                              ->whereNull('deleted_at')
                              ->get();
 
@@ -199,6 +201,7 @@ class TenantController extends Controller
  $tenantRentalTotalDebt = DB::table('rent_debtors')
     ->join('tenants', 'tenants.uuid', '=', 'rent_debtors.tenant_uuid')
     ->where('rent_debtors.tenant_uuid', $tenantDetail->uuid)
+     ->whereNull('new_rental_status')
     ->sum('rent_debtors.balance');
 
   

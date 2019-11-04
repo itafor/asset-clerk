@@ -313,16 +313,10 @@
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
-                                    @if($rental->status !=='Paid')
-                                    <a href="{{ route('rentalPayment.create', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Record Payment</a>
-                                    @else
-                               <span  class="dropdown-item" style="color: green;">{{$rental->status}}</span>
-                                    @endif
-
 
                             @if ($rental->new_rental_status == 'New' )
 
-                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
+                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View</a>
                                     @endif
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
