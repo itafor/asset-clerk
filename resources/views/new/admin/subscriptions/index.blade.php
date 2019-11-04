@@ -40,6 +40,9 @@
                           <th scope="col">{{ __('S/N') }}</th>
                           <th scope="col">{{ __('Plan') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
+                          <th scope="col">{{ __('Name') }}</th>
+                          <th scope="col">{{ __('Phone') }}</th>
+                          <th scope="col">{{ __('Email') }}</th>
                           <th scope="col">{{ __('Status') }}</th>
                           <th scope="col">{{ __('Date Subscribed') }}</th>
                           <th scope="col">{{ __('Expiry Date') }}</th>
@@ -53,9 +56,12 @@
                           <td>{{ $i++ }}</td>
                           <td>{{ $p->name }}</td>
                           <td>{{ number_format($p->amount, 2) }}</td>
-                          <td>{{ $user->status }}</td>
-                          <td>{{ $user->start }}</td>
-                          <td>{{ $user->end }}</td>
+                          <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
+                          <td>{{ $user->user->phone }}</td>
+                          <td>{{ $user->user->email }}</td>
+                          <td>{{ $user->substatus }}</td>
+                          <td>{{ \Carbon\Carbon::parse($user->start)->format('d M, Y') }}</td>
+                          <td>{{ \Carbon\Carbon::parse($user->end)->format('d M, Y') }}</td>
                       </tr>
                   @endforeach
                     </tbody>

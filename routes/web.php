@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
 			
-			Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('asset.addservicecharge');
+          Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('asset.addservicecharge');
 
 		  Route::get('/edit-service-charge/{id}', 'AssetController@editServiceCharge')->name('asset.service.charge.edit');
 
