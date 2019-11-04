@@ -31,7 +31,7 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                     <form id="forms" action="{{route('asset.addservicecharge')}}" method="POST">
+                     <form id="forms" action="{{ route('addserviceCharge') }}" method="post" autocomplete="off">
                     @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5>
@@ -114,17 +114,6 @@
                                 <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
                                 <input type="number" name="service[112211][price]" id="input-price" class="form-control" placeholder="Enter Price" required>
                             </div>
-
-                         <!--     <div class="form-group col-2">
-                                <label class="form-control-label" for="input-price">{{ __('Start Date') }}</label>
-                                <input type="text" name="service[112211][startDate]" id="input-startDate" class="datepicker form-control" placeholder="Enter Price" autocomplete="off" required>
-                            </div>
-
-                             <div class="form-group col-2">
-                                <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
-                                <input type="text" name="service[112211][dueDate]" id="input-dueDate" class="datepicker form-control" placeholder="Enter Price" autocomplete="off" required>
-                            </div> -->
-
                         </div>
                             <div style="clear:both"></div>
                             <div id="containerSC">
