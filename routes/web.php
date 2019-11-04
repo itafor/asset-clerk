@@ -57,18 +57,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::get('/get-tenants-service-charge/{id}', 'AssetController@getTenantsServiceCharge')->name('get.tenants.service');
 
+			Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('addserviceCharge');
 			Route::get('/create-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
 
 			Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
-			
-          Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('asset.addservicecharge');
 
 		  Route::get('/edit-service-charge/{id}', 'AssetController@editServiceCharge')->name('asset.service.charge.edit');
 
 		   Route::get('/view-service-charge/{id}', 'AssetController@AssetServiceCharges')->name('asset.servicecharges');
 
 		 Route::post('/update-service-charge', 'AssetController@updateServiceCharge')->name('asset.service.charge.update');
-		
 
 		 Route::get('/get-asset-location/{asset_id}', 'AssetController@getAssetLocation')->name('getAssetLocation');
 
