@@ -20,7 +20,7 @@
               <div class="dt-entry__heading">
                 @if(isset($tenantsDetails))
                  @if(count($tenantsDetails) >=1)
-                <h3 class="dt-entry__title">Tenants assigned to <strong>{{$asset->description}}'s asset {{$serviceChargeName}} </strong> service Charge</h3>
+                <h3 class="dt-entry__title">Tenants assigned to <strong>{{$asset ? $asset->description : ''}}'s asset {{$serviceChargeName}} </strong> service Charge</h3>
                 @endif
                 @endif
               </div>
@@ -44,7 +44,7 @@
  @if(isset($tenantsDetails))
            @if(count($tenantsDetails) >=1)
   <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong>{{$asset->description}}'s asset {{$serviceChargeName}} </strong> service Charge (&#8358; {{number_format($amount,2)}}) </h5>
+                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong>{{$asset ? $asset->description : ''}}'s asset {{$serviceChargeName}} </strong> service Charge (&#8358; {{number_format($amount,2)}}) </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
@@ -61,7 +61,6 @@
                         <th><b>Last Name</b></th>
                         <th><b>Occupation</b></th>
                         <th><b>Phone</b></th>
-                        <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,17 +75,7 @@
                             <td>{{$tenant->occupation}}</td>
                             {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
                             <td>{{$tenant->phone}}</td>
-                            <td class="text-center">
-
-                                        <form action="{{ route('remove.tenant.from.sc', ['id'=>$tenant->id,request()->route('id')]) }}" method="get">
-                                            
-                                            <button type="button" class="btn-danger" onclick="confirm('{{ __("Are you sure you want to remove this tenant from this service charge?") }}') ? this.parentElement.submit() : ''">
-                                                {{ __('Remove Tenant') }}
-                                            </button>
-                                        </form> 
-                                 
-                             
-                            </td>
+                       
                         </tr>
                     @endforeach
 

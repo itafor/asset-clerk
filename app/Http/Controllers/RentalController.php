@@ -19,7 +19,6 @@ class RentalController extends Controller
     public function index()
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
-         ->whereNull('new_rental_status')
         ->orderBy('id', 'desc')->get();
         return view('new.admin.rental.index', compact('rentals'));
     }
