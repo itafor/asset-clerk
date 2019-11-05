@@ -190,7 +190,7 @@ class Asset extends Model
     }
 
         $service_chargeIDs=$data['service'];
-        $tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
+        //$tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
                 foreach($data['service'] as $unit){
         $asc =  AssetServiceCharge::create([
                 'asset_id' => $asset->id,
@@ -199,7 +199,7 @@ class Asset extends Model
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
-                'tenant_id' => $tenants_ids,
+                //'tenant_id' => $tenants_ids,
             ]);
 
                 if($asc){
@@ -227,7 +227,7 @@ class Asset extends Model
 
     public static function updateServiceCharge($data){
 
-         $tenants_ids = implode(' ', Input::get('tenant_id'));
+         // $tenants_ids = implode(' ', Input::get('tenant_id'));
          $tenantIds=$data['tenant_id'];
       $updateASC =  AssetServiceCharge::where('id',$data['id'])
         ->update([
@@ -235,7 +235,7 @@ class Asset extends Model
                 'service_charge_id' => $data['service_charge_id'],
                 'price' => $data['price'],
                 'user_id' => getOwnerUserID(),
-                'tenant_id' => $tenants_ids,
+                // 'tenant_id' => $tenants_ids,
         ]);
 
         if($updateASC){
