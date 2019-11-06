@@ -7,6 +7,7 @@ use App\RentDebtor;
 use App\RentPayment;
 use App\ServiceChargePaymentHistory;
 use App\Tenant;
+use App\TenantDocument;
 use App\TenantRent;
 use App\TenantServiceCharge;
 use App\Unit;
@@ -49,14 +50,16 @@ class TenantController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'required|image'
+            'passport' => 'required|image',
+            'document.*.path' => 'required|image',
+            'document.*.name' => 'required'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
-
+            //dd($request->all());
         try{
             Tenant::createNew($request->all());
         }
@@ -86,8 +89,11 @@ class TenantController extends Controller
     public function edit($uuid)
     {
         $tenant = Tenant::where('uuid', $uuid)->first();
+
+  $tenantDocuments =TenantDocument::where('tenant_id',$tenant->id)
+                                    ->where('user_id',getOwnerUserID())->get();
         if($tenant){
-            return view('new.admin.tenant.edit', compact('tenant'));
+            return view('new.admin.tenant.edit', compact('tenant','tenantDocuments'));
         }
         else{
             return back()->with('error', 'Whoops! Could not find tenant');
@@ -237,9 +243,11 @@ $tenantsAssignedScs = TenantServiceCharge::join('asset_service_charges', 'asset_
     $tenantWalletBal = Wallet::where('tenant_id',$tenantId)
     ->where('user_id',getOwnerUserID())->first();
    
-  
+  $tenantDocuments =TenantDocument::where('tenant_id',$tenantId)
+                                    ->where('user_id',getOwnerUserID())->get();
+
         if($tenantDetail){
-            return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs','tenantTotalDebt','tenantSCHs','tenantWalletsHistories','tenantWalletBal','tenantRentalPaymentHistories','tenantRentalTotalDebt','tenantRentalDebts','tenantRents'));
+            return view('new.admin.tenant.tenantProfile.tenant_info',compact('tenantDetail','tenantId','tenantsAssignedScs','tenantTotalDebt','tenantSCHs','tenantWalletsHistories','tenantWalletBal','tenantRentalPaymentHistories','tenantRentalTotalDebt','tenantRentalDebts','tenantRents','tenantDocuments'));
         }
     }
 

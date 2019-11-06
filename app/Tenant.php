@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\TenantDocument;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -45,7 +46,7 @@ class Tenant extends Model
     {
         $passport = uploadImage($data['passport']);
 
-        self::create([
+      $tenant = self::create([
             'designation' => $data['designation'],
             'gender' => $data['gender'],
             'firstname' => $data['firstname'],
@@ -66,6 +67,8 @@ class Tenant extends Model
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]);
+
+        self::addDocument($data,$tenant);
     }
 
     public static function updateTenant($data)
@@ -95,4 +98,23 @@ class Tenant extends Model
         }
         $tenant->save();
     }
+
+       public static function addDocument($data,$tenant)
+    {
+        if(isset($data['document'])){
+            foreach($data['document'] as $doc){
+            $path = uploadImage($doc['path']);
+            if($path){
+                TenantDocument::create([
+                    'tenant_id' => $tenant->id,
+                    'path' => $path,
+                    'image_url' => $doc['path']->getClientOriginalName(),
+                    'name' => $doc['name'],
+                    'user_id' => getOwnerUserID()
+                ]);
+            }
+        }
+        }
+    }
+
 }

@@ -264,12 +264,32 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                                 <div style="clear:both"></div>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Document') }}</h6>
+                                @foreach($tenantDocuments as $doc)
+
+                           <div class="form-group col-12 row">
+                               <div class="col-5">
+                                   <input type="file" name="document[112211][path]" class="form-control"value="{{$doc->image_url}}">
+                               </div>
+                                <div class="col-5">
+                                   <input type="text" name="document[112211][name]" class="form-control" placeholder="Enter document name" value="{{$doc->name}}">
+                               </div>
+                                <div class="col-2">
+                                   <button type="button" class="form-control" id="addMore"><i class="fa fa-plus"></i>  Add More</button>
+                               </div>
+                           </div>
+                            <div id="container">
+                                </div> 
+                                <div style="clear:both"></div> 
+                                @endforeach
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>
                             </div>
                         </form>
-                    
+                   
                 </div>
                 <!-- /card body -->
 

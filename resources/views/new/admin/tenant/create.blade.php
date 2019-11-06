@@ -251,10 +251,32 @@
                                         </span>
                                     @endif
                                 </div>
+                            </div>
+
+
+                                      <div style="clear:both"></div>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Document') }}</h6>
+
+                           <div class="form-group col-12 row">
+                               <div class="col-5">
+                                   <input type="file" name="document[112211][path]" class="form-control">
+                               </div>
+                                <div class="col-5">
+                                   <input type="text" name="document[112211][name]" class="form-control" placeholder="Enter document name">
+                               </div>
+                                <div class="col-2">
+                                   <button type="button" class="form-control" id="addMore"><i class="fa fa-plus"></i>  Add More</button>
+                               </div>
+                           </div>
+                            <div id="container">
+                                </div> 
+                                <div style="clear:both"></div> 
+
+
+
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>
-                            </div>
                         </form>
                     
                 </div>
@@ -272,6 +294,66 @@
 
 @section('script')
     <script>
+
+      function identifier(){
+            return Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+        }
+
+        var row = 1;
+
+        $('#addMore').click(function(e) {
+            e.preventDefault();
+
+            if(row >= 5){
+                alert("You've reached the maximum limit");
+                return;
+            }
+
+            var rowId = identifier();
+
+            $("#container").append(
+                '<div>'
+                    +'<div style="float:right; margin-right:50px; margin-top: -14px;" class="remove_project_file"><span style="cursor:pointer; " class="badge badge-danger" border="2"><i class="fa fa-minus"></i> Remove</span></div>'
+                    +'<div style="clear:both"></div>'
+                           +'<div class="form-group col-12 row" >'
+                              + '<div class="col-5">'
+                                 +  '<input type="file" name="document['+rowId+'][path]" class="form-control" style="margin-top: -30px;">'
+                               +'</div>'
+
+                               + '<div class="col-5">'
+                                 +  '<input type="text" name="document['+rowId+'][name]" class="form-control" style="margin-top: -30px;" placeholder="Enter document name">'
+                               +'</div>'
+                               
+                           +'</div>'
+                        +'<div style="clear:both"></div>'
+                    +'</div>'
+            );
+            row++;
+            $(".select"+rowId).select2({
+                    theme: "bootstrap"
+                });
+        });
+
+        // Remove parent of 'remove' link when link is clicked.
+        $('#container').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            row--;
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         $('.country').change(function(){
             var country = $(this).val();
