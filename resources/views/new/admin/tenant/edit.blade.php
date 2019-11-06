@@ -6,7 +6,29 @@
           <h1 class="dt-page__title"><i class="icon icon-company"></i> Tenant Management</h1>
         </div>
         <!-- /page header -->
+<style>
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
 
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+embed{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
+
+embed:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+</style>
         <!-- Grid -->
         <div class="row">
 
@@ -278,7 +300,15 @@
                                </div>
                                 <div class="col-4">
                                   
-                                            <img  src="{{$doc->path}}" height="100px" width="200px">
+                    @if (pathinfo($doc->image_url, PATHINFO_EXTENSION) == 'pdf')
+                    <a href="{{$doc->path}}" target="_blank">
+                  <embed src="{{$doc->path}}" width="150" height="150" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+                </a>
+                  @else
+                  <a target="_blank" href="{{$doc->path}}">
+                 <img src="{{$doc->path}}" class="tenantdocument" height="150" width="150" >
+                </a>
+                  @endif
                                                  
                                </div>
                                        <div class="col-2">

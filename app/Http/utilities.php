@@ -159,6 +159,7 @@ function uploadImage($image)
                 ".jpeg" => "",
                 ".JPEG" => "",
                 ".bmp" => "",
+                ".pdf" => "",
             );
             $filename = strtr($filename,$trans);
             Cloudder::upload($image->getPathname(), $filename);

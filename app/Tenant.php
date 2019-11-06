@@ -44,7 +44,7 @@ class Tenant extends Model
 
     public static function createNew($data)
     {
-        $passport = uploadImage($data['passport']);
+        $passport = isset($data['passport']) ? uploadImage($data['passport']) : null;
 
       $tenant = self::create([
             'designation' => $data['designation'],
@@ -107,7 +107,19 @@ class Tenant extends Model
     {
         if(isset($data['document'])){
             foreach($data['document'] as $doc){
-            $path = uploadImage($doc['path']);
+
+                $extension = isset($doc['path']) ? $doc['path']->extension() : '';
+                    if(
+                       $extension === "" 
+                    || $extension === 'pdf' 
+                    || $extension === 'jpg'
+                    || $extension === 'png' 
+                    || $extension === 'PNG' 
+                    || $extension === 'JPG' 
+                    || $extension === 'jpeg'
+                    || $extension === 'JPEG'
+                    ){
+            $path = isset($doc['path']) ? uploadImage($doc['path']) : '';
             if($path){
                 TenantDocument::create([
                     'tenant_id' => $tenant->id,
@@ -117,8 +129,13 @@ class Tenant extends Model
                     'user_id' => getOwnerUserID()
                 ]);
             }
-        }
+
+        }else{
+            return back()->withInput()->with('error', 'Only pdf,jpg,png,jpeg files are allowed');
         }
     }
 
+    }
+
+}
 }

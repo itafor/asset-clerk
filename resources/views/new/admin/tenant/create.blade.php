@@ -255,13 +255,13 @@
 
 
                                       <div style="clear:both"></div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Document') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Documents') }}</h6>
 
                            <div class="form-group col-12 row">
-                               <div class="col-4">
+                               <div class="col-5">
                                    <input type="file" name="document[112211][path]" class="form-control">
                                </div>
-                                <div class="col-4">
+                                <div class="col-5">
                                    <input type="text" name="document[112211][name]" class="form-control" placeholder="Enter document name">
                                </div>
                         

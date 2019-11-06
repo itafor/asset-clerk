@@ -50,9 +50,7 @@ class TenantController extends Controller
             'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'required|image',
-            'document.*.path' => 'required|image',
-            'document.*.name' => 'required'
+            'passport' => 'image',
         ]);
 
         if ($validator->fails()) {

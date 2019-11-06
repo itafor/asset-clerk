@@ -3,7 +3,29 @@
     <div class="modal-content">
      
 
+<style>
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
 
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+embed{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
+
+embed:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+</style>
 
             <!-- Card -->
             <div class="dt-card">
@@ -24,7 +46,6 @@
 
                 <!-- Tables -->
                 <div class="table-responsive">
-
                   <table class="table table-striped table-bordered table-hover datatable">
                     <thead>
                       <tr>
@@ -40,8 +61,18 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$doc->name}}</td>
+                         
                           <td>
-                 <img src="{{$doc->path}}" class="tenantdocument">
+                                                              
+                    @if (pathinfo($doc->image_url, PATHINFO_EXTENSION) == 'pdf')
+                    <a href="{{$doc->path}}" target="_blank">
+                  <embed src="{{$doc->path}}" width="150" height="150" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+                </a>
+                  @else
+                  <a target="_blank" href="{{$doc->path}}">
+                 <img src="{{$doc->path}}" class="tenantdocument" height="150" width="150" >
+                </a>
+                  @endif
                           </td>
                      <td> 
             <p><i class="fa fa-download info"></i><a href="/uploads/{{$doc->image_url}}" download="{{$doc->image_url}}" style="height: 100px; width: 200px;">Download</a> </p>
@@ -62,7 +93,6 @@
                       @endforeach
                     </tbody>
                   </table>
-                
                 </div>
                 <!-- /tables -->
 
