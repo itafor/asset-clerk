@@ -97,6 +97,10 @@ class Tenant extends Model
             }
         }
         $tenant->save();
+
+         if(isset($data['document'])){
+        self::addDocument($data,$tenant);
+        }
     }
 
        public static function addDocument($data,$tenant)

@@ -20,6 +20,7 @@ class CreateTenantDocumentsTable extends Migration
             $table->string('name')->nullable();
             $table->integer('tenant_id')->nullable();
             $table->integer('user_id')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

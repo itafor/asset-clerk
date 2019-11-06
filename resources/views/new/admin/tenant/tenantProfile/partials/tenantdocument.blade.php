@@ -49,9 +49,9 @@
        </td>
                           <td class="text-center">
                                   
-                                      <form action="#" method="get">
+                                      <form action="{{ route('delete.doc', ['id'=>$doc->id]) }}" method="get">
                                           
-                                          <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">
+                                          <button type="button" class="btn btn-danger btn-sm" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">
                                               {{ __('Delete') }}
                                           </button>
                                       </form> 

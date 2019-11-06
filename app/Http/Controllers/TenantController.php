@@ -280,11 +280,29 @@ $output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname
    }
 
     public function getTenantEmail($tenant_id){
-          
           $tenants = Tenant::where('id',$tenant_id)
               ->where('user_id', getOwnerUserID())->first();
          if($tenants){
          return  $tenants;
          }
+    }
+   public function editDocumentName($doc_id,$name){
+          $doc = TenantDocument::where('id',$doc_id)
+              ->where('user_id', getOwnerUserID())->first();
+         if($doc){
+        $doc->name = $name;
+        $doc->save();
+         }
+         return 'done';
+    }
+
+     public function deleteDocument($doc_id){
+          $doc = TenantDocument::where('id',$doc_id)
+              ->where('user_id', getOwnerUserID())->first();
+         if($doc){
+        $doc->delete();
+         }
+            return back()->with('success', 'Selected document deleted successfully');
+        
     }
 }
