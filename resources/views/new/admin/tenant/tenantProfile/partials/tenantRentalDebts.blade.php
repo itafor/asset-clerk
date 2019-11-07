@@ -49,10 +49,10 @@
                     @foreach ($tenantRentalDebts as $rent)
                       <tr>
                           <td>{{$loop->iteration}}</td>
-                          <td>
-                            {{$rent->unit->getTenant()->designation}}.
-                            {{$rent->unit->getTenant()->firstname}}
-                            {{$rent->unit->getTenant()->lastname}}
+                             <td>
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->designation : ''}}.
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->firstname : ''}}
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->lastname : ''}}
                           </td>
                           <td>{{$rent->asset->description}}</td>
                           <td>&#8358;{{number_format($rent->proposed_price,2)}}</td>
