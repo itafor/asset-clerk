@@ -54,9 +54,9 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>
-                           
-                            {{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->getTenant()->firstname : ''}}
-                            {{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->getTenant()->lastname : ''}}
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->designation : ''}}.
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->firstname : ''}}
+                            {{ $rent->unit_rent_debtor->getTenant() ? $rent->unit_rent_debtor->getTenant()->lastname : ''}}
                           </td>
                           <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
                           <td>&#8358;{{number_format($rent->proposed_price,2)}}</td>
