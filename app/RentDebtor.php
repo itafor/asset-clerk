@@ -24,7 +24,7 @@ class RentDebtor extends Model
         return $this->belongsTo(Asset::class,'asset_uuid', 'uuid');
     }
     
-    public function unit()
+    public function unit_rent_debtor()
     {
         return $this->belongsTo(Unit::class,'unit_uuid', 'uuid');
     }
