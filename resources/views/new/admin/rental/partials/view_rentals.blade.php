@@ -41,38 +41,25 @@
 
                 <!-- Tables -->
                 <div class="table-responsive">
+                  <!-- table-bordered  -->
+<table class="table table-hover ">
+  <tr>
+    <td><b>Tenant Name</b> : </td> <td>{{$rental3->tenant->name()}}</td>
+     <td><b>Unit</b> : </td>  <td>{{$rental3->unit->category->name}}</td>
+ <td><b>Rental Start Date</b> : <td>{{formatDate($rental3->startDate, 'Y-m-d', 'd M Y')}}</td>
+  </tr>
 
-                <table class="table table-striped table-bordered table-hover datatable">
-                    <thead>
-                      <tr>
-                          <th><b>Tenant Name</b></th>
-                          <th><b>Unit</b></th>
-                          <th><b>Property</b></th>
-                          <th><b>Property Type</b></th>
-                          <th><b>Property Estimate</b></th>
-                          <th><b>Amount</b></th>
-                          <th><b>Rental Start Date</b></th>
-                          <th><b>Next Due Date</b></th>
-                          <th><b>Payment Status</b></th>
-                          <th><b>Renewable Status</b></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                   @if(isset($rental3))
-                      <tr>
-                         
-                          <td>{{$rental3->tenant->name()}}</td>
-                          <td>{{$rental3->unit->category->name}}</td>
-                          <td>{{$rental3->unit->propertyType->name}}</td>
-                          <td>{{$rental3->asset ? $rental3->asset->description : ''}}</td>
-                          <td>&#8358; {{number_format($rental3->price,2)}}</td>
-                          <td>&#8358; {{number_format($rental3->amount,2)}}</td>
-                          <td>{{formatDate($rental3->startDate, 'Y-m-d', 'd M Y')}}</td>
-                          <td>{{getNextRentPayment($rental3)['due_date']}}</td>
+   <tr>
                           
-                          <td>
-                            
-                           @if ($rental3->status == 'Partly paid' )
+    <td><b>Property</b> : <td>{{$rental3->asset ? $rental3->asset->description : ''}}</td>
+     <td><b>Property Estimate</b> :  <td>&#8358; {{number_format($rental3->price,2)}}</td>
+     <td><b>Next Due Date</b> :  <td>{{getNextRentPayment($rental3)['due_date']}}</td>
+
+  </tr>
+  <td><b>Property Type</b> : </td> <td>{{$rental3->unit->propertyType->name}}</td>
+     <td><b>Amount</b> : </td><td>&#8358; {{number_format($rental3->amount,2)}}</td>
+     
+     <td><b>Payment Status</b> : </td><td>@if ($rental3->status == 'Partly paid' )
                            <span class="text-warning">{{$rental3->status}}</span>
 
                            @elseif($rental3->status == 'Paid')
@@ -80,11 +67,12 @@
 
                             @else
                            <span class="text-danger">{{$rental3->status}}</span>
-                           @endif
-                          </td>
+                           @endif</td>
+  </tr>
 
-
-      @if($rental3->renewable == 'yes')
+ <tr>
+    <td><b>Renewable Status</b> :  
+     @if($rental3->renewable == 'yes')
            <td> 
             <div class="toggle-btn active no" style="font-size: 0;" id="rowNumber{{$rental3->uuid}}" data-row=" {{$rental3->uuid}}">
               {{$rental3->uuid}}
@@ -97,11 +85,10 @@
         </div> 
          </td>
           @endif
-                </tr>           
-@endif
-                     
-                    </tbody>
-                  </table>
+     <td><td></td>
+     <td> </td><td></td>
+  </tr>
+</table>
                 </div>
                 <!-- /tables -->
 

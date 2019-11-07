@@ -92,7 +92,7 @@
                             </div>
                           </div>
                         <div class="row">
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
                                 <div>
                                     <select name="service[112211][type]" class="form-control sc_type" data-row="112211" style="width:100%" required>
@@ -102,7 +102,7 @@
                                 </select>
                                 </div>
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
                                 <div>
                                     <select name="service[112211][service_charge]" id="serviceCharge112211" style="width:100%" class="form-control" required>
@@ -110,9 +110,13 @@
                                 </select>
                                 </div>
                             </div>                   
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label class="form-control-label" for="input-price">{{ __('Price') }}</label>
                                 <input type="number" name="service[112211][price]" id="input-price" class="form-control" placeholder="Enter Price" required>
+                            </div>
+                             <div class="form-group col-3">
+                                <label class="form-control-label" for="input-price">{{ __('Description') }}</label>
+                                <input type="number" name="service[112211][description]" id="input-price" class="form-control" placeholder="Enter description" required>
                             </div>
                         </div>
                             <div style="clear:both"></div>
@@ -260,6 +264,11 @@
                     +'<div class="form-group col-4" style="width:36%; float:left">'
                     +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
                     +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
+                    +'</div>'
+
+                     +'<div class="form-group col-3" style="width:36%; float:left">'
+                    +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
+                    +'    <input type="number" name="service['+rowId+'][description]" id="input-price" class="form-control" placeholder="Enter description" required>'
                     +'</div>'
                    
                     +'<div style="clear:both"></div>'

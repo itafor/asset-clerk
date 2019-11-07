@@ -37,7 +37,7 @@ class UtilsController extends Controller
     
     public function fetchServiceCharge($type)
     {
-        $sc = ServiceCharge::where('type', $type)->orderBy('name')->get();
+        $sc = ServiceCharge::where('type', $type)->orderBy('id','asc')->get();
         return response()->json($sc);
     }
 
