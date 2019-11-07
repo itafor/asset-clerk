@@ -60,17 +60,17 @@
 
                     <!-- Card Body -->
                     <div class="dt-card__body">
-                       <h4>Outstanding Service charge:
-                         <span style="color: red; font-family: monospace; font-size: 16px;">
+                      <strong> Outstanding Service charge:</strong>
+                         <span style="color: red;">
                             &#8358; {{number_format($tenantTotalDebt,2)}} 
                         </span>
-                        </h4>
+                      
                         <hr>
-                        <h4>Outstanding Rent:
-                         <span style="color: red; font-family: monospace; font-size: 16px;">
+                       <strong> Outstanding Rentals: </strong>
+                         <span style="color: red;">
                             &#8358; {{number_format($tenantRentalTotalDebt,2)}}
                         </span>
-                        </h4> 
+                        
                         <table class="table align-items-center table-flush">
 
                             <tr><td>Current Wallet Balance:</td>
@@ -80,7 +80,7 @@
                                 </td>
                                 @else
                                 <td>
-                                <span> Inactive </span>
+                                <span>  &#8358; 0.0 </span>
                                 </td>
                                 @endif
                             </tr>

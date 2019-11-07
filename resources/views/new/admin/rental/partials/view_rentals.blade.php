@@ -48,6 +48,7 @@
                           <th><b>Tenant Name</b></th>
                           <th><b>Unit</b></th>
                           <th><b>Property</b></th>
+                          <th><b>Property Type</b></th>
                           <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Rental Start Date</b></th>
@@ -62,6 +63,7 @@
                          
                           <td>{{$rental3->tenant->name()}}</td>
                           <td>{{$rental3->unit->category->name}}</td>
+                          <td>{{$rental3->unit->propertyType->name}}</td>
                           <td>{{$rental3->asset ? $rental3->asset->description : ''}}</td>
                           <td>&#8358; {{number_format($rental3->price,2)}}</td>
                           <td>&#8358; {{number_format($rental3->amount,2)}}</td>

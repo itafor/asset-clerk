@@ -239,7 +239,7 @@
                                 <div style="clear:both"></div>                         
                             </div>
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Passport') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Passport (optional) ') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('passport') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-passport">{{ __('Passport') }}</label>
@@ -255,7 +255,7 @@
 
 
                                       <div style="clear:both"></div>
-                            <h6 class="heading-small text-muted mb-4">{{ __('Documents') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Documents (optional)') }}</h6>
 
                            <div class="form-group col-12 row">
                                <div class="col-5">

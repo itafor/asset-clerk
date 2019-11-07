@@ -14,9 +14,9 @@
                         <th>S/N</th>
                         <th>Property Type</th>
                         <!-- <th>Category</th> -->
-                        <th>Rooms</th>
+                        <th>Description</th>
                         <th>Quantity</th>
-                        <th>Standard Price</th>
+                        <th>Property Estimate</th>
                     </thead>
                     <tbody>
                         @if($asset->units)
