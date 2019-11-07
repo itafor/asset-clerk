@@ -220,7 +220,7 @@
                             @foreach ($rentalsDueInNextThreeMonths as $rental)
                                 <tr>
                                     <td>{{$rental->tenant->name()}}</td>
-                                    <td>{{$rental->asset->description}}</td>
+                                    <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                                     <td>&#8358; {{number_format($rental->price,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
                                         <td>
@@ -278,7 +278,7 @@
                             @foreach ($renewedRentals as $rental)
                                 <tr>
                                     <td>{{$rental->tenant->name()}}</td>
-                                    <td>{{$rental->asset->description}}</td>
+                                    <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                                     <td>&#8358; {{number_format($rental->amount,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
                                         <td>
