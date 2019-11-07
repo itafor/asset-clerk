@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AssetServiceCharge extends Model
 {
     protected $fillable = [
-        'asset_id', 'service_charge_id', 'price','startDate','dueDate','user_id','tenant_id','status'
+        'asset_id', 'service_charge_id', 'price','startDate','dueDate','user_id','tenant_id','status','description'
     ];
 
 

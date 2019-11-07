@@ -116,7 +116,7 @@
                             </div>
                              <div class="form-group col-3">
                                 <label class="form-control-label" for="input-price">{{ __('Description') }}</label>
-                                <input type="number" name="service[112211][description]" id="input-price" class="form-control" placeholder="Enter description" required>
+                                <input type="text" name="service[112211][description]" id="input-price" class="form-control" placeholder="Enter description" >
                             </div>
                         </div>
                             <div style="clear:both"></div>
@@ -247,7 +247,7 @@
                 '<div id="rowNumber'+rowId+'" data-row="'+rowId+'">'
                     +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
                     +'<div style="clear:both"></div>'
-                    +'<div class="form-group col-4" style="width:36%; float:left; margin-left:-20px">'
+                    +'<div class="form-group col-3" style="width:36%; float:left; margin-left:-20px">'
                     +'    <label class="form-control-label" for="input-category">{{ __('Type') }}</label>'
                     +'    <select name="service['+rowId+'][type]" class="form-control sc_type select'+rowId+'" data-row="'+rowId+'" required>'
                     +'        <option value="">Select Type</option>'
@@ -255,20 +255,20 @@
                     +'        <option value="variable">Variable</option>'
                     +'    </select>'
                     +'</div>'
-                    +'<div class="form-group col-4" style="width:36%; float:left; margin-right:10px">'
+                    +'<div class="form-group col-3" style="width:36%; float:left; margin-right:10px">'
                     +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
                     +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
                     +'        <option value="">Select Service Charge</option>'
                     +'    </select>'
                     +'</div>       '            
-                    +'<div class="form-group col-4" style="width:36%; float:left">'
+                    +'<div class="form-group col-3" style="width:36%; float:left">'
                     +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
                     +'    <input type="number" name="service['+rowId+'][price]" id="input-price" class="form-control" placeholder="Enter Price" required>'
                     +'</div>'
 
                      +'<div class="form-group col-3" style="width:36%; float:left">'
-                    +'    <label class="form-control-label" for="input-price">{{ __('Price') }}</label>'
-                    +'    <input type="number" name="service['+rowId+'][description]" id="input-price" class="form-control" placeholder="Enter description" required>'
+                    +'    <label class="form-control-label" for="input-price">{{ __('Description') }}</label>'
+                    +'    <input type="text" name="service['+rowId+'][description]" id="input-price" class="form-control" placeholder="Enter description" >'
                     +'</div>'
                    
                     +'<div style="clear:both"></div>'

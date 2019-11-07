@@ -162,7 +162,7 @@
                             </td>
                             <td>{{ $asset->asset->description }}</td>
                             <td>{{ $asset->asset->address }}</td>
-                            <td>{{$asset->serviceCharge->name}}</td>
+                            <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
                             <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
@@ -234,7 +234,7 @@
                             </td>
                             <td>{{ $asset->asset->description }}</td>
                             <td>{{ $asset->asset->address }}</td>
-                            <td>{{$asset->serviceCharge->name}}</td>
+                            <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge->type)}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
                              <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
