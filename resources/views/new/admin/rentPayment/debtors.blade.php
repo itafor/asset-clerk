@@ -54,7 +54,7 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>
-                            {{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->getTenant()->designation : ''}}.
+                           
                             {{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->getTenant()->firstname : ''}}
                             {{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->getTenant()->lastname : ''}}
                           </td>
