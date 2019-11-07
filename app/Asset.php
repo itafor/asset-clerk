@@ -199,6 +199,7 @@ class Asset extends Model
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
+                'description' => $unit['description'] ?  $unit['description'] : null,
                 //'tenant_id' => $tenants_ids,
             ]);
 
