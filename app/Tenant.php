@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\TenantDocument;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -43,9 +44,9 @@ class Tenant extends Model
 
     public static function createNew($data)
     {
-        $passport = uploadImage($data['passport']);
+        $passport = isset($data['passport']) ? uploadImage($data['passport']) : null;
 
-        self::create([
+      $tenant = self::create([
             'designation' => $data['designation'],
             'gender' => $data['gender'],
             'firstname' => $data['firstname'],
@@ -66,6 +67,8 @@ class Tenant extends Model
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]);
+
+        self::addDocument($data,$tenant);
     }
 
     public static function updateTenant($data)
@@ -94,5 +97,45 @@ class Tenant extends Model
             }
         }
         $tenant->save();
+
+         if(isset($data['document'])){
+        self::addDocument($data,$tenant);
+        }
     }
+
+       public static function addDocument($data,$tenant)
+    {
+        if(isset($data['document'])){
+            foreach($data['document'] as $doc){
+
+                $extension = isset($doc['path']) ? $doc['path']->extension() : '';
+                    if(
+                       $extension === "" 
+                    || $extension === 'pdf' 
+                    || $extension === 'jpg'
+                    || $extension === 'png' 
+                    || $extension === 'PNG' 
+                    || $extension === 'JPG' 
+                    || $extension === 'jpeg'
+                    || $extension === 'JPEG'
+                    ){
+            $path = isset($doc['path']) ? uploadImage($doc['path']) : '';
+            if($path){
+                TenantDocument::create([
+                    'tenant_id' => $tenant->id,
+                    'path' => $path,
+                    'image_url' => $doc['path']->getClientOriginalName(),
+                    'name' => $doc['name'],
+                    'user_id' => getOwnerUserID()
+                ]);
+            }
+
+        }else{
+            return back()->withInput()->with('error', 'Only pdf,jpg,png,jpeg files are allowed');
+        }
+    }
+
+    }
+
+}
 }

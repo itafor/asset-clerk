@@ -108,7 +108,8 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/delete/{uuid}', 'TenantController@delete')->name('tenant.delete');
 			Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('tenant.profile');
 			Route::get('/search/tenant', 'TenantController@searchTenantGlobally')->name('search.tenant');
-
+			Route::get('update-doc-name/{docId}/{docname}','TenantController@editDocumentName')->name('update.docname');
+		Route::get('delete-document/{docId}','TenantController@deleteDocument')->name('delete.doc');
 		});
 		Route::prefix('customer')->group(function(){
 			Route::get('/', 'CustomerController@index')->name('customer.index');

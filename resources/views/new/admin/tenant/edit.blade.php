@@ -6,7 +6,29 @@
           <h1 class="dt-page__title"><i class="icon icon-company"></i> Tenant Management</h1>
         </div>
         <!-- /page header -->
+<style>
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
 
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+embed{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
+
+embed:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+</style>
         <!-- Grid -->
         <div class="row">
 
@@ -264,12 +286,58 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                                 <div style="clear:both"></div>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Document (Document name get updated as you type)') }}</h6>
+                                @foreach($tenantDocuments as $doc)
+
+                           <div class="form-group col-12 row">
+                               <div class="col-3">
+                                   <input type="file" name="documentx[112211][path]" class="form-control"value="{{$doc->image_url}}" readonly="readonly">
+                               </div>
+                                <div class="col-3">
+                                   <input type="text" name="documentx[112211][name]" class="form-control documentName" placeholder="Enter document name" value="{{$doc->name}}" id="rowNumber{{$doc->id}}" data-row="{{$doc->id}}">
+                               </div>
+                                <div class="col-4">
+                                  
+                    @if (pathinfo($doc->image_url, PATHINFO_EXTENSION) == 'pdf')
+                    <a href="{{$doc->path}}" target="_blank">
+                  <embed src="{{$doc->path}}" width="150" height="150" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+                </a>
+                  @else
+                  <a target="_blank" href="{{$doc->path}}">
+                 <img src="{{$doc->path}}" class="tenantdocument" height="150" width="150" >
+                </a>
+                  @endif
+                                                 
+                               </div>
+                                       <div class="col-2">
+                                    <form action="{{ route('delete.doc', ['id'=>$doc->id]) }}" method="get">
+                                            
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirm('{{ __("Are you sure you want to delete this document?") }}') ? this.parentElement.submit() : ''">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        </form>
+                                       
+                               </div>
+                              
+                           </div>
+ @endforeach
+                           <div class="col-2" >
+                                   <button type="button" class="form-control" id="addMore" style="margin-bottom: 30px;"><i class="fa fa-plus"></i>  Add More</button>
+                           </div>
+
+                            <div id="container">
+                                </div> 
+                                <div style="clear:both"></div> 
+                           
+                               
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>
                             </div>
                         </form>
-                    
+                   
                 </div>
                 <!-- /card body -->
 
@@ -365,6 +433,82 @@
                 });
             }
         });
+
+
+
+
+      function identifier(){
+            return Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+        }
+
+        var row = 1;
+
+        $('#addMore').click(function(e) {
+            e.preventDefault();
+
+            if(row >= 5){
+                alert("You've reached the maximum limit");
+                return;
+            }
+
+            var rowId = identifier();
+
+            $("#container").append(
+                '<div>'
+                    +'<div style="float:right; margin-right:50px; margin-top: -14px;" class="remove_project_file"><span style="cursor:pointer; " class="badge badge-danger" border="2"><i class="fa fa-minus"></i> Remove</span></div>'
+                    +'<div style="clear:both"></div>'
+                           +'<div class="form-group col-12 row" >'
+                              + '<div class="col-5">'
+                                 +  '<input type="file" name="document['+rowId+'][path]" class="form-control" style="margin-top: -30px;">'
+                               +'</div>'
+
+                               + '<div class="col-5">'
+                                 +  '<input type="text" name="document['+rowId+'][name]" class="form-control" style="margin-top: -30px;" placeholder="Enter document name">'
+                               +'</div>'
+                               
+                           +'</div>'
+                        +'<div style="clear:both"></div>'
+                    +'</div>'
+            );
+            row++;
+            $(".select"+rowId).select2({
+                    theme: "bootstrap"
+                });
+        });
+
+        // Remove parent of 'remove' link when link is clicked.
+        $('#container').on('click', '.remove_project_file', function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            row--;
+        });
+
         
+        $(document).ready(function(){
+
+$('.documentName').on('keyup',function() {
+    var docName = $(this).val();
+     var row = $(this).data('row');
+     console.log('docName',$.trim(row));
+               if(docName){
+                 var _token = $('input[name="_token"').val();
+               $.ajax({
+                    url: baseUrl+'/tenant/update-doc-name/' + $.trim(row) +'/'+ $.trim(docName),
+                    type: "get",
+                    data:{docName:docName, _token:_token},
+                    success: function(data) {
+                        console.log(data);
+                      if(data == 'done'){
+                           toast({
+                        type: 'success',
+                        title: 'Selected document name updated'
+                    })
+                      }
+                    }
+                });
+            }
+    });   
+})
+
     </script>
 @endsection

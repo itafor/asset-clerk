@@ -159,11 +159,13 @@ function uploadImage($image)
                 ".jpeg" => "",
                 ".JPEG" => "",
                 ".bmp" => "",
+                ".pdf" => "",
             );
             $filename = strtr($filename,$trans);
             Cloudder::upload($image->getPathname(), $filename);
             $response = Cloudder::getResult();
             $path = $response['secure_url'];
+            $image->move(public_path("uploads"), $image->getClientOriginalName());
         }
     }
     return $path;

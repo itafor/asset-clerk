@@ -37,8 +37,8 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="row">
                                 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-12">
-                                    <label class="form-control-label" for="input-name">{{ __('Description') }}</label>
-                                    <textarea rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Description') }}" required autofocus>{{ old('description') }}</textarea>
+                                    <label class="form-control-label" for="input-name">{{ __('Property Name') }}</label>
+                                    <textarea rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Name') }}" required autofocus>{{ old('description') }}</textarea>
 
                                     @if ($errors->has('description'))
                                         <span class="invalid-feedback" role="alert">
@@ -149,7 +149,7 @@
                                 </div>                   
                                 <div class="form-group {{ $errors->has('unit.'.$key.'.standard_price') ? 'has-danger':'' }} col-3">
                                     <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
-                                    <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Standard Price" value="{{old('unit.'.$key.'.standard_price')}}" required>
+                                    <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Property Estimate" value="{{old('unit.'.$key.'.standard_price')}}" required>
                                 </div>
                             </div>
                                 <div style="clear:both"></div>
@@ -177,8 +177,8 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
-                                    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
-<!--                                         <input type="number" min="1" name="unit[112211][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required> -->
+                                    <label class="form-control-label" for="input-category">{{ __('Description') }}</label>
+
 
                                     <select name="unit[112211][category]"  class="form-control" required>
                                         <option value="">Select Category</option>
@@ -204,7 +204,7 @@
                                     @endif
                                 </div>                   
                                 <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
-                                    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>
+                                    <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
                                     <input type="number" min="1" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>
 
                                     @if ($errors->has('standard_price'))
@@ -411,7 +411,7 @@
                         +'    @endif'
                         +'</div>'
                         +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>'
+                        +'    <label class="form-control-label" for="input-category">{{ __('Description') }}</label>'
 
                         // + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
 
@@ -430,7 +430,7 @@
                         +'</div>'
                         +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-quantity">Unit (Unique Tenant)</label>'
-                        +'    <input type="number" min="1" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter Number of Unit" value="{{old('quantity')}}" required>' 
+                        +'    <input type="number" min="1" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter Number of Units" value="{{old('quantity')}}" required>' 
                         +'    @if ($errors->has('quantity'))'
                         +'        <span class="invalid-feedback" role="alert">'
                         +'            <strong>{{ $errors->first('quantity') }}</strong>'
@@ -438,8 +438,8 @@
                         +'    @endif'
                         +'</div>         '          
                         +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
-                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Standard Price') }}</label>'
-                        +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="standard_price form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>'
+                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>'
+                        +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="standard_price form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>'
 
                         +'    @if ($errors->has('standard_price'))'
                         +'        <span class="invalid-feedback" role="alert">'

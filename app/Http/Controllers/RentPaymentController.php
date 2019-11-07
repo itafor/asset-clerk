@@ -142,8 +142,7 @@ class RentPaymentController extends Controller
     }
 
  public function fetchRentalDebtors(){
-     $rentalDebtors  = RentDebtor::where('user_id',getOwnerUserID())
-                        ->whereNull('deleted_at')
+     $rentalDebtors = RentDebtor::where('user_id',getOwnerUserID())
                         ->get();
 
       $totalSumOfRentalsNotPaid = DB::table('rent_debtors')
