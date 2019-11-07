@@ -55,8 +55,8 @@
                           <td>{{$loop->iteration}}</td>
                           <td>
                             {{$rent->unit ? $rent->unit->getTenant()->designation : ''}}.
-                            {{$rent->unit->getTenant()->firstname}}
-                            {{$rent->unit->getTenant()->lastname}}
+                            {{$rent->unit ? $rent->unit->getTenant()->firstname : ''}}
+                            {{$rent->unit ? $rent->unit->getTenant()->lastname : ''}}
                           </td>
                           <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
                           <td>&#8358;{{number_format($rent->proposed_price,2)}}</td>
