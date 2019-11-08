@@ -143,7 +143,7 @@
                         <th>No</th>
                         <th><b>Property</b></th>
                         <th><b>Location</b></th>
-                        <th><b>Name</b></th>
+                        <th><b>Service Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
                         <th><b>Start Date</b></th>
@@ -160,10 +160,10 @@
                                 @endphp
                             {{$i}} 
                             </td>
-                            <td>{{ $asset->asset->description }}</td>
-                            <td>{{ $asset->asset->address }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->address : '' }}</td>
                             <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
-                            <td>{{ucwords($asset->serviceCharge->type)}}</td>
+                            <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
                             <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
                              <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
@@ -215,7 +215,7 @@
                         <th>No</th>
                         <th><b>Property</b></th>
                         <th><b>Location</b></th>
-                        <th><b>Name</b></th>
+                        <th><b>Service Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
                         <th><b>Start date</b></th>
@@ -232,10 +232,10 @@
                                 @endphp
                             {{$i}} 
                             </td>
-                            <td>{{ $asset->asset->description }}</td>
-                            <td>{{ $asset->asset->address }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->address : '' }}</td>
                             <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
-                            <td>{{ucwords($asset->serviceCharge->type)}}</td>
+                            <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
                              <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
                             <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>

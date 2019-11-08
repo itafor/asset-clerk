@@ -44,8 +44,8 @@
                   <!-- table-bordered  -->
 <table class="table table-hover ">
   <tr>
-    <td><b>Tenant Name</b> : </td> <td>{{$rental3->tenant->name()}}</td>
-     <td><b>Unit</b> : </td>  <td>{{$rental3->unit->category->name}}</td>
+    <td><b>Tenant Name</b> : </td> <td>{{$rental3->tenant ? $rental3->tenant->name() : ''}}</td>
+     <td><b>Unit</b> : </td>  <td>{{$rental3->unit->category ? $rental3->unit->category->name : ''}}</td>
  <td><b>Rental Start Date</b> : <td>{{formatDate($rental3->startDate, 'Y-m-d', 'd M Y')}}</td>
   </tr>
 
@@ -56,7 +56,7 @@
      <td><b>Next Due Date</b> :  <td>{{getNextRentPayment($rental3)['due_date']}}</td>
 
   </tr>
-  <td><b>Property Type</b> : </td> <td>{{$rental3->unit->propertyType->name}}</td>
+  <td><b>Property Type</b> : </td> <td>{{$rental3->unit->propertyType ? $rental3->unit->propertyType->name : ''}}</td>
      <td><b>Amount</b> : </td><td>&#8358; {{number_format($rental3->amount,2)}}</td>
      
      <td><b>Payment Status</b> : </td><td>@if ($rental3->status == 'Partly paid' )

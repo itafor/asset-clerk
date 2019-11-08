@@ -53,11 +53,11 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>
-                            {{$rent->unitt->getTenant()->designation}}.
-                            {{$rent->unitt->getTenant()->firstname}}
-                            {{$rent->unitt->getTenant()->lastname}}
+                            {{$rent->unitt->getTenant() ? $rent->unitt->getTenant()->designation : ''}}.
+                            {{$rent->unitt->getTenant() ? $rent->unitt->getTenant()->firstname : ''}}
+                            {{$rent->unitt->getTenant() ? $rent->unitt->getTenant()->lastname : ''}}
                           </td>
-                          <td>{{$rent->asset->description}}</td>
+                          <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
                           <td>&#8358;{{number_format($rent->proposed_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->actual_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->amount_paid,2)}}</td>

@@ -48,8 +48,8 @@
                     <tbody>
                       @foreach ($rentalsDueNotPaid as $rental)
                           <tr>
-                              <td>{{$rental->tenant->name()}}</td>
-                              <td>{{$rental->asset->description}}</td>
+                              <td>{{$rental->tenant ? $rental->tenant->name() : ''}}</td>
+                              <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                               <td>&#8358; {{number_format($rental->price,2)}}</td>
                               <td>{{getNextRentPayment($rental)['due_date']}}</td>
                           </tr>

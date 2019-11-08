@@ -57,13 +57,10 @@
                           <td>{{$rental->tenant->name()}}</td>
                          
                           <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
-                         <!--  <td>&#8358; {{number_format($rental->price,2)}}</td> -->
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                          
                           <td>
-                            
                            @if ($rental->status == 'Partly paid' )
                            <span class="text-warning">{{$rental->status}}</span>
 
