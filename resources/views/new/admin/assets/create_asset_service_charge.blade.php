@@ -105,7 +105,7 @@
                             <div class="form-group col-3">
                                 <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
                                 <div>
-                                    <select name="service[112211][service_charge]" id="serviceCharge112211" style="width:100%" class="form-control" required>
+                                    <select name="service[112211][service_charge]" id="serviceCharge112211" style="width:100%" class="form-control serviceDiv serviceDiv112211" data-row="112211" required>
                                     <option value="">Select Service Charge</option>
                                 </select>
                                 </div>
@@ -257,7 +257,7 @@
                     +'</div>'
                     +'<div class="form-group col-3" style="width:36%; float:left; margin-right:10px">'
                     +'    <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>'
-                    +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+'" required>'
+                    +'    <select name="service['+rowId+'][service_charge]" id="serviceCharge'+rowId+'" class="form-control select'+rowId+' serviceDiv serviceDiv'+rowId+'" data-row="'+rowId+'" required>'
                     +'        <option value="">Select Service Charge</option>'
                     +'    </select>'
                     +'</div>       '            
@@ -296,6 +296,5 @@
                 changeYear: true
             });
         });
-
         </script>
 @endsection

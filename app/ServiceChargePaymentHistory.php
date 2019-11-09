@@ -10,7 +10,7 @@ class ServiceChargePaymentHistory extends Model
 
 
 
-    protected $fillable=['user_id','tenant','asset_id','service_charge','actualAmount','balance','property','amountPaid','payment_mode','payment_date','durationPaidFor','description'];
+    protected $fillable=['user_id','asset_service_charge_id','tenant','asset_id','service_charge','actualAmount','balance','property','amountPaid','payment_mode','payment_date','durationPaidFor','description'];
 
 
    public function unit() 
@@ -23,6 +23,11 @@ class ServiceChargePaymentHistory extends Model
    public function tenants() 
     {
         return $this->belongsTo(Tenant::class, 'tenant');
+    }
+
+     public function asset_service_charge() 
+    {
+        return $this->belongsTo(AssetServiceCharge::class, 'asset_service_charge_id');
     }
 
     public function getAsset() 
@@ -51,6 +56,7 @@ class ServiceChargePaymentHistory extends Model
    			'payment_date' => Carbon::parse(formatDate($data['payment_date'], 'd/m/Y', 'Y-m-d')),
    			'durationPaidFor' => $data['durationPaidFor'],
    			'description' => $data['description'],
+        'asset_service_charge_id' => $data['asset_service_charge_id'],
    	]);
 
    	if($data['balance']){

@@ -56,7 +56,7 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$pay->tenantDetail}}</td>
-                          <td>{{$pay->name}}</td>
+                          <td>{{$pay->asset_service_charge ? $pay->asset_service_charge->description : $pay->name}}</td>
                           <td>&#8358;{{number_format($pay->actualAmount,2)}}</td>
                           <td>&#8358;{{number_format($pay->amountPaid,2)}}</td>
                           <td>&#8358;{{number_format($pay->balance,2)}}</td>

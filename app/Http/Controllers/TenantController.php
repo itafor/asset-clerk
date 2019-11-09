@@ -259,21 +259,19 @@ public function searchTenantGlobally(Request $request){
       ->orwhere('address','like',"%{$query2}%")
       ->orwhere('state','like',"%{$query2}%")
       ->orwhere('phone','like',"%{$query2}%")
+      ->where('user_id', getOwnerUserID())
     ->get();
     $output = '<ul class="dropdown-menu" 
     style="display: block; 
     position: absolute; z-index: 1; width:300px; padding-left:20px; margin-left:10px;">';
     foreach ($users as $row) {
        $tenant_id = Crypt::encrypt($row->id);
-       if($row){
+       if($row->user_id == getOwnerUserID()){
 $output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname.'  '.$row->lastname.'</a></li>';
- }else{
-    $output.='<li>Nothing found</li>';
  }
     }
    $output .='</ul>';
    echo $output;
-    ;
     }
    }
 

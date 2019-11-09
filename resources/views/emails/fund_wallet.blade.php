@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Receipt | Asset Clerk</title>
+    <title>New Rental | Asset Clerk</title>
     
     <style>
     .invoice-box {
@@ -106,13 +106,12 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
-                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                             <td class="title">
+                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
                             </td>
                             
                             <td style="text-align:right">
-                                Created: {{date('F d, Y')}}<br>
-                                Payment Date: {{$serviceChargePayment->payment_date->format('F d, Y')}}
+                                
                             </td>
                         </tr>
                     </table>
@@ -123,18 +122,9 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
-                                <b>Address:</b><br>
-                               {{$serviceChargePayment->tenants->address}}
-                            </td>
-                            
-                            <td style="text-align:right">
-                            	 <b>Tenant Details:</b><br>
-                              Full Name:  {{$serviceChargePayment->tenants->designation}}.  {{$serviceChargePayment->tenants->firstname}}
-
-                                 {{$serviceChargePayment->tenants->lastname}} <br>
-                               Email: {{$serviceChargePayment->tenants->email}}
-                            </td>
+                           <p>Dear <span>{{$walletHistory->tenantWallet->firstname}} ,</span><br/>
+                            Your wallet have been {{$walletHistory->transaction_type =='Deposit' ? 'funded' : 'Debited'}}, Please find below wallet information.
+                           </p>
                         </tr>
                     </table>
                 </td>
@@ -142,7 +132,7 @@
             
             <tr class="heading">
                 <td>
-                    Property
+                    Amount
                 </td>
                 
                 <td>
@@ -152,13 +142,13 @@
             
             <tr class="details">
                 <td colspan="2">
-                   {{$serviceChargePayment->property}}
+          &#8358; {{number_format($walletHistory->amount,2)}}
                 </td>
             </tr>
 
             <tr class="heading">
                 <td>
-                    Payment Method
+                    Balance
                 </td>
                 
                 <td>
@@ -167,78 +157,46 @@
             </tr>
             
             <tr class="details">
-                <td>
-                    {{$serviceChargePayment->payment_mode}}
-                </td>
-                
-                <td>
-                  
+                <td colspan="2">
+                    
+                     &#8358; {{number_format($walletHistory->new_balance,2)}}
                 </td>
             </tr>
+            
+           
             
             <tr class="heading">
                 <td>
-                  Payment Item
+                    Date
                 </td>
                 
                 <td>
-                    Price
-                </td>
-
-                 <td>
-                    Amount Paid
-                </td>
-
-                 <td>
-                   Balance
+                 
                 </td>
             </tr>
             
-            <tr class="item">
+            <tr class="details">
+                <td colspan="2">
+                    {{ \Carbon\Carbon::parse($walletHistory->created_at)->format('d M Y')}}
+                </td>
+            </tr>
+            @if($walletHistory->transaction_type =='Withdrawal')
+               <tr class="heading">
                 <td>
-                    {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}}
+                    Reason
                 </td>
-
-                <td>
-                    &#8358; {{number_format($serviceChargePayment->actualAmount, 2)}}
-                </td>
-
-                 <td>
-                    &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
-                </td>
-
-                 <td>
-                    &#8358; {{number_format($serviceChargePayment->balance, 2)}}
-                </td>
-            </tr>
-            
-            <tr class="item">
-                <td colspan="2">
-                   <b>Payment Mode:</b> {{$serviceChargePayment->payment_mode}}
-                </td>
-            </tr>
-
-
-			<tr class="item">
-                <td colspan="2">
-                   <b>Duration Paid For:</b> {{$serviceChargePayment->durationPaidFor}}
-                </td>
-            </tr>
-
-
-             <tr class="item">
-                <td colspan="2">
-                   <b>Description:</b> {{$serviceChargePayment->description}}
-                </td>
-            </tr>
-            
-            <tr class="total">
-                <td></td>
                 
                 <td>
-                   Total: &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
+                 
                 </td>
             </tr>
+            
+            <tr class="details">
+                <td colspan="2">
+                    We have emailed you 'Service Charge Payment Invoice' for more information regarding this transaction, kindly check it out.
+                </td>
+            </tr>
+            @endif
         </table>
     </div>
 </body>

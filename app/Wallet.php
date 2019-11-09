@@ -3,13 +3,17 @@
 namespace App;
 
 use App\AssetServiceCharge;
+use App\Mail\FundWallet;
 use App\TenantServiceCharge;
 use App\WalletHistory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Wallet extends Model
 {
     protected $fillable = ['tenant_id','user_id','amount'];
+
+ 
 
     public static function deposite($data){
     	self::create([
@@ -22,7 +26,7 @@ class Wallet extends Model
     }
 
      public static function saveWallHistory($tenant_id,$previous_balance,$new_balance,$amount,$transactionType='Deposit'){
-     	WalletHistory::create([
+    $wallet_history = WalletHistory::create([
      		'tenant_id' => $tenant_id,
     		'user_id' => getOwnerUserID(),
     		'previous_balance' => $previous_balance,
@@ -30,7 +34,14 @@ class Wallet extends Model
     		'amount' => $amount,
     		'transaction_type' => $transactionType,
      	]);
+     if($wallet_history){
+        $getWalletDetail=WalletHistory::where('id',$wallet_history->id)->first();
+        if($getWalletDetail){
+            $toEmail = $getWalletDetail->tenantWallet->email;
+        Mail::to($toEmail)->send(new FundWallet($getWalletDetail));
+        }
      }
+}
 
      public static function updateWallet($tenant_id,$previous_balance,$new_balance,$amount,$transactionType='Deposit'){
      	self::where('tenant_id',$tenant_id)
