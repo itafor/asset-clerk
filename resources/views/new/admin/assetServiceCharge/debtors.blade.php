@@ -73,7 +73,7 @@
                             {{$tenant->lastname}}</td>
                             <td>{{$tenant->assetName}}</td>
                             <td>{{$tenant->type}}</td>
-                            <td>{{$tenant->name}}</td>
+                            <td>{{$tenant->name === 'Other' ? $tenant->asc->description : $tenant->name}}</td>
                             {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
                             <td>&#8358;{{number_format($tenant->price,2)}}</td>
                             <td>&#8358;{{number_format($tenant->bal,2)}}</td>
