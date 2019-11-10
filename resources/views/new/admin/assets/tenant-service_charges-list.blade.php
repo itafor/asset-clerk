@@ -20,7 +20,7 @@
               <div class="dt-entry__heading">
                 @if(isset($tenantsDetails))
                  @if(count($tenantsDetails) >=1)
-                <h3 class="dt-entry__title">Tenants assigned to <strong>{{$asset ? $asset->description : ''}}'s asset {{$serviceChargeName}} </strong> service Charge</h3>
+                <h3 class="dt-entry__title">Tenants assigned to <strong>{{$serviceChargeName}} </strong> service Charge in {{$asset ? $asset->description : ''}}'s property </h3>
                 @endif
                 @endif
               </div>
@@ -44,7 +44,7 @@
  @if(isset($tenantsDetails))
            @if(count($tenantsDetails) >=1)
   <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong>{{$asset ? $asset->description : ''}}'s asset {{$serviceChargeName}} </strong> service Charge (&#8358; {{number_format($amount,2)}}) </h5>
+                <h5 class="modal-title" id="exampleModalLabel">List of Tenants added to <strong> {{$serviceChargeName}} </strong> service Charge (&#8358; {{number_format($amount,2)}}) </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>

@@ -196,7 +196,7 @@
             
             <tr class="item">
                 <td>
-                   {{$serviceChargePayment->serviceCharge->name}}
+                    {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}}
                 </td>
 
                 <td>
