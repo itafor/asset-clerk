@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\TenantRent;
+use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model
 {
@@ -15,6 +15,11 @@ class Unit extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+     public function asset()
+    {
+        return $this->belongsTo(Asset::class, 'asset_id');
     }
     
     public function propertyType()
@@ -56,6 +61,21 @@ class Unit extends Model
         
         if($rental){
         return $rental->asset;
+        }
+    }
+
+    public function rentPayment($unit_uuid){
+        $rents = TenantRent::where('unit_uuid', $unit_uuid)
+      ->get();
+        
+        if($rents){
+            foreach ($rents as $key => $rent) {
+                   return [
+            'balance' => $rent->balance,
+            'amount' => $rent->amount,
+        ];
+            }
+
         }
     }
 }

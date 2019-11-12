@@ -186,6 +186,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::prefix('report')->group(function(){
 		Route::get('assets', 'ReportController@assets')->name('report.assets');
+
+		Route::get('get-asset-occupancy/{asset_id}/{occupancy}', 'ReportController@occupancy')->name('report.occupancy');
+		Route::get('get-payment-status/{unit_uuud}/', 'ReportController@rentalPaymentStatus')->name('report.payment.status');
+
+		Route::get('get-asset-payment/{asset_id}/{paymentstatus}', 'ReportController@asset_payment')->name('report.asset_payment');
+
+
 		Route::get('payments', 'ReportController@payments')->name('report.payments');
 		Route::get('approvals', 'ReportController@approvals')->name('report.approvals');
 		Route::get('maintenance', 'ReportController@maintenance')->name('report.maintenance');
