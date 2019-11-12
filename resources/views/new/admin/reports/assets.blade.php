@@ -165,6 +165,7 @@ $(document).ready(function(){
 $(document).ready(function(){
  $('body').on('change', '#occupancy', function(){
             var occupancy = $(this).val();
+            $('.occupancy_th').show()
             $('.units').show()
 
             if(occupancy ==''){
