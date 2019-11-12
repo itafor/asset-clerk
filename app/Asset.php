@@ -154,6 +154,8 @@ class Asset extends Model
             }
         }
     }
+
+ 
     
     public static function addServiceCharge($data,$asset)
     {
@@ -162,32 +164,6 @@ class Asset extends Model
         $startDate = $data['startDate'];
         $dueDate = $data['dueDate'];
         $services = $data['service'];
-
-        $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
-        
-       if($allTenantServiceCharges){
-            foreach ($allTenantServiceCharges as $key => $aTSC) {
-                foreach ($services as $key => $service) {
-                    foreach ($tenantIds as $key => $tenantId) {
-
-                    if(
-                            $tenantId == $aTSC->tenant_id
-                        &&  $service['service_charge'] == $aTSC->service_chargeId
-                        &&  $startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
-                         &&  $dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
-                    ){
-                         return back()->withInput()->with('error','A tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
-                    }
-
-                    }
-                }
-               
-            }
-        }
-
-  if($dueDate < $startDate){
-        return back()->withInput()->with('error','End Date cannot be less than start date');
-    }
 
         $service_chargeIDs=$data['service'];
         //$tenants_ids = implode(' ', Input::get('tenant_id'));//convert array to string
@@ -223,9 +199,6 @@ class Asset extends Model
         }
     }
 
-
-
-
     public static function updateServiceCharge($data){
 
          // $tenants_ids = implode(' ', Input::get('tenant_id'));
@@ -240,14 +213,12 @@ class Asset extends Model
         ]);
 
         if($updateASC){
-           //dd($data['id']);
            self::updateTenantAddedToServiceCharge($tenantIds,$data['id']);
         }
     }
 
 
  public static function updateTenantAddedToServiceCharge($tenantIds,$sc_id){
-   // dd($tenantIds);
          $updatetsc =   TenantServiceCharge::where('asc_id',$sc_id)->first();
 
         foreach ($tenantIds as $key => $tenantId) {
@@ -256,10 +227,7 @@ class Asset extends Model
                 'tenant_id' => $tenantId,
                  'asc_id' =>$sc_id,
             ]);
-                // $updatetsc->tenant_id = $tenantId;
                 
-                // $updatetsc->asc_id = $sc_id;
-                // $updatetsc->save();
          }
             
         }
@@ -279,4 +247,5 @@ class Asset extends Model
         }
         }
     }
+
 }

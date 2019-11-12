@@ -39,9 +39,11 @@
                                 
                                <div class="float-left"> <p>Fields marked (<span class="text-danger">*</span>) are required.</p></div>
                                <div class="float-right"><span></span>Landlord (
-                                {{$tenantRent->asset->Landlord->designation}}.
-                                {{$tenantRent->asset->Landlord->firstname}}
-                                {{$tenantRent->asset->Landlord->lastname}}
+                                {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->designation : ''}}.
+                                {{$tenantRent->asset->Landlord ? 
+                                  $tenantRent->asset->Landlord->firstname : ''}}
+                                {{$tenantRent->asset->Landlord ? 
+                                  $tenantRent->asset->Landlord->lastname : ''}}
                                 ) Property Estimate : &#8358; {{number_format($tenantRent->price,2)}} </div>
                            </div>
                            </div>
@@ -53,7 +55,7 @@
                                         <select name="asset_uuid" id="asset_uuid" class="form-control" required>
                                            
                                                 <option value="{{$tenantRent->asset_uuid}}" selected="true">
-                                                     {{$tenantRent->unit->getProperty()->description}} 
+                                                     {{$tenantRent->unit->getProperty() ? $tenantRent->unit->getProperty()->description : ''}} 
                                                 </option>
                                            
                                         </select>
@@ -67,7 +69,7 @@
                                     <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}<span class="text-danger">*</span></label>
                                         <select name="unit_uuid" id="unit_uuid" class="form-control" required>
-                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit->category->name}}
+                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit->category ? $tenantRent->unit->category->name : ''}}
                                             </option>
                                         </select>
                                        
@@ -81,7 +83,7 @@
                                      <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-tenant_uuid">{{ __('Tenant') }}<span class="text-danger">*</span></label>
                                         <select name="tenant_uuid" id="tenant_uuid" class="form-control" required>
-                                            <option value="{{$tenantRent->tenant_uuid}}">{{$tenantRent->tenant->name()}}
+                                            <option value="{{$tenantRent->tenant_uuid}}">{{$tenantRent->tenant ? $tenantRent->tenant->name() : ''}}
                                             </option>
                                         </select>
                                        
@@ -127,7 +129,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Approve') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>                     
                             </div>
 

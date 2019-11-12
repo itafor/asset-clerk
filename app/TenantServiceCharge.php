@@ -14,6 +14,11 @@ class TenantServiceCharge extends Model
 	 
     protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal','startDate','dueDate'];
 
+ public function asc()
+    {
+        return $this->belongsTo('App\AssetServiceCharge','asc_id');
+    } 
+
  public function myServiceCharges($id){
       //return $this->hasMany(AssetServiceCharge::class);
  	return AssetServiceCharge::find($id);

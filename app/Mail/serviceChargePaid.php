@@ -19,7 +19,7 @@ class serviceChargePaid extends Mailable
      */
     public $serviceChargePayment;
     public $landlord;
-    
+
     public function __construct($serviceChargePayment)
     {
         $this->serviceChargePayment =  $serviceChargePayment;

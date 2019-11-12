@@ -52,6 +52,7 @@
                               <input type="hidden" name="asset_service_charge_id" id="asset_service_charge_id">
 
                               <input type="hidden" name="asset_id" id="asset_id">
+
                             <div class="pl-lg-4">
                                 <div class="row">
                                     
@@ -240,8 +241,7 @@
                             m += 1;  // JavaScript months are 0-11
                             var y = formattedDate.getFullYear();
                             expiringDate = d + "/" + m + "/" + y
-
-                            $('<option>').val(v.id).text(v.name +', Type: ' + v.type + '  - Duration: ' + startingDate+ '-' + expiringDate).appendTo('#input-service_charge');
+                            $('<option>').val(v.id).text(v.name !== 'Other' ? v.name : v.serviceName).appendTo('#input-service_charge');
                         
                         });
                     }
@@ -267,6 +267,7 @@
                         $('#input-amount').empty();
                        
                         $.each(data, function(k, v) {
+                            
                             $('#asset_service_charge_id').val(v.ascId)
                             $('<option>').attr('selected', true).val(v.price).text(v.price).appendTo('#input-amount');
                         });

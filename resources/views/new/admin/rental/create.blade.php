@@ -106,16 +106,7 @@
                                         <label class="form-control-label" for="input-duration">{{ __('Start Date') }}</label>
 
                                          <input type="text" name="startDate" id="startDate" class="datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('startDate')}}" >
-
-                                       <!--  <select name="duration" id="duration" class="form-control" required>
-                                            <option value="">Select Duration</option>
-                                            <option value="1">1 Year</option>
-                                            <option value="2">2 Years</option>
-                                            <option value="3">3 Years</option>
-                                            <option value="4">4 Years</option>
-                                            <option value="5">5 Years</option>
-                                        </select> -->
-                                        
+                                      
                                         @if ($errors->has('startDate'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('startDate') }}</strong>

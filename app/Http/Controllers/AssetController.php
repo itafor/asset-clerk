@@ -9,6 +9,7 @@ use App\AssignedAsset;
 use App\Tenant;
 use App\TenantServiceCharge;
 use App\Unit;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Validator;
@@ -261,9 +262,16 @@ class AssetController extends Controller
         return view('new.admin.assets.create_asset_service_charge');
     }
 
+      public static function array_has_dupes($array) {
+      return count($array) !== count(array_unique($array));
+}
+
+
     public function add_Service_Charge(Request $request)
     {
-         
+         $services = $request->service;
+         $tenantIds= $request->tenant_id;
+
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
@@ -277,6 +285,53 @@ class AssetController extends Controller
             return back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
+
+    if($request->dueDate < $request->startDate){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+
+        $service_charges = [];
+        foreach ($services as $key => $value) {
+           $service_charges[]=$value['service_charge'];
+        }
+
+        $dup = self::array_has_dupes($service_charges);
+
+        if($dup){
+         return back()->withInput()->with('error','Duplicate service charges detacted, Check and try again!!');
+        }
+
+     foreach ($services as $key => $value) {
+          if($value['service_charge'] ==='12' && $value['description'] === null){
+                return back()->withInput()->with('error','please provide description for the selected Other option');
+          }else if($value['service_charge'] ==='13' && $value['description'] === null){
+                 return back()->withInput()->with('error','please provide description for the selected Other option');
+          }
+        }
+   
+$allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
+        
+       if($allTenantServiceCharges){
+            foreach ($allTenantServiceCharges as $key => $aTSC) {
+                foreach ($services as $key => $service) {
+                    foreach ($tenantIds as $key => $tenantId) {
+
+                    if(
+                            $tenantId == $aTSC->tenant_id
+                        &&  $service['service_charge'] == $aTSC->service_chargeId
+                        &&  $request->startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
+                         &&  $request->dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
+                    ){
+                         return back()->withInput()->with('error','A tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
+                    }
+
+                    }
+                }
+               
+            }
+        }
+
+
         $asset = Asset::find($request['asset']);
 
         if($asset){
@@ -366,7 +421,7 @@ public function tenantsServiceCharge($id){
 
            if($assetSc){
            $asset=$assetSc->asset;
-           $serviceChargeName = $assetSc->serviceCharge->name;
+           $serviceChargeName = $assetSc->serviceCharge->name === 'Other' ? $assetSc->description :$assetSc->serviceCharge->name;
            $amount = $assetSc->price;
            $tenants = $assetSc->tenant_id;
           
