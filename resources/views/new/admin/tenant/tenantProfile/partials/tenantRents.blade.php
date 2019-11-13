@@ -46,7 +46,11 @@
                     @foreach ($tenantRents as $rental)
                       <tr>
                           <td>{{$loop->iteration}}</td>
-                          <td>{{$rental->tenant ? $rental->tenant->name() : ''}}</td>
+                          <td>
+                            {{$rental->tenant ? $rental->tenant->designation : ''}}
+                            {{$rental->tenant ? $rental->tenant->firstname : ''}}
+                            {{$rental->tenant ? $rental->tenant->lastname : ''}}
+                          </td>
                           <td>{{$rental->unit->category ? $rental->unit->category->name : ''}}</td>
                           <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                           <td>{{$rental->unit->propertyType ? $rental->unit->propertyType->name : ''}}</td>
