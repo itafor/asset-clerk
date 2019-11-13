@@ -54,7 +54,13 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                          
-                          <td>{{$rental->tenant->name()}}</td>
+                          <td>
+
+                            {{$rental->tenant ? $rental->tenant->designation : ''}}
+                            {{$rental->tenant ? $rental->tenant->firstname : ''}}
+                            {{$rental->tenant ? $rental->tenant->lastname : ''}}
+
+                          </td>
                          
                           <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
