@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\SubPaymentMetalDatas;
 use App\Subscription;
 use App\SubscriptionPlan;
 use App\Transaction;
 use App\Unit;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
+use Unicodeveloper\Paystack\Facades\Paystack;
 
 class SubscriptionsController extends Controller
 {
+
     /**
      * Display a listing of the subs
      *
@@ -30,7 +34,8 @@ class SubscriptionsController extends Controller
     public function buy_plan($plan_id = null)
     {
         $plan = SubscriptionPlan::where('uuid', $plan_id)->first();
-        return view('new.admin.subs.buy', compact('plan'));
+        $plan_amount = str_replace(".", "", $plan->amount);
+        return view('new.admin.subs.buy', compact('plan','plan_amount'));
     }
 
     public function history(){
@@ -45,9 +50,14 @@ class SubscriptionsController extends Controller
         return view('new.admin.subscriptions.transactions', compact('subs'));
     }
 
-    public function process_buy_plan(Request $request)
+
+       /**
+     * Redirect the User to Paystack Payment Page
+     * @return Url
+     */
+    public function redirectToGateway(Request $request)
     {
-        $transaction = Transaction::create([
+            $transaction = Transaction::create([
             'user_id' => auth()->id(),
             'plan_id' => $request->plan_id,
             'status' => 'Pending',
@@ -65,116 +75,45 @@ class SubscriptionsController extends Controller
             'status' => 'Pending'
         ]);
         if($sub){
-          $this->updateUnitSetPlanIdNull($sub->plan_id);
-        }
-        $paymentData = [
+         SubPaymentMetalDatas::create([
+            'user_id' => auth()->id(),
             'email' => $request->email,
             'amount' => fixKobo($transaction->amount), // amount is in kobo so add 00
-            'metadata' => [
-                'subscription' => $sub->uuid,
-                'transaction' => $transaction->uuid,
-                'payment_reference' => $transaction->reference
-            ]
-        ];
-        $pay = $this->makePayment($paymentData);
-        if($pay['status']){
-            return redirect($pay['payment_url']);
+            'subscription_uuid' => $sub->uuid,
+           'transaction_uuid' => $transaction->uuid,
+            'payment_reference' => $transaction->reference,
+            'plan_id' => $sub->plan_id
+        ]);
+
         }
-        else{
-            return back()->with('error', 'An error occured. Could not reach payment provider');
-        }
+
+            
+     return Paystack::getAuthorizationUrl()->redirectNow();
     }
-
-    public function makePayment($paymentData)
-    {
-        $curl = curl_init();
-
-        $sk = env('PAYSTACK_SECRET_KEY');
-        $url = env('PAYSTACK_PAYMENT_URL');
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "{$url}/transaction/initialize",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => json_encode([
-                'amount'=> $paymentData['amount'],
-                'email'=> $paymentData['email'],
-                'metadata' => $paymentData['metadata']
-            ]),
-            CURLOPT_HTTPHEADER => [
-                "authorization: Bearer {$sk}", //replace this with your own test key
-                "content-type: application/json",
-                "cache-control: no-cache"
-            ],
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        if($err){
-            // there was an error contacting the Paystack API
-            die('Curl returned error: ' . $err);
-        }
-
-        $tranx = json_decode($response, true);
-
-        if(!$tranx['status']){
-            // there was an error from the API
-            return [
-                'status' => false
-            ];
-        }
-
-        return [
-            'status' => true,
-            'payment_url' => $tranx['data']['authorization_url']
-        ];
-    }
+    /**
+     * Obtain Paystack payment information
+     * @return void
+     */
 
     public function handleGatewayCallback()
     {
-        $curl = curl_init();
-        $reference = isset($_GET['reference']) ? $_GET['reference'] : '';
-        if(!$reference){
-            die('No reference supplied');
-        }
+        $paymentDetails = Paystack::getPaymentData();
+        // Now you have the payment details,
+        // you can store the authorization_code in your db to allow for recurrent subscriptions
+        // you can then redirect or do whatever you want
 
-        $sk = env('PAYSTACK_SECRET_KEY');
-        $url = env('PAYSTACK_PAYMENT_URL');
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "{$url}/transaction/verify/" . rawurlencode($reference),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => [
-                "accept: application/json",
-                "authorization: Bearer {$sk}",
-                "cache-control: no-cache"
-            ],
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        if($err){
-            // there was an error contacting the Paystack API
-            die('Curl returned error: ' . $err);
-        }
-
-        $tranx = json_decode($response);
-
-        if(!$tranx->status){
-            // there was an error from the API
-            die('API returned error: ' . $tranx->message);
-        }
-
-        if('success' == $tranx->data->status){
+        if($paymentDetails['status'] == true){
+            //dd('transaction was successful...');
             // transaction was successful...
             // please check other things like whether you already gave value for this ref
             // if the email matches the customer who owns the product etc
             // Give value
-            $reference = $tranx->data->metadata->payment_reference;
-            $subscription = $tranx->data->metadata->subscription;
-            $provider_reference = $tranx->data->reference;
+
+            $getMetadata = SubPaymentMetalDatas::where('user_id',getOwnerUserID())->latest()->first();
+            if($getMetadata){
+            $reference = $getMetadata->payment_reference;
+            $subscription = $getMetadata->subscription_uuid;
+            $provider_reference = $paymentDetails['data']['reference'];
             $status = 'Success';
 
             $txn = Transaction::where('reference',$reference)->first();
@@ -198,9 +137,11 @@ class SubscriptionsController extends Controller
             $sub->update([
                 'status' => 'Active'
             ]);
-
+            $this->updateUnitSetPlanIdNull($getMetadata->plan_id);
+            $this->removeMetaData($getMetadata->id,$getMetadata->user_id);
             return redirect()->to('home')->with('success', 'Congratulations! Your upgrade was successful!');
         }
+      }
     }
 
 public function updateUnitSetPlanIdNull($plan_id){
@@ -219,4 +160,11 @@ public function updateUnitSetPlanIdNull($plan_id){
       }
    }
  }
+public function removeMetaData($id,$user_id){
+          $smd = SubPaymentMetalDatas::where('id',$id)
+          ->where('user_id',$user_id)->latest()->first();
+         if($smd){
+        $smd->delete();
+         }
+    }
 }
