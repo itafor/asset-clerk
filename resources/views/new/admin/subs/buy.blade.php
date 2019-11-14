@@ -63,7 +63,7 @@
                                 <label class="form-control-label" for="input-email">{{ __('Price') }}</label>
                                 <input type="email" name="amount" id="amount"
                                        class="form-control form-control-alternative{{ $errors->has('amount') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Amount') }}" value="{{ $plan->amount }}" readonly>
+                                       placeholder="{{ __('Amount') }}" value="{{ $plan_amount }}" readonly>
                                 <input type="hidden" name="plan_id" id="input-email"
                                        class="form-control form-control-alternative{{ $errors->has('plan_id') ? ' is-invalid' : '' }}"
                                        placeholder="{{ __('Amount') }}" value="{{ $plan->uuid }}" >
