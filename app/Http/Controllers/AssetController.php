@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Validator;
+use DateTime;
 
 class AssetController extends Controller
 {
@@ -271,7 +272,6 @@ class AssetController extends Controller
     {
          $services = $request->service;
          $tenantIds= $request->tenant_id;
-
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',
@@ -286,7 +286,11 @@ class AssetController extends Controller
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
 
-    if($request->dueDate < $request->startDate){
+    date_default_timezone_set("Africa/Lagos");
+    $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));
+    $enddate   = Carbon::parse(formatDate($request->dueDate, 'd/m/Y', 'Y-m-d'));
+
+    if($enddate < $startdate){
         return back()->withInput()->with('error','End Date cannot be less than start date');
     }
 
@@ -298,7 +302,7 @@ class AssetController extends Controller
         $dup = self::array_has_dupes($service_charges);
 
         if($dup){
-         return back()->withInput()->with('error','Duplicate service charges detacted, Check and try again!!');
+         return back()->withInput()->with('error','Duplicate service charges detected, Check and try again!!');
         }
 
      foreach ($services as $key => $value) {

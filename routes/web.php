@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
     Route::get('upgrade', ['as' => 'profile.upgrade', 'uses' => 'SubscriptionsController@subscribe'])->middleware('sub.account');;
     Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan'])->middleware('sub.account');;
-    // Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@process_buy_plan'])->middleware('sub.account');;
+    
 
         Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@redirectToGateway'])->middleware('sub.account');;
 
