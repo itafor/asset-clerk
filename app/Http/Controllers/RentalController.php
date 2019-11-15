@@ -74,8 +74,12 @@ class RentalController extends Controller
             }
       }
     }
+   
+    date_default_timezone_set("Africa/Lagos");
+    $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));
+    $enddate   =   Carbon::parse(formatDate($request->due_date, 'd/m/Y', 'Y-m-d'));
 
-    if($request->due_date < $request->startDate){
+    if($enddate < $startdate){
         return back()->withInput()->with('error','End Date cannot be less than start date');
     }
 
