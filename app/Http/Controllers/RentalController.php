@@ -213,10 +213,16 @@ public function viewDetail($uuid){
      */
     public function notifyDueRent()
     {
-        $dueRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
-        ->where('rd.status', 'pending')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 30 DAY) = rd.due_date") 
-        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+        // $dueRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
+        // ->where('rd.status', 'pending')
+        // ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 30 DAY) = rd.due_date") 
+        // ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+
+     $dueRentals = DB::table('tenant_rents')
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+        ->where('status', 'pending')
+        ->whereRaw('ABS(TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date )) = ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) )') 
+        ->get();
 
         foreach($dueRentals as $rental) {
             $toEmail = $rental->tenant->email;
