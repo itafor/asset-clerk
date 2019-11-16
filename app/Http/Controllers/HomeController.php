@@ -37,8 +37,8 @@ class HomeController extends Controller
                 ->orderBy('id', 'desc')->get();
 
             $rentalsDueInNextThreeMonths = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
-                ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")// Get payments due in next 30 days
-                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+                ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 120 DAY)")// Get payments due in next 120 days
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
             $rentalsDueNotPaid = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
                 ->where('status', 'pending')

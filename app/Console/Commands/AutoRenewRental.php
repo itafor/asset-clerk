@@ -6,7 +6,7 @@ use App\Jobs\RentalCreatedEmailJob;
 use App\TenantRent;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use DB;
 use Illuminate\Support\Facades\Mail;
 
 class AutoRenewRental extends Command
@@ -42,23 +42,22 @@ class AutoRenewRental extends Command
      */
     public function handle()
     {
-        $newRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
-        ->where('renewable', 'yes')
-        ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 0 DAY) = rd.due_date") 
-        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
-        
-       //dd($newRentals);
+     $newRentals = DB::table('tenant_rents')
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+         ->where('renewable', 'yes')
+        ->whereRaw('ABS(TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date )) = ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) )') 
+        ->get();
+        //dd($newRentals);
+     foreach($newRentals as $rental) {
 
-            foreach($newRentals as $rental) {
-
-    $newRentDetails['tenant']    =  $rental['tenant_uuid'];
-    $newRentDetails['property']  = $rental['asset_uuid'];
-    $newRentDetails['unit']      = $rental['unit_uuid'];
-    $newRentDetails['price']     = $rental['price'];
-    $newRentDetails['amount']    = $rental['amount'];
+    $newRentDetails['tenant']    = $rental->tenant_uuid;
+    $newRentDetails['property']  = $rental->asset_uuid;
+    $newRentDetails['unit']      = $rental->unit_uuid;
+    $newRentDetails['price']     = $rental->price;
+    $newRentDetails['amount']    = $rental->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
     $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rental['user_id'];
+    $newRentDetails['user_id']    = $rental->user_id;
     $newRentDetails['new_rental_status'] = 'New';
 
             if(!empty($newRentDetails)){

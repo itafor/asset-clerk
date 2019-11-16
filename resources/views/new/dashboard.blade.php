@@ -213,6 +213,7 @@
                                 <th scope="col">Property</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Due Date</th>
+                                <th scope="col">Days Left</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -223,8 +224,10 @@
                                     <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                                     <td>&#8358; {{number_format($rental->price,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
-                                        <td>
-                            
+                                     <td>{{$rental->remaingdays}} {{$rental->remaingdays > 1 ? 'days' : 'day'}}</td>
+                                    
+
+                            <td>
                            @if ($rental->status == 'Partly paid' )
                            <span class="text-warning">{{$rental->status}}</span>
 
