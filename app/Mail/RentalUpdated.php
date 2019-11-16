@@ -32,7 +32,7 @@ class RentalUpdated extends Mailable
     public function build()
     {
         return $this->view('emails.rental_update')
-         ->subject('Renewed Rental Approved')
+         ->subject('Renewed Rental Verified')
         ->cc($this->landlord->email, $this->landlord->name());
     }
 }

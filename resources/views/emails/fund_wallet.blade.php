@@ -193,10 +193,15 @@
             
             <tr class="details">
                 <td colspan="2">
-                    We have emailed you 'Service Charge Payment Invoice' for more information regarding this transaction, kindly check it out.
+                    We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
                 </td>
             </tr>
             @endif
+              <tr>
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                </td>
+            </tr>
         </table>
     </div>
 </body>

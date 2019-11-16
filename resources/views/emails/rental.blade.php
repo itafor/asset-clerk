@@ -198,7 +198,12 @@
                     {{getNextRentPayment($rental)['due_date']}}
                 </td>
             </tr>
-
+              <tr>
+                
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                </td>
+            </tr>
         </table>
     </div>
 </body>

@@ -123,7 +123,7 @@
                     <table>
                         <tr>
                            <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
-                            Your renewed rental have been approved, Please find below rental information.
+                            Your renewed rental have been verified, Please find below rental information.
                            </p>
                         </tr>
                         <tr>
@@ -203,7 +203,12 @@
                     {{getNextRentPayment($rental)['due_date']}}
                 </td>
             </tr>
-
+                <tr>
+                
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                </td>
+            </tr>
         </table>
     </div>
 </body>

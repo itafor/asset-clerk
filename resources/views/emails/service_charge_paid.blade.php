@@ -239,6 +239,12 @@
                    Total: &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
                 </td>
             </tr>
+             <tr>
+                
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                </td>
+            </tr>
         </table>
     </div>
 </body>

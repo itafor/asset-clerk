@@ -132,10 +132,8 @@ class TenantRent extends Model
 
 public static function editTenantRent($data){
 
-   //$rentalDate = formatDate($data['date'], 'd/m/Y', 'Y-m-d');
         $startDate = formatDate($data['startDate'], 'd/m/Y', 'Y-m-d');
         $startDate = Carbon::parse($startDate);
-        //$dueDate = $date->addYears($data['duration']);
         $dueDate = formatDate($data['due_date'], 'd/m/Y', 'Y-m-d');
         $dueDate = Carbon::parse($dueDate);
            
@@ -156,6 +154,7 @@ if($rental){
     $rental->due_date = $dueDate;
     $rental->new_rental_status = null;
     $rental->duration = $final_duration;//star date
+    $rental->renewable = 'yes';
    if($rental->save()){
     return $rental;
    }

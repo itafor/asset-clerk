@@ -254,6 +254,11 @@
         <!-- /grid item -->
     </div>
 
+
+
+
+
+
     <div class="row">
          <!-- Grid Item -->
         <div class="col-xl-12 ">
@@ -273,7 +278,8 @@
                                 <th scope="col">Property</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Due Date</th>
-                                <th scope="col" colspan=2>Payment Status</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">State</th>
                                 <th class="text-center"><b>Action</b></th>
                             </tr>
                         </thead>
@@ -319,15 +325,15 @@
 
                             @if ($rental->new_rental_status == 'New' )
 
-                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View</a>
+                                    <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
                                     @endif
-                                      <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
+                                    <!--   <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
                                           <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">
                                               {{ __('Delete') }}
                                           </button>
                                       </form> 
-                                  </div>
+ -->                                  </div>
                               </div>
                           </td>
                                 </tr>
