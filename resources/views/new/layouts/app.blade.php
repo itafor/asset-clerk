@@ -233,6 +233,29 @@ $('div.yes').click(function() {
     });   
 })
 
+//validate payment dates
+$(document).ready(function(){
+ $("#payment_date").datepicker();
+    $("#payment_date").on("change",function(event){
+        event.preventDefault();
+    var selected_date = $(this).val();
+    var fist_date = selected_date.replace('/','-');
+    var second_date = fist_date.replace('/','-');
+    $.ajax({
+                   url:"{{URL::to('/validate-selected-date')}}/"+second_date,
+                    type: "GET",
+                    data: {'selected_date':selected_date},
+                    success: function(data) {
+                      if(data ==='invalidate'){
+                    toast({
+                        type: 'warning',
+                        title: 'Ooops!! Invalid payment date. Future date detected'
+                    })
+            }
+        }
+        });
+    });
+})
     </script>
 
     @yield('script')

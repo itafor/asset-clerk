@@ -81,6 +81,16 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
+
+    .item td{
+        font-size: 14px;
+    }
+    .item b{
+        font-size: 14px;
+    }
     }
     
     /** RTL **/
@@ -133,115 +143,129 @@
                                 {{$payment->unitt->getTenant()->email}}
                             </td>
                         </tr>
+
+                               <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
+                          <tr>
+                            <td colspan="2">
+                                <p>
+Dear {{$payment->unitt->getTenant()->email}},<br/>
+
+ <em>  
+    This is to notify you that the sum of  &#8358; {{number_format($payment->amount_paid, 2)}} has been recorded successfully for the payment of ({{$payment->startDate}}  <strong>to</strong>  {{$payment->due_date}}) rent
+    .<br/>
+   Please find below rental information.
+ </em>
+                                </p>
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
             
-            <tr class="heading">
+            <tr class="item">
                 <td>
-                    Property
+                   <b> Property :</b>
                 </td>
                 
                 <td>
-                  
+                   {{$payment->unitt->getProperty()->description}}
                 </td>
             </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$payment->unitt->getProperty()->description}}
-                </td>
-            </tr>
-
-            <tr class="heading">
+         <tr class="item">
                 <td>
-                    Payment Method
+                   <b> Payment Method :</b>
                 </td>
                 
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
                 <td>
                     {{$payment->paymentMode->name}}
                 </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="heading">
-                <td>
-                  Payment Item
-                </td>
-                
-                <td>
-                    Price
-                </td>
-
-                 <td>
-                    Amount Paid
-                </td>
-
-                 <td>
-                   Balance
-                </td>
-            </tr>
+         </tr>
             
             <tr class="item">
                 <td>
-                   {{$payment->unitt->category->name}}
+                   <b> Payment Item :</b>
                 </td>
-
+                
                 <td>
-                    &#8358; {{number_format($payment->actual_amount, 2)}}
+                     {{$payment->unitt->category->name}} Bedroom
                 </td>
+         </tr>
 
-                 <td>
+         <tr class="item">
+                <td>
+                   <b> Price :</b>
+                </td>
+                
+                <td>
+                     &#8358; {{number_format($payment->actual_amount, 2)}}
+                </td>
+         </tr>
+         <tr class="item">
+                <td>
+                   <b> Amount Paid:</b>
+                </td>
+                
+                <td>
                     &#8358; {{number_format($payment->amount_paid, 2)}}
                 </td>
+         </tr>
 
-                 <td>
-                    &#8358; {{number_format($payment->balance, 2)}}
-                </td>
-            </tr>
-
-                <tr class="heading">
+         <tr class="item">
                 <td>
-                   Rent Duration
+                   <b> Balance:</b>
                 </td>
                 
                 <td>
-                  
+                   &#8358; {{number_format($payment->balance, 2)}}
                 </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$payment->startDate}}  <strong>to</strong>  {{$payment->due_date}}
+         </tr>
+
+          <tr class="item">
+                <td>
+                   <b>  Rent Duration:</b>
                 </td>
                 
                 <td>
-               
+            {{$payment->startDate}}  <strong>to</strong>  {{$payment->due_date}}
                 </td>
-            </tr>
-            
+         </tr>
             <tr class="item">
-                <td colspan="2">
-                   <b>Description:</b> {{$payment->payment_description}}
+                <td>
+                    <b> Payment Date : </b>
+                </td>
+                <td>
+                    {{ \Carbon\Carbon::parse($payment->payment_date)->format('d M Y')}}
+                </td>
+            </tr>
+
+          <tr class="item">
+                <td>
+                <b> Date recorded:</b>
+                </td>
+                
+                <td>
+                    {{ \Carbon\Carbon::parse($payment->created_at)->format('d M Y')}}
                 </td>
             </tr>
             
-            <tr class="total">
-                <td></td>
-                
-                <td>
-                   Total: &#8358; {{number_format($payment->amount_paid, 2)}}
+    <tr class="item">
+                <td colspan="2">
+        <b>Description:</b> {{$payment->payment_description}}
                 </td>
-            </tr>
+        </tr>
+            
+    <tr class="total">
+    <td></td>
+                
+     <td>
+        Total: &#8358; {{number_format($payment->amount_paid, 2)}}
+        </td>
+    </tr>
+    <tr>
+         <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+         </td>
+    </tr>
         </table>
     </div>
 </body>

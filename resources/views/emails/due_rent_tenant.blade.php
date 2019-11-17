@@ -81,6 +81,9 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
     }
     
     /** RTL **/
@@ -132,7 +135,7 @@
                               <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
                             </td>
                         </tr>
-                        <h2><u>Asset Clerk Electronic Notification Service</u></h2>
+                        <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
                           <tr>
                             <td colspan="2">
                                 <p>
@@ -141,7 +144,7 @@ Dear {{$rental->unit->getTenant()->firstname}},<br/>
  <em>  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}, and it will be renewed automatically by one year duration. Details of new rent's price and durations will be sent to you in few days.
 
 In case you don't want your rent to be renewed once it expired, 
-Please kindly contact your landload or Agent to disable auto renewal of your rents. Please find below rental information.</em>
+Please kindly contact your landload or Agent to disable auto renewal of your rents.<br/> Please find below rental information.</em>
                                 </p>
                             </td>
                         </tr>

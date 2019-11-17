@@ -81,6 +81,9 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
     }
     
     /** RTL **/
@@ -121,6 +124,7 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
+                        <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
                         <tr>
                            <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
                             Your renewed rental have been verified, Please find below rental information.
