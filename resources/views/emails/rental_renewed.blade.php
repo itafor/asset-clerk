@@ -135,13 +135,12 @@
                         <h2><u>Asset Clerk Electronic Notification Service</u></h2>
                           <tr>
                             <td colspan="2">
+                                Dear {{$rental->unit->getTenant()->firstname}},
                                 <p>
-Dear {{$rental->unit->getTenant()->firstname}},<br/>
-
-We wish to notify you that your rents will be on {{getNextRentPayment($rental)['due_date']}}, and it will be renewed automatically by one year duration. Details of new rent's price and durations will be sent to you in few days.
-
-In case you don't want your rents to be renewed once it expired, 
-Please kindly contact your landload or Agent to disable auto renewal of your rents. Please find below rental information.
+                                  We wish to inform you that your rent have been renewed successfully.<br/>
+                                  This renewed rent comes with your old price and one year duration.<br/>
+                                  New rent's price and duration will be sent to you in few days.<br/>
+                                  Please find below rental information.
                                 </p>
                             </td>
                         </tr>
@@ -198,7 +197,7 @@ Please kindly contact your landload or Agent to disable auto renewal of your ren
                 </td>
             </tr>
 
-             <tr >
+             <tr>
                 <td>
                     <h4>LANDLORD DETAILS</h4>
                 </td>
@@ -221,7 +220,7 @@ Please kindly contact your landload or Agent to disable auto renewal of your ren
                 </td>
             </tr>
 
-            <tr>
+                   <tr>
                 <td>
                     <h4>AGENT DETAILS</h4>
                 </td>

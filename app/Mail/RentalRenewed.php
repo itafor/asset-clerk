@@ -6,24 +6,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\ServiceChargePaymentHistory;
 
-class serviceChargePaid extends Mailable
+class RentalRenewed extends Mailable
 {
     use Queueable, SerializesModels;
 
+     public $rental;
+     public $landlord;
+     public $agent;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public $serviceChargePayment;
-    public $landlord;
-
-    public function __construct($serviceChargePayment)
+    public function __construct($rental)
     {
-        $this->serviceChargePayment =  $serviceChargePayment;
-        $this->landlord = $serviceChargePayment->getAsset->landlord;
+        $this->rental = $rental;
+        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->agent = $rental->tenant_agent;
     }
 
     /**
@@ -33,8 +33,8 @@ class serviceChargePaid extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.service_charge_paid')
-        ->subject('Service Charge Payment Receipt')
+        return $this->view('emails.rental_renewed')
+        ->subject('Rental Renewal Notification')
         ->cc($this->landlord->email, $this->landlord->name());
     }
 }

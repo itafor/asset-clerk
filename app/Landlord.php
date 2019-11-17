@@ -13,7 +13,7 @@ class Landlord extends Model
     protected $fillable = [
         'designation', 'gender', 'firstname','lastname','date_of_birth','occupation','address','state','phone',
         'agent_id','referral_code','photo','user_id', 'asset_id', 'asset_description', 'price', 'asset_address',
-        'country_id', 'state_id', 'city_id', 'uuid', 'user_id', 'email', 'occupation_id'
+        'country_id', 'state_id', 'city_id', 'uuid', 'email', 'occupation_id'
     ];
     public function Asset(){
         return $this->hasMany('App\Asset');
@@ -25,6 +25,11 @@ class Landlord extends Model
     public function name()
     {
         return $this->lastname.' '.$this->firstname;
+    }
+  
+    public function tenant_agent()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
     }
 
     public static function createNew($data)
