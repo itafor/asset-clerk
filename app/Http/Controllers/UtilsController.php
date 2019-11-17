@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Asset;
+use App\Mail\EmailVerification;
 use App\ServiceCharge;
+use App\Tenant;
 use App\Unit;
 use App\User;
-use App\Tenant;
+use Carbon\Carbon;
 use DB;
+use Illuminate\Http\Request;
 use Mail;
-use App\Mail\EmailVerification;
 
 class UtilsController extends Controller
 {
@@ -190,5 +191,19 @@ class UtilsController extends Controller
         }
 
         return 'Done';
+    }
+
+    public function validateSelectedPaymentDate($selected_date){
+
+
+        $payment_date = str_replace("-","/",$selected_date);
+        date_default_timezone_set("Africa/Lagos");
+        $pay_date   = Carbon::parse(formatDate($payment_date, 'd/m/Y', 'Y-m-d'));
+        $today = Carbon::now()->format('d/m/Y');
+        $current_timestamp = Carbon::parse(formatDate($today, 'd/m/Y', 'Y-m-d'));
+
+    if($pay_date > $current_timestamp){
+        return 'invalidate';
+    }
     }
 }

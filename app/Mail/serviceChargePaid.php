@@ -34,7 +34,7 @@ class serviceChargePaid extends Mailable
     public function build()
     {
         return $this->view('emails.service_charge_paid')
-        ->subject('Service Charge Payment Invoice')
+        ->subject('Service Charge Payment Notification')
         ->cc($this->landlord->email, $this->landlord->name());
     }
 }

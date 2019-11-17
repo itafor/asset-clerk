@@ -112,10 +112,10 @@
                                  <a href="{{ route('rent-payment.payment.record', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View Payment record </a>
 
 
-                            @if ($rental->new_rental_status == 'New' )
+                           <!--  @if ($rental->new_rental_status == 'New' )
 
                                     <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
-                                    @endif
+                                    @endif -->
                                       <form action="{{ route('rental.delete', ['uuid'=>$rental->uuid]) }}" method="get">
                                           
                                           <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete?") }}') ? this.parentElement.submit() : ''">

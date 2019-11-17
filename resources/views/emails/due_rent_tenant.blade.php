@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Rent Due in 30 Days | Asset Clerk</title>
+    <title>New Rental | Asset Clerk</title>
     
     <style>
     .invoice-box {
@@ -81,6 +81,9 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
     }
     
     /** RTL **/
@@ -106,8 +109,8 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
-                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                             <td class="title">
+                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
                             </td>
                             
                             <td style="text-align:right">
@@ -122,10 +125,26 @@
                 <td colspan="2">
                     <table>
                         <tr>
+                            <td>
+                                <b>Address:</b><br>
+                               {{$rental->unit->getTenant()->address}}
+                            </td>
+                            
+                            <td style="text-align:right">
+                              <strong> Name:</strong> {{$rental->unit->getTenant()->name()}} <br>
+                              <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
+                            </td>
+                        </tr>
+                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                          <tr>
                             <td colspan="2">
-                                Dear {{$rental->unit->getTenant()->firstname}},
                                 <p>
-                                  Kindly be notified that your rent will be due in 30 days. Please find below rental information.
+Dear {{$rental->unit->getTenant()->firstname}},<br/>
+
+ <em>  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}, and it will be renewed automatically by one year duration. Details of new rent's price and durations will be sent to you in few days.
+
+In case you don't want your rent to be renewed once it expired, 
+Please kindly contact your landload or Agent to disable auto renewal of your rents.<br/> Please find below rental information.</em>
                                 </p>
                             </td>
                         </tr>
@@ -133,62 +152,48 @@
                 </td>
             </tr>
             
-            <tr class="heading">
+            <tr>
                 <td>
-                    Property
+                    PROPERTY:
                 </td>
                 
                 <td>
-                  
+                   {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom
                 </td>
             </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
-                </td>
-            </tr>
-            
-            <tr class="heading">
+            <tr>
                 <td>
-                  Rent Details
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr class="item">
-                <td>
-                    <b>Price:</b>
+                    PRICE:
                 </td>
                 
                 <td>
-                    &#8358; {{number_format($rental->price,2)}}
+                    &#8358; {{number_format($rental->amount,2)}}
+                </td>
+            </tr>
+           
+           <tr>
+                <td>
+                    RENT DURATION:
+                </td>
+                
+                <td>
+                     {{$rental->duration}}
                 </td>
             </tr>
 
-            <tr class="item">
+             <tr>
                 <td>
-                    <b>Rent Duration:</b>
+                   START DATE:
                 </td>
                 
                 <td>
-                    {{$rental->duration.' '.$rental->duration_type}}
+                     {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
                 </td>
             </tr>
-
-            <tr class="item">
+        
+          <tr>
                 <td>
-                    <b>Rent Start Date:</b>
-                </td>
-                
-                <td>
-                    {{formatDate($rental->rental_date, 'Y-m-d', 'd M Y')}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Due Date:</b>
+                   DUE DATE:
                 </td>
                 
                 <td>
@@ -196,6 +201,64 @@
                 </td>
             </tr>
 
+             <tr >
+                <td>
+                    <h4>LANDLORD DETAILS</h4>
+                </td>
+            </tr>
+
+             <tr>
+                <td>
+                    NAME: {{$rental->unit->getProperty()->landlord->name()}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  PHONE: {{$rental->unit->getProperty()->landlord->phone}}
+                </td>
+
+            </tr>
+             <tr>
+                <td>
+                   EMAIL: {{$rental->unit->getProperty()->landlord->email}}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h4>AGENT DETAILS</h4>
+                </td>
+            </tr>
+
+             <tr>
+                <td>
+                   NAME: {{$rental->unit->getProperty()->landlord->tenant_agent->firstname}} 
+
+                   {{$rental->unit->getProperty()->landlord->tenant_agent->lastname}}
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   PHONE: {{$rental->unit->getProperty()->landlord->tenant_agent->phone}}
+                 
+                </td>
+
+            </tr>
+             <tr>
+                <td>
+                   EMAIL: {{$rental->unit->getProperty()->landlord->tenant_agent->email}}
+                </td>
+            </tr>
+
+               <tr>
+                
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                </td>
+            </tr>
+
+            
         </table>
     </div>
 </body>

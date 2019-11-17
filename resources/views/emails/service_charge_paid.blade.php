@@ -81,6 +81,15 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
+          .item td{
+        font-size: 14px;
+    }
+    .item b{
+        font-size: 14px;
+    }
     }
     
     /** RTL **/
@@ -136,98 +145,102 @@
                                Email: {{$serviceChargePayment->tenants->email}}
                             </td>
                         </tr>
+                              <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                          <tr>
+                            <td colspan="2">
+                                Dear {{$serviceChargePayment->tenants->firstname}},<br/>
+                                <em>
+                                This is to notify you that {{$serviceChargePayment->durationPaidFor}}'s  <b>  {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}} </b> service charge payment has been recorded successfully. 
+                                  Please find below service charge information.
+                                </em>
+                            </td>
+                        </tr>
+
                     </table>
                 </td>
             </tr>
             
-            <tr class="heading">
+            <tr class="item">
                 <td>
-                    Property
+                    <b>Property : </b>
                 </td>
-                
                 <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
                    {{$serviceChargePayment->property}}
                 </td>
             </tr>
-
-            <tr class="heading">
-                <td>
-                    Payment Method
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td>
-                    {{$serviceChargePayment->payment_mode}}
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="heading">
-                <td>
-                  Payment Item
-                </td>
-                
-                <td>
-                    Price
-                </td>
-
-                 <td>
-                    Amount Paid
-                </td>
-
-                 <td>
-                   Balance
-                </td>
-            </tr>
-            
             <tr class="item">
                 <td>
-                    {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}}
+                    <b> Payment Method : </b>
                 </td>
-
                 <td>
-                    &#8358; {{number_format($serviceChargePayment->actualAmount, 2)}}
-                </td>
-
-                 <td>
-                    &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
-                </td>
-
-                 <td>
-                    &#8358; {{number_format($serviceChargePayment->balance, 2)}}
+                   {{$serviceChargePayment->payment_mode}}
                 </td>
             </tr>
-            
-            <tr class="item">
-                <td colspan="2">
-                   <b>Payment Mode:</b> {{$serviceChargePayment->payment_mode}}
+              <tr class="item">
+                <td>
+                    <b> Payment Date : </b>
+                </td>
+                <td>
+                   {{ \Carbon\Carbon::parse($serviceChargePayment->payment_date)->format('d M Y')}}
                 </td>
             </tr>
+             <tr class="item">
+                <td>
+                 <b>DATE RECORDED : </b>
+                </td>
+                
+                <td>
+                    {{ \Carbon\Carbon::parse($serviceChargePayment->created_at)->format('d M Y')}}
+                </td>
+            </tr>
+
+         <tr class="item">
+        <td>
+          <b>  Payment Item : </b>
+        </td>
+        <td>
+             {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}}
+        </td>
+            </tr>
+
+         <tr class="item">
+                <td>
+                    <b> Price : </b>
+                </td>
+                <td>
+                  &#8358; {{number_format($serviceChargePayment->actualAmount, 2)}}
+                </td>
+       </tr>
+
+        <tr class="item">
+     <td>
+         <b> Amount Paid : </b>
+             </td>
+        <td>
+                  &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
+         </td>
+       </tr>
+        
+         <tr class="item">
+     <td>
+         <b>  Balance : </b>
+             </td>
+        <td>
+                &#8358; {{number_format($serviceChargePayment->balance, 2)}}
+         </td>
+       </tr>
+    
 
 
 			<tr class="item">
-                <td colspan="2">
+                <td>
                    <b>Duration Paid For:</b> {{$serviceChargePayment->durationPaidFor}}
                 </td>
             </tr>
 
 
              <tr class="item">
-                <td colspan="2">
+                <td>
                    <b>Description:</b> {{$serviceChargePayment->description}}
                 </td>
             </tr>
@@ -237,6 +250,12 @@
                 
                 <td>
                    Total: &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
+                </td>
+            </tr>
+             <tr>
+                
+                <td>
+                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
                 </td>
             </tr>
         </table>

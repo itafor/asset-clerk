@@ -2,28 +2,28 @@
 
 namespace App\Mail;
 
-use App\Payment;
-use App\RentPayment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PaymentCreated extends Mailable
+class RentalRenewed extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $payment;
-    public $landlord;
-
+     public $rental;
+     public $landlord;
+     public $agent;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(RentPayment $payment)
+    public function __construct($rental)
     {
-        $this->payment = $payment;
-        $this->landlord = $payment->unitt->getProperty()->landlord;
+        $this->rental = $rental;
+        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->agent = $rental->tenant_agent;
     }
 
     /**
@@ -33,8 +33,8 @@ class PaymentCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.payment')
-        ->subject('Rent Payment Notification')
+        return $this->view('emails.rental_renewed')
+        ->subject('Rental Renewal Notification')
         ->cc($this->landlord->email, $this->landlord->name());
     }
 }

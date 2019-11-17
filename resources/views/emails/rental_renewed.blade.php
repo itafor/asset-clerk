@@ -124,12 +124,6 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
-                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
-                        <tr>
-                           <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
-                            Your renewed rental have been verified, Please find below rental information.
-                           </p>
-                        </tr>
                         <tr>
                             <td>
                                 <b>Address:</b><br>
@@ -137,82 +131,141 @@
                             </td>
                             
                             <td style="text-align:right">
-                                {{$rental->unit->getTenant()->name()}} <br>
-                                {{$rental->unit->getTenant()->email}}
+                              <strong> Name:</strong> {{$rental->unit->getTenant()->name()}} <br>
+                              <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
+                            </td>
+                        </tr>
+                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                          <tr>
+                            <td colspan="2">
+                                Dear {{$rental->unit->getTenant()->firstname}},
+                                <em>
+                                  We wish to inform you that your rent have been renewed successfully.
+                                  This renewed rent comes with your old price and one year duration.
+                                  New rent's price and duration will be sent to you in few days.<br/>
+                                  Please find below rental information.
+                                </em>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             
-            <tr class="heading">
+            <tr>
                 <td>
-                    Property
+                    PROPERTY:
                 </td>
                 
                 <td>
-                  
+                   {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom
                 </td>
             </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
-                </td>
-            </tr>
-            
-            <tr class="heading">
+            <tr>
                 <td>
-                  Rent Details
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr class="item">
-                <td>
-                    <b>Price:</b>
+                    PRICE:
                 </td>
                 
                 <td>
                     &#8358; {{number_format($rental->amount,2)}}
                 </td>
             </tr>
-
-            <tr class="item">
+           
+           <tr>
                 <td>
-                    <b>Rent Duration:</b>
+                    RENT DURATION:
                 </td>
                 
                 <td>
-                    {{$rental->duration.' '.$rental->duration_type}}
+                     {{$rental->duration}}
                 </td>
             </tr>
 
-            <tr class="item">
+             <tr>
                 <td>
-                    <b>Rent Start Date:</b>
+                   START DATE:
                 </td>
                 
                 <td>
-                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
+                     {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
                 </td>
             </tr>
-
-            <tr class="item">
+        
+          <tr>
                 <td>
-                    <b>Rent Due Date:</b>
+                   DUE DATE:
                 </td>
                 
                 <td>
                     {{getNextRentPayment($rental)['due_date']}}
                 </td>
             </tr>
-                <tr>
+             <tr>
+                <td>
+                 DATE CREATED:
+                </td>
+                
+                <td>
+                    {{ \Carbon\Carbon::parse($rental->created_at)->format('d M Y')}}
+                </td>
+            </tr>
+             <tr>
+                <td>
+                    <h4>LANDLORD DETAILS</h4>
+                </td>
+            </tr>
+
+             <tr>
+                <td>
+                    NAME: {{$rental->unit->getProperty()->landlord->name()}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  PHONE: {{$rental->unit->getProperty()->landlord->phone}}
+                </td>
+
+            </tr>
+             <tr>
+                <td>
+                   EMAIL: {{$rental->unit->getProperty()->landlord->email}}
+                </td>
+            </tr>
+
+                   <tr>
+                <td>
+                    <h4>AGENT DETAILS</h4>
+                </td>
+            </tr>
+
+             <tr>
+                <td>
+                   NAME: {{$rental->unit->getProperty()->landlord->tenant_agent->firstname}} 
+
+                   {{$rental->unit->getProperty()->landlord->tenant_agent->lastname}}
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   PHONE: {{$rental->unit->getProperty()->landlord->tenant_agent->phone}}
+                 
+                </td>
+
+            </tr>
+             <tr>
+                <td>
+                   EMAIL: {{$rental->unit->getProperty()->landlord->tenant_agent->email}}
+                </td>
+            </tr>
+
+               <tr>
                 
                 <td>
                     Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
                 </td>
             </tr>
+
+            
         </table>
     </div>
 </body>

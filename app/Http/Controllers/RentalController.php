@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Jobs\NotifyDueRentJob;
 use App\Jobs\RentalCreatedEmailJob;
+use App\Jobs\RentalRenewedEmailJob;
 use App\Jobs\RentalUpdatedEmailJob;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
@@ -169,7 +171,7 @@ public function update(Request $request){
             }
 
      
-        return redirect()->route('rental.index')->with('success', 'Rental approved successfully');
+        return redirect()->route('rental.index')->with('success', 'Rental updated successfully');
 }
 
 public function yesRenewRent($uuid){
@@ -213,24 +215,66 @@ public function viewDetail($uuid){
      */
     public function notifyDueRent()
     {
-        // $dueRentals = TenantRent::join('rent_dues as rd', 'rd.rent_id', '=', 'tenant_rents.id')
-        // ->where('rd.status', 'pending')
-        // ->whereRaw("DATE_ADD(CURDATE(), INTERVAL 30 DAY) = rd.due_date") 
-        // ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
-
-     $dueRentals = DB::table('tenant_rents')
+     $dueRentals = TenantRent::where('renewable', 'yes')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-        ->where('status', 'pending')
-        ->whereRaw('ABS(TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date )) = ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) )') 
+        ->whereRaw('ABS(TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date )) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (22/100) ),0)') 
         ->get();
 
         foreach($dueRentals as $rental) {
-            $toEmail = $rental->tenant->email;
-            Mail::to($toEmail)->send(new DueRentTenant($rental));
+             NotifyDueRentJob::dispatch($rental)
+            ->delay(now()->addSeconds(5));
         }
 
         return 'done';
     }
 
+ public function renewRentals(){
+        $newRentals = DB::table('tenant_rents')
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+         ->where('renewable', 'yes')
+        ->whereRaw('ABS(TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date )) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (22/100) ),0)') 
+        ->get();
+
+     foreach($newRentals as $rental) {
+
+    $newRentDetails['tenant']    = $rental->tenant_uuid;
+    $newRentDetails['property']  = $rental->asset_uuid;
+    $newRentDetails['unit']      = $rental->unit_uuid;
+    $newRentDetails['price']     = $rental->price;
+    $newRentDetails['amount']    = $rental->amount;
+    $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
+    $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
+    $newRentDetails['user_id']    = $rental->user_id;
+    $newRentDetails['new_rental_status'] = 'New';
+
+            if(!empty($newRentDetails)){
+
+                DB::beginTransaction();
+        try {
+            $rental = TenantRent::createNew($newRentDetails);
+
+            RentalRenewedEmailJob::dispatch($rental)
+            ->delay(now()->addSeconds(5));
+            $this->setRenewableColumnToNo($rental->id);     
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return false;
+            }
+
+        }
+    }
+    }
+
+    public function setRenewableColumnToNo($id){
+             $rental =  TenantRent::where('id',$id)
+                ->where('user_id', getOwnerUserID())->first();
+        
+if($rental){
+    $rental->renewable = 'no';
+   $rental->save();
+   }
+}
 }
 

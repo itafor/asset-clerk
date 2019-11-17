@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Approve Rental</h3>
+                <h3 class="dt-entry__title">Edit Rental</h3>
               </div>
               <!-- /entry heading -->
 

@@ -12,15 +12,17 @@ class DueRentTenant extends Mailable
     use Queueable, SerializesModels;
 
     public $rental;
+    public $landlord;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(TenantRent $rental)
+    public function __construct($rental)
     {
         $this->rental = $rental;
+        $this->landlord = $rental->unit->getProperty()->landlord;
     }
 
     /**
@@ -31,6 +33,7 @@ class DueRentTenant extends Mailable
     public function build()
     {
         return $this->view('emails.due_rent_tenant')
-        ->subject('Rent Due in 30 Days');
+        ->subject('Due Rentals Notification')
+        ->cc($this->landlord->email, $this->landlord->name());
     }
 }
