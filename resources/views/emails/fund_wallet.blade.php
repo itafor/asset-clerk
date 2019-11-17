@@ -130,45 +130,70 @@
                 </td>
             </tr>
             
-            <tr>
+            <tr class="heading">
                 <td>
-                    <b>Amount : </b>
-                </td>
-                <td>
-                  &#8358; {{number_format($walletHistory->amount,2)}}
-                </td>
-            </tr>
-        
-
-            <tr>
-                <td>
-                   <b> Balance : </b>
+                    Amount
                 </td>
                 
                 <td>
+                  
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td colspan="2">
+          &#8358; {{number_format($walletHistory->amount,2)}}
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>
+                    Balance
+                </td>
+                
+                <td>
+                  
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td colspan="2">
+                    
                      &#8358; {{number_format($walletHistory->new_balance,2)}}
                 </td>
             </tr>
             
-            <tr>
+           
+            
+            <tr class="heading">
                 <td>
-                   <b>Transaction Date : </b>
+                    Date
                 </td>
                 
                 <td>
-                    {{ \Carbon\Carbon::parse($walletHistory->created_at)->format('d M Y')}}
                  
                 </td>
             </tr>
             
+            <tr class="details">
+                <td colspan="2">
+                    {{ \Carbon\Carbon::parse($walletHistory->created_at)->format('d M Y')}}
+                </td>
+            </tr>
             @if($walletHistory->transaction_type =='Withdrawal')
-               <tr>
+               <tr class="heading">
                 <td>
-                    <b>Reason : </b>
+                    Reason
                 </td>
                 
                 <td>
-                 We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
+                 
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td colspan="2">
+                    We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
                 </td>
             </tr>
             @endif

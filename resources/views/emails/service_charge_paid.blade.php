@@ -145,7 +145,7 @@
                                Email: {{$serviceChargePayment->tenants->email}}
                             </td>
                         </tr>
-                              <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                              <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
                           <tr>
                             <td colspan="2">
                                 Dear {{$serviceChargePayment->tenants->firstname}},<br/>
@@ -182,12 +182,13 @@
                     <b> Payment Date : </b>
                 </td>
                 <td>
-                   {{ \Carbon\Carbon::parse($serviceChargePayment->payment_date)->format('d M Y')}}
+                    {{ \Carbon\Carbon::parse($serviceChargePayment->payment_date)->format('d M Y')}}
+                   
                 </td>
             </tr>
              <tr class="item">
                 <td>
-                <b> DATE RECORDED:</b>
+                <b>Date Created</b>
                 </td>
                 
                 <td>
@@ -250,7 +251,7 @@
                 <td></td>
                 
                 <td>
-                  <b> Total:</b> &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
+                   Total: &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
                 </td>
             </tr>
              <tr>
