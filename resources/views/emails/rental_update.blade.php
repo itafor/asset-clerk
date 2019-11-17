@@ -124,7 +124,7 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
-                        <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
+                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
                         <tr>
                            <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
                             Your renewed rental have been verified, Please find below rental information.
