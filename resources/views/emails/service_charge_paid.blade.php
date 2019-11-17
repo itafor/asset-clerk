@@ -84,12 +84,6 @@
         .notification_header{
             font-size: 10px;
         }
-          .item td{
-        font-size: 14px;
-    }
-    .item b{
-        font-size: 14px;
-    }
     }
     
     /** RTL **/
