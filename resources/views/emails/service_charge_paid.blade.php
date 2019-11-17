@@ -145,13 +145,12 @@
                                Email: {{$serviceChargePayment->tenants->email}}
                             </td>
                         </tr>
-                              <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
+                              <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
                           <tr>
                             <td colspan="2">
                                 Dear {{$serviceChargePayment->tenants->firstname}},<br/>
                                 <em>
                                 This is to notify you that {{$serviceChargePayment->durationPaidFor}}'s  <b>  {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}} </b> service charge payment has been recorded successfully. 
-                                 <br/>
                                   Please find below service charge information.
                                 </em>
                             </td>
@@ -182,12 +181,12 @@
                     <b> Payment Date : </b>
                 </td>
                 <td>
-                   {{$serviceChargePayment->payment_date}}
+                   {{ \Carbon\Carbon::parse($serviceChargePayment->payment_date)->format('d M Y')}}
                 </td>
             </tr>
              <tr class="item">
                 <td>
-                 DATE RECORDED:
+                 <b>DATE RECORDED : </b>
                 </td>
                 
                 <td>
