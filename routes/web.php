@@ -143,8 +143,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/no-renew-rental/{uuid}', 'RentalController@noRenewRent')->name('renewable.no');
 			Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 			Route::get('/view-detail/{uuid}', 'RentalController@viewDetail')->name('rental.view.detail');
-			Route::get('/notify-due-rent', 'RentalController@notifyDueRent');
-			Route::get('/renew-rental-job', 'RentalController@renewRentals');
+			
 		});
 
 		Route::prefix('rent-payment')->group(function(){
@@ -220,3 +219,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateSelectedPaymentDate');
 });
 
+Route::get('notify-due-rent', 'RentalController@notifyDueRent');
+Route::get('renew-rental-job', 'RentalController@renewRentals');
