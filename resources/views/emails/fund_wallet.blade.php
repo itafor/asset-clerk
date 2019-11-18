@@ -130,70 +130,45 @@
                 </td>
             </tr>
             
-            <tr class="heading">
+            <tr>
                 <td>
-                    Amount
+                    <b>Amount : </b>
                 </td>
-                
                 <td>
-                  
+                  &#8358; {{number_format($walletHistory->amount,2)}}
                 </td>
             </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-          &#8358; {{number_format($walletHistory->amount,2)}}
-                </td>
-            </tr>
+        
 
-            <tr class="heading">
+            <tr>
                 <td>
-                    Balance
+                   <b> Balance : </b>
                 </td>
                 
                 <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    
                      &#8358; {{number_format($walletHistory->new_balance,2)}}
                 </td>
             </tr>
             
-           
-            
-            <tr class="heading">
+            <tr>
                 <td>
-                    Date
+                   <b>Transaction Date : </b>
                 </td>
                 
                 <td>
-                 
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
                     {{ \Carbon\Carbon::parse($walletHistory->created_at)->format('d M Y')}}
-                </td>
-            </tr>
-            @if($walletHistory->transaction_type =='Withdrawal')
-               <tr class="heading">
-                <td>
-                    Reason
-                </td>
-                
-                <td>
                  
                 </td>
             </tr>
             
-            <tr class="details">
-                <td colspan="2">
-                    We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
+            @if($walletHistory->transaction_type =='Withdrawal')
+               <tr>
+                <td>
+                    <b>Reason : </b>
+                </td>
+                
+                <td>
+                 We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
                 </td>
             </tr>
             @endif
