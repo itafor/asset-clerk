@@ -182,13 +182,12 @@
                     <b> Payment Date : </b>
                 </td>
                 <td>
-                    {{ \Carbon\Carbon::parse($serviceChargePayment->payment_date)->format('d M Y')}}
-                   
+                   {{$serviceChargePayment->payment_date}}
                 </td>
             </tr>
              <tr class="item">
                 <td>
-                <b>Date Created</b>
+                 DATE RECORDED:
                 </td>
                 
                 <td>
