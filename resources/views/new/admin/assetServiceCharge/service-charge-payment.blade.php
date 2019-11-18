@@ -152,7 +152,7 @@
 
                                     <div class="form-group{{ $errors->has('payment_date') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-payment_date">{{ __('Payment Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="payment_date" id="input-payment_date" class="datepicker form-control form-control-alternative{{ $errors->has('payment_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('payment_date')}}" required>
+                                        <input type="text" name="payment_date" id="payment_date" class="datepicker form-control form-control-alternative{{ $errors->has('payment_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('payment_date')}}" required>
                                         
                                         @if ($errors->has('payment_date'))
                                             <span class="invalid-feedback" role="alert">

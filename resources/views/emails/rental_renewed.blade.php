@@ -81,6 +81,9 @@
             display: block;
             text-align: center;
         }
+        .notification_header{
+            font-size: 10px;
+        }
     }
     
     /** RTL **/
@@ -132,16 +135,16 @@
                               <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
                             </td>
                         </tr>
-                        <h2><u>Asset Clerk Electronic Notification Service</u></h2>
+                        <h2 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h2>
                           <tr>
                             <td colspan="2">
                                 Dear {{$rental->unit->getTenant()->firstname}},
-                                <p>
-                                  We wish to inform you that your rent have been renewed successfully.<br/>
-                                  This renewed rent comes with your old price and one year duration.<br/>
+                                <em>
+                                  We wish to inform you that your rent have been renewed successfully.
+                                  This renewed rent comes with your old price and one year duration.
                                   New rent's price and duration will be sent to you in few days.<br/>
                                   Please find below rental information.
-                                </p>
+                                </em>
                             </td>
                         </tr>
                     </table>
@@ -196,7 +199,15 @@
                     {{getNextRentPayment($rental)['due_date']}}
                 </td>
             </tr>
-
+             <tr>
+                <td>
+                 DATE CREATED:
+                </td>
+                
+                <td>
+                    {{ \Carbon\Carbon::parse($rental->created_at)->format('d M Y')}}
+                </td>
+            </tr>
              <tr>
                 <td>
                     <h4>LANDLORD DETAILS</h4>

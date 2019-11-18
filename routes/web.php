@@ -217,5 +217,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('verify/{email}/{token}', 'UtilsController@verify');
 	Route::get('fetch-rented-units/{property}', 'UtilsController@fetchRentedUnits');
 	Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
+	Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateSelectedPaymentDate');
 });
 
