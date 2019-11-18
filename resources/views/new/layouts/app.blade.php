@@ -249,8 +249,9 @@ $(document).ready(function(){
                       if(data ==='invalidate'){
                     toast({
                         type: 'warning',
-                        title: 'Ooops!! Invalid payment date. Future date detected'
+                        title: 'Ooops!! Invalid payment date. Future date ('+ selected_date +') detected'
                     })
+                    $("#payment_date").val('')
             }
         }
         });
