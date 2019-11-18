@@ -53,7 +53,6 @@ class Tenant extends Model
             'lastname' => $data['lastname'],
             'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
             'occupation' => $data['occupation'],
-            // 'occupation_id' => $data['occupation'],
             'office_country_id' => $data['office_country'],
             'office_state_id' => $data['office_state'],
             'office_city_id' => $data['office_city'],
