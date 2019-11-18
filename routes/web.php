@@ -220,4 +220,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('notify-due-rent', 'RentalController@notifyDueRent');
-Route::get('renew-rental-job', 'RentalController@renewRentals');
+Route::get('/renew-rental-job', 'RentalController@renewRentals');
