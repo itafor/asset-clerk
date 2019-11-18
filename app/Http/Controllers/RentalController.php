@@ -256,7 +256,7 @@ public function viewDetail($uuid){
 
             RentalRenewedEmailJob::dispatch($rental)
             ->delay(now()->addSeconds(5));
-            $this->setRenewableColumnToNo($rental->id);     
+            $this->setRenewableColumnToNo($rental->id,$rental->user_id);     
             DB::commit();
 
         } catch (Exception $e) {
@@ -268,9 +268,9 @@ public function viewDetail($uuid){
     }
     }
 
-    public function setRenewableColumnToNo($id){
+    public function setRenewableColumnToNo($id,$user_id){
              $rental =  TenantRent::where('id',$id)
-                ->where('user_id', getOwnerUserID())->first();
+                ->where('user_id', $user_id)->first();
         
 if($rental){
     $rental->renewable = 'no';
