@@ -219,7 +219,7 @@ public function viewDetail($uuid){
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
         ->get();
-dd($dueRentals);
+//dd($dueRentals);
 
         foreach($dueRentals as $rental) {
              NotifyDueRentJob::dispatch($rental)
