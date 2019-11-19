@@ -219,6 +219,7 @@ public function viewDetail($uuid){
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
         ->get();
+//dd($dueRentals);
 
         foreach($dueRentals as $rental) {
              NotifyDueRentJob::dispatch($rental)
@@ -234,7 +235,7 @@ public function viewDetail($uuid){
          ->where('renewable', 'yes')
         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
         ->get();
-
+//dd($newRentals);
      foreach($newRentals as $rental) {
 
     $newRentDetails['tenant']    = $rental->tenant_uuid;
