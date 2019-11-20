@@ -164,6 +164,7 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/edit/{uuid}', 'MaintenanceController@edit')->name('maintenance.edit');
 			Route::post('/update', 'MaintenanceController@update')->name('maintenance.update');
 			Route::get('/delete/{uuid}', 'MaintenanceController@delete')->name('maintenance.delete');
+			Route::get('/maintenance-status/{uuid}/{status}', 'MaintenanceController@changeStatus')->name('maintenance.status');
 		});
 		Route::prefix('debt')->group(function(){
 			Route::get('/', 'DebtController@debt')->name('debt.debt');

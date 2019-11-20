@@ -52,18 +52,40 @@
                           <tr>
                               <td>{{$loop->iteration}}</td>
                               <td>{{$m->tenant->name()}}</td>
-                              <td>{{$m->asset->description}}</td>
+                              <td>{{$m->asset_maintenance($m->asset_description_uuid)['descriptn']}}</td>
                               <td>{{$m->buildingSection->name}}</td>
                               <td>{{$m->description}}</td>
                               <td>{{ formatDate($m->reported_date, 'Y-m-d', 'd/m/Y') }}</td>
-                              <td>{{$m->status}}</td>
+                              @if($m->status === 'Fixed')
+                              <td class="text-success">{{$m->status}}</td>
+                              @else
+                              <td class="text-danger">{{$m->status}}</td>
+                              @endif
                               <td class="text-center">
                                       <div class="dropdown">
                                           <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                               Action
                                           </a>
                                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                                @if($m->status === 'Fixed')
+                                                 <form action="{{ route('maintenance.status', ['uuid'=>$m->uuid,'status'=>$m->status]) }}" method="get">
+                                                  
+                                                  <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to set this maintenance\'s complaint status to Unfixed?") }}') ? this.parentElement.submit() : ''">
+                                                      {{ __('Unfix') }}
+                                                  </button>
+                                              </form>
+                                              @else
+                                               <form action="{{ route('maintenance.status', ['uuid'=>$m->uuid,'status'=>$m->status]) }}" method="get">
+                                                  
+                                                  <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to set this maintenance\'s complaint status to Fixed?") }}') ? this.parentElement.submit() : ''">
+                                                      {{ __('Fix') }}
+                                                  </button>
+                                              </form>
+                                              @endif
+
                                               <a href="{{ route('maintenance.edit', ['uuid'=>$m->uuid]) }}" class="dropdown-item">Edit</a>
+
                                               <form action="{{ route('maintenance.delete', ['uuid'=>$m->uuid]) }}" method="get">
                                                   
                                                   <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this maintenance?") }}') ? this.parentElement.submit() : ''">

@@ -32,7 +32,7 @@
                 <div class="dt-card__body">
                     <form method="post" action="{{ route('maintenance.update') }}" autocomplete="off">
                             @csrf
-                            <input type="hidden" name="uuid" value="{{$maintenance->uuid}}">
+                            <input type="text" name="uuid" value="{{$maintenance->uuid}}">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">

@@ -157,7 +157,7 @@ class UtilsController extends Controller
             ->join('assets as a', 'a.id', '=', 'units.asset_id')
             ->join('tenant_rents as tr', 'tr.unit_uuid', '=', 'units.uuid')
             ->join('tenants as t', 't.uuid', '=', 'tr.tenant_uuid')
-            ->selectRaw('c.name as unit, a.description as asset, a.uuid as uuid, units.*')
+            ->selectRaw('c.name as unit, a.description as asset, a.uuid as asset_uuid, units.*')
             ->where('tr.tenant_uuid', $tenant->uuid)
             ->whereNull('tr.deleted_at')
             ->whereRaw('tr.due_date > CURDATE()')
