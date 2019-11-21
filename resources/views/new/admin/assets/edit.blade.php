@@ -160,17 +160,42 @@
                                 </div>
                                 <div style="clear:both"></div>
                                 @endforeach
-                                <div id="container">
+                            <!--     <div id="container">
                                 </div>   
                                 <div class="form-group">
                                     <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                </div>
+                                </div> -->
                             @else
                                 @if ($asset->units->count() > 0)
                                     @foreach ($asset->units as $unit)
                                     <div style="float:right"><a href="{{route('asset.delete.unit', ['id' => $unit->id])}}" class=" badge badge-danger btn-sm" data-confirm border="2">Remove</a></div>
                                     <div style="clear:both"></div>
                                     <div class="row">
+
+<div class="form-group{{ $errors->has('apartment_type') ? ' has-danger' : '' }} col-2">
+    <label class="form-control-label" for="input-property_type">{{ __('Apartment Type') }}</label>
+                                      
+    <div class="form-check">
+      <label class="form-check-label" for="radio1">
+        <input type="radio" name="unit[{{$unit->uuid}}][apartment_type]" class="form-check-input" placeholder="Enter Apartment Type" value="{{old('apartment_type', $unit->apartment_type == 'Residential' ? 'Residential':'Residential')}}" required {{$unit->apartment_type == 'Residential'? 'checked':''}} > Residential
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label" for="radio2">
+       <input type="radio" name="unit[{{$unit->uuid}}][apartment_type]" class="form-check-input" placeholder="Enter Apartment Type" value="{{old('apartment_type', $unit->apartment_type == 'Commercial'?'Commercial':'Commercial')}}"  required {{$unit->apartment_type == 'Commercial'? 'checked':''}} >Commercial
+      </label>
+    </div>
+
+    @if ($errors->has('apartment_type'))
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $errors->first('apartment_type') }}</strong>
+            </span>
+    @endif
+</div>
+
+
+
+
                                         <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                             <select name="unit[{{$unit->uuid}}][property_type]"  class="form-control" required>
@@ -186,7 +211,7 @@
                                                     </span>
                                             @endif
                                         </div>
-                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
+                                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-2">
                                             <label class="form-control-label" for="input-category">{{ __('Category') }}</label>
                                             <select name="unit[{{$unit->uuid}}][category]"  class="form-control" required>
                                                 <option value="">Select Category</option>
@@ -201,9 +226,9 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
+                                        <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-2">
                                             <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                            <input type="number" name="unit[{{$unit->uuid}}][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity', $unit->quantity)}}" required>
+                                            <input type="number" name="unit[{{$unit->uuid}}][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity', $unit->quantity)}}"  readonly="readonly">
                                             
                                             @if ($errors->has('quantity'))
                                                 <span class="invalid-feedback" role="alert">
@@ -225,13 +250,36 @@
                                                                         
                                     </div>
                                     @endforeach
-                                    <div id="container">
+                                 <!--    <div id="container">
                                         </div>  
                                     <div class="form-group">
                                         <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                    </div> 
+                                    </div> --> 
                                 @else
                                 <div class="row">
+                                    <!-- Apartment types -->
+
+<div class="form-group{{ $errors->has('apartment_type') ? ' has-danger' : '' }} col-2">
+<label class="form-control-label" for="input-property_type">{{ __('Apartment Type') }}</label>
+                                      
+    <div class="form-check">
+      <label class="form-check-label" for="radio1">
+        <input type="radio" name="unit[{{$unit->uuid}}][apartment_type]" class="form-check-input" placeholder="Enter Apartment Type" value="{{old('apartment_type', $unit->apartment_type == 'Residential' ? 'Residential':'Residential')}}" required {{$unit->apartment_type == 'Residential'? 'checked':''}} > Residential
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label" for="radio2">
+       <input type="radio" name="unit[{{$unit->uuid}}][apartment_type]" class="form-check-input" placeholder="Enter Apartment Type" value="{{old('apartment_type', $unit->apartment_type == 'Commercial'?'Commercial':'Commercial')}}"  required {{$unit->apartment_type == 'Commercial'? 'checked':''}} >Commercial
+      </label>
+    </div>
+
+    @if ($errors->has('apartment_type'))
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $errors->first('apartment_type') }}</strong>
+            </span>
+    @endif
+</div>
+
                                         <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                             <select name="unit[{{$unit->uuid}}][property_type]"  class="form-control" required>
@@ -264,7 +312,7 @@
                                         </div>
                                         <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
                                             <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>
-                                            <input type="number" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>
+                                            <input type="number" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" >
                                             
                                             @if ($errors->has('quantity'))
                                                 <span class="invalid-feedback" role="alert">
@@ -284,11 +332,11 @@
                                         </div>
                                 </div>
                                         <div style="clear:both"></div>
-                                        <div id="container">
+                                 <!--        <div id="container">
                                         </div>   
                                         <div class="form-group">
                                             <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                                        </div> 
+                                        </div> --> 
                                 @endif  
                             @endif
 
@@ -342,7 +390,7 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-commission">{{ __('Commission (%)') }}</label>
-                                    <input type="text" name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission', $asset->commission)}}" required>
+                                    <input type="text"  name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission', $asset->commission)}}" required>
 
                                     @if ($errors->has('commission'))
                                         <span class="invalid-feedback" role="alert">
@@ -469,11 +517,31 @@
 
             var rowId = identifier();
 
-            $("#container").append(
-                '<div>'
-                    +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
-                    +'<div style="clear:both"></div>'
-                    +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+    $("#container").append(
+    '<div>'
+    +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
+    +'<div style="clear:both"></div>'
+    +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+
+    +'<div class="col-2">'
+    +'<label class="form-control-label" for="input-category">{{ __('Apartment Type') }}</label>'
+    +'<div class="form-check">'
+    +'<label class="form-check-label" for="radio1">'
+    +'<input type="radio" class="form-check-input" id="radio1"  name="unit['+rowId+'][apartment_type]" value="Residential" required>Residential'
+    +'</label>'
+    +'</div>'
+    +'<div class="form-check">'
+    +'<label class="form-check-label" for="radio2">'
+    +'<input type="radio" class="form-check-input" id="radio2" name="unit['+rowId+'][apartment_type]" value="Commercial" required>Commercial'
+    +'</label>'
+    +'</div>'
+    +' @if ($errors->has('apartment_type'))'
+    +'        <span class="invalid-feedback" role="alert">'
+    +'            <strong>{{ $errors->first('apartment_type') }}</strong>'
+    +'        </span>'
+    +'    @endif'
+    +'</div>'
+
                         +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>'
                         +'    <select name="unit['+rowId+'][property_type]"  class="form-control select'+rowId+'" required>'
@@ -489,7 +557,7 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Category') }}</label>'
                         +'    <select name="unit['+rowId+'][category]"  class="form-control select'+rowId+'" required>'
                         +'        <option value="">Select Category</option>'
@@ -504,9 +572,9 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-quantity">{{ __('Quantity') }}</label>'
-                        +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}" required>' 
+                        +'    <input type="number" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }}" placeholder="Enter Quantity" value="{{old('quantity')}}"  readonly="readonly">' 
                         +'    @if ($errors->has('quantity'))'
                         +'        <span class="invalid-feedback" role="alert">'
                         +'            <strong>{{ $errors->first('quantity') }}</strong>'

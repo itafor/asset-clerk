@@ -63,6 +63,7 @@ class AssetController extends Controller
             'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
+            'unit.*.apartment_type' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -104,25 +105,20 @@ class AssetController extends Controller
 
     public function update(Request $request)
     {
-        // $this->checkAvailableSlot($request);
 
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'commission' => 'required|numeric',
-            // 'quantity' => 'required',
-            // 'standard_price' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'address' => 'required',
             'detailed_information' => 'required',
-            // 'bedrooms' => 'required',
-            // 'bathrooms' => 'required',
             'features.*' => 'required',
             'uuid' => 'required',
             'unit.*.category' => 'required',
-            'unit.*.quantity' => 'required',
+            // 'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
             'photos.*' => 'image',
@@ -446,7 +442,7 @@ public function tenantsServiceCharge($id){
           $scId =  (int)$sc_id;
           $tenantId =  (int)$tenant_id;
          
-            //dd($tenant_id);
+           
           if(removeTenantFromServiceCharge($tenantId, $scId)){
             removeServiceChargeWithoutTenant($scId);
             return back()->with('success', 'The Selected Tenant has been removed from this service charge');

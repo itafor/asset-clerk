@@ -64,6 +64,7 @@ class Asset extends Model
 
     public static function createNew($data)
     {
+        
         $asset = self::create([
             'commission' => $data['commission'],
             'description' => $data['description'],
@@ -85,6 +86,7 @@ class Asset extends Model
 
     public static function updateAsset($data)
     {
+       // dd($data);
         self::where('uuid', $data['uuid'])->update([
             'commission' => $data['commission'],
             'description' => $data['description'],
@@ -123,6 +125,7 @@ class Asset extends Model
                 'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
                 'property_type_id' => $unit['property_type'],
+                'apartment_type' => $unit['apartment_type'],
                 'uuid' => generateUUID(),
             ]);
         }
@@ -136,7 +139,8 @@ class Asset extends Model
                 $u->category_id = $unit['category'];
                 $u->standard_price = $unit['standard_price'];
                 $u->property_type_id = $unit['property_type'];
-                $u->quantity = $unit['quantity'];
+                // $u->quantity = $unit['quantity'];
+                $u->apartment_type = $unit['apartment_type'];
                 $u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
                 $u->save();
             }
@@ -149,6 +153,7 @@ class Asset extends Model
                     'quantity_left' => $unit['quantity'],
                     'standard_price' => $unit['standard_price'],
                     'property_type_id' => $unit['property_type'],
+                    'apartment_type' => $unit['apartment_type'],
                     'uuid' => generateUUID(),
                 ]);
             }
