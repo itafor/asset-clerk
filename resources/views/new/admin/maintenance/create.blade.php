@@ -106,7 +106,7 @@
                                     </div>
                                     {{-- <div style="clear:both"></div>          --}}
 
-                                    <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }} col-6">
+                                    <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-fault_description">{{ __('Fault Description') }}</label>
                                         <textarea rows="5" name="fault_description" id="input-fault_description" class="form-control form-control-alternative{{ $errors->has('fault_description') ? ' is-invalid' : '' }}" placeholder="Enter Fault Description" required>{{old('fault_description')}}</textarea>
 
@@ -116,7 +116,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }} col-6">
+                                 <!--    <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-date">{{ __('Status') }}</label>
                                         <select name="status" id="status" class="form-control" required>
                                             <option value="">Select Status</option>
@@ -129,7 +129,7 @@
                                                 <strong>{{ $errors->first('status') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
+                                    </div> -->
 
                                     <div style="clear:both"></div>    
                                     <div class="col-12" align="center">
@@ -191,7 +191,8 @@
                         $('#asset_description').empty();
                         $('<option>').val('').text('Select Asset').appendTo('#asset_description');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.asset+' - '+v.unit).appendTo('#asset_description');
+                            console.log(v.asset_uuid)
+                            $('<option>').val(v.asset_uuid).text(v.asset+' - '+v.unit).appendTo('#asset_description');
                         });
                     }
                 });

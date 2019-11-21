@@ -232,7 +232,24 @@
 
  
             </ul>
+
+        <li class="dt-side-nav__item {{isset($page) && $page == 'maintenance' ? 'open' : ''}}"">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
+                <i class="icon icon-setting icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Maintenance Management</span> </a>
+            <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('maintenance.index')}}" class="dt-side-nav__link text-white">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text">List</span> </a>
+                </li>
+                <li class="dt-side-nav__item">
+                    <a href="{{route('maintenance.create')}}" class="dt-side-nav__link text-white">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                </li>
+            </ul>
             <!-- /sub-menu -->
+            </li>
+          
 
                    <li class="dt-side-nav__item {{isset($page) && $page == 'asset' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
