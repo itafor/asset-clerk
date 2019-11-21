@@ -70,7 +70,7 @@ class AssetController extends Controller
             'city' => 'required',
             'address' => 'required',
             'detailed_information' => 'required',
-            'features' => 'required',
+            'features.*' => 'required',
             'photos.*' => 'image',
             'commission' => 'required|numeric',
         ]);
@@ -115,12 +115,12 @@ class AssetController extends Controller
             'city' => 'required',
             'address' => 'required',
             'detailed_information' => 'required',
-            'features' => 'required',
+            'features.*' => 'required',
             'uuid' => 'required',
             'unit.*.category' => 'required',
             // 'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
-            'property_type' => 'required',
+            'unit.*.property_type' => 'required',
             'photos.*' => 'image',
         ]);
 
