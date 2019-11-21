@@ -46,27 +46,27 @@
            
                     <tbody>
                    <tr>
-                     <td class="captions">Row Number</td>
+                     <td style="width: 60px;">Row Number</td>
                      <td>{{$complaint_row_number}}</td>
                    </tr>
 
                      <tr>
-                     <td class="captions">TENANT</td>
+                     <td style="width: 60px;">TENANT</td>
                      <td>{{$complaint_detail->tenant->name()}}</td>
                    </tr>
 
                     <tr>
-                     <td class="captions">PROPERTY</td>
+                     <td style="width: 60px;">PROPERTY</td>
                 <td>{{$complaint_detail->asset_maintenance($complaint_detail->asset_description_uuid)['descriptn']}}</td>           
               </tr>
 
                  <tr>
-                     <td class="captions">SECTION</td>
+                     <td style="width: 60px;">SECTION</td>
                      <td>{{$complaint_detail->buildingSection->name}}</td>
                 </tr>
 
                  <tr>
-                     <td class="captions">DESCRIPTION</td>
+                     <td style="width: 60px;">DESCRIPTION</td>
                      <td>
                       <p>
                       {{$complaint_detail->description}}
@@ -75,7 +75,7 @@
                 </tr>
 
                  <tr>
-                     <td class="captions">REPORTED DATE</td>
+                     <td style="width: 60px;">REPORTED DATE</td>
                      
                       <td>{{ formatDate($complaint_detail->reported_date, 'Y-m-d', 'd/m/Y') }}</td>
                    
@@ -98,10 +98,10 @@
               
                  <tr>
                   @if($complaint_detail->status === 'Fixed')
-                              <td class="captions">STATUS</td>
+                              <td style="width: 60px;">STATUS</td>
                               <td class="text-success">{{$complaint_detail->status}}</td>
                               @else
-                              <td class="captions">STATUS</td>
+                              <td style="width: 60px;">STATUS</td>
                               <td class="text-danger">{{$complaint_detail->status}}</td>
                   @endif
                 </tr>
