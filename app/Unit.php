@@ -9,7 +9,7 @@ class Unit extends Model
 {
     protected $fillable = [
         'asset_id','user_id','plan_id','category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid',
-        'property_type_id'
+        'property_type_id','apartment_type'
     ];
 
     public function category()
