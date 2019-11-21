@@ -21,7 +21,14 @@
                 <h3 class="dt-entry__title">Edit Maintenance</h3>
               </div>
               <!-- /entry heading -->
-
+  <div class="dt-entry__heading">
+ <a href="{{ route('maintenance.index') }}">
+<button class="btn btn-sm btn-primary">
+ Back
+</button>
+</a>
+                
+              </div>
             </div>
             <!-- /entry header -->
 
@@ -32,64 +39,16 @@
                 <div class="dt-card__body">
                     <form method="post" action="{{ route('maintenance.update') }}" autocomplete="off">
                             @csrf
-                            <input type="text" name="uuid" value="{{$maintenance->uuid}}">
+                            <input type="hidden" name="uuid" value="{{$maintenance->uuid}}">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    {{-- <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-tenant">{{ __('Customer') }}</label>
-                                        <select name="customer" id="" class="form-control" required autofocus>
-                                            <option value="">Select Customer</option>
-                                            @foreach (getTenants() as $tenant)
-                                                <option value="{{$tenant->id}}" {{$tenant->id == $maintenance->tenant_id ? 'selected' : ''}}>{{$tenant->name()}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @if ($errors->has('customer'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('customer') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-category">{{ __('Asset Category') }}</label>
-                                        <select name="category" id="category" class="form-control" required>
-                                            <option value="">Select Category</option>
-                                            @foreach (getCategories() as $cat)
-                                                <option value="{{$cat->id}}" {{$cat->id == $maintenance->category ? 'selected' : ''}}>{{$cat->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        
-                                        @if ($errors->has('category'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('category') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
-                                        <select name="asset_description" id="asset_description" class="form-control" required>
-                                            <option value="">Select Asset Description</option>
-                                            @foreach (getAssetDescription($maintenance->category) as $desc)
-                                                <option value="{{$desc->uuid}}" {{$desc->uuid == $maintenance->asset_description_uuid ? 'selected' : ''}}>{{$desc->description}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @if ($errors->has('asset_description'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('asset_description') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div> --}}
 
                                     <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>
                                         <select name="customer" id="tenant" class="form-control" required autofocus>
-                                            <option value="">Select Tenant</option>
-                                            @foreach (getTenants() as $tenant)
-                                                <option value="{{$tenant->id}}" {{$tenant->id == $maintenance->tenant_id ? 'selected' : ''}}>{{$tenant->name()}}</option>
-                                            @endforeach
+                                            <option value="{{$maintenance->tenant->id}}">{{$maintenance->tenant->name()}}</option>
+                                           
                                         </select>
 
                                         @if ($errors->has('customer'))
@@ -101,10 +60,11 @@
 
                                     <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
+                                    
                                         <select name="asset_description" id="asset_description" class="form-control" required>
-                                            <option value="">Select Asset</option>
+                                            <option value="{{$maintenance->asset_description_uuid}}">{{$maintenance->asset_maintenance($maintenance->asset_description_uuid)['descriptn']}}</option>
+                                            
                                         </select>
-
                                         @if ($errors->has('asset_description'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('asset_description') }}</strong>
@@ -140,7 +100,7 @@
                                     </div>
                                     {{-- <div style="clear:both"></div>          --}}
 
-                                    <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }} col-6">
+                                    <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-fault_description">{{ __('Fault Description') }}</label>
                                         <textarea rows="5" name="fault_description" id="input-fault_description" class="form-control form-control-alternative{{ $errors->has('fault_description') ? ' is-invalid' : '' }}" placeholder="Enter Fault Description" required>{{old('fault_description', $maintenance->description)}}</textarea>
 
@@ -151,20 +111,6 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-date">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control" required>
-                                            <option value="">Select Status</option>
-                                            <option {{$maintenance->status == 'Fixed' ? 'selected' : ''}}>Fixed</option>
-                                            <option {{$maintenance->status == 'Unfixed' ? 'selected' : ''}}>Unfixed</option>
-                                        </select>
-                                        
-                                        @if ($errors->has('status'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('status') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
 
                                     <div class="col-12" align="center">
                                         <button type="submit" class="btn btn-success mt-4">{{ __('Save Changes') }}</button>
@@ -189,64 +135,64 @@
 @section('script')
     <script>
          $('#category').change(function(){
-            var category = $(this).val();
-            if(category){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
-                $.ajax({
-                    url: baseUrl+'/fetch-assets/'+category,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-            }
+        //     var category = $(this).val();
+        //     if(category){
+        //         $('#asset_description').empty();
+        //         $('<option>').val('').text('Loading...').appendTo('#asset_description');
+        //         $.ajax({
+        //             url: baseUrl+'/fetch-assets/'+category,
+        //             type: "GET",
+        //             dataType: 'json',
+        //             success: function(data) {
+        //                 $('#asset_description').empty();
+        //                 $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+        //                 $.each(data, function(k, v) {
+        //                     $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
+        //                 });
+        //             }
+        //         });
+        //     }
+        //     else{
+        //         $('#asset_description').empty();
+        //         $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+        //     }
+        // });
+
+        // $('#tenant').change(function(){
+        //     var tenant = $(this).val();
+        //     loadAssets(tenant);
         });
 
-        $('#tenant').change(function(){
-            var tenant = $(this).val();
-            loadAssets(tenant);
-        });
-
-        $(document).ready(function(){
-            var tenant = "{{$maintenance->tenant_id}}";
-            loadAssets(tenant);
-        });
+        // $(document).ready(function(){
+        //     var tenant = "{{$maintenance->tenant_id}}";
+        //     loadAssets(tenant);
+        // });
 
         function loadAssets(tenant) {
-            if(tenant){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
-                $.ajax({
-                    url: baseUrl+'/fetch-tenant-asset/'+tenant,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-                        $.each(data, function(k, v) {
-                            if(v.uuid == '{{$maintenance->asset_description_uuid}}') {
-                                $('<option>').val(v.uuid).text(v.asset+' - '+v.unit).prop('selected', true).appendTo('#asset_description');
-                            } else {
-                                $('<option>').val(v.uuid).text(v.asset+' - '+v.unit).appendTo('#asset_description');
-                            }
-                        });
-                    }
-                });
-            }
-            else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-            }
+            // if(tenant){
+            //     $('#asset_description').empty();
+            //     $('<option>').val('').text('Loading...').appendTo('#asset_description');
+            //     $.ajax({
+            //         url: baseUrl+'/fetch-tenant-asset/'+tenant,
+            //         type: "GET",
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             $('#asset_description').empty();
+            //             $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+            //             $.each(data, function(k, v) {
+            //                 if(v.uuid == '{{$maintenance->asset_description_uuid}}') {
+            //                     $('<option>').val(v.uuid).text(v.asset+' - '+v.unit).prop('selected', true).appendTo('#asset_description');
+            //                 } else {
+            //                     $('<option>').val(v.uuid).text(v.asset+' - '+v.unit).appendTo('#asset_description');
+            //                 }
+            //             });
+            //         }
+            //     });
+            // }
+            // else{
+            //     $('#asset_description').empty();
+            //     $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+            // }
         }
 
     </script>

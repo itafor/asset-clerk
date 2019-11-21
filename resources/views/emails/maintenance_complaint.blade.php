@@ -214,7 +214,8 @@
                  {{formatDate($maintenanceComplaint->reported_date, 'Y-m-d', 'd/m/Y') }}
             </tr>
 
-         <tr>
+                @if($status === '')
+           <tr>
                 <td>
                     Date Logged:
                 </td>
@@ -223,6 +224,21 @@
                   {{Carbon\Carbon::parse($maintenanceComplaint->created_at)->format('d/m/Y')}}
                 </td>
             </tr>
+
+            @else
+
+            <tr>
+                <td>
+                   Date Updated :
+                </td>
+                
+                <td>
+                  {{Carbon\Carbon::parse($maintenanceComplaint->updated_at)->format('d/m/Y')}}
+                </td>
+            </tr>
+            @endif
+
+
              <tr>
                 <td>
                     Status:

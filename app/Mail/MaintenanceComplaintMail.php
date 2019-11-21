@@ -31,6 +31,7 @@ class MaintenanceComplaintMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.maintenance_complaint');
+        return $this->view('emails.maintenance_complaint') 
+        ->subject('Complaint Notification');
     }
 }

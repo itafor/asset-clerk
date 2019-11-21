@@ -110,7 +110,7 @@ class MaintenanceController extends Controller
     }
 
  public function changeStatus($uuid,$status){
-//dd($status);
+
             $get_maintenance = Maintenance::where('uuid',$uuid)->first();
 
         if($status === 'Fixed'){
@@ -125,19 +125,24 @@ class MaintenanceController extends Controller
             return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Unfixed');
             
         }else if($status === 'Unfixed'){
-              //if($get_maintenance){
-           // dd($uuid);
+              
             $get_unfixed_maintenance = Maintenance::where('uuid',$uuid)->first();
 
                 $get_unfixed_maintenance->status = 'Fixed';
                   if($get_unfixed_maintenance->save()){
                  $maintenance =Maintenance::where('uuid',$get_unfixed_maintenance->uuid)->first();
-                // dd($maintenance);
+                
                 $toEmail = $maintenance->tenant->email;
                 Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
                }
-            //}
+            
              return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Fixed');
         }
+    }
+    public function viewMaintenance($uuid, $complaint_row_number) {
+            $complaint_detail = Maintenance::where('uuid',$uuid)->first();
+        return view('new.admin.maintenance.view_detail', compact('complaint_detail','complaint_row_number'));
+
+
     }
 }

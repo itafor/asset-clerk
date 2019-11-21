@@ -34,7 +34,7 @@
                 <!-- Tables -->
                 <div class="table-responsive">
 
-                  <table class="table table-striped table-bordered table-hover datatable">
+                  <table class="table table-striped table-bordered table-hover datatable" id="tbl_id">
                     <thead>
                       <tr>
                           <th>No</th>
@@ -49,12 +49,13 @@
                     </thead>
                     <tbody>
                     @foreach ($maintenances as $m)
-                          <tr>
+                          <tr id="{{$loop->iteration}}">
+
                               <td>{{$loop->iteration}}</td>
                               <td>{{$m->tenant->name()}}</td>
                               <td>{{$m->asset_maintenance($m->asset_description_uuid)['descriptn']}}</td>
                               <td>{{$m->buildingSection->name}}</td>
-                              <td>{{$m->description}}</td>
+                              <td class="complaint_description{{$loop->iteration}}">{{$m->description}}</td>
                               <td>{{ formatDate($m->reported_date, 'Y-m-d', 'd/m/Y') }}</td>
                               @if($m->status === 'Fixed')
                               <td class="text-success">{{$m->status}}</td>
@@ -67,6 +68,8 @@
                                               Action
                                           </a>
                                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            
+                                                 <a href="{{ route('maintenance.view', ['uuid'=>$m->uuid,'complaint_row_number'=>$loop->iteration]) }}" class="dropdown-item">View</a>
 
                                                 @if($m->status === 'Fixed')
                                                  <form action="{{ route('maintenance.status', ['uuid'=>$m->uuid,'status'=>$m->status]) }}" method="get">
@@ -84,7 +87,9 @@
                                               </form>
                                               @endif
 
-                                              <a href="{{ route('maintenance.edit', ['uuid'=>$m->uuid]) }}" class="dropdown-item">Edit</a>
+                                             <!--  <a href="{{ route('maintenance.edit', ['uuid'=>$m->uuid]) }}" class="dropdown-item">Edit</a>
+ -->
+                                         
 
                                               <form action="{{ route('maintenance.delete', ['uuid'=>$m->uuid]) }}" method="get">
                                                   
@@ -114,4 +119,19 @@
 
         </div>
         <!-- /grid -->
+@endsection
+
+
+
+@section('script')
+    <script>
+let last_row = $('#tbl_id tr:last').attr('id');
+   for (var i = 1; i<=last_row; i++) {
+     var txt= $('.complaint_description'+i).text();
+    if(txt.length > 50)
+   $('.complaint_description'+i).text(txt.substring(0,50) + '...');
+   }
+
+  
+    </script>
 @endsection
