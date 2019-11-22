@@ -160,7 +160,26 @@
                                     <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                                 </div> 
                             @else
-                            <div class="row">
+            <div class="row">
+                 <div class="col-2">
+    <label class="form-control-label" for="input-category">{{ __('Apartment Type') }}</label>
+
+   <div class="form-check">
+      <label class="form-check-label" for="radio1">
+        <input type="radio" class="form-check-input" id="radio1"  name="unit[112211][apartment_type]" value="Residential" checked>Residential
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label" for="radio2">
+        <input type="radio" class="form-check-input" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" id="radio2" name="unit[112211][apartment_type]" value="Commercial">Commercial
+      </label>
+      @if ($errors->has('apartment_type'))
+            <span class="invalid-feedback" role="alert">
+            <strong>{{ $errors->first('apartment_type') }}</strong>
+        </span>
+     @endif
+    </div>
+   </div>
                                 <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
                                     <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                     <select name="unit[112211][property_type]"  class="form-control" required>
@@ -176,7 +195,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-3">
+                                <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-2">
                                     <label class="form-control-label" for="input-category">{{ __('Description') }}</label>
 
 
@@ -193,7 +212,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
+                                <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-2">
                                     <label class="form-control-label" for="input-quantity">Unit (Unique Tenant)</label>
                                     <input type="number" min="1" name="unit[112211][quantity]" id="input-quantity" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter number of units" value="{{old('quantity')}}" required>
                                     
@@ -394,7 +413,23 @@
                 '<div>'
                     +'<div style="float:right" class="remove_project_file"><span style="cursor:pointer" class="badge badge-danger" border="2">Remove</span></div>'
                     +'<div style="clear:both"></div>'
-                    +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                       +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
+                        
+    +'<div class="col-2">'
+    +'<label class="form-control-label" for="input-category">{{ __('Apartment Type') }}</label>'
+    +'<div class="form-check">'
+      +'<label class="form-check-label" for="radio1">'
+        +'<input type="radio" class="form-check-input" id="radio1"  name="unit['+rowId+'][apartment_type]" value="Residential" checked>Residential'
+     +'</label>'
+    +'</div>'
+    +'<div class="form-check">'
+      +'<label class="form-check-label" for="radio2">'
+        +'<input type="radio" class="form-check-input" id="radio2" name="unit['+rowId+'][apartment_type]" value="Commercial">Commercial'
+      +'</label>'
+    +'</div>'
+  +'</div>'
+
+                    
                         +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Property Type') }}</label>'
                         +'    <select name="unit['+rowId+'][property_type]"  class="form-control select'+rowId+'" required>'
@@ -410,7 +445,7 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Description') }}</label>'
 
                         // + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
@@ -428,7 +463,7 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
-                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-quantity">Unit (Unique Tenant)</label>'
                         +'    <input type="number" min="1" name="unit['+rowId+'][quantity]" class="form-control {{ $errors->has('quantity') ? ' is-invalid' : '' }} quantity" placeholder="Enter Number of Units" value="{{old('quantity')}}" required>' 
                         +'    @if ($errors->has('quantity'))'

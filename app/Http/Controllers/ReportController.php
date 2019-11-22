@@ -6,251 +6,402 @@ use App\Asset;
 use App\TenantRent;
 use App\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ReportController extends Controller
 {
-    public function assets()
-    {
-        return view('new.admin.reports.assets');
-    }
 
-    public function rentalPaymentStatus($unit_uuid){
-        $rentals = TenantRent::where('user_id', getOwnerUserID())
-                    ->where('unit_uuid',$unit_uuid)
-        ->orderBy('id', 'desc')->get();
-        return view('new.admin.reports.rental_payment_status', compact('rentals'));
-    }
-
-public function occupancy($asset_id,$occupancy = ''){
-
-if($occupancy == 'All'){
-        $all = Unit::where('asset_id',$asset_id)
-        ->where('user_id',getOwnerUserID())
-        ->get();
-        
-        $output = '
+  public function assetReport(Request $request) {
+      $occupancy = '';
+      $selected_asset = '';
+      $asset_name = '';
+      $payment = '';
+      $apartment_type = '';
+  return view('new.admin.reports.asset_report',compact('occupancy','selected_asset','payment','apartment_type','asset_name'));
+  }
+  public function getAsset($id){
+    $fetch_asset = Asset::where('id',$id)
+                    ->where('user_id',getOwnerUserID())->first();
+                    if($fetch_asset){
+                      return $fetch_asset->description;
+                    }
+  }
+  public function getAssetReport(Request $request) {
     
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->landlord->designation. ' '. $allasset->asset->landlord->firstname. ' '. $allasset->asset->landlord->lastname. '</td>
-       <td>'.'All('.$allasset->quantity_left.')'.'</td>
-       <td>'.'<a href="/report/get-payment-status/'.$allasset->uuid.'" target="_blank">'.'View'.'</a>'.'</td>
-       <td>'.$allasset->propertyType->name.'</td>
-       <td>'.$allasset->category->name.' Bedroom'.'</td>
+    $data = $request->all();
+        $validator = Validator::make($data, [
+            'asset_id' => 'required',
+            'occupancy' => 'required',
+            'payment' => 'required',
+            'apartment_type' => 'required',
+        ]);
 
-       <td>'.$allasset->quantity.'</td>
-       <td>'.$allasset->quantity_left.'</td>
-      </tr>
-      ';
-     }
-  
-     return $output;
-}elseif($occupancy == 'Occupied'){
-           $all = Unit::where('asset_id',$asset_id)
-        ->where('user_id',getOwnerUserID())
-        ->where('quantity_left','0')
-        ->get();
-        
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->landlord->designation. ' '. $allasset->asset->landlord->firstname. ' '. $allasset->asset->landlord->lastname. '</td>
-       <td>'.'Occupied('.$allasset->quantity_left.')'.'</td>
-       <td>'.'<a href="/report/get-payment-status/'.$allasset->uuid.'" target="_blank">'.'View'.'</a>'.'</td>
-       <td>'.$allasset->propertyType->name.'</td>
-       <td>'.$allasset->category->name.' Bedroom'.'</td>
-
-       <td>'.$allasset->quantity.'</td>
-       <td>'.$allasset->quantity_left.'</td>
-      </tr>
-      ';
-     }
-  
-     return $output;
-
-}elseif($occupancy == 'Vacant'){
-           $all = Unit::where('asset_id',$asset_id)
-        ->where('user_id',getOwnerUserID())
-        ->where('quantity_left','>','0')
-        ->get();
-        
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->landlord->designation. ' '. $allasset->asset->landlord->firstname. ' '. $allasset->asset->landlord->lastname. '</td>
-       <td>'.'Vacant('.$allasset->quantity_left.')'.'</td>
-       <td>'.'<a href="/report/get-payment-status/'.$allasset->uuid.'" target="_blank">'.'View'.'</a>'.'</td>
-       <td>'.$allasset->propertyType->name.'</td>
-       <td>'.$allasset->category->name.' Bedroom'.'</td>
-
-       <td>'.$allasset->quantity.'</td>
-       <td>'.$allasset->quantity_left.'</td>
-      </tr>
-      ';
-     }
-  
-     return $output;
-
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
         }
 
-}
 
-
-    public function asset_payment($asset_id,$payment_status = '')
-    {
-       if($payment_status == 'All'){
-    $asset = Asset::where('id',$asset_id)->first();
-    
-    $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
-        ->where('user_id',getOwnerUserID())
-        ->get();
-       // return  $all;
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
-       <td class="text-secondary">'.$allasset->status.'</a>'.'</td>
-      
-       <td>'.$allasset->unit->propertyType->name.'</td>
-
-       <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
-
-      </tr>
-      ';
-     }
-  
-     return $output;
-
-}elseif($payment_status == 'Paid'){
-    $asset = Asset::where('id',$asset_id)->first();
-    
-    $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
-        ->where('status', 'Paid')
-        ->where('user_id',getOwnerUserID())
-        ->get();
-       // return  $all;
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
-       <td class="text-success">'.$allasset->status.'</a>'.'</td>
-      
-       <td>'.$allasset->unit->propertyType->name.'</td>
-
-       <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
-       
-
-       
-      </tr>
-      ';
-     }
-  
-     return $output;
-
-}elseif($payment_status == 'Partly'){
-    $asset = Asset::where('id',$asset_id)->first();
-    
-    $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
-        ->where('status', 'Partly paid')
-        ->where('user_id',getOwnerUserID())
-        ->get();
-       // return  $all;
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
-       <td class="text-warning">'.$allasset->status.'</a>'.'</td>
-      
-       <td>'.$allasset->unit->propertyType->name.'</td>
-
-       <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
-       
-
-       
-      </tr>
-      ';
-     }
-  
-     return $output;
-
-}elseif($payment_status == 'Unpaid'){
-    $asset = Asset::where('id',$asset_id)->first();
-    
-    $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
-        ->where('status', 'Pending')
-        ->where('user_id',getOwnerUserID())
-        ->get();
-       // return  $all;
-        $output = '
-    
-     ';  
-     foreach($all as $allasset)
-     {
-      $output .= '
-   
-      <tr>
-       <td>'.$allasset->asset->description.'</td>
-       <td>'.$allasset->asset->address.'</td>
-       <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
-       <td class="text-danger">'.$allasset->status.'</a>'.'</td>
-      
-       <td>'.$allasset->unit->propertyType->name.'</td>
-
-       <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
-       
-
-       
-      </tr>
-      ';
-     }
-  
-     return $output;
-
-}
-
-
+    if($data['asset_id'] !=='' && $data['occupancy'] =='Vacant' && $data['payment'] =='Paid') {
+        return redirect()->route('report.assetreport')->with('error', ' paid vacant asset not found');
+    }elseif($data['asset_id'] !=='' && $data['occupancy'] =='Vacant' &&  $data['payment'] =='Partly') {
+        return redirect()->route('report.assetreport')->with('error', 'Partly paid vacant asset not found ');
+    }elseif($data['asset_id'] !=='' && $data['occupancy'] =='Vacant' &&  $data['payment'] =='Unpaid') {
+        return redirect()->route('report.assetreport')->with('error','Unpaid vacant asset not found ');
     }
+  
+    if($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='All' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Commercial')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='All' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Commercial')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Vacant' && $data['payment'] =='All' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'Vacant';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','>=','1')
+        ->where('units.apartment_type','Commercial')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}else    if($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='All' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Residential')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='All' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Residential')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Vacant' && $data['payment'] =='All' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'Vacant';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','>','0')
+        ->where('units.apartment_type','Residential')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Paid' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Paid' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Paid' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Paid' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Partly' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','Partly paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Partly' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','Partly paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Unpaid' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','pending')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='Occupied' && $data['payment'] =='Unpaid' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'Occupied';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.quantity_left','<=','0')
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','pending')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Unpaid' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','Unpaid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Unpaid' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','Unpaid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Partly' && $data['apartment_type'] == 'Commercial')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Commercial')
+        ->where('tr.status','Partly Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}elseif($data['asset_id'] !=='' && $data['occupancy'] =='All' && $data['payment'] =='Partly' && $data['apartment_type'] == 'Residential')
+    {
+      $occupancy = 'All';
+      $selected_asset = $data['asset_id'];
+      $asset_name = $this->getAsset($selected_asset);
+      $payment = $data['payment'];
+      $apartment_type = $data['apartment_type'];
+    $asset_reports =  Unit::join('tenant_rents as tr','tr.unit_uuid','=','units.uuid')
+        ->join('tenants as tn','tn.uuid','=','tr.tenant_uuid')
+        ->join('assets','assets.id','=','units.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->join('property_types as pt','pt.id','=','units.property_type_id')
+        ->where('units.asset_id',$data['asset_id'])
+        ->where('units.user_id',getOwnerUserID())
+        ->where('units.apartment_type','Residential')
+        ->where('tr.status','Partly Paid')
+        ->select('tr.amount as amt','tr.balance as bal','tr.status as payment_status','units.asset_id as assetId','units.quantity as qty','units.quantity_left as qty_left','units.apartment_type as apartmentType','assets.description as assetName','assets.address as locatn','pt.name as proptype', DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'))
+        ->get();
+  return view('new.admin.reports.asset_report',compact('asset_reports','occupancy','selected_asset','payment','apartment_type','asset_name'));
+}
+
+ return view('new.admin.reports.asset_report');
+  }
+
     
     public function approvals()
     {
