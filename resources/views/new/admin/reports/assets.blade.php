@@ -130,248 +130,390 @@
 
 @section('script')
     <script>
- var asset = ''
-$(document).ready(function(){
+//  var asset = ''
+// $(document).ready(function(){
 
 
-  $('body').on('change', '.asset', function(){
-            asset = $(this).val();
-            console.log(asset)
-            if(asset){
+//   $('body').on('change', '.asset', function(){
+//             asset = $(this).val();
+//             console.log(asset)
+//             if(asset){
 
-            $('#occupancy').empty();
-           $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
-            $.each(['All','Occupied','Vacant'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#occupancy');
-                        })
+//             $('#occupancy').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
+//             $.each(['All','Occupied','Vacant'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#occupancy');
+//                         })
 
 
-             $('#payment').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
-            $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#payment');
-                        })
+//              $('#payment').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
+//             $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#payment');
+//                         })
 
-             $('#type').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
-            $.each(['Residential','Commercial'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#type');
-                        })
-          }
+//              $('#type').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
+//             $.each(['Residential','Commercial'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#type');
+//                         })
+//           }
 
-        });
-})
+//         });
+// })
 
-$(document).ready(function(){
- $('body').on('change', '#occupancy', function(){
-            var occupancy = $(this).val();
-            $('.occupancy_th').show()
-            $('.units').show()
+// $(document).ready(function(){
+//  $('body').on('change', '#occupancy', function(){
+//             var occupancy = $(this).val();
+//             $('.occupancy_th').show()
+//             $('.units').show()
 
-            if(occupancy ==''){
-            $('tbody').html('');
-            }
-              $('#payment').empty();
-             $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#payment');
+//             if(occupancy ==''){
+//             $('tbody').html('');
+//             }
+//               $('#payment').empty();
+//              $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#payment');
 
-             $('#type').empty();
-             $('<option>').attr('selected', true).val('').text('Select Type').appendTo('#type');
+//              $('#type').empty();
+//              $('<option>').attr('selected', true).val('').text('Select Type').appendTo('#type');
 
-             if(occupancy == ''){
-            $('#payment').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
-            $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#payment');
-                        })
+//              if(occupancy == ''){
+//             $('#payment').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
+//             $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#payment');
+//                         })
 
-             $('#type').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
-            $.each(['Residential','Commercial'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#type');
-                        })
-             }
+//              $('#type').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
+//             $.each(['Residential','Commercial'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#type');
+//                         })
+//              }
 
-            if(asset && occupancy == 'All'){
-                $.ajax({
-                    url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      // window.localStorage.setItem('all', data);
-                      // $('tbody').html(window.localStorage.getItem('all'));
-                      $('tbody').html(data);
-                    }
-                });
-            }else 
-            if(asset && occupancy == 'Occupied'){
-                console.log('all occupancy', occupancy, asset)
-                $.ajax({
-                    url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
-            }else 
-            if(asset && occupancy == 'Vacant'){
-                console.log('all occupancy', occupancy, asset)
-                $.ajax({
-                    url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
-            }
-        });
-})
+//             if(asset && occupancy == 'All'){
+//                 $.ajax({
+//                     url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       // window.localStorage.setItem('all', data);
+//                       // $('tbody').html(window.localStorage.getItem('all'));
+//                       $('tbody').html(data);
+//                     }
+//                 });
+//             }else 
+//             if(asset && occupancy == 'Occupied'){
+//                 console.log('all occupancy', occupancy, asset)
+//                 $.ajax({
+//                     url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
+//             }else 
+//             if(asset && occupancy == 'Vacant'){
+//                 console.log('all occupancy', occupancy, asset)
+//                 $.ajax({
+//                     url:"{{URL::to('report/get-asset-occupancy')}}/"+asset+'/'+occupancy,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
+//             }
+//         });
+// })
 
  
-$(document).ready(function(){
+// $(document).ready(function(){
 
-        $('body').on('change', '#payment', function(){
+//         $('body').on('change', '#payment', function(){
 
-            var payment = $(this).val();
-            $('.units').hide()
-            $('.occupancy_th').hide()
-             $('#occupancy').empty();
-             $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#occupancy');
+//             var payment = $(this).val();
+//             $('.units').hide()
+//             $('.occupancy_th').hide()
+//              $('#occupancy').empty();
+//              $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#occupancy');
 
-             $('#type').empty();
-             $('<option>').attr('selected', true).val('').text('Select Type').appendTo('#type');
+//              $('#type').empty();
+//              $('<option>').attr('selected', true).val('').text('Select Type').appendTo('#type');
 
-             if(payment == ''){
-                 $('#occupancy').empty();
-           $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
-            $.each(['All','Occupied','Vacant'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#occupancy');
-                        })
+//              if(payment == ''){
+//                  $('#occupancy').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
+//             $.each(['All','Occupied','Vacant'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#occupancy');
+//                         })
 
-             $('#type').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
-            $.each(['Residential','Commercial'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#type');
-                        })
+//              $('#type').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#type');
+//             $.each(['Residential','Commercial'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#type');
+//                         })
 
-             }
+//              }
 
-            if(asset && payment == 'All'){
-                   $.ajax({
-                    url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
+//             if(asset && payment == 'All'){
+//                    $.ajax({
+//                     url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
 
-            }else 
-            if(asset && payment == 'Paid'){
-                   $.ajax({
-                    url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
+//             }else 
+//             if(asset && payment == 'Paid'){
+//                    $.ajax({
+//                     url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
 
-            }else 
-            if(asset && payment == 'Partly'){
-                   $.ajax({
-                    url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
+//             }else 
+//             if(asset && payment == 'Partly'){
+//                    $.ajax({
+//                     url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
 
-            }else 
-            if(asset && payment == 'Unpaid'){
-                   $.ajax({
-                    url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
-                    type: "GET",
-                    data: {'asset':asset},
-                    success: function(data) {
-                      console.log('all occupancies',data)
-                      $('tbody').html(data);
-                    }
-                });
+//             }else 
+//             if(asset && payment == 'Unpaid'){
+//                    $.ajax({
+//                     url:"{{URL::to('report/get-asset-payment')}}/"+asset+'/'+payment,
+//                     type: "GET",
+//                     data: {'asset':asset},
+//                     success: function(data) {
+//                       console.log('all occupancies',data)
+//                       $('tbody').html(data);
+//                     }
+//                 });
 
-            }
-
-
-        });
-})
+//             }
 
 
-$('body').on('change', '#type', function(){
-
-            var type = $(this).val();
-            console.log('type asset',asset)
-            console.log('type',type)
-
-             $('#occupancy').empty();
-             $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
-
-             $('#payment').empty();
-             $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#payment');
-
-             if(type == ''){
-              $('#occupancy').empty();
-           $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
-            $.each(['All','Occupied','Vacant'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#occupancy');
-                        })
-             $('#payment').empty();
-           $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
-            $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
-               $('<option>').val(v).text(v).appendTo('#payment');
-                        })
-             }
-
-            if(type){
-
-                // $('#type').empty();
-                // $('<option>').val('').text('Loading...').appendTo('#service_name');
-                $.ajax({
-                    url: baseUrl+'/fetch-service-charge/'+asset,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#service_name').empty();
-                        $('<option>').val('').text('Select Service Charge').appendTo('#service_name');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.name).text(v.name).appendTo('#service_name');
-                        });
-                    }
-                });
-            }
-        });
+//         });
+// })
 
 
+// $('body').on('change', '#type', function(){
+
+//             var type = $(this).val();
+//             console.log('type asset',asset)
+//             console.log('type',type)
+
+//              $('#occupancy').empty();
+//              $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
+
+//              $('#payment').empty();
+//              $('<option>').attr('selected', true).val('').text('Select payment').appendTo('#payment');
+
+//              if(type == ''){
+//               $('#occupancy').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Occupancy').appendTo('#occupancy');
+//             $.each(['All','Occupied','Vacant'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#occupancy');
+//                         })
+//              $('#payment').empty();
+//            $('<option>').attr('selected', true).val('').text('Select Payment').appendTo('#payment');
+//             $.each(['All','Paid','Partly','Unpaid'], function(k, v) {
+//                $('<option>').val(v).text(v).appendTo('#payment');
+//                         })
+//              }
+
+//             if(type){
+
+//                 // $('#type').empty();
+//                 // $('<option>').val('').text('Loading...').appendTo('#service_name');
+//                 $.ajax({
+//                     url: baseUrl+'/fetch-service-charge/'+asset,
+//                     type: "GET",
+//                     dataType: 'json',
+//                     success: function(data) {
+//                         $('#service_name').empty();
+//                         $('<option>').val('').text('Select Service Charge').appendTo('#service_name');
+//                         $.each(data, function(k, v) {
+//                             $('<option>').val(v.name).text(v.name).appendTo('#service_name');
+//                         });
+//                     }
+//                 });
+//             }
+//         });
 
 
 
-  $(document).on('keyup', '#minAmt, #maxAmt', function(e){
-    e.preventDefault();
-    let $value = e.target.value;
-if($value <= 0){
-    // alert('Invalid input');
-     $(this).val('');
-}
- });
 
 
+//   $(document).on('keyup', '#minAmt, #maxAmt', function(e){
+//     e.preventDefault();
+//     let $value = e.target.value;
+// if($value <= 0){
+//     // alert('Invalid input');
+//      $(this).val('');
+// }
+//  });
+
+//  public function rentalPaymentStatus($unit_uuid){
+//         $rentals = TenantRent::where('user_id', getOwnerUserID())
+//                     ->where('unit_uuid',$unit_uuid)
+//         ->orderBy('id', 'desc')->get();
+//         return view('new.admin.reports.rental_payment_status', compact('rentals'));
+//     }
+
+
+//     public function asset_payment($asset_id,$payment_status = '')
+//     {
+//        if($payment_status == 'All'){
+//     $asset = Asset::where('id',$asset_id)->first();
+    
+//     $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
+//         ->where('user_id',getOwnerUserID())
+//         ->get();
+//        // return  $all;
+//         $output = '
+    
+//      ';  
+//      foreach($all as $allasset)
+//      {
+//       $output .= '
+   
+//       <tr>
+//        <td>'.$allasset->asset->description.'</td>
+//        <td>'.$allasset->asset->address.'</td>
+//        <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
+//        <td class="text-secondary">'.$allasset->status.'</a>'.'</td>
+      
+//        <td>'.$allasset->unit->propertyType->name.'</td>
+
+//        <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
+
+//       </tr>
+//       ';
+//      }
+  
+//      return $output;
+
+// }elseif($payment_status == 'Paid'){
+//     $asset = Asset::where('id',$asset_id)->first();
+    
+//     $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
+//         ->where('status', 'Paid')
+//         ->where('user_id',getOwnerUserID())
+//         ->get();
+//        // return  $all;
+//         $output = '
+    
+//      ';  
+//      foreach($all as $allasset)
+//      {
+//       $output .= '
+   
+//       <tr>
+//        <td>'.$allasset->asset->description.'</td>
+//        <td>'.$allasset->asset->address.'</td>
+//        <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
+//        <td class="text-success">'.$allasset->status.'</a>'.'</td>
+      
+//        <td>'.$allasset->unit->propertyType->name.'</td>
+
+//        <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
+       
+
+       
+//       </tr>
+//       ';
+//      }
+  
+//      return $output;
+
+// }elseif($payment_status == 'Partly'){
+//     $asset = Asset::where('id',$asset_id)->first();
+    
+//     $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
+//         ->where('status', 'Partly paid')
+//         ->where('user_id',getOwnerUserID())
+//         ->get();
+//        // return  $all;
+//         $output = '
+    
+//      ';  
+//      foreach($all as $allasset)
+//      {
+//       $output .= '
+   
+//       <tr>
+//        <td>'.$allasset->asset->description.'</td>
+//        <td>'.$allasset->asset->address.'</td>
+//        <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
+//        <td class="text-warning">'.$allasset->status.'</a>'.'</td>
+      
+//        <td>'.$allasset->unit->propertyType->name.'</td>
+
+//        <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
+       
+
+       
+//       </tr>
+//       ';
+//      }
+  
+//      return $output;
+
+// }elseif($payment_status == 'Unpaid'){
+//     $asset = Asset::where('id',$asset_id)->first();
+    
+//     $all = TenantRent::where('tenant_rents.asset_uuid',$asset->uuid)
+//         ->where('status', 'Pending')
+//         ->where('user_id',getOwnerUserID())
+//         ->get();
+//        // return  $all;
+//         $output = '
+    
+//      ';  
+//      foreach($all as $allasset)
+//      {
+//       $output .= '
+   
+//       <tr>
+//        <td>'.$allasset->asset->description.'</td>
+//        <td>'.$allasset->asset->address.'</td>
+//        <td>'.$allasset->asset->Landlord->designation. ' '. $allasset->asset->Landlord->firstname. ' '. $allasset->asset->Landlord->lastname. '</td>
+//        <td class="text-danger">'.$allasset->status.'</a>'.'</td>
+      
+//        <td>'.$allasset->unit->propertyType->name.'</td>
+
+//        <td>'.$allasset->unit->category->name.' Bedroom'.'</td>
+       
+
+       
+//       </tr>
+//       ';
+//      }
+  
+//      return $output;
+
+// }
+
+
+//     }
 
     </script>
 @endsection
