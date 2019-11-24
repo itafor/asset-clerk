@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Asset;
 use App\Tenant;
 use App\TenantRent;
+use App\TenantServiceCharge;
 use App\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -625,7 +626,29 @@ public function serviceChargeReport(){
 
 public function getServiceChargeReport(Request $request){
   $data = $request->all();
-  dd($data);
+
+
+    $start_date = Carbon::parse(formatDate($data['startDate'], 'd/m/Y', 'Y-m-d'));
+    $end_date   = Carbon::parse(formatDate($data['dueDate'], 'd/m/Y', 'Y-m-d'));
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = '';
+    $apartment_type  = '';
+     if($end_date < $start_date){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+
+    $service_charges = TenantServiceCharge::join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
+        ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
+        ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
+        ->join('assets','assets.id','=','asset_service_charges.asset_id')
+        ->join('landlords as ll','ll.id','=','assets.landlord_id')
+        ->where('tenant_service_charges.user_id', getOwnerUserID())
+        ->whereBetween('asset_service_charges.dueDate',[$start_date,$end_date])
+        ->select('tenant_service_charges.bal as serviceChargeBal','asset_service_charges.price as total','service_charges.name as serviceCharge','assets.description as assetName',DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
+         ->get();
+  //dd($service_charges);
+  return view('new.admin.reports.service_charge_report',compact('service_charges','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
 }
     
     public function maintenance()
