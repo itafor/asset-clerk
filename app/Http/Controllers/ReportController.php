@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Tenant;
 use App\TenantRent;
 use App\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -402,11 +404,229 @@ class ReportController extends Controller
  return view('new.admin.reports.asset_report');
   }
 
-    
-    public function approvals()
-    {
-        return view('new.admin.reports.approvals');
+public function landlordReport(Request $request) {
+
+      $start_date = '';
+      $end_date = '';
+      $selected_tenant = '';
+      $tenant_name = '';
+      $rental = '';
+      $service_charge = '';
+  return view('new.admin.reports.landlord_report',compact('start_date','end_date','selected_tenant','rental','service_charge','tenant_name'));
+
+  }
+
+  public function getLandlordReport(Request $request) {
+    $data = $request->all();
+
+    $start_date = Carbon::parse(formatDate($data['startDate'], 'd/m/Y', 'Y-m-d'));
+    $end_date   = Carbon::parse(formatDate($data['dueDate'], 'd/m/Y', 'Y-m-d'));
+
+     if($end_date < $start_date){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
     }
+
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = '';
+    $service_charge = '';
+
+    $tenant_rentDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    // ->join('tenant_service_charges as tsc','tn.id','=','tsc.tenant_id')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>',0)
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype')
+                    ->get();
+     //dd($tenant_rentDetails);
+  return view('new.admin.reports.landlord_report',compact('tenant_rentDetails','start_date','end_date','selected_tenant','rental','service_charge','tenant_name'));
+  }
+    public function rentalReport()
+    {
+      $start_date = '';
+      $end_date = '';
+      $selected_tenant = '';
+      $tenant_name = '';
+      $rental = '';
+      $apartment_type = '';
+         return view('new.admin.reports.rental_report',compact('start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+    }
+
+
+     public function getRentalReport(Request $request) {
+    $data = $request->all();
+
+    $start_date = Carbon::parse(formatDate($data['startDate'], 'd/m/Y', 'Y-m-d'));
+    $end_date   = Carbon::parse(formatDate($data['dueDate'], 'd/m/Y', 'Y-m-d'));
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = '';
+    $apartment_type  = '';
+     if($end_date < $start_date){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+
+if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' && $data['apartment_type'] == ''){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = '';
+    $apartment_type  = '';
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    // ->where('tenant_rents.balance','>',0)
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == ''){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = '';
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>=',0)
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'Outstanding' && $data['apartment_type'] == ''){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = '';
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>',0)
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'Outstanding' && $data['apartment_type'] == 'Commercial'){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = $data['apartment_type'];
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>',0)
+                    ->where('units.apartment_type','Commercial')
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'Outstanding' && $data['apartment_type'] == 'Residential'){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = $data['apartment_type'];
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>',0)
+                    ->where('units.apartment_type','Residential')
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == 'Commercial'){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = $data['apartment_type'];
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>=',0)
+                    ->where('units.apartment_type','Commercial')
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == 'Residential'){
+
+    $selected_tenant = '';
+    $tenant_name = '';
+    $rental = $data['rental'];
+    $apartment_type  = $data['apartment_type'];
+
+    $rental_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                    ->join('landlords as ll','ll.id','=','assets.landlord_id')
+                    ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                    ->join('property_types as pt','pt.id','=','units.property_type_id')
+                    ->join('tenants as tn','tn.uuid','=','tenant_rents.tenant_uuid')
+                    ->whereBetween('tenant_rents.due_date',[$start_date,$end_date])
+                    ->where('tenant_rents.balance','>=',0)
+                    ->where('units.apartment_type','Residential')
+                    ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
+                      'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
+                    ->get();
+    // dd($rental_reportDetails);
+  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+  }
+
+  return view('new.admin.reports.rental_report',compact('start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+}
+
+public function serviceChargeReport(){
+
+      $start_date = '';
+      $end_date = '';
+      $selected_tenant = '';
+      $tenant_name = '';
+      $rental = '';
+      $apartment_type = '';
+   return view('new.admin.reports.service_charge_report',compact('start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+}
+
+public function getServiceChargeReport(Request $request){
+  $data = $request->all();
+  dd($data);
+}
     
     public function maintenance()
     {
