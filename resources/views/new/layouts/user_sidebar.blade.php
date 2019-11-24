@@ -260,12 +260,24 @@
                     <a href="{{route('report.assetreport')}}" class="dt-side-nav__link" title="Asset List">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Asset</span> </a>
                 </li>
-                
-             
+                <li class="dt-side-nav__item">
+                    <a href="{{route('report.rentalreport')}}" class="dt-side-nav__link" title="Asset List">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Rental</span> </a>
+                </li>
+
+             <!--     <li class="dt-side-nav__item">
+                    <a href="{{route('report.servicechargereport')}}" class="dt-side-nav__link" title="Asset List">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Service Charge</span> </a>
+                </li> -->
+
+                   <li class="dt-side-nav__item">
+                    <a href="{{route('report.landlordreport')}}" class="dt-side-nav__link" title="Asset List">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Landlord</span> </a>
+                </li>
 
             </ul>
             </li>
-            </li>
+</li>
 
 
             @if(!$user->sub_account && $plan['details']->name != 'Free')
