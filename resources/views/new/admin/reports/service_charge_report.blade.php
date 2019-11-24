@@ -35,7 +35,7 @@
 <form action="{{route('report.get_servicecharge_report')}}" method="post" autocomplete="false">
    @csrf
   <div class="row">
-   <div class="form-group col-3">
+   <div class="form-group col-4">
  <label class="form-control-label" for="input-category">{{ __('Start Date') }}</label>
                                 <div>
                                 <input type="text" name="startDate" id="startDate" class=" datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }} " autocomplete="false" placeholder="Choose Date" value="{{isset($start_date) !=='' ? Carbon\Carbon::parse($start_date)->format('d/m/Y') : ''}}" required>
@@ -49,7 +49,7 @@
 </div>
 
 
-   <div class="form-group col-3">
+   <div class="form-group col-4">
  <label class="form-control-label" for="input-category">{{ __('Due Date') }}</label>
                                 <div>
                                 <input type="text" name="dueDate" id="dueDate" class=" datepicker form-control form-control-alternative{{ $errors->has('dueDate') ? ' is-invalid' : '' }} " placeholder="Choose Date" value="{{isset($end_date) !=='' ? Carbon\Carbon::parse($end_date)->format('d/m/Y') : ''}}" required autocomplete="false">
@@ -63,7 +63,7 @@
 </div>
 
 
-   <div class="form-group col-2">
+<!--    <div class="form-group col-2">
  <label class="form-control-label" for="input-rental">{{ __('Rental') }}</label>
                                 <div>
                                     <select name="rental" id="rental" class="form-control" style="width:100%">
@@ -75,9 +75,9 @@
                                     <option value="Outstanding">Outstanding </option>
                                 </select>
                           </div>
-</div>
+</div> -->
   
-   <div class="form-group col-2">
+<!--    <div class="form-group col-2">
  <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
                                 <div>
                                     <select name="apartment_type" id="apartment_type" class="form-control " style="width:100%" >
@@ -89,7 +89,7 @@
                                     <option value="Commercial">Commercial</option>
                                 </select>
                           </div>
-</div>
+</div> -->
  <div class="form-group col-2">
  <label class="form-control-label" for="input-category">{{ __('Search') }}</label>
                                 <div>
@@ -107,12 +107,10 @@
                     <tr>
                         <th>No</th>
                         <th><b>Asset</b></th>
-                        <th><b>Asset Description</b></th>
-                        <th><b>Asset Type</b></th>
                          <th><b>Landlord</b></th>
                         <th><b>Tenant</b></th>
-                        <th><b>Rent</b></th>
-                        <th><b>Rent Expiry Date</b></th>
+                        <th><b>Service Charge</b></th>
+                        <th><b>Total</b></th>
                         <th><b>Status</b></th>
                         <th><b>Outstanding Rent</b></th>
 
@@ -122,19 +120,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                      @if(isset($rental_reportDetails))
-                    @foreach ($rental_reportDetails as $report)
+                      @if(isset($service_charges))
+                    @foreach ($service_charges as $report)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$report->assetdesc}}</td>
-                            <td>{{$report->apartmentType}}</td>
-                            <td>{{$report->proptype}}</td>
+                            <td>{{$report->assetName}}</td>
                             <td>{{$report->landlordDetail}}</td>
                             <td>{{$report->tenantDetail}}</td>
-                            <td> &#8358; {{number_format($report->rent_amt,2)}}</td>
-                            <td> {{formatDate($report->rentExp, 'Y-m-d', 'd M Y')}}</td>
-                            <td>{{$report->rentStatus}}</td>
-                            <td> &#8358; {{number_format($report->outstandingRent,2)}}</td>
+                            <td>{{$report->serviceCharge}}</td>
+                            <td> &#8358; {{number_format($report->total,2)}}</td>
+                            @if($report->serviceChargeBal == $report->total)
+                            <td>Pending</td>
+                            @elseif($report->serviceChargeBal == 0)
+                            <td>Paid</td>
+                            @else
+                            <td>Partly Paid</td>
+                            @endif
+                            <td> &#8358; {{number_format($report->serviceChargeBal,2)}}</td>
                         </tr>
                     @endforeach
                     @endif
