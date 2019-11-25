@@ -106,9 +106,9 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            @if($company_logo)
+                            @if($companyDetail)
                              <td class="title">
-                    <img src="{{asset('uploads/'.$company_logo->logo)}}" alt="Logo" title="Company logo" width="110" height="70">
+                    <img src="{{asset('uploads/'.$companyDetail->logo)}}" alt="Logo" title="Company logo" width="40" height="30">
                             </td>
                             @else
                              <td class="title">
@@ -206,7 +206,7 @@
               <tr>
                  <td class="title">
                      Powered by  <a href="http://assetclerk.com/">
-                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="30" >
+                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="40" height="30" >
                      </a>         
                  </td>
             </tr>
