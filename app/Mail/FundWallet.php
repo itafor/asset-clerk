@@ -11,6 +11,7 @@ class FundWallet extends Mailable
 {
     use Queueable, SerializesModels;
     public $walletHistory;
+    public $companyDetail;
     /**
      * Create a new message instance.
      *
@@ -19,6 +20,7 @@ class FundWallet extends Mailable
     public function __construct($walletHistory)
     {
         $this->walletHistory = $walletHistory;
+        $this->companyDetail = comany_detail($walletHistory->user_id);
     }
 
     /**

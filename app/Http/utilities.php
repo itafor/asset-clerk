@@ -399,3 +399,12 @@ function check_if_user_upload_comany_detail(){
         return false;
        }
     }
+
+    function comany_detail($userId){
+        $details = CompanyDetail::where('user_id',$userId)->first();
+       if($details){
+        return $details;
+       }else{
+        return false;
+       }
+    }
