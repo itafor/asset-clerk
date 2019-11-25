@@ -7,6 +7,7 @@ use App\BuildingAge;
 use App\BuildingSection;
 use App\Category;
 use App\City;
+use App\CompanyDetail;
 use App\Country;
 use App\Landlord;
 use App\Occupation;
@@ -387,5 +388,14 @@ function removeServiceChargeWithoutTenant($ascId){
         return false;
        }
     }
+
 }
 
+function check_if_user_upload_comany_detail(){
+        $details = CompanyDetail::where('user_id',auth()->user()->id)->first();
+       if($details){
+        return true;
+       }else{
+        return false;
+       }
+    }
