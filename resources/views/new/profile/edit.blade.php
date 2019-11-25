@@ -21,7 +21,17 @@
                     <h3 class="dt-entry__title">Update Profile</h3>
                 </div>
                 <!-- /entry heading -->
+                @if(check_if_user_upload_comany_detail())
+                <div class="dt-entry__heading">
+                    <h3 class="dt-entry__title"><a href="{{route('companydetail.view')}}">Company details</a></h3>
+                </div>
+                @else
 
+                <div class="dt-entry__heading">
+                    <h3 class="dt-entry__title"><a href="{{route('companydetail.create')}}">Company details</a></h3>
+                </div>
+
+                @endif
                 </div>
                 <!-- /entry header -->
 
