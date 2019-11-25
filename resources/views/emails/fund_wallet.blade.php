@@ -106,10 +106,16 @@
                 <td colspan="2">
                     <table>
                         <tr>
+                            @if(comany_detail($walletHistory->user_id))
                              <td class="title">
-                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                    <img src="{{asset('uploads/'.comany_detail($walletHistory->user_id)->logo)}}" alt="Logo" title="Company logo" width="110" height="70">
                             </td>
-                            
+                            @else
+                             <td class="title">
+                                <img src="{{ asset('img/companydefaultlogo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="110" height="70" >
+                            </td>
+
+                            @endif
                             <td style="text-align:right">
                                 
                             </td>
@@ -198,9 +204,11 @@
             </tr>
             @endif
               <tr>
-                <td>
-                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
-                </td>
+                 <td class="title">
+                     Powered by  <a href="http://assetclerk.com/">
+                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="80" height="50" >
+                     </a>         
+                 </td>
             </tr>
         </table>
     </div>

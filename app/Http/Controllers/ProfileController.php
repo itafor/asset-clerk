@@ -73,7 +73,7 @@ class ProfileController extends Controller
             DB::rollback();
             return false;
         }
-         return redirect()->route('companydetail.create')->with('success', 'Company detail added successfully');
+         return redirect()->route('companydetail.view')->with('success', 'Company detail added successfully');
     }
 
     public function viewCompanyDetail(){
