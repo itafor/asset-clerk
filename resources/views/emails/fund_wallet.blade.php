@@ -106,9 +106,9 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            @if(comany_detail($walletHistory->user_id))
+                            @if($company_logo)
                              <td class="title">
-                    <img src="{{asset('uploads/comany_detail($walletHistory->user_id)->logo)}}" alt="Logo" title="Company logo" width="110" height="70">
+                    <img src="{{asset('uploads/'.$company_logo->logo)}}" alt="Logo" title="Company logo" width="110" height="70">
                             </td>
                             @else
                              <td class="title">
