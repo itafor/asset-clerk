@@ -109,6 +109,7 @@
                             @if($companyDetail)
                              <td class="title">
                     <img src="{{asset('uploads/'.$companyDetail->logo)}}" alt="Logo" title="Company logo" width="40" height="30">
+                    <div style="font-size: 14px; font-family: roboto;">{{$companyDetail->name}}</div>
                             </td>
                             @else
                              <td class="title">
