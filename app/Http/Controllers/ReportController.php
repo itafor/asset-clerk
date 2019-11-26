@@ -443,7 +443,7 @@ public function landlordReport(Request $request) {
                     ->where('tenant_rents.balance','>',0)
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype')
                     ->get();
-     //dd($tenant_rentDetails);
+    
   return view('new.admin.reports.landlord_report',compact('tenant_rentDetails','start_date','end_date','selected_tenant','rental','service_charge','tenant_name'));
   }
     public function rentalReport()
@@ -488,8 +488,8 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
-  return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
+    
+      return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == ''){
 
     $selected_tenant = '';
@@ -526,7 +526,7 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
+   
   return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'Outstanding' && $data['apartment_type'] == 'Commercial'){
 
@@ -546,7 +546,7 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
+    
   return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'Outstanding' && $data['apartment_type'] == 'Residential'){
 
@@ -566,7 +566,7 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
+
   return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == 'Commercial'){
 
@@ -586,7 +586,7 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
+
   return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }elseif(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == 'All' && $data['apartment_type'] == 'Residential'){
 
@@ -606,7 +606,6 @@ if(isset($start_date) !=='' && isset($end_date) !=='' && $data['rental'] == '' &
                     ->select('tenant_rents.*','assets.description as assetdesc','tenant_rents.due_date as rentExp','tenant_rents.balance as outstandingRent',
                       'tenant_rents.amount as rent_amt',DB::raw('CONCAT(tn.designation, " ", tn.firstname, " ", tn.lastname) as tenantDetail'),DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),'units.apartment_type as apartmentType','units.apartment_type as apartmentType','pt.name as proptype','tenant_rents.status as rentStatus')
                     ->get();
-    // dd($rental_reportDetails);
   return view('new.admin.reports.rental_report',compact('rental_reportDetails','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
   }
 
@@ -647,7 +646,6 @@ public function getServiceChargeReport(Request $request){
         ->whereBetween('asset_service_charges.dueDate',[$start_date,$end_date])
         ->select('tenant_service_charges.bal as serviceChargeBal','asset_service_charges.price as total','service_charges.name as serviceCharge','assets.description as assetName',DB::raw('CONCAT(ll.designation, " ", ll.firstname, " ", ll.lastname) as landlordDetail'),DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'))
          ->get();
-  //dd($service_charges);
   return view('new.admin.reports.service_charge_report',compact('service_charges','start_date','end_date','selected_tenant','rental','apartment_type','tenant_name'));
 }
     

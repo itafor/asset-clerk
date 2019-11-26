@@ -24,8 +24,16 @@ Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit
 Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 Route::get('upgrade', ['as' => 'profile.upgrade', 'uses' => 'SubscriptionsController@subscribe'])->middleware('sub.account');;
-Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan'])->middleware('sub.account');;
+Route::get('buy-plan/{plan}', ['as' => 'buy.plan', 'uses' => 'SubscriptionsController@buy_plan'])->middleware('sub.account');
 
+Route::get('create',['as'=>'companydetail.create', 'uses'=>'ProfileController@createCompanyDetail']);
+Route::post('store-company-detail',['as'=>'companydetail.store', 'uses'=>'ProfileController@storeCompanyDetail']);
+
+Route::get('view-company-detail',['as'=>'companydetail.view', 'uses'=>'ProfileController@viewCompanyDetail']);
+
+Route::get('edit-company-detail/{uuid}',['as'=>'companydetail.edit', 'uses'=>'ProfileController@editCompanyDetail']);
+
+Route::post('update-company-detail',['as'=>'companydetail.update', 'uses'=>'ProfileController@updateCompanyDetail']);
 
 Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@redirectToGateway'])->middleware('sub.account');;
 
