@@ -109,9 +109,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
-                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
-                            </td>
+                             @include('new.layouts.email_logo')
                             
                             <td style="text-align:right">
                                 Created: {{date('F d, Y')}}<br>
@@ -246,12 +244,13 @@
                    Total: &#8358; {{number_format($serviceChargePayment->amountPaid, 2)}}
                 </td>
             </tr>
-             <tr>
-                
-                <td>
-                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
-                </td>
-            </tr>
+             
+            <br><br>
+            
+              <tr>
+                 <td class="title">
+                                @include('new.layouts.poweredby')
+                 </td>
         </table>
     </div>
 </body>

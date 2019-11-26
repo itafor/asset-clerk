@@ -13,6 +13,8 @@ class RentalUpdated extends Mailable
     use Queueable, SerializesModels;
 
     public $rental;
+    public $companyDetail;
+
     /**
      * Create a new message instance.
      *
@@ -22,6 +24,7 @@ class RentalUpdated extends Mailable
     {
         $this->rental = $rental;
         $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->companyDetail = comany_detail($rental->user_id);
     }
 
     /**

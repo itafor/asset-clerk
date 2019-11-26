@@ -14,6 +14,8 @@ class RentalRenewed extends Mailable
      public $rental;
      public $landlord;
      public $agent;
+     public $companyDetail;
+
     /**
      * Create a new message instance.
      *
@@ -24,6 +26,7 @@ class RentalRenewed extends Mailable
         $this->rental = $rental;
         $this->landlord = $rental->unit->getProperty()->landlord;
         $this->agent = $rental->tenant_agent;
+        $this->companyDetail = comany_detail($rental->user_id);
     }
 
     /**
