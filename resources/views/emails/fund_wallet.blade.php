@@ -106,17 +106,8 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            @if($companyDetail)
-                             <td class="title">
-                    <img src="{{asset('uploads/'.$companyDetail->logo)}}" alt="Logo" title="Company logo" width="40" height="30">
-                    <div style="font-size: 14px; font-family: roboto;">{{$companyDetail->name}}</div>
-                            </td>
-                            @else
-                             <td class="title">
-                                <img src="{{ asset('img/companydefaultlogo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="50" >
-                            </td>
-
-                            @endif
+                                @include('new.layouts.email_logo')
+                            
                             <td style="text-align:right">
                                 
                             </td>
@@ -206,9 +197,7 @@
             @endif
               <tr>
                  <td class="title">
-                     Powered by  <a href="http://assetclerk.com/">
-                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="40" height="30" >
-                     </a>         
+                                @include('new.layouts.poweredby')
                  </td>
             </tr>
         </table>

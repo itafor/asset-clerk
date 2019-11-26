@@ -109,9 +109,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                             <td class="title">
-                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
-                            </td>
+                                @include('new.layouts.email_logo')
                             
                             <td style="text-align:right">
                                 
@@ -250,6 +248,12 @@
                               <td class="btn btn-danger" style="color: red;">{{$maintenanceComplaint->status}}</td>
                 @endif
                           
+            </tr>
+                <br>
+            <tr>
+                <td class="title">
+                                @include('new.layouts.poweredby')
+                 </td>
             </tr>
         </table>
     </div>
