@@ -109,9 +109,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                             <td class="title">
-                                <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
-                            </td>
+                              @include('new.layouts.email_logo')
                             
                             <td style="text-align:right">
                                 
@@ -251,11 +249,13 @@ Please kindly contact your landload or Agent to disable auto renewal of your ren
                 </td>
             </tr>
 
-               <tr>
-                
-                <td>
-                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
-                </td>
+              
+                <br><br>
+            
+              <tr>
+                 <td class="title">
+                                @include('new.layouts.poweredby')
+                 </td>
             </tr>
 
             

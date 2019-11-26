@@ -13,6 +13,7 @@ class DueRentTenant extends Mailable
 
     public $rental;
     public $landlord;
+    public $companyDetail;
 
     /**
      * Create a new message instance.
@@ -23,6 +24,7 @@ class DueRentTenant extends Mailable
     {
         $this->rental = $rental;
         $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->companyDetail = comany_detail($rental->user_id);
     }
 
     /**

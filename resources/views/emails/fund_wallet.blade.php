@@ -195,6 +195,8 @@
                 </td>
             </tr>
             @endif
+            <br><br>
+            
               <tr>
                  <td class="title">
                                 @include('new.layouts.poweredby')
