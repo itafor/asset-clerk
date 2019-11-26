@@ -117,7 +117,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="{{$message->embed('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="118" height="71.66" >
+                                @include('new.layouts.email_logo')
                             </td>
                             
                             <td style="text-align:right">
@@ -263,7 +263,7 @@ Dear {{$payment->unitt->getTenant()->email}},<br/>
     </tr>
     <tr>
          <td>
-                    Thank you for choosing <a href="http://assetclerk.com/">AssetClerk</a> Limited
+                     @include('new.layouts.poweredby')
          </td>
     </tr>
         </table>

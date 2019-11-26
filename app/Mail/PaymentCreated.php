@@ -14,6 +14,7 @@ class PaymentCreated extends Mailable
 
     public $payment;
     public $landlord;
+    public $companyDetail;
 
     /**
      * Create a new message instance.
@@ -24,6 +25,7 @@ class PaymentCreated extends Mailable
     {
         $this->payment = $payment;
         $this->landlord = $payment->unitt->getProperty()->landlord;
+        $this->companyDetail = comany_detail($payment->user_id);
     }
 
     /**
