@@ -261,6 +261,7 @@ Dear {{$payment->unitt->getTenant()->email}},<br/>
         Total: &#8358; {{number_format($payment->amount_paid, 2)}}
         </td>
     </tr>
+    <br><br>
     <tr>
          <td>
                      @include('new.layouts.poweredby')
