@@ -13,6 +13,8 @@ class MaintenanceComplaintMail extends Mailable
 
     public $maintenanceComplaint;
     public $status;
+    public $companyDetail;
+
     /**
      * Create a new message instance.
      *
@@ -22,6 +24,7 @@ class MaintenanceComplaintMail extends Mailable
     {
         $this->maintenanceComplaint = $maintenanceComplaint;
         $this->status = $status;
+        $this->companyDetail = comany_detail($maintenanceComplaint->user_id);
     }
 
     /**
