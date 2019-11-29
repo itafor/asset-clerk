@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AssetServiceCharge;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,7 +61,7 @@ class ServiceChargePaymentHistory extends Model
    	]);
 
    	if($data['balance']){
-   		self::updateTenantSC($data['tenant_id'],$data['service_charge_id'],$data['balance']);
+      self::updateTenantSC($data['tenant_id'],$data['service_charge_id'],$data['balance']);
    	}
 
       if($data['balance'] == 0){
@@ -76,6 +77,19 @@ class ServiceChargePaymentHistory extends Model
    		'bal' => $balance 
    	]);
    }
+
+
+   public static function updateAssetServiceCharge($asc_id,$balance){
+
+    $get_asc = AssetServiceCharge::where('id',$asc_id)->first();
+    if($get_asc){
+      $get_asc->balance = $balance;
+      $get_asc->payment_status = $balance == 0 ? 'Paid' : 'Partly Paid';
+      $get_asc->save();
+    }
+   
+   }
+
 
    public static function removeTenantThatHaveCompletedSCPayment($tenantId, $sc_id){
      $remove = TenantServiceCharge::where('tenant_id',$tenantId)

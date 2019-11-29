@@ -177,6 +177,8 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
+                'balance' => $unit['price'],
+                'payment_status' => 'Pending',
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
