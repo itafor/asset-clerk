@@ -40,10 +40,13 @@
           
               <select name="asset_id" id="asset" class="form-control {{$errors->has('asset') ? ' is-invalid' : ''}} asset" style="width:100%" required>
               <option value="">Select Property</option>
-               @if(isset($selected_asset) !== '')
+               @if(isset($selected_asset))
               <option value="{{$selected_asset}}" {{$selected_asset !== '' ? 'selected': '' }} >{{$asset_name}}</option>
                @endif
-
+               @if(isset($asset_option))
+              <option value="{{$asset_option}}" {{$asset_option !== '' ? 'selected': '' }} >{{$asset_option}}</option>
+               @endif
+               <option value="All">All</option>
               @foreach(getAssets() as $asset)
               <option value="{{$asset->id}}">{{$asset->description}}</option>
               @endforeach
@@ -62,7 +65,7 @@
                                 <div>
                                     <select  name="occupancy" id="occupancy" class="form-control" style="width:100%" required>
                                     <option value="">Select</option>
-                                  @if(isset($occupancy) !== '')
+                                  @if(isset($occupancy))
                                   <option value="{{$occupancy}}" {{$occupancy !== '' ? 'selected': '' }} > {{$occupancy }}</option>
                                   @endif
                                     <option value="All">All</option>
@@ -78,7 +81,7 @@
                                 <div>
                                     <select name="payment" id="payment" class="form-control" style="width:100%" required>
                                     <option value="">Select</option>
-                                       @if(isset($payment) !== '')
+                                       @if(isset($payment))
                                   <option value="{{$payment}}" {{$payment !== '' ? 'selected': '' }} > {{$payment }}</option>
                                   @endif
                                     <option value="All">All</option>
@@ -95,9 +98,10 @@
                                 <div>
                                     <select name="apartment_type" id="type" class="form-control " style="width:100%" required>
                                     <option value="">Select</option>
-                                      @if(isset($apartment_type) !== '')
+                                      @if(isset($apartment_type))
                                   <option value="{{$apartment_type}}" {{$apartment_type !== '' ? 'selected': '' }} > {{$apartment_type }}</option>
                                   @endif
+                                    <option value="All">All</option>
                                     <option value="Residential">Residential</option>
                                     <option value="Commercial">Commercial</option>
                                 </select>
@@ -142,7 +146,7 @@
                             <td>{{$report->assetName}}</td>
                             <td>{{$report->tenantDetail}}</td>
                            
-                            <td>{{$report->locatn}}</td>
+                            <td>{{$report->cityName}}</td>
                             <td>{{$report->landlordDetail}}</td>
                           
                             <td>{{$report->qty_left <= 0 ? 'Occupied':'Vacant'}}</td>

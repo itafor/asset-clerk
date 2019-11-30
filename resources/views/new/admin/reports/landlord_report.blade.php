@@ -36,7 +36,7 @@
    @csrf
   <div class="row">
    <div class="form-group col-4">
- <label class="form-control-label" for="input-category">{{ __('Start Date') }}</label>
+ <label class="form-control-label" for="input-category">{{ __('Rent Due Start Date') }}</label>
                                 <div>
                                 <input type="text" name="startDate" id="startDate" class=" datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }} " autocomplete="false" placeholder="Choose Date" value="{{isset($start_date) !=='' ? Carbon\Carbon::parse($start_date)->format('d/m/Y') : ''}}" required>
                                         
@@ -50,7 +50,7 @@
 
 
    <div class="form-group col-4">
- <label class="form-control-label" for="input-category">{{ __('Due Date') }}</label>
+ <label class="form-control-label" for="input-category">{{ __('Rent Due End Date') }}</label>
                                 <div>
                                 <input type="text" name="dueDate" id="dueDate" class=" datepicker form-control form-control-alternative{{ $errors->has('dueDate') ? ' is-invalid' : '' }} " placeholder="Choose Date" value="{{isset($end_date) !=='' ? Carbon\Carbon::parse($end_date)->format('d/m/Y') : ''}}" required autocomplete="false">
                                         
@@ -82,7 +82,7 @@
                         <th><b>Landlord Name</b></th>
                         <th><b>Asset</b></th>
                         <th><b>Type</b></th>
-                        <th><b>Description</b></th>
+                        <th><b>Property Used</b></th>
                         <th><b>Rent Expiry Date</b></th>
                         <th><b>Outstanding Rent</b></th>
                         <th><b>Tenant</b></th>
