@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Asset;
 use App\Jobs\NotifyDueRentJob;
+use App\Jobs\PlanUpgradeNotificationJob;
 use App\Jobs\RentalCreatedEmailJob;
 use App\Jobs\RentalRenewedEmailJob;
 use App\Jobs\RentalUpdatedEmailJob;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
+use App\Subscription;
 use App\TenantRent;
+use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -277,5 +280,30 @@ if($rental){
    $rental->save();
    }
 }
+
+public function planUpgradeNotification(){
+ 
+   $free_users =Subscription::join('users','users.id','=','subscriptions.user_id')
+                        ->join('subscription_plans as sp','sp.uuid','=','subscriptions.plan_id')
+                        ->where('subscriptions.status','Active')
+                        ->where('sp.name','Free')
+                        ->select('users.*')
+                        ->get();
+        if (!is_null($free_users)){
+
+            foreach ($free_users as $key => $user) {
+               $getUsers=User::where('id',$user->id)->get();
+                foreach ($getUsers as $key => $u) {
+               PlanUpgradeNotificationJob::dispatch($u)
+            ->delay(now()->addSeconds(5));
+            }
+            }
+
+
+    }else{
+        return null;
+    }
+
+  }
 }
 

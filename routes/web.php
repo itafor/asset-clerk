@@ -235,3 +235,4 @@ Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateS
 //cron job routes
 Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 Route::get('renew-rental-job', 'RentalController@renewRentals');
+Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotification');
