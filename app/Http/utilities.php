@@ -264,8 +264,8 @@ function getDebtors($past = false)
     }
 }
 
-function getUserPlan(){
-    $user = getOwnerUserID();
+function getUserPlan($user_id =''){
+    $user = $user_id == '' ? getOwnerUserID() : $user_id;
     $plan = \App\Subscription::where('user_id',$user)->where('status','Active')->first();
     if (!is_null($plan)){
         $plan_details = \App\SubscriptionPlan::where('uuid', $plan->plan_id)->first();

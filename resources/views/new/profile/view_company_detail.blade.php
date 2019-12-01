@@ -1,9 +1,9 @@
-@extends('new.layouts.app', ['title' => 'Company details', 'page' => 'maintenance'])
+@extends('new.layouts.app', ['title' => 'Company Profile', 'page' => 'Company Profile'])
 
 @section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-setting"></i> Company Details</h1>
+          <h1 class="dt-page__title"><i class="icon icon-setting"></i> Company Profile</h1>
         </div>
         <!-- /page header -->
 
@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Company details</h3>
+                <h3 class="dt-entry__title">Company Profile</h3>
               </div>
 
   <div class="dt-entry__heading">

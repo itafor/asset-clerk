@@ -45,6 +45,7 @@
                           <th><b>Tenant</b></th>
                           <th><b>Current Balance</b></th>
                           <th><b>Created At</b></th>
+                          
                       </tr>
                     </thead>
                     <tbody>
@@ -54,6 +55,7 @@
                           <td>{{$wallet->tenantDetail}}</td>
                           <td>&#8358; {{number_format($wallet->amount,2)}}</td>
                           <td>{{ \Carbon\Carbon::parse($wallet->created_at)->format('d M Y')}}</td>
+
                       </tr>
                       @endforeach
                     </tbody>

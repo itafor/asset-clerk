@@ -23,12 +23,12 @@
                 <!-- /entry heading -->
                 @if(check_if_user_upload_comany_detail())
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title"><a href="{{route('companydetail.view')}}">Company details</a></h3>
+                    <h3 class="dt-entry__title"><a href="{{route('companydetail.view')}}">Company Profile</a></h3>
                 </div>
                 @else
 
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title"><a href="{{route('companydetail.create')}}">Company details</a></h3>
+                    <h3 class="dt-entry__title"><a href="{{route('companydetail.create')}}">Company Profile</a></h3>
                 </div>
 
                 @endif

@@ -33,6 +33,7 @@ class RentalCreated extends Mailable
     public function build()
     {
         return $this->view('emails.rental')
+        ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('New Rental')
         ->cc($this->landlord->email, $this->landlord->name());
     }
