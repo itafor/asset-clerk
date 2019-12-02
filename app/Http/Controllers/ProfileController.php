@@ -55,7 +55,7 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'company_name' => 'required',
             'company_phone' => 'required',
-            'company_email' => 'required',
+            'company_email' => 'required|email',
             'company_address' => 'required',
             'company_logo' => 'required|image'
         ]);
@@ -92,7 +92,7 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'company_name' => 'required',
             'company_phone' => 'required',
-            'company_email' => 'required',
+            'company_email' => 'required|email',
             'company_address' => 'required',
             'company_logo' => 'image'
         ]);

@@ -106,7 +106,13 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                                @include('new.layouts.email_logo')
+                        @if(getUserPlan()['details']->name == 'Free')
+                            <a href="http://assetclerk.com/">
+                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
+                            </a> 
+                            @else
+                              @include('new.layouts.email_logo')
+                            @endif
                             
                             <td style="text-align:right">
                                 
@@ -191,7 +197,7 @@
             
             <tr class="details">
                 <td colspan="2">
-                    We have emailed you 'Service Charge Payment Receipt' for more information regarding this transaction, kindly check it out.
+                    We have sent you 'Service Charge Payment Notification' for more information regarding this transaction, kindly check it out.
                 </td>
             </tr>
             @endif

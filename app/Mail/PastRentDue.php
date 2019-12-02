@@ -5,24 +5,28 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\TenantRent;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RentalCreated extends Mailable
+class PastRentDue extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $rental;
     public $companyDetail;
+    public $userDetail;
+    public $past_due_rents2;
+    public $totalRentsNotPaid;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($rental)
+    public function __construct($userDetail,$past_due_rents2,$totalRentsNotPaid)
     {
-        $this->rental = $rental;
-        $this->landlord = $rental->unit->getProperty()->landlord;
-         $this->companyDetail = comany_detail($rental->user_id);
+        $this->userDetail = $userDetail;
+        $this->past_due_rents2 = $past_due_rents2;
+        $this->companyDetail = comany_detail($userDetail->id);
+        $this->totalRentsNotPaid = $totalRentsNotPaid;
     }
 
     /**
@@ -32,9 +36,8 @@ class RentalCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.rental')
+        return $this->view('emails.past_due_rents') 
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
-        ->subject('New Rental')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->subject('Past Due Rents Notification');
     }
 }

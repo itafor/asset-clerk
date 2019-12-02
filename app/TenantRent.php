@@ -36,6 +36,11 @@ class TenantRent extends Model
         return $this->belongsTo(Unit::class,'unit_uuid', 'uuid');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
+
     public static function createNew($data)
     {
         //$rentalDate = formatDate($data['date'], 'd/m/Y', 'Y-m-d');
