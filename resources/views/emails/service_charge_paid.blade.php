@@ -143,7 +143,7 @@
                                Email: {{$serviceChargePayment->tenants->email}}
                             </td>
                         </tr>
-                              <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                             
                           <tr>
                             <td colspan="2">
                                 Dear {{$serviceChargePayment->tenants->firstname}},<br/>
