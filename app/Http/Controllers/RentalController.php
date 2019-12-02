@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Jobs\DueRentInNext90DaysNotificationJob;
 use App\Jobs\NotifyDueRentJob;
 use App\Jobs\PlanUpgradeNotificationJob;
 use App\Jobs\RentalCreatedEmailJob;
@@ -305,5 +306,33 @@ public function planUpgradeNotification(){
     }
 
   }
+ 
+  public function periodicDueRentNofication(){
+    $rentalsDueInNext90Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+                $the_users=[];
+                foreach ($rentalsDueInNext90Days as $key => $due_rent) {
+                    $the_users[] =$due_rent->users;
+                }
+        $all_users = array_unique($the_users);
+                // dd($all_users);
+
+        foreach ($all_users as $key => $user) {
+            $userDetail = User::where('id',$user->id)->first();
+           $rentalsDueInNext90Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
+           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+
+        $totalRentsNotPaid = DB::table('tenant_rents')
+    ->where('user_id',$user->id)
+    ->sum('tenant_rents.balance');
+
+DueRentInNext90DaysNotificationJob::dispatch($userDetail,$rentalsDueInNext90Days2,$totalRentsNotPaid)
+    ->delay(now()->addSeconds(5));
+        }
+return 'Done';
+  }
+
+ 
 }
 

@@ -209,9 +209,11 @@
                     <table class="table table-striped table-bordered table-hover datatable">
                         <thead>
                             <tr>
+                                <th scope="">NO.</th>
                                 <th scope="">Tenant</th>
                                 <th scope="col">Property</th>
                                 <th scope="col">Amount</th>
+                                <th scope="col">Balance</th>
                                 <th scope="col">Due Date</th>
                                 <th scope="col">Days Left</th>
                                 <th scope="col">Status</th>
@@ -220,9 +222,11 @@
                         <tbody>
                             @foreach ($rentalsDueInNextThreeMonths as $rental)
                                 <tr>
+                                    <td>{{$loop->iteration}}</td>
                                     <td>{{$rental->tenant ? $rental->tenant->name() : ''}}</td>
                                     <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
                                     <td>&#8358; {{number_format($rental->price,2)}}</td>
+                                    <td>&#8358; {{number_format($rental->balance,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
                                      <td>{{$rental->remaingdays}} {{$rental->remaingdays > 1 ? 'days' : 'day'}}</td>
                                     
