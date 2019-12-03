@@ -15,14 +15,16 @@ class NotifyDueRentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $theRental; 
+    public $renewed_rental; 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($theRental)
+    public function __construct($theRental,$renewed_rental)
     {
         $this->theRental = $theRental;
+        $this->renewed_rental = $renewed_rental;
     }
 
     /**
@@ -33,6 +35,6 @@ class NotifyDueRentJob implements ShouldQueue
     public function handle()
     {
         $toEmail = $this->theRental->tenant->email;
-        Mail::to($toEmail)->send(new DueRentTenant($this->theRental));
+        Mail::to($toEmail)->send(new DueRentTenant($this->theRental,$this->renewed_rental));
     }
 }

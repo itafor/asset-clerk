@@ -17,7 +17,7 @@ class TenantRent extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'tenant_id', 'asset_uuid', 'price','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
+        'tenant_id','previous_rental_id','asset_uuid', 'price','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
         'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date','balance'
     ];
 
@@ -56,7 +56,6 @@ class TenantRent extends Model
         $dd = date_diff($startDate,$end_date);
         $final_duration = $dd->y." years, ".$dd->m." months, ".$dd->d." days";
         
-
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
@@ -70,6 +69,7 @@ class TenantRent extends Model
             'user_id' => $data['user_id'] ? $data['user_id'] : getOwnerUserID(),
             'status' => 'pending',
             'new_rental_status' => $data['new_rental_status'] ? $data['new_rental_status'] : null,
+            'previous_rental_id' => $data['previous_rental_id'] ? $data['previous_rental_id'] : null,
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);

@@ -68,6 +68,21 @@
         border-top: 2px solid #eee;
         font-weight: bold;
     }
+        #rental_table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+
+#rental_table td{
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#rental_table .rent_title{
+  width: 150px;
+}
+
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -142,130 +157,162 @@
                        
                           <tr>
                             <td colspan="2">
+
                                 <p>
+                                
 Dear {{$rental->unit->getTenant()->firstname}},<br/>
 
- <em>  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}, and it will be renewed automatically by one year duration. Details of new rent's price and durations will be sent to you in few days.
-
-In case you don't want your rent to be renewed once it expired, 
-Please kindly contact your landload or Agent to disable auto renewal of your rents.<br/> Please find below rental information.</em>
+ <em>  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}
+<br/> Please find below rental information.</em>
                                 </p>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-            
-            <tr>
-                <td>
-                    PROPERTY:
-                </td>
-                
-                <td>
-                   {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    PRICE:
-                </td>
-                
-                <td>
-                    &#8358; {{number_format($rental->amount,2)}}
-                </td>
-            </tr>
-           
-           <tr>
-                <td>
-                    RENT DURATION:
-                </td>
-                
-                <td>
-                     {{$rental->duration}}
-                </td>
-            </tr>
-
-             <tr>
-                <td>
-                   START DATE:
-                </td>
-                
-                <td>
-                     {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
-                </td>
-            </tr>
-        
-          <tr>
-                <td>
-                   DUE DATE:
-                </td>
-                
-                <td>
-                    {{getNextRentPayment($rental)['due_date']}}
-                </td>
-            </tr>
-
-             <tr >
-                <td>
-                    <h4>LANDLORD DETAILS</h4>
-                </td>
-            </tr>
-
-             <tr>
-                <td>
-                    NAME: {{$rental->unit->getProperty()->landlord->name()}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                  PHONE: {{$rental->unit->getProperty()->landlord->phone}}
-                </td>
-
-            </tr>
-             <tr>
-                <td>
-                   EMAIL: {{$rental->unit->getProperty()->landlord->email}}
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <h4>AGENT DETAILS</h4>
-                </td>
-            </tr>
-
-             <tr>
-                <td>
-                   NAME: {{$rental->unit->getProperty()->landlord->tenant_agent->firstname}} 
-
-                   {{$rental->unit->getProperty()->landlord->tenant_agent->lastname}}
-                    
-                </td>
-            </tr>
-            <tr>
-                <td>
-                   PHONE: {{$rental->unit->getProperty()->landlord->tenant_agent->phone}}
-                 
-                </td>
-
-            </tr>
-             <tr>
-                <td>
-                   EMAIL: {{$rental->unit->getProperty()->landlord->tenant_agent->email}}
-                </td>
-            </tr>
-
-              
-                <br><br>
-            
-              <tr>
-                 <td class="title">
-                                @include('new.layouts.poweredby')
-                 </td>
-            </tr>
-
-            
         </table>
+
+<h4>CURRENT RENT DETAILS </h4> 
+        <table class="table table-bordered" id="rental_table">
+           
+                    <tbody>
+
+                   <tr>
+                     <td class="rent_title">PROPERTY</td>
+                     <td> {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom</td>
+                   </tr>
+
+                     <tr>
+                     <td class="rent_title">PRICE</td>
+                     <td>&#8358; {{number_format($rental->amount,2)}}</td>
+                   </tr>
+
+                    <tr>
+                     <td class="rent_title">RENT DURATION</td>
+                <td>{{$rental->duration}}</td>           
+              </tr>
+
+                 <tr>
+                     <td class="rent_title">START DATE</td>
+                     <td>{{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}</td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DUE DATE</td>
+                     <td>
+                      
+                     {{getNextRentPayment($rental)['due_date']}}
+                    
+                    </td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DATE CREATED</td>
+                      <td>
+     {{ \Carbon\Carbon::parse($rental->created_at)->format('d M Y')}}
+                        </td>
+                </tr>
+                 <tr>
+                     <td class="rent_title">PAYMENT STATUS</td>
+                      <td>
+                           @if ($rental->status == 'Partly paid' )
+                           <span style="color: brown">{{$rental->status}}</span>
+
+                           @elseif($rental->status == 'Paid')
+                           <span style="color: green">{{$rental->status}}</span> 
+
+                            @else
+                           <span style="color: red">{{$rental->status}}</span>
+                           @endif
+                          </td>
+
+                </tr>
+                <tr>
+                     <td class="rent_title">RENEWABLE STATUS</td>
+                     
+                           @if($rental->renewable == 'yes')
+                            <td style="color: green"> Renewable</td>
+                           @else
+                            <td style="color: red">Not Renewable</td>
+                           @endif
+
+                </tr>
+               
+       </tbody>
+                  </table>
+
+        <h4>NEW RENT DETAILS AND PRICE</h4>
+        <table class="table table-bordered" id="rental_table">
+           
+                    <tbody>
+
+                   <tr>
+                     <td class="rent_title">PROPERTY</td>
+                     <td> {{$renewed_rental->asset ? $renewed_rental->asset->description : ''}}
+                     - {{$renewed_rental->unit->category->name}} Bedroom</td>
+                   </tr>
+
+                     <tr>
+                     <td class="rent_title">PRICE</td>
+                     <td>&#8358; {{number_format($renewed_rental->amount,2)}}</td>
+                   </tr>
+
+                    <tr>
+                     <td class="rent_title">RENT DURATION</td>
+                <td>{{$renewed_rental->duration}}</td>           
+              </tr>
+
+                 <tr>
+                     <td class="rent_title">START DATE</td>
+                     <td>{{ \Carbon\Carbon::parse($renewed_rental->startDate)->format('d M Y')}}</td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DUE DATE</td>
+                     <td>
+                      
+                     {{getNextRentPayment($renewed_rental)['due_date']}}
+                    
+                    </td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DATE CREATED</td>
+                      <td>
+     {{ \Carbon\Carbon::parse($renewed_rental->created_at)->format('d M Y')}}
+                        </td>
+                </tr>
+                <tr>
+                     <td class="rent_title">PAYMENT STATUS</td>
+                      <td>
+                           @if ($renewed_rental->status == 'Partly paid' )
+                           <span style="color: brown">{{$renewed_rental->status}}</span>
+
+                           @elseif($renewed_rental->status == 'Paid')
+                           <span style="color: green">{{$renewed_rental->status}}</span> 
+
+                            @else
+                           <span style="color: red">{{$renewed_rental->status}}</span>
+                           @endif
+                          </td>
+
+                </tr>
+                <tr>
+                     <td class="rent_title">RENEWABLE STATUS</td>
+                     
+                           @if($renewed_rental->renewable == 'yes')
+                            <td style="color: green"> Renewable</td>
+                           @else
+                            <td style="color: red">Not Renewable</td>
+                           @endif
+
+                </tr>
+       </tbody>
+                  </table>
+
+
+<br><br>
+                    @include('new.layouts.poweredby')
     </div>
 </body>
 </html>
