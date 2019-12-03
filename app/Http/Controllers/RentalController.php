@@ -252,6 +252,7 @@ public function viewDetail($uuid){
     $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
     $newRentDetails['user_id']    = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
+    $newRentDetails['renewable'] = 'no';
 
             if(!empty($newRentDetails)){
 
