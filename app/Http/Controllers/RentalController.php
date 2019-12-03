@@ -222,10 +222,11 @@ public function viewDetail($uuid){
     public function notifyDueRent()
     {
      $dueRentals = TenantRent::where('renewable', 'yes')
+         ->where('new_rental_status','New')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
-        ->get();
-//dd($dueRentals);
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
+         ->get();
+  //dd($dueRentals);
 
         foreach($dueRentals as $rental) {
              NotifyDueRentJob::dispatch($rental)
@@ -236,22 +237,20 @@ public function viewDetail($uuid){
     }
 
  public function renewRentals(){
-        $newRentals = DB::table('tenant_rents')
+        $newRentals = TenantRent::where('renewable', 'yes')
+        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (14/100) ),0)')->with(['users'])
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
         ->get();
-//dd($newRentals);
-     foreach($newRentals as $rental) {
 
-    $newRentDetails['tenant']    = $rental->tenant_uuid;
-    $newRentDetails['property']  = $rental->asset_uuid;
-    $newRentDetails['unit']      = $rental->unit_uuid;
-    $newRentDetails['price']     = $rental->price;
-    $newRentDetails['amount']    = $rental->amount;
+     foreach($newRentals as $rent) {
+    $newRentDetails['tenant']    = $rent->tenant_uuid;
+    $newRentDetails['property']  = $rent->asset_uuid;
+    $newRentDetails['unit']      = $rent->unit_uuid;
+    $newRentDetails['price']     = $rent->price;
+    $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
     $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rental->user_id;
+    $newRentDetails['user_id']    = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
 
             if(!empty($newRentDetails)){
@@ -260,7 +259,7 @@ public function viewDetail($uuid){
         try {
             $rental = TenantRent::createNew($newRentDetails);
 
-            RentalRenewedEmailJob::dispatch($rental)
+            RentalRenewedEmailJob::dispatch($rental,$rent->users,$rent)
             ->delay(now()->addSeconds(5));
             $this->setRenewableColumnToNo($rental->id,$rental->user_id);     
             DB::commit();
@@ -272,6 +271,7 @@ public function viewDetail($uuid){
 
         }
     }
+    return 'Done';
     }
 
     public function setRenewableColumnToNo($id,$user_id){

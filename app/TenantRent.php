@@ -157,7 +157,7 @@ if($rental){
     $rental->amount = $data['actual_amount'];
     $rental->startDate = $startDate;
     $rental->due_date = $dueDate;
-    $rental->new_rental_status = null;
+    $rental->new_rental_status = 'New';
     $rental->duration = $final_duration;//star date
     $rental->renewable = 'yes';
    if($rental->save()){
