@@ -143,7 +143,7 @@
                               <strong> Email:</strong>{{$maintenanceComplaint->tenant->email}}
                             </td>
                         </tr>
-                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                       
                           <tr>
                             <td colspan="2">
                                 Dear {{$maintenanceComplaint->tenant->firstname}},

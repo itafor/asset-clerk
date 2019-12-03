@@ -139,7 +139,7 @@
                               <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
                             </td>
                         </tr>
-                        <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                       
                           <tr>
                             <td colspan="2">
                                 Dear {{$rental->unit->getTenant()->firstname}},
