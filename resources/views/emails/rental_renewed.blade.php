@@ -291,11 +291,9 @@
                            @else
                             <td style="color: red">Not Renewable</td>
                            @endif
-                           <td>
-                               <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View and edit</a>
-                           </td>
 
                 </tr>
+               
        </tbody>
                   </table>
 
