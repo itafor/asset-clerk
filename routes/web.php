@@ -236,4 +236,6 @@ Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateS
 Route::get('notify-due-rent', 'RentalController@notifyDueRent');
 Route::get('renew-rental-job', 'RentalController@renewRentals');
 Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotification');
-Route::get('rent-due-in-next-ninetydays', 'RentalController@periodicDueRentNofication');
+Route::get('rent-due-in-next-ninetydays', 'RentalController@dueRentInNext90DaysNotification');
+Route::get('rent-due-in-next-thirdtydays', 'RentalController@dueRentInNext30DaysNotification');
+Route::get('past-due-rents', 'RentalController@pastDueRentsNotification');
