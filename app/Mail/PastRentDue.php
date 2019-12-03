@@ -37,7 +37,6 @@ class PastRentDue extends Mailable
     public function build()
     {
         return $this->view('emails.past_due_rents') 
-        ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Past Due Rents Notification');
     }
 }

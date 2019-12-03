@@ -37,7 +37,6 @@ class RentDueIn90Days extends Mailable
     public function build()
     {
         return $this->view('emails.rentalsDue_InNext_90Days')
-         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Due Rentals In Next 90 Days');
     }
 }
