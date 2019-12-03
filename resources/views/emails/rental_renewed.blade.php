@@ -81,7 +81,7 @@
   padding: 8px;
 }
 #rental_table .rent_title{
-  width: 80px;
+  width: 150px;
 }
 
     
@@ -293,6 +293,7 @@
                            @endif
 
                 </tr>
+               
        </tbody>
                   </table>
 
