@@ -223,7 +223,7 @@ public function viewDetail($uuid){
     {
      $dueRentals = TenantRent::where('renewable', 'yes')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (14/100) ),0)') 
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (11/100) ),0)') 
          ->get();
   //dd($dueRentals);
 
@@ -241,7 +241,7 @@ public function viewDetail($uuid){
 
  public function renewRentals(){
         $newRentals = TenantRent::where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (14/100) ),0)')->with(['users'])
+        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (11/100) ),0)')->with(['users'])
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
 //dd($newRentals);
