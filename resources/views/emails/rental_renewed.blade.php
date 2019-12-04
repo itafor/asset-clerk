@@ -216,7 +216,11 @@
                 <tr>
                      <td class="rent_title">RENEWABLE STATUS</td>
                      
-                           <td> {{$currentRental->renewable}} </td>
+                           @if($currentRental->renewable == 'yes')
+                            <td style="color: green"> Renewable</td>
+                           @else
+                            <td style="color: red">Not Renewable</td>
+                           @endif
 
                 </tr>
        </tbody>
@@ -282,10 +286,14 @@
                 <tr>
                      <td class="rent_title">RENEWABLE STATUS</td>
                      
-                    <td> {{$rental->renewable}} </td>
+                           @if($rental->renewable == 'yes')
+                            <td style="color: green"> Renewable</td>
+                           @else
+                            <td style="color: red">Not Renewable</td>
+                           @endif
 
                 </tr>
-
+               
        </tbody>
                   </table>
 

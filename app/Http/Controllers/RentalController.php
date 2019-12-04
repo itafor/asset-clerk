@@ -222,15 +222,18 @@ public function viewDetail($uuid){
     public function notifyDueRent()
     {
      $dueRentals = TenantRent::where('renewable', 'yes')
-         ->where('new_rental_status','New')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (14/100) ),0)') 
          ->get();
   //dd($dueRentals);
 
         foreach($dueRentals as $rental) {
-             NotifyDueRentJob::dispatch($rental)
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
             ->delay(now()->addSeconds(5));
+             }
+            
         }
 
         return 'done';
@@ -241,7 +244,7 @@ public function viewDetail($uuid){
         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (14/100) ),0)')->with(['users'])
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
-
+//dd($newRentals);
      foreach($newRentals as $rent) {
     $newRentDetails['tenant']    = $rent->tenant_uuid;
     $newRentDetails['property']  = $rent->asset_uuid;
@@ -253,6 +256,7 @@ public function viewDetail($uuid){
     $newRentDetails['user_id']    = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
     $newRentDetails['renewable'] = 'no';
+    $newRentDetails['previous_rental_id'] = $rent->id;
 
             if(!empty($newRentDetails)){
 
