@@ -35,7 +35,7 @@
 <form action="{{route('report.get_servicecharge_report')}}" method="post" autocomplete="false">
    @csrf
   <div class="row">
-   <div class="form-group col-4">
+   <div class="form-group col-3">
  <label class="form-control-label" for="input-category">{{ __('Start Date') }}</label>
                                 <div>
                                 <input type="text" name="startDate" id="startDate" class=" datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }} " autocomplete="false" placeholder="Choose Date" value="{{isset($start_date) !=='' ? Carbon\Carbon::parse($start_date)->format('d/m/Y') : ''}}" required>
@@ -49,7 +49,7 @@
 </div>
 
 
-   <div class="form-group col-4">
+   <div class="form-group col-3">
  <label class="form-control-label" for="input-category">{{ __('Due Date') }}</label>
                                 <div>
                                 <input type="text" name="dueDate" id="dueDate" class=" datepicker form-control form-control-alternative{{ $errors->has('dueDate') ? ' is-invalid' : '' }} " placeholder="Choose Date" value="{{isset($end_date) !=='' ? Carbon\Carbon::parse($end_date)->format('d/m/Y') : ''}}" required autocomplete="false">
@@ -63,19 +63,21 @@
 </div>
 
 
-<!--    <div class="form-group col-2">
- <label class="form-control-label" for="input-rental">{{ __('Rental') }}</label>
+   <div class="form-group col-3">
+ <label class="form-control-label" for="input-rental">{{ __('Payment') }}</label>
                                 <div>
-                                    <select name="rental" id="rental" class="form-control" style="width:100%">
+                                    <select name="payment" id="payment" class="form-control" style="width:100%">
                                     <option value="">Select</option>
-                                       @if(isset($rental) !== '')
-                                  <option value="{{$rental}}" {{$rental !== '' ? 'selected': '' }} > {{$rental }}</option>
+                                       @if(isset($selected_payment) !== '')
+                            <option value="{{$selected_payment}}" {{$selected_payment !== '' ? 'selected': '' }} > {{$selected_payment }}</option>
                                   @endif
                                     <option value="All">All</option>
-                                    <option value="Outstanding">Outstanding </option>
+                                    <option value="Paid">Paid </option>
+                                    <option value="Partly">Partly Paid </option>
+                                    <option value="Pending">Pending </option>
                                 </select>
                           </div>
-</div> -->
+</div>
   
 <!--    <div class="form-group col-2">
  <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
@@ -112,11 +114,8 @@
                         <th><b>Service Charge</b></th>
                         <th><b>Total</b></th>
                         <th><b>Status</b></th>
-                        <th><b>Outstanding Rent</b></th>
+                        <th><b>Outstanding Service Charge</b></th>
 
-                        <!-- <th><b>Outstanding Service Charge</b></th> -->
-                        <!-- <th><b>qty left</b></th> -->
-                        <t
                     </tr>
                     </thead>
                     <tbody>
@@ -129,14 +128,8 @@
                             <td>{{$report->tenantDetail}}</td>
                             <td>{{$report->serviceCharge}}</td>
                             <td> &#8358; {{number_format($report->total,2)}}</td>
-                            @if($report->serviceChargeBal == $report->total)
-                            <td>Pending</td>
-                            @elseif($report->serviceChargeBal == 0)
-                            <td>Paid</td>
-                            @else
-                            <td>Partly Paid</td>
-                            @endif
-                            <td> &#8358; {{number_format($report->serviceChargeBal,2)}}</td>
+                            <td>{{$report->paymentStatus}}</td>
+                            <td> &#8358; {{number_format($report->asc_bal,2)}}</td>
                         </tr>
                     @endforeach
                     @endif

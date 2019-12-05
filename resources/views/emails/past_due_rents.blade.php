@@ -68,6 +68,31 @@
         border-top: 2px solid #eee;
         font-weight: bold;
     }
+
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #808080;
+  color: white;
+  font-size: 14px;
+}
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -104,18 +129,16 @@
 
 <body>
     <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0" style="margin-bottom: -50px">
             <tr class="top">
                 <td colspan="2">
                     <table>
                         <tr>
-                     @if(getUserPlan()['details']->name == 'Free')
+                            <td>
                             <a href="http://assetclerk.com/">
                         <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
                             </a> 
-                            @else
-                              @include('new.layouts.email_logo')
-                            @endif
+                            </td>
                             
                             <td style="text-align:right">
                                 
@@ -129,96 +152,61 @@
                 <td colspan="2">
                     <table>
                         <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
-                        <tr>
-                           <p>Dear <span>{{$rental->unit->getTenant()->name()}} ,</span><br/>
-                            Your renewed rental have been verified, Please find below rental information.
-                           </p>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>Address:</b><br>
-                               {{$rental->unit->getTenant()->address}}
-                            </td>
-                            
-                            <td style="text-align:right">
-                                {{$rental->unit->getTenant()->name()}} <br>
-                                {{$rental->unit->getTenant()->email}}
+                          <tr>
+                            <td colspan="2">
+                                <p>
+Dear {{$userDetail->firstname}} {{$userDetail->lastname}},<br/>
+
+ <em> Below is a list of your past due rents</em>
+                                </p>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-            
-            <tr class="heading">
-                <td>
-                    Property
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
-                </td>
-            </tr>
-            
-            <tr class="heading">
-                <td>
-                  Rent Details
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr class="item">
-                <td>
-                    <b>Price:</b>
-                </td>
-                
-                <td>
-                    &#8358; {{number_format($rental->amount,2)}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Duration:</b>
-                </td>
-                
-                <td>
-                    {{$rental->duration.' '.$rental->duration_type}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Start Date:</b>
-                </td>
-                
-                <td>
-                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Due Date:</b>
-                </td>
-                
-                <td>
-                    {{getNextRentPayment($rental)['due_date']}}
-                </td>
-            </tr>
-            <br><br>
-            
-                <tr>
-                <td class="title">
-                    @include('new.layouts.poweredby')
-                </td>
-            </tr>
         </table>
+
+         <h2>Past Due Rents</h2>
+          <h5>Total Unpaid Rents: <span style="color: red;">&#8358; {{number_format($totalRentsNotPaid,2)}}</span></h5>
+                    <table class="table table-bordered" id="customers">
+                        <thead>
+                            <tr>
+                                <th scope="">S/N</th>
+                                <th scope="">Tenant</th>
+                                <th scope="col">Property</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Balance</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($past_due_rents2 as $rental)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$rental->tenant ? $rental->tenant->name() : ''}}</td>
+                                    <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
+                                    <td>&#8358;{{number_format($rental->price,2)}}</td>
+                                    <td>&#8358;{{number_format($rental->balance,2)}}</td>
+                                    <td>{{getNextRentPayment($rental)['due_date']}}</td>
+
+                            <td>
+                           @if ($rental->status == 'Partly paid' )
+                           <span style="color: #D2691E;">{{$rental->status}}</span>
+
+                           @elseif($rental->status == 'Paid')
+                           <span style="color: #008000;">{{$rental->status}}</span> 
+
+                            @else
+                           <span style="color: #FF0000;">{{$rental->status}}</span>
+                           @endif
+
+                          </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
     </div>
+
 </body>
 </html>

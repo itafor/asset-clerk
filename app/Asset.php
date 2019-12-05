@@ -4,6 +4,8 @@ namespace App;
 
 use App\AssetPhoto;
 use App\AssetServiceCharge;
+use App\Jobs\ServiceChargeInvoiceJob;
+use App\Tenant;
 use App\TenantServiceCharge;
 use App\Unit;
 use Carbon\Carbon;
@@ -177,6 +179,8 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'service_charge_id' => $unit['service_charge'],
                 'price' => $unit['price'],
+                'balance' => $unit['price'],
+                'payment_status' => 'Pending',
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
                 'user_id' => getOwnerUserID(),
@@ -201,6 +205,13 @@ class Asset extends Model
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
             ]);
+            $tenant = Tenant::where('id',$id)->first();
+            $serviceCharge = AssetServiceCharge::with('asset','serviceCharge')
+            ->where('user_id',getOwnerUserID())
+            ->where('id',$sc_id)->first();
+
+            ServiceChargeInvoiceJob::dispatch($tenant,$serviceCharge)
+                ->delay(now()->addSeconds(3));
         }
     }
 

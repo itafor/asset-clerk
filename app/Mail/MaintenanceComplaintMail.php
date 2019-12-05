@@ -35,6 +35,7 @@ class MaintenanceComplaintMail extends Mailable
     public function build()
     {
         return $this->view('emails.maintenance_complaint') 
+        ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Complaint Notification');
     }
 }

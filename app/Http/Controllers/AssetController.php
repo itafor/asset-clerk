@@ -260,7 +260,7 @@ class AssetController extends Controller
     }
 
       public static function array_has_dupes($array) {
-      return count($array) !== count(array_unique($array));
+      return count($array) !== count(array_unique($array));//check if array has duplicates
 }
 
 

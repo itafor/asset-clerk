@@ -173,7 +173,7 @@
                                     <div class="row">
 
 <div class="form-group{{ $errors->has('apartment_type') ? ' has-danger' : '' }} col-2">
-    <label class="form-control-label" for="input-property_type">{{ __('Apartment Type') }}</label>
+    <label class="form-control-label" for="input-property_type">{{ __('Property Used') }}</label>
                                       
     <div class="form-check">
       <label class="form-check-label" for="radio1">
@@ -260,7 +260,7 @@
                                     <!-- Apartment types -->
 
 <div class="form-group{{ $errors->has('apartment_type') ? ' has-danger' : '' }} col-2">
-<label class="form-control-label" for="input-property_type">{{ __('Apartment Type') }}</label>
+<label class="form-control-label" for="input-property_type">{{ __('Property Used') }}</label>
                                       
     <div class="form-check">
       <label class="form-check-label" for="radio1">
@@ -524,7 +524,7 @@
     +'<div class="row" id="rowNumber'+rowId+'" data-row="'+rowId+'">'
 
     +'<div class="col-2">'
-    +'<label class="form-control-label" for="input-category">{{ __('Apartment Type') }}</label>'
+    +'<label class="form-control-label" for="input-category">{{ __('Property Used') }}</label>'
     +'<div class="form-check">'
     +'<label class="form-check-label" for="radio1">'
     +'<input type="radio" class="form-check-input" id="radio1"  name="unit['+rowId+'][apartment_type]" value="Residential" required>Residential'

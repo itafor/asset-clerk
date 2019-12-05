@@ -109,7 +109,13 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                             @include('new.layouts.email_logo')
+                    @if(getUserPlan()['details']->name == 'Free')
+                            <a href="http://assetclerk.com/">
+                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
+                            </a> 
+                            @else
+                              @include('new.layouts.email_logo')
+                            @endif
                             
                             <td style="text-align:right">
                                 Created: {{date('F d, Y')}}<br>
@@ -137,7 +143,7 @@
                                Email: {{$serviceChargePayment->tenants->email}}
                             </td>
                         </tr>
-                              <h5 class="notification_header"><u>Asset Clerk Electronic Notification Service</u></h5>
+                             
                           <tr>
                             <td colspan="2">
                                 Dear {{$serviceChargePayment->tenants->firstname}},<br/>
@@ -188,10 +194,10 @@
 
          <tr class="item">
         <td>
-          <b>  Payment Item : </b>
+          <b> Service Charge (Payment Item) : </b>
         </td>
         <td>
-             {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}}
+             {{$serviceChargePayment->serviceCharge->name === 'Other' ? $serviceChargePayment->asset_service_charge->description : $serviceChargePayment->serviceCharge->name}} 
         </td>
             </tr>
 

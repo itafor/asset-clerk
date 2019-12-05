@@ -12,18 +12,21 @@ class RentalRenewed extends Mailable
     use Queueable, SerializesModels;
 
      public $rental;
+     public $currentRental;
      public $landlord;
      public $agent;
      public $companyDetail;
-
+     public $theUser;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($rental)
+    public function __construct($rental,$theUser,$currentRental)
     {
         $this->rental = $rental;
+        $this->currentRental = $currentRental;
+        $this->theUser = $theUser;
         $this->landlord = $rental->unit->getProperty()->landlord;
         $this->agent = $rental->tenant_agent;
         $this->companyDetail = comany_detail($rental->user_id);

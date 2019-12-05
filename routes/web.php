@@ -232,6 +232,13 @@ Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateSelectedPaymentDate');
 });
 
-//cron job routes
-Route::get('notify-due-rent', 'RentalController@notifyDueRent');
-Route::get('renew-rental-job', 'RentalController@renewRentals');
+//cron job's routes
+Route::get('notify-due-rent-at25percent', 'RentalController@notifyDueRentAt25Percent');
+Route::get('notify-due-rent-at12percent', 'RentalController@notifyDueRentAt12Percent');
+Route::get('notify-due-rent-at6percent', 'RentalController@notifyDueRentAt6Percent');
+Route::get('notify-due-rent-at0percent', 'RentalController@notifyDueRentAt0Percent');
+Route::get('renew-rental-job-at50percent', 'RentalController@renewRentalsAt50Percent');
+Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotification');
+Route::get('rent-due-in-next-ninetydays', 'RentalController@dueRentInNext90DaysNotification');
+Route::get('rent-due-in-next-thirdtydays', 'RentalController@dueRentInNext30DaysNotification');
+Route::get('past-due-rents', 'RentalController@pastDueRentsNotification');

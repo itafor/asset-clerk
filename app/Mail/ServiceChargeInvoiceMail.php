@@ -5,24 +5,26 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\TenantRent;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RentalCreated extends Mailable
+class ServiceChargeInvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $rental;
+    public $tenant;
+    public $service_charge;
     public $companyDetail;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($rental)
+    public function __construct($tenant,$service_charge)
     {
-        $this->rental = $rental;
-        $this->landlord = $rental->unit->getProperty()->landlord;
-         $this->companyDetail = comany_detail($rental->user_id);
+        $this->tenant = $tenant;
+        $this->service_charge = $service_charge;
+        $this->companyDetail = comany_detail($tenant->user_id);
     }
 
     /**
@@ -32,9 +34,8 @@ class RentalCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.rental')
+        return $this->view('emails.service_charge_invoice')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
-        ->subject('New Rental')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->subject('Service Charge Payment Invoice');
     }
 }

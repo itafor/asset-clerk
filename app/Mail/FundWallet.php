@@ -31,6 +31,7 @@ class FundWallet extends Mailable
     public function build()
     {
         return $this->view('emails.fund_wallet')
+         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
          ->subject($this->walletHistory->transaction_type === 'Deposit' ? 'Wallet funded' : 'Wallet Debited');
         //->cc($this->landlord->email, $this->landlord->name());
     }

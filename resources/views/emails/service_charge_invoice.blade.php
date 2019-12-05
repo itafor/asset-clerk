@@ -68,6 +68,21 @@
         border-top: 2px solid #eee;
         font-weight: bold;
     }
+        #rental_table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+
+#rental_table td{
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#rental_table .rent_title{
+  width: 150px;
+}
+
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -80,6 +95,9 @@
             width: 100%;
             display: block;
             text-align: center;
+        }
+        .notification_header{
+            font-size: 10px;
         }
     }
     
@@ -106,7 +124,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            @if(getUserPlan()['details']->name == 'Free')
+                            @if(getUserPlan($tenant->user_id)['details']->name == 'Free')
                             <a href="http://assetclerk.com/">
                         <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
                             </a> 
@@ -125,88 +143,82 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
-                        <tr>
-                            <td>
-                                <b>Address:</b><br>
-                               {{$rental->unit->getTenant()->address}}
-                            </td>
-                            
-                            <td style="text-align:right">
-                                {{$rental->unit->getTenant()->name()}} <br>
-                                {{$rental->unit->getTenant()->email}}
+                          <tr>
+                            <td colspan="2">
+
+                                <p>
+                                
+Dear {{$tenant->firstname}} {{$tenant->lastname}},<br/>
+Please find below
+{{ \Carbon\Carbon::parse($service_charge->startDate)->format('d M Y')}} <strong>to</strong>
+{{ \Carbon\Carbon::parse($service_charge->created_at)->format('d M Y')}}
+
+{{$service_charge->serviceCharge->name === 'Other' ? $service_charge->description : $service_charge->serviceCharge->name}}
+     's Service Charge invoice.
+<br/> </em>
+                                </p>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-            
-            <tr class="heading">
-                <td>
-                    Property
-                </td>
-                
-                <td>
-                  
-                </td>
-            </tr>
-            
-            <tr class="details">
-                <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
-                </td>
-            </tr>
-            
-            <tr class="heading">
-                <td>
-                  Rent Details
-                </td>
-                <td></td>
-            </tr>
-            
-            <tr class="item">
-                <td>
-                    <b>Price:</b>
-                </td>
-                
-                <td>
-                    &#8358; {{number_format($rental->amount,2)}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Duration:</b>
-                </td>
-                
-                <td>
-                    {{$rental->duration.' '.$rental->duration_type}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Start Date:</b>
-                </td>
-                
-                <td>
-                   {{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    <b>Rent Due Date:</b>
-                </td>
-                
-                <td>
-                    {{getNextRentPayment($rental)['due_date']}}
-                </td>
-            </tr>
-            <br><br>
-              <tr>
-                <td> @include('new.layouts.poweredby')</td>
-            </tr>
         </table>
+  <h4>Service Charge Invoice Details</h4>
+        <table class="table table-bordered" id="rental_table">
+           
+                    <tbody>
+
+                   <tr>
+                     <td class="rent_title">PROPERTY</td>
+                     <td>{{ $service_charge->asset ? $service_charge->asset->description : '' }}
+                     </td>
+                   </tr>
+
+                     <tr>
+                     <td class="rent_title">LOCATION</td>
+                     <td> {{ $service_charge->asset ? $service_charge->asset->address : '' }}</td>
+                   </tr>
+
+
+                    <tr>
+                     <td class="rent_title">SERVICE CHARGE</td>
+                <td>{{$service_charge->serviceCharge->name === 'Other' ? $service_charge->description : $service_charge->serviceCharge->name}}</td>           
+              </tr>
+
+
+               <tr>
+                     <td class="rent_title">PRICE</td>
+                     <td>&#8358; {{number_format($service_charge->price,2)}}</td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">START DATE</td>
+                     <td>{{ \Carbon\Carbon::parse($service_charge->startDate)->format('d M Y')}} </td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DUE DATE</td>
+                     <td>
+                      
+                      {{ \Carbon\Carbon::parse($service_charge->dueDate)->format('d M Y')}}
+                    
+                    </td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DATE CREATED</td>
+                      <td>
+     {{ \Carbon\Carbon::parse($service_charge->created_at)->format('d M Y')}}
+                        </td>
+                </tr>
+                
+       </tbody>
+                  </table>
+       
+
+
+<br><br>
+                    @include('new.layouts.poweredby')
     </div>
 </body>
 </html>

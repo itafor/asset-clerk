@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Jobs\DueRentInNext30DaysNotificationJob;
+use App\Jobs\DueRentInNext90DaysNotificationJob;
 use App\Jobs\NotifyDueRentJob;
+use App\Jobs\PastDueRentNotificationJob;
+use App\Jobs\PlanUpgradeNotificationJob;
 use App\Jobs\RentalCreatedEmailJob;
 use App\Jobs\RentalRenewedEmailJob;
 use App\Jobs\RentalUpdatedEmailJob;
 use App\Mail\DueRentTenant;
 use App\Mail\RentalCreated;
+use App\Subscription;
 use App\TenantRent;
+use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -158,8 +164,8 @@ public function update(Request $request){
             try{
                $rental = TenantRent::editTenantRent($request->all());
 
-            RentalUpdatedEmailJob::dispatch($rental)
-                ->delay(now()->addSeconds(3));
+            // RentalUpdatedEmailJob::dispatch($rental)
+            //     ->delay(now()->addSeconds(3));
 
                TenantRent::rentalDebtorsNewRentalStatusUpdate($request->all());
                 DB::commit();
@@ -213,40 +219,102 @@ public function viewDetail($uuid){
      *
      * @return void
      */
-    public function notifyDueRent()
+public function notifyDueRentAt25Percent()
     {
      $dueRentals = TenantRent::where('renewable', 'yes')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (20/100) ),0)') 
-        ->get();
-//dd($dueRentals);
-
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
+         ->get();
+         if($dueRentals){
         foreach($dueRentals as $rental) {
-             NotifyDueRentJob::dispatch($rental)
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
             ->delay(now()->addSeconds(5));
+             }
+            
         }
-
         return 'done';
     }
+}
 
- public function renewRentals(){
-        $newRentals = DB::table('tenant_rents')
+public function notifyDueRentAt12Percent()
+    {
+     $dueRentals = TenantRent::where('renewable', 'yes')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (12/100) ),0)') 
+         ->get();
+         if($dueRentals){
+        foreach($dueRentals as $rental) {
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+            ->delay(now()->addSeconds(5));
+             }
+        }
+        return 'done';
+    }
+}
+
+public function notifyDueRentAt6Percent()
+    {
+     $dueRentals = TenantRent::where('renewable', 'yes')
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (6/100) ),0)') 
+         ->get();
+         //dd($dueRentals);
+         if($dueRentals){
+        foreach($dueRentals as $rental) {
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+            ->delay(now()->addSeconds(5));
+             }
+            
+        }
+        return 'done';
+    }
+}
+
+public function notifyDueRentAt0Percent()
+    {
+     $dueRentals = TenantRent::where('renewable', 'yes')
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0') 
+         ->get();
+         //dd($dueRentals);
+         if($dueRentals){
+        foreach($dueRentals as $rental) {
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+            ->delay(now()->addSeconds(5));
+             }
+            
+        }
+        return 'done';
+    }
+}
+
+ public function renewRentalsAt50Percent(){
+        $newRentals = TenantRent::where('renewable', 'yes')
+        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (50/100) ),0)')->with(['users'])
+         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
 //dd($newRentals);
-     foreach($newRentals as $rental) {
-
-    $newRentDetails['tenant']    = $rental->tenant_uuid;
-    $newRentDetails['property']  = $rental->asset_uuid;
-    $newRentDetails['unit']      = $rental->unit_uuid;
-    $newRentDetails['price']     = $rental->price;
-    $newRentDetails['amount']    = $rental->amount;
+        if($newRentals){
+     foreach($newRentals as $rent) {
+    $newRentDetails['tenant']    = $rent->tenant_uuid;
+    $newRentDetails['property']  = $rent->asset_uuid;
+    $newRentDetails['unit']      = $rent->unit_uuid;
+    $newRentDetails['price']     = $rent->price;
+    $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
     $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rental->user_id;
+    $newRentDetails['user_id']    = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
+    $newRentDetails['renewable'] = 'no';
+    $newRentDetails['previous_rental_id'] = $rent->id;
 
             if(!empty($newRentDetails)){
 
@@ -254,7 +322,7 @@ public function viewDetail($uuid){
         try {
             $rental = TenantRent::createNew($newRentDetails);
 
-            RentalRenewedEmailJob::dispatch($rental)
+            RentalRenewedEmailJob::dispatch($rental,$rent->users,$rent)
             ->delay(now()->addSeconds(5));
             $this->setRenewableColumnToNo($rental->id,$rental->user_id);     
             DB::commit();
@@ -266,7 +334,9 @@ public function viewDetail($uuid){
 
         }
     }
+    return 'Done';
     }
+}
 
     public function setRenewableColumnToNo($id,$user_id){
              $rental =  TenantRent::where('id',$id)
@@ -277,5 +347,117 @@ if($rental){
    $rental->save();
    }
 }
+
+public function planUpgradeNotification(){
+ 
+   $free_users =Subscription::join('users','users.id','=','subscriptions.user_id')
+                        ->join('subscription_plans as sp','sp.uuid','=','subscriptions.plan_id')
+                        ->where('subscriptions.status','Active')
+                        ->where('sp.name','Free')
+                        ->select('users.*')
+                        ->get();
+        if (!is_null($free_users)){
+
+            foreach ($free_users as $key => $user) {
+               $getUsers=User::where('id',$user->id)->get();
+                foreach ($getUsers as $key => $u) {
+               PlanUpgradeNotificationJob::dispatch($u)
+            ->delay(now()->addSeconds(5));
+            }
+            }
+
+
+    }else{
+        return null;
+    }
+
+  }
+ 
+  public function dueRentInNext90DaysNotification(){
+    $rentalsDueInNext90Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+                $the_users=[];
+                if($rentalsDueInNext90Days){
+                foreach ($rentalsDueInNext90Days as $key => $due_rent) {
+                    $the_users[] =$due_rent->users;
+                }
+        $all_users = array_unique($the_users);
+                // dd($all_users);
+
+        foreach ($all_users as $key => $user) {
+            $userDetail = User::where('id',$user->id)->first();
+           $rentalsDueInNext90Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
+           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+
+        $totalRentsNotPaid = DB::table('tenant_rents')
+    ->where('user_id',$user->id)
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
+    ->sum('tenant_rents.balance');
+
+DueRentInNext90DaysNotificationJob::dispatch($userDetail,$rentalsDueInNext90Days2,$totalRentsNotPaid)
+    ->delay(now()->addSeconds(5));
+        }
+return 'Done';
+  }
+}
+
+    public function dueRentInNext30DaysNotification(){
+    $rentalsDueInNext30Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")->with(['users'])
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+                $the_users=[];
+                if($rentalsDueInNext30Days){
+                foreach ($rentalsDueInNext30Days as $key => $due_rent) {
+                    $the_users[] =$due_rent->users;
+                }
+        $all_users = array_unique($the_users);
+
+        foreach ($all_users as $key => $user) {
+            $userDetail = User::where('id',$user->id)->first();
+           $rentalsDueInNext30Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
+           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+
+        $totalRentsNotPaid = DB::table('tenant_rents')
+    ->where('user_id',$user->id)
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
+    ->sum('tenant_rents.balance');
+
+DueRentInNext30DaysNotificationJob::dispatch($userDetail,$rentalsDueInNext30Days2,$totalRentsNotPaid)
+    ->delay(now()->addSeconds(5));
+        }
+return 'Done';
+  }
+}
+
+      public function pastDueRentsNotification(){
+    $past_due_rents = TenantRent::whereRaw("due_date < CURDATE()")->with(['users'])
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+                $the_users=[];
+                if($past_due_rents){
+                foreach ($past_due_rents as $key => $due_rent) {
+                    $the_users[] =$due_rent->users;
+                }
+        $all_users = array_unique($the_users);
+
+        foreach ($all_users as $key => $user) {
+            $userDetail = User::where('id',$user->id)->first();
+           $past_due_rents2 = TenantRent::where('tenant_rents.user_id',$user->id)
+           ->whereRaw("due_date < CURDATE()")
+        ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+
+        $totalRentsNotPaid = DB::table('tenant_rents')
+    ->where('user_id',$user->id)
+    ->whereRaw("due_date < CURDATE()")
+    ->sum('tenant_rents.balance');
+//dd($totalRentsNotPaid);
+
+PastDueRentNotificationJob::dispatch($userDetail,$past_due_rents2,$totalRentsNotPaid)
+    ->delay(now()->addSeconds(5));
+        }
+return 'Done';
+  }
+}
+ 
 }
 

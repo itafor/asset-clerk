@@ -353,6 +353,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>My Profile</span> </a>
+                @if(getUserPlan()['details']->name !== 'Free')
+                  @if(check_if_user_upload_comany_detail())
+                
+            <a class="dropdown-item" href="{{route('companydetail.view')}}">
+                     <i class="mr-2"></i><span>Company Profile</span></a>
+                @else
+                    <a class="dropdown-item" href="{{route('companydetail.create')}}">
+                     <i class="mr-2"></i><span>Company Profile</span></a>
+                @endif
+            @endif
+
                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>Change Password</span> </a>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
