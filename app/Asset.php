@@ -206,7 +206,9 @@ class Asset extends Model
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
             ]);
             $tenant = Tenant::where('id',$id)->first();
-            $serviceCharge = AssetServiceCharge::where('id',$sc_id)->first();
+            $serviceCharge = AssetServiceCharge::with('asset','serviceCharge')
+            ->where('user_id',getOwnerUserID())
+            ->where('id',$sc_id)->first();
 
             ServiceChargeInvoiceJob::dispatch($tenant,$serviceCharge)
                 ->delay(now()->addSeconds(3));

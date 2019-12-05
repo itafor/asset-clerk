@@ -12,7 +12,7 @@ class ServiceChargeInvoiceMail extends Mailable
     use Queueable, SerializesModels;
 
     public $tenant;
-    public $serviceCharge;
+    public $service_charge;
     public $companyDetail;
 
     /**
@@ -20,10 +20,10 @@ class ServiceChargeInvoiceMail extends Mailable
      *
      * @return void
      */
-    public function __construct($tenant,$serviceCharge)
+    public function __construct($tenant,$service_charge)
     {
         $this->tenant = $tenant;
-        $this->serviceCharge = $serviceCharge;
+        $this->service_charge = $service_charge;
         $this->companyDetail = comany_detail($tenant->user_id);
     }
 

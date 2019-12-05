@@ -15,17 +15,17 @@ class ServiceChargeInvoiceJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
  public $tenant;
- public $serviceCharge;
+ public $service_charge;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($tenant,$serviceCharge)
+    public function __construct($tenant,$service_charge)
     {
         $this->tenant = $tenant;
-        $this->serviceCharge = $serviceCharge;
-        
+        $this->service_charge = $service_charge;
+
     }
 
     /**
@@ -36,6 +36,6 @@ class ServiceChargeInvoiceJob implements ShouldQueue
     public function handle()
     {
          $toEmail = $this->tenant->email;
-        Mail::to($toEmail)->send(new ServiceChargeInvoiceMail($this->tenant,$this->serviceCharge));
+        Mail::to($toEmail)->send(new ServiceChargeInvoiceMail($this->tenant,$this->service_charge));
     }
 }
