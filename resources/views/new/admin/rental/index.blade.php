@@ -112,7 +112,7 @@
                                  <a href="{{ route('rent-payment.payment.record', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">View Payment record </a>
 
 
-                           <!--  @if ($rental->new_rental_status == 'New' )
+                          <!--   @if ($rental->new_rental_status == 'New' )
 
                                     <a href="{{ route('rental.edit', ['uuid'=>$rental->uuid]) }}" class="dropdown-item">Edit</a>
                                     @endif -->
