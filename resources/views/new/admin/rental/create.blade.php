@@ -34,6 +34,7 @@
                             @csrf
                                 <input type="hidden" name="user_id" value="">
                                 <input type="hidden" name="new_rental_status" value="">
+                                <input type="hidden" name="previous_rental_id" value="">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
