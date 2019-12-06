@@ -97,6 +97,7 @@ class TenantRent extends Model
     {
         $unit = Unit::where('uuid', $data['unit'])->first();
         $unit->quantity_left -= 1;
+        // $unit->quantity_left = $unit->quantity_left >=1 ? $unit->quantity_left-1 : $unit->quantity_left-0;
         $unit->save();
     }
 
