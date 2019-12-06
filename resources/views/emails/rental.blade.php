@@ -136,6 +136,17 @@
                                 {{$rental->unit->getTenant()->email}}
                             </td>
                         </tr>
+
+                         <tr>
+                            <td colspan="2">
+                                Dear {{$rental->unit->getTenant()->name()}},<br>
+                                <em>
+                               This is to notify you that, You have just been assigned to {{$rental->unit->category->name}} bedroom flat in {{$rental->unit->getProperty()->description}}
+                                 <br/>
+                                  Please find below rental information.
+                                </em>
+                            </td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -152,7 +163,7 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
+                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} bedroom
                 </td>
             </tr>
             
@@ -179,7 +190,7 @@
                 </td>
                 
                 <td>
-                    {{$rental->duration.' '.$rental->duration_type}}
+                    {{$rental->duration}}
                 </td>
             </tr>
 
