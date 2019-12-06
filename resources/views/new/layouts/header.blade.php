@@ -353,7 +353,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>My Profile</span> </a>
-                @if(getUserPlan()['details']->name !== 'Free')
+               
                   @if(check_if_user_upload_comany_detail())
                 
             <a class="dropdown-item" href="{{route('companydetail.view')}}">
@@ -362,8 +362,7 @@
                     <a class="dropdown-item" href="{{route('companydetail.create')}}">
                      <i class="mr-2"></i><span>Company Profile</span></a>
                 @endif
-            @endif
-
+           
                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                   <i class="mr-2"></i><span>Change Password</span> </a>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
@@ -396,8 +395,17 @@
                   <span class="f-12">{{ucwords(auth()->user()->role)}}</span>
                 </span>
                 </div>
-                <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Account
-                </a> <a class="dropdown-item" href="javascript:void(0)">
+                <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>My Profile
+                </a>
+                 @if(check_if_user_upload_comany_detail())
+                <a class="dropdown-item" href="{{ route('companydetail.view') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>My Profile
+                </a>
+                 @else
+                    <a class="dropdown-item" href="{{route('companydetail.create')}}">
+                     <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Company Profile</a>
+                @endif
+
+                 <a class="dropdown-item" href="javascript:void(0)">
                 <i class="icon icon-setting icon-fw mr-2 mr-sm-1"></i>Setting </a>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();"> <i class="icon icon-edit icon-fw mr-2 mr-sm-1"></i>Logout
