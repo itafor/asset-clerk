@@ -398,7 +398,7 @@
                 <a class="dropdown-item" href="{{ route('profile.edit') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>My Profile
                 </a>
                  @if(check_if_user_upload_comany_detail())
-                <a class="dropdown-item" href="{{ route('companydetail.view') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>My Profile
+                <a class="dropdown-item" href="{{ route('companydetail.view') }}"> <i class="icon icon-user-o icon-fw mr-2 mr-sm-1"></i>Company Profile
                 </a>
                  @else
                     <a class="dropdown-item" href="{{route('companydetail.create')}}">
