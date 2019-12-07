@@ -301,4 +301,32 @@ $output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname
             return back()->with('success', 'Selected document deleted successfully');
         
     }
+
+    public function addTenantToAssetView(){
+            return view('new.admin.assets.add_tenant_to_asset');
+    }
+
+     public function addTenantToAssetStore(Request $request){
+           $validator = Validator::make($request->all(), [
+            'tenant' => 'required',
+            'property' => 'required',
+            'unit' => 'required',
+            'price' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)
+                        ->withInput()->with('error', 'Please fill in a required fields');
+        }
+
+        try{
+            Tenant::assignTenantToProperty($request->all());
+        }
+        catch(\Exception $e)
+        {
+            return back()->withInput()->with('error', 'Oops! An error occured.'.$e->getMessage());
+        }
+
+        return back()->with('success', 'Tenant successfully added to the selected property');
+    }
 }

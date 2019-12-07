@@ -258,7 +258,43 @@ $(document).ready(function(){
     });
 })
     </script>
-
+ <script>
+//Add tenant to property
+        $('#input-property').change(function(){
+            var property = $(this).val();
+            if(property){
+                $('#input-unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#input-unit');
+                $.ajax({
+                    url: baseUrl+'/fetch-units/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#input-unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.name+' | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#input-unit');
+                        });
+                    }
+                });
+            }
+            else{
+                $('#input-unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+            }
+        });
+        
+        $('#input-unit').change(function(){
+            var unit = $(this).val();
+            if(unit){
+                var price = $(this).find(':selected').attr('data-price')
+                $('#input-price').val(price);
+            }
+            else{
+                $('#input-price').val('');
+            }
+        });
+    </script>
     @yield('script')
 </body>
 </html>

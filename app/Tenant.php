@@ -3,6 +3,8 @@
 namespace App;
 
 use App\TenantDocument;
+use App\TenantProperty;
+use App\Unit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -137,4 +139,26 @@ class Tenant extends Model
     }
 
 }
+
+public static function assignTenantToProperty($data){
+    TenantProperty::create([
+            'uuid' => generateUUID(),
+            'user_id' => getOwnerUserID(),
+            'property_uuid' => $data['property'],
+            'unit_uuid' => $data['unit'],
+            'property_proposed_pice' => $data['price'],
+            'tenant_uuid' => $data['tenant']
+    ]);
+
+    self::reduceUnit($data);
+}
+
+
+public static function reduceUnit($data)
+    {
+        $unit = Unit::where('uuid', $data['unit'])->first();
+        $unit->quantity_left -= 1;
+        $unit->save();
+         // $unit->quantity_left = $unit->quantity_left >=1 ? $unit->quantity_left-1 : $unit->quantity_left-0;
+    }
 }

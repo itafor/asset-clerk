@@ -133,6 +133,11 @@
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
                 </li>
 
+                <li class="dt-side-nav__item">
+                    <a href="{{route('tenant.to.asset')}}" class="dt-side-nav__link" title="Add New">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add to Asset</span> </a>
+                </li>
+
             </ul>
             <!-- /sub-menu -->
             </li>

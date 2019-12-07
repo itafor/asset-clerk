@@ -6,6 +6,7 @@ use App\Asset;
 use App\Mail\EmailVerification;
 use App\ServiceCharge;
 use App\Tenant;
+use App\TenantProperty;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -84,6 +85,40 @@ class UtilsController extends Controller
             ->join('categories as c', 'c.id', '=', 'units.category_id')
             ->select('units.*', 'c.name')
             ->where('units.quantity_left', '>', 0)
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+   public function fetchPropertiesAssignToTenant($tenant_uuid)
+    {
+        //$tenant = Tenant::where('uuid', $tenant_uuid)->first();
+        if($tenant_uuid){
+            $units = TenantProperty::where('tenant_uuid', $tenant_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->select('u.*', 'tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+    public function fetchUnitsAssignToTenant($property_uuid,$selected_tenant_uuid)
+    {
+
+        if($property_uuid){
+            $units = TenantProperty::where('property_uuid',$property_uuid)
+            ->where('tenant_uuid',$selected_tenant_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->select('u.*','c.*','tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
             ->get();
             return response()->json($units);
         }
