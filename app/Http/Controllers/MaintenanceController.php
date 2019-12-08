@@ -56,8 +56,10 @@ class MaintenanceController extends Controller
 
         $maintenance = Maintenance::createNew($request->all());
         $status = '';
+        if($maintenance->tenant){
          $toEmail = $maintenance->tenant->email;
         Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+        }
 
         return redirect()->route('maintenance.index')->with('success', 'Maintenance added successfully');
     }
@@ -120,8 +122,11 @@ class MaintenanceController extends Controller
                 $get_maintenance->status = 'Unfixed';
                if($get_maintenance->save()){
                  $maintenance =Maintenance::where('uuid',$get_maintenance->uuid)->first();
-                $toEmail = $maintenance->tenant->email;
+                 if($maintenance->tenant){
+                     $toEmail = $maintenance->tenant->email;
                 Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+                 }
+               
                }
             }
             return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Unfixed');
@@ -131,11 +136,13 @@ class MaintenanceController extends Controller
             $get_unfixed_maintenance = Maintenance::where('uuid',$uuid)->first();
 
                 $get_unfixed_maintenance->status = 'Fixed';
-                  if($get_unfixed_maintenance->save()){
-                 $maintenance =Maintenance::where('uuid',$get_unfixed_maintenance->uuid)->first();
-                
-                $toEmail = $maintenance->tenant->email;
+         if($get_unfixed_maintenance->save()){
+        $maintenance =Maintenance::where('uuid',$get_unfixed_maintenance->uuid)->first();
+                if($maintenance->tenant){
+                    $toEmail = $maintenance->tenant->email;
                 Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+                }
+                
                }
             
              return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Fixed');
