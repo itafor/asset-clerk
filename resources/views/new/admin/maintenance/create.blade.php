@@ -86,7 +86,7 @@
 
                                     <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-reported_date">{{ __('Reported Date') }}</label>
-                                        <input type="text" name="reported_date" id="input-reported_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date')}}" required>
+                                        <input type="text" name="reported_date" id="payment_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date')}}" required>
                                         
                                         @if ($errors->has('reported_date'))
                                             <span class="invalid-feedback" role="alert">
