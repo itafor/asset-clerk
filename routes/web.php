@@ -124,6 +124,8 @@ Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('ten
 Route::get('/search/tenant', 'TenantController@searchTenantGlobally')->name('search.tenant');
 Route::get('update-doc-name/{docId}/{docname}','TenantController@editDocumentName')->name('update.docname');
 Route::get('delete-document/{docId}','TenantController@deleteDocument')->name('delete.doc');
+Route::get('add-tenant-to-asset','TenantController@addTenantToAssetView')->name('tenant.to.asset');
+Route::post('assign-tenant-to-asset','TenantController@addTenantToAssetStore')->name('tenant.to.asset.store');
 });
 Route::prefix('customer')->group(function(){
 Route::get('/', 'CustomerController@index')->name('customer.index');
@@ -222,6 +224,10 @@ Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
+Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
+Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
+Route::get('fetch-tenants-added-to-assetunit/{unit_uuid}', 'UtilsController@fetchTenantAddedToUnit');
+
 Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 Route::get('fetch-service-charge-by-property/{property}', 'UtilsController@fetchServiceChargeByProperty');
 Route::get('search-users', 'UtilsController@searchUsers');

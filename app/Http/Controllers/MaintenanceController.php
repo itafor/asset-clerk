@@ -14,7 +14,8 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')->get();
+        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')
+        ->orderby('created_at','desc')->get();
         return view('new.admin.maintenance.index', compact('maintenances'));
     }
 
@@ -37,11 +38,12 @@ class MaintenanceController extends Controller
 
     public function store(Request $request)
     {
+       // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'customer' => 'required',
-            // 'category' => 'required',
+            'tenant_uuid' => 'required',
             'asset_description' => 'required',
-            'building_section' => 'required',
+            'unit_uuid' => 'required',
+            // 'building_section' => 'required',
             'reported_date' => 'required|date_format:"d/m/Y"',
             //'status' => 'required',
             'fault_description' => 'required',

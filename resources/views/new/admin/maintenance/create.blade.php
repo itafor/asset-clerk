@@ -21,7 +21,11 @@
                 <h3 class="dt-entry__title">Add New Maintenance</h3>
               </div>
               <!-- /entry heading -->
-
+               <!-- Entry Heading -->
+              <div class="dt-entry__heading">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
+              </div>
+              <!-- /entry heading -->
             </div>
             <!-- /entry header -->
 
@@ -36,65 +40,51 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Maintenance') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
-                                    <div class="form-group{{ $errors->has('customer') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>
-                                        <select name="customer" id="tenant" class="form-control" required autofocus>
-                                            <option value="">Select Tenant</option>
-                                            @foreach (getTenants() as $tenant)
-                                                <option value="{{$tenant->id}}">{{$tenant->name()}}</option>
-                                            @endforeach
-                                        </select>
+                                
+<div class="form-group{{ $errors->has('tenant_uuid') ? ' has-danger' : '' }} col-4">
+    <label class="form-control-label" for="input-tenant">{{ __('Tenant') }} 
+    </label>
+<select name="tenant_uuid" id="input_tenant" class="form-control" required autofocus>
+<option value="">Select Tenant</option>
+@foreach (getTenants() as $tenant)
+<option value="{{$tenant->uuid}}">{{$tenant->name()}}</option>
+@endforeach
+</select>
 
-                                        @if ($errors->has('customer'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('customer') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
+@if ($errors->has('tenant_uuid'))
+<span class="invalid-feedback" role="alert">
+<strong>{{ $errors->first('tenant_uuid') }}</strong>
+</span>
+@endif
+</div>
 
-                                    <div class="form-group{{ $errors->has('asset_description') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-tenant">{{ __('Asset Description') }}</label>
-                                        <select name="asset_description" id="asset_description" class="form-control" required>
-                                            <option value="">Select Asset</option>
-                                        </select>
+  <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+<label class="form-control-label" for="input-property">{{ __('Property') }}</label>
+<select name="asset_description" id="property" class="form-control" required autofocus>
+     <option value="">Select Property</option>
+</select>
 
-                                        @if ($errors->has('asset_description'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('asset_description') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    {{-- <div class="form-group{{ $errors->has('location') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                        <label class="form-control-label" for="input-location">{{ __('Location') }}</label>
-                                        <select name="location" id="" class="form-control" required>
-                                            <option value="">Select Location</option>
-                                        </select>
-                                        
-                                        @if ($errors->has('location'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('location') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div> --}}
-                                    {{-- <div style="clear:both"></div> --}}
+@if ($errors->has('asset_description'))
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $errors->first('asset_description') }}</strong>
+    </span>
+@endif
+</div>
+<div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
+<label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
+<select name="unit_uuid" id="unit" class="form-control" required>
+    <option value="">Select Unit</option>
+</select>
 
-                                    <div class="form-group{{ $errors->has('building_section') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-building_section">{{ __('Building Section') }}</label>
-                                        <select name="building_section" id="building_section" class="form-control" required>
-                                            <option value="">Select Building Section</option>
-                                            @foreach (getBuildingSections() as $b)
-                                                <option value="{{$b->id}}">{{$b->name}}</option>
-                                            @endforeach
-                                        </select>
+@if ($errors->has('unit_uuid'))
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $errors->first('unit_uuid') }}</strong>
+    </span>
+@endif
+</div>
 
-                                        @if ($errors->has('building_section'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('building_section') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
 
-                                    <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-6">
+                                    <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-reported_date">{{ __('Reported Date') }}</label>
                                         <input type="text" name="reported_date" id="input-reported_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date')}}" required>
                                         
@@ -104,7 +94,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    {{-- <div style="clear:both"></div>          --}}
+                                   
 
                                     <div class="form-group{{ $errors->has('fault_description') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-fault_description">{{ __('Fault Description') }}</label>
@@ -116,20 +106,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                 <!--    <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }} col-6">
-                                        <label class="form-control-label" for="input-date">{{ __('Status') }}</label>
-                                        <select name="status" id="status" class="form-control" required>
-                                            <option value="">Select Status</option>
-                                            <option>Fixed</option>
-                                            <option>Unfixed</option>
-                                        </select>
-                                        
-                                        @if ($errors->has('status'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('status') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div> -->
+                                
 
                                     <div style="clear:both"></div>    
                                     <div class="col-12" align="center">
@@ -150,6 +127,8 @@
 
         </div>
         <!-- /grid -->
+                                @include('new.admin.assets.partials.addTenantToProperty')
+        
 @endsection
 
 @section('script')
@@ -178,30 +157,76 @@
             }
         });
 
-        $('#tenant').change(function(){
-            var tenant = $(this).val();
-            if(tenant){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
+         let selected_tenant_uuid ='';
+        $('#input_tenant').change(function(){
+            var tenant_uuid = $(this).val();
+            selected_tenant_uuid = tenant_uuid;
+            console.log('selected:',selected_tenant_uuid);
+            if(tenant_uuid){
+                $('#property').empty();
+                $('<option>').val('').text('Loading...').appendTo('#property');
                 $.ajax({
-                    url: baseUrl+'/fetch-tenant-asset/'+tenant,
+                    url: baseUrl+'/fetch-tenants-assigned-to-asset/'+tenant_uuid,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+                        if(data !=''){
+                        $('#property').empty();
+                        $('<option>').val('').text('Select Property').appendTo('#property');
                         $.each(data, function(k, v) {
-                            console.log(v.asset_uuid)
-                            $('<option>').val(v.asset_uuid).text(v.asset+' - '+v.unit).appendTo('#asset_description');
+                            $('<option>').val(v.propertyUuid).text(v.propertyName).attr('data-price',v.propertyProposedPice).appendTo('#property');
+                        });
+                    }else{
+                    toast({
+                        type: 'warning',
+                        title: 'Ooops!! Selected tenant has not been added to a property'
+                  })
+            }
+        }
+    });
+            }
+            else{
+                $('#property').empty();
+                $('<option>').val('').text('Select Property').appendTo('#property');
+                
+            }
+        });
+
+
+        $('#property').change(function(){
+            var property = $(this).val();
+            if(property && selected_tenant_uuid !=''){
+                $('#unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#unit');
+                $.ajax({
+                    url: baseUrl+'/fetch-units-assigned-to-tenant/'+property+'/'+selected_tenant_uuid,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.name+' Bedroom | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
                         });
                     }
                 });
             }
             else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
+                $('#unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#unit');
             }
         });
 
+        
+        $('#unit').change(function(){
+            var unit = $(this).val();
+            if(unit){
+                var price = $(this).find(':selected').attr('data-price')
+                $('#price').val(price);
+            }
+            else{
+                $('#price').val('');
+            }
+        });
     </script>
 @endsection

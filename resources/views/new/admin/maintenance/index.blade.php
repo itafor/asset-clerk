@@ -40,7 +40,6 @@
                           <th>No</th>
                           <th><b>Tenant</b></th>
                           <th><b>Property</b></th>
-                          <th><b>Section</b></th>
                           <th><b>Fault Description</b></th>
                           <th><b>Date Reported</b></th>
                           <th><b>Status</b></th>
@@ -52,9 +51,10 @@
                           <tr id="{{$loop->iteration}}">
 
                               <td>{{$loop->iteration}}</td>
-                              <td>{{$m->tenant->name()}}</td>
+                              <td> {{$m->tenant ? $m->tenant->designation : ''}}
+                            {{$m->tenant ? $m->tenant->firstname : ''}}
+                            {{$m->tenant ? $m->tenant->lastname : ''}}</td>
                               <td>{{$m->asset_maintenance($m->asset_description_uuid)['descriptn']}}</td>
-                              <td>{{$m->buildingSection->name}}</td>
                               <td class="complaint_description{{$loop->iteration}}">{{$m->description}}</td>
                               <td>{{ formatDate($m->reported_date, 'Y-m-d', 'd/m/Y') }}</td>
                               @if($m->status === 'Fixed')
