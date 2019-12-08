@@ -119,6 +119,7 @@
     <script src="{{url('assets/datatables.net/js/jquery.dataTables.js')}}"></script>
     <script src="{{url('assets/datatables.net-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- Custom JavaScript -->
     <script src="{{url('assets/js/script.js')}}"></script>
 
@@ -288,10 +289,10 @@ $(document).ready(function(){
             var unit = $(this).val();
             if(unit){
                 var price = $(this).find(':selected').attr('data-price')
-                $('#input-price').val(price);
+                $('#input_price').val(price);
             }
             else{
-                $('#input-price').val('');
+                $('#input_price').val('');
             }
         });
     </script>

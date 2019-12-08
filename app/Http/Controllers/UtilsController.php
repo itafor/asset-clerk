@@ -109,12 +109,20 @@ class UtilsController extends Controller
         }
     }
 
-    public function fetchUnitsAssignToTenant($property_uuid,$selected_tenant_uuid)
+    public function fetchUnitsAssignToTenant($property_uuid,$selected_tenant_uuid ='')
     {
 
-        if($property_uuid){
+        if($property_uuid && $selected_tenant_uuid !=0){
             $units = TenantProperty::where('property_uuid',$property_uuid)
             ->where('tenant_uuid',$selected_tenant_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->select('u.*','c.*','tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->get();
+            return response()->json($units);
+        }elseif($property_uuid && $selected_tenant_uuid ==0){
+            $units = TenantProperty::where('property_uuid',$property_uuid)
             ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
             ->join('categories as c', 'c.id', '=', 'u.category_id')
@@ -127,6 +135,21 @@ class UtilsController extends Controller
         }
     }
 
+public function fetchTenantAddedToUnit($unitUuid){
+if($unitUuid){
+            $units = TenantProperty::where('unit_uuid',$unitUuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
+            ->select('tn.*')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+}
     public function resendVerification()
     {
         try{

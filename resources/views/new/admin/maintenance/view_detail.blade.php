@@ -52,7 +52,8 @@
 
                      <tr>
                      <td style="width: 60px;">TENANT</td>
-                     <td>{{$complaint_detail->tenant->name()}}</td>
+                     <td>{{$complaint_detail->tenant->name()}}
+                     </td>
                    </tr>
 
                     <tr>
@@ -60,10 +61,6 @@
                 <td>{{$complaint_detail->asset_maintenance($complaint_detail->asset_description_uuid)['descriptn']}}</td>           
               </tr>
 
-                 <tr>
-                     <td style="width: 60px;">SECTION</td>
-                     <td>{{$complaint_detail->buildingSection->name}}</td>
-                </tr>
 
                  <tr>
                      <td style="width: 60px;">DESCRIPTION</td>

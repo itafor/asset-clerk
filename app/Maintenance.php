@@ -9,12 +9,12 @@ class Maintenance extends Model
 {
     
     protected $fillable = [
-        'tenant_id', 'building_section', 'reported_date','description','status',
+        'tenant_id','tenant_uuid','unit_uuid','building_section', 'reported_date','description','status',
         'asset_description_uuid', 'uuid', 'user_id', 'category'
     ];
 
     public function Tenant(){
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Tenant::class,'tenant_uuid','uuid');
     }
     
     public function buildingSection(){
@@ -48,8 +48,9 @@ public function asset()
     public static function createNew($data)
     {
     return  self::create([
-            'tenant_id' => $data['customer'],
-            'building_section' => $data['building_section'],
+            'tenant_uuid' => $data['tenant_uuid'],
+            'unit_uuid' => $data['unit_uuid'],
+            // 'building_section' => $data['building_section'],
             'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
             // 'category' => $data['category'],
             'description' => $data['fault_description'],

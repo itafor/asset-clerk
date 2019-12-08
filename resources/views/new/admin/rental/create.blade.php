@@ -169,31 +169,9 @@
 @endsection
 
 @section('script')
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
     <script>
-         $('#category').change(function(){
-            var category = $(this).val();
-            if(category){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
-                $.ajax({
-                    url: baseUrl+'/fetch-assets/'+category,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-            }
-        });
+     
 
          let selected_tenant_uuid ='';
         $('#input_tenant').change(function(){
@@ -208,17 +186,25 @@
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
+                        if(data !=''){
                         $('#property').empty();
                         $('<option>').val('').text('Select Property').appendTo('#property');
                         $.each(data, function(k, v) {
                             $('<option>').val(v.propertyUuid).text(v.propertyName).attr('data-price',v.propertyProposedPice).appendTo('#property');
                         });
-                    }
-                });
+                    }else{
+                    toast({
+                        type: 'warning',
+                        title: 'Ooops!! Selected tenant has not been added to a property'
+                  })
+            }
+        }
+    });
             }
             else{
                 $('#property').empty();
                 $('<option>').val('').text('Select Property').appendTo('#property');
+                
             }
         });
 
@@ -236,7 +222,7 @@
                         $('#unit').empty();
                         $('<option>').val('').text('Select Unit').appendTo('#unit');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' | Bedroom ').attr('data-price',v.standard_price).appendTo('#unit');
+                            $('<option>').val(v.uuid).text(v.name+' Bedroom | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
                         });
                     }
                 });
@@ -259,94 +245,6 @@
             }
         });
 
-        $('#asset_description').change(function(){
-            var value = $(this).val();
-            if(value){
-
-                var price = $(this).find(':selected').data('price')
-
-                $('#input-standard_price').val(price)
-            }
-        })
-
-$(document).on('keyup', '#amount', function(e){
-    e.preventDefault();
-    let value = e.target.value;
-if(value <= 0){
-     $(this).val('');
-    $('#balance').val(' ')
-}
- });
-    </script>
-    <script>
-         $('#category').change(function(){
-            var category = $(this).val();
-            if(category){
-                $('#asset_description').empty();
-                $('<option>').val('').text('Loading...').appendTo('#asset_description');
-                $.ajax({
-                    url: baseUrl+'/fetch-assets/'+category,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#asset_description').empty();
-                        $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.description).attr('data-price',v.price).appendTo('#asset_description');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#asset_description').empty();
-                $('<option>').val('').text('Select Asset').appendTo('#asset_description');
-            }
-        });
-
-        $('#property').change(function(){
-            var property = $(this).val();
-            if(property){
-                $('#unit').empty();
-                $('<option>').val('').text('Loading...').appendTo('#unit');
-                $.ajax({
-                    url: baseUrl+'/fetch-units/'+property,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#unit');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
-                        });
-                    }
-                });
-            }
-            else{
-                $('#unit').empty();
-                $('<option>').val('').text('Select Unit').appendTo('#unit');
-            }
-        });
-        
-        $('#unit').change(function(){
-            var unit = $(this).val();
-            if(unit){
-                var price = $(this).find(':selected').attr('data-price')
-                $('#price').val(price);
-            }
-            else{
-                $('#price').val('');
-            }
-        });
-
-        $('#asset_description').change(function(){
-            var value = $(this).val();
-            if(value){
-
-                var price = $(this).find(':selected').data('price')
-
-                $('#input-standard_price').val(price)
-            }
-        })
 
 $(document).on('keyup', '#amount', function(e){
     e.preventDefault();

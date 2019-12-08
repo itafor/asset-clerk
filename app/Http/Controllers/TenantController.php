@@ -8,6 +8,7 @@ use App\RentPayment;
 use App\ServiceChargePaymentHistory;
 use App\Tenant;
 use App\TenantDocument;
+use App\TenantProperty;
 use App\TenantRent;
 use App\TenantServiceCharge;
 use App\Unit;
@@ -318,6 +319,29 @@ $output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname
             return back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
+
+            $data=$request->all();
+
+    $getTenantProperties = TenantProperty::where('unit_uuid',$data['unit'])
+            ->where('property_uuid', $data['property'])
+            ->where('tenant_uuid', $data['tenant'])
+            ->where('user_id', getOwnerUserID())
+            // ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            // ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            // ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
+            // ->select('tn')
+            ->get();
+                            
+    if($getTenantProperties){
+      foreach ($getTenantProperties as $key => $property) {
+            if($data['property'] == $property->property_uuid 
+                && $data['unit'] == $property->unit_uuid
+                && $data['tenant'] == $property->tenant_uuid)
+            {
+                 return back()->withInput()->with('error','The selected tentant has already been added to the given property\'s unit ');
+            }
+      }
+    }
 
         try{
             Tenant::assignTenantToProperty($request->all());

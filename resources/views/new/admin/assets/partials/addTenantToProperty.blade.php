@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-price">{{ __('Property Estimate') }}</label>
-                                        <input type="text" name="price" id="input-price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required style="width: 300px;">
+                                        <input type="text" name="price" id="input_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required style="width: 300px;">
                                         
                                         @if ($errors->has('price'))
                                             <span class="invalid-feedback" role="alert">
