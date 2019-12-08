@@ -101,6 +101,7 @@ class UtilsController extends Controller
             ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
             ->select('u.*', 'tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->groupby('tenant_properties.property_uuid')
             ->get();
             return response()->json($units);
         }
