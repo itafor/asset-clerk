@@ -18,6 +18,7 @@ use App\RentDue;
 use App\ServiceCharge;
 use App\Staff;
 use App\State;
+use App\SubscriptionPlan;
 use App\Tenant;
 use App\TenantRent;
 use App\TenantServiceCharge;
@@ -404,6 +405,24 @@ function check_if_user_upload_comany_detail(){
         $details = CompanyDetail::where('user_id',$userId)->first();
        if($details){
         return $details;
+       }else{
+        return false;
+       }
+    }
+
+    function getUsers(){
+        $users=User::where('email','!=','admin@assetclerk.com')->get();
+        if($users){
+             return $users;
+       }else{
+        return false;
+       }
+    }
+
+    function getAllPlans(){
+        $plans = SubscriptionPlan::all();
+        if($plans){
+             return $plans;
        }else{
         return false;
        }

@@ -55,6 +55,11 @@ Route::post('add_subscription_plan', ['as' => 'plan.save', 'uses' => 'AdminContr
 Route::get('transactions', ['as' => 'plan.transactions', 'uses' => 'AdminController@transactions']);
 Route::get('subscribers', ['as' => 'plan.subscribers', 'uses' => 'AdminController@subscribers']);
 });
+Route::prefix('manual_subscription')->group(function(){
+Route::get('create','ManualSubscriptionController@create')->name('manual_subscription.create');
+Route::get('/fetch-user-email/{userId}','ManualSubscriptionController@fetchUserEmail')->name('manual_subscription.useremail');
+Route::get('/fetch-plan-price-id/{planNane}','ManualSubscriptionController@fetchPlanPrice')->name('manual_subscription.planPrice');
+});
 //Route::prefix('agents')->middleware('role:agent')->group(function(){
 Route::prefix('asset')->group(function(){
 Route::get('/', 'AssetController@index')->name('asset.index');
