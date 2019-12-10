@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Jobs\PortfolioSummaryJob;
 use App\Mail\EmailVerification;
 use App\ServiceCharge;
 use App\Tenant;
@@ -264,5 +265,17 @@ if($unitUuid){
     if($pay_date > $current_timestamp){
         return 'invalidate';
     }
+    }
+
+    public function portfolioSummary(){
+        $users =User::where('email','itaforfrancis@gmail.com')
+        ->get();
+        //dd($users);
+        if($users){
+            foreach ($users as $key => $user) {
+                PortfolioSummaryJob::dispatch($user)
+            ->delay(now()->addSeconds(5));
+            }
+        }
     }
 }

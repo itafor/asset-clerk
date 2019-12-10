@@ -263,7 +263,7 @@
                     </tbody>
                         <tfoot>
             <tr>
-               <th>No</th>
+                       <th>No</th>
                         <th><b>Property</b></th>
                         <th><b>Location</b></th>
                         <th><b>Service Name</b></th>
