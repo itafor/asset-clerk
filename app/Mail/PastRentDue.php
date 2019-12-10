@@ -37,6 +37,7 @@ class PastRentDue extends Mailable
     public function build()
     {
         return $this->view('emails.past_due_rents') 
-        ->subject('Past Due Rents Notification');
+        ->subject('Past Due Rents Notification')
+        ->cc('omijeh@digitalwebglobal.com');
     }
 }
