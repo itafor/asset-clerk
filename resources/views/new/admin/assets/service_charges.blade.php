@@ -191,7 +191,6 @@
                         </tr>
                     @endforeach
 
-
                     </tbody>
                                     @else
   <tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>
@@ -209,7 +208,7 @@
                 <!-- Tables -->
                 <div class="table-responsive">
 
-                  <table class="table table-striped table-bordered table-hover datatable">
+                  <table class="display" style="width:100%" id="table-1">
                     <thead>
                     <tr>
                         <th>No</th>
@@ -262,6 +261,19 @@
                         </tr>
                     @endforeach
                     </tbody>
+                        <tfoot>
+            <tr>
+               <th>No</th>
+                        <th><b>Property</b></th>
+                        <th><b>Location</b></th>
+                        <th><b>Service Name</b></th>
+                        <th><b>Category</b></th>
+                        <th><b>Amount</b></th>
+                        <th><b>Start date</b></th>
+                        <th><b>Due date</b></th>
+                        <th class="text-center"><b>Action</b></th>
+            </tr>
+        </tfoot>
                   </table>
 
                 </div>
@@ -345,7 +357,14 @@ if($value <= 0){
 }
  });
 
-
+$(document).ready(function() {
+    var table = $('#table-1').DataTable( {
+        fixedHeader: {
+            header: true,
+            footer: true
+        },
+    } );
+} );
 
     </script>
 @endsection

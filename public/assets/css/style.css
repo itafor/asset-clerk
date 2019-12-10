@@ -439,6 +439,7 @@ width: 150px;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   }
 
+ .active_menu a { background : gray; }
 /*    .round-btn{
     width: 30px;
     height: 30px;
@@ -456,7 +457,26 @@ width: 150px;
   }
 *//* end activate and deactivate rental renewal*/
 
+/*.datatable tbody{
+  display:block;
+  overflow:auto;
+  height:300px;
+  width:100%;
+  margin-right: 0px;
+}
+.datatable thead tr{
+  display:block;
+  margin-right: 0px;
 
+}*/
+
+
+/*#table-1 > thead{
+        position: fixed;
+        top: 20em;
+        z-index: 100;
+    }
+*/
 @media only screen and (max-width: 600px) {
 section{
     margin-top: -55px;

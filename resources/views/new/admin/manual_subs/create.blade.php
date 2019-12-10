@@ -30,14 +30,14 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                    <form method="post" action="{{ route('do.buy.plan') }}" autocomplete="off" id="purchase_form">
+                    <form method="post" action="{{ route('manual_subscription.process.plan') }}" autocomplete="off" id="purchase_form">
                         @csrf
 
                         <h6 class="heading-small text-muted mb-4">{{ __('User information') }}</h6>
                         <div class="pl-lg-4">
                              <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input-name">{{ __('User') }}</label>
-                               <select name="user_name" id="input-user_name" class="form-control form-control-alternative{{ $errors->has('user_name') ? ' is-invalid' : '' }}"
+                               <select name="user_id" id="input-user_name" class="form-control form-control-alternative{{ $errors->has('user_name') ? ' is-invalid' : '' }}"
                                        placeholder="{{ __('User') }}" required>
                                    <option value="">Select user</option>
                                     @foreach (getUsers() as $user)
