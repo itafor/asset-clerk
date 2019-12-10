@@ -255,3 +255,4 @@ Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotificatio
 Route::get('rent-due-in-next-ninetydays', 'RentalController@dueRentInNext90DaysNotification');
 Route::get('rent-due-in-next-thirdtydays', 'RentalController@dueRentInNext30DaysNotification');
 Route::get('past-due-rents', 'RentalController@pastDueRentsNotification');
+Route::get('portfolio-summary', 'UtilsController@portfolioSummary');

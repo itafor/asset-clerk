@@ -471,12 +471,13 @@ width: 150px;
 }*/
 
 
-/*#table-1 > thead{
+/*#table-1 > thead > tr{
         position: fixed;
+        width: 100%;
         top: 20em;
-        z-index: 100;
-    }
-*/
+        z-index: 300;
+    }*/
+
 @media only screen and (max-width: 600px) {
 section{
     margin-top: -55px;
