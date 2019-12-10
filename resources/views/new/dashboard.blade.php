@@ -195,14 +195,13 @@
         </div>
     </div>
 
-    <div class="row">
+   <!--  <div class="row"> -->
          <!-- Grid Item -->
-        <div class="col-xl-12 ">
-
+        <!-- <div class="col-xl-12 ">
+ -->
             <!-- Card -->
-            <div class="dt-card dt-card__full-height">
+        <!--     <div class="dt-card dt-card__full-height">
             
-            <!-- Card Body -->
             <div class="dt-card__body">
                 <div class="table-responsive">
                     <h2>Upcoming Due Rents</h2>
@@ -249,14 +248,14 @@
                     </table>
                 </div>
             </div>
-            <!-- /card body -->
+           
 
             </div>
-            <!-- /card -->
+ -->            <!-- /card -->
 
-        </div>
+        <!-- </div> -->
         <!-- /grid item -->
-    </div>
+   <!--  </div> -->
 
 
 
@@ -274,7 +273,7 @@
             <!-- Card Body -->
             <div class="dt-card__body">
                 <div class="table-responsive">
-                    <h2>Renewed Rentals</h2>
+                    <h2>Upcoming Rents</h2>
                     <table class="table table-striped table-bordered table-hover datatable">
                         <thead>
                             <tr>

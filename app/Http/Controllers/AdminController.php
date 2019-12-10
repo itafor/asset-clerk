@@ -27,7 +27,9 @@ class AdminController extends Controller
     public function subscribers()
     {
         $subs = Subscription::join('users','users.id','=','subscriptions.user_id')
-            ->select('subscriptions.*','users.*','subscriptions.status as substatus')->get();
+            ->select('subscriptions.*','users.*','subscriptions.status as substatus')
+            ->orderby('subscriptions.created_at','desc')
+            ->get();
         return view('new.admin.subscriptions.index', compact('subs'));
     }
 

@@ -34,14 +34,15 @@
                 <!-- Tables -->
                 <div class="table-responsive">
 
-                  <table class="table table-striped table-bordered table-hover datatable">
+                  <table class="table table-striped table-bordered table-hover datatable" id="table-1">
                     <thead>
                       <tr>
                           <th scope="col">{{ __('S/N') }}</th>
                           <th scope="col">{{ __('Plan') }}</th>
+                          <th scope="col">{{ __('Slot') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
                           <th scope="col">{{ __('Name') }}</th>
-                          <th scope="col">{{ __('Phone') }}</th>
+                          <!-- <th scope="col">{{ __('Phone') }}</th> -->
                           <th scope="col">{{ __('Email') }}</th>
                           <th scope="col">{{ __('Status') }}</th>
                           <th scope="col">{{ __('Date Subscribed') }}</th>
@@ -55,9 +56,10 @@
                           @php $p = getSubscriptionByUUid($user->plan_id); @endphp
                           <td>{{ $i++ }}</td>
                           <td>{{ $p->name }}</td>
+                          <td>{{ $p->properties }}</td>
                           <td>{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
-                          <td>{{ $user->user->phone }}</td>
+                         <!--  <td>{{ $user->user->phone }}</td> -->
                           <td>{{ $user->user->email }}</td>
                           <td>{{ $user->substatus }}</td>
                           <td>{{ \Carbon\Carbon::parse($user->start)->format('d M, Y') }}</td>
@@ -66,7 +68,7 @@
                   @endforeach
                     </tbody>
                   </table>
-
+                  <table id="header-fixed"></table>
                 </div>
                 <!-- /tables -->
 
