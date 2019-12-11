@@ -276,7 +276,7 @@ if($unitUuid){
             foreach ($users as $key => $user) {
                 $subs = Subscription::where('subscriptions.user_id',$user->id)
             ->where('subscriptions.status','active')->first();
-            $landlord = Landlord::where('Landlords.user_id',$user->id)->count();
+            $landlord = Landlord::where('landlords.user_id',$user->id)->count();
             $tenant = Tenant::where('tenants.user_id',$user->id)->count();
             $assets = Asset::where('assets.user_id',$user->id)->get();
             //dd($assets);
