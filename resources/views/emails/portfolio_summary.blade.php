@@ -161,6 +161,14 @@ Please fine below your account summary
         <table class="table table-bordered" id="rental_table">
            
                     <tbody>
+                      <tr>
+                     <td class="rent_title">Plan</td>
+                     <td>
+                    
+        {{getSubscriptionByUUid($subs->plan_id)->name}}
+                   
+                     </td>
+                   </tr>
 
                    <tr>
                      <td class="rent_title">Total Slot</td>

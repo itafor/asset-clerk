@@ -16,14 +16,16 @@ class PortfolioSummaryJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $user;
+    public $subs;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user,$subs)
     {
         $this->user = $user;
+        $this->subs = $subs;
     }
 
     /**
@@ -34,6 +36,6 @@ class PortfolioSummaryJob implements ShouldQueue
     public function handle()
     {
          $toEmail = $this->user->email;
-        Mail::to($toEmail)->send(new PortfolioSummaryMail($this->user));
+        Mail::to($toEmail)->send(new PortfolioSummaryMail($this->user,$this->subs));
     }
 }
