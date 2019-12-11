@@ -11,18 +11,26 @@ class PortfolioSummaryMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-     public $user;
-     public $subs;
+    public $user;
+    public $subs;
+    public $landlord;
+    public $tenant;
+    public $assets;
+
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user,$subs)
+    public function __construct($user,$subs,$landlord,$tenant,$assets)
     {
         $this->user = $user;
         $this->subs = $subs;
+        $this->landlord = $landlord;
+        $this->tenant = $tenant;
+        $this->assets = $assets;
     }
 
     /**

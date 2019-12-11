@@ -199,10 +199,37 @@ Please fine below your account summary
                     @endif
                 </td>           
               </tr>
-
+              <tr>
+                <td>Number of Landlords</td>
+                <td>{{$landlord}}</td>
+              </tr>
+              <tr>
+                <td>Number of Tenants</td>
+                <td>{{$tenant}}</td>
+              </tr>
+              
+             
        </tbody>
                   </table>
-       
+      <table class="table table-bordered" id="rental_table">
+                        <thead>
+                            <tr>
+                                <th scope="">S/N</th>
+                                <th scope="">Asset</th>
+                                <th scope="">Number of Units</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                 @foreach($assets as $asset)
+                                    <tr>
+                  <td>{{$loop->iteration}}</td>
+                  <td>{{$asset->description}}</td>
+                  <td>{{$asset->units->count()}}</td>
+                   </tr>
+              @endforeach
+                        </tbody>
+                    </table>
+
 
 
 <br><br>

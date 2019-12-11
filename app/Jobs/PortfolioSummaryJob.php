@@ -17,15 +17,21 @@ class PortfolioSummaryJob implements ShouldQueue
 
     public $user;
     public $subs;
+    public $landlord;
+    public $tenant;
+    public $assets;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user,$subs)
+    public function __construct($user,$subs,$landlord,$tenant,$assets)
     {
         $this->user = $user;
         $this->subs = $subs;
+        $this->landlord = $landlord;
+        $this->tenant = $tenant;
+        $this->assets = $assets;
     }
 
     /**
@@ -36,6 +42,6 @@ class PortfolioSummaryJob implements ShouldQueue
     public function handle()
     {
          $toEmail = $this->user->email;
-        Mail::to($toEmail)->send(new PortfolioSummaryMail($this->user,$this->subs));
+        Mail::to($toEmail)->send(new PortfolioSummaryMail($this->user,$this->subs,$this->landlord,$this->tenant,$this->assets));
     }
 }

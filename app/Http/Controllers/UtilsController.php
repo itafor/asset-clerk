@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asset;
 use App\Jobs\PortfolioSummaryJob;
+use App\Landlord;
 use App\Mail\EmailVerification;
 use App\ServiceCharge;
 use App\Subscription;
@@ -275,8 +276,11 @@ if($unitUuid){
             foreach ($users as $key => $user) {
                 $subs = Subscription::where('subscriptions.user_id',$user->id)
             ->where('subscriptions.status','active')->first();
-            //dd($subs);
-                PortfolioSummaryJob::dispatch($user,$subs)
+            $landlord = Landlord::where('Landlords.user_id',$user->id)->count();
+            $tenant = Tenant::where('tenants.user_id',$user->id)->count();
+            $assets = Asset::where('assets.user_id',$user->id)->get();
+            //dd($assets);
+                PortfolioSummaryJob::dispatch($user,$subs,$landlord,$tenant,$assets)
             ->delay(now()->addSeconds(5));
             }
         }
