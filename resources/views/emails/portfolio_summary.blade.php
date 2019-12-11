@@ -82,7 +82,10 @@
 #rental_table .rent_title{
   width: 150px;
 }
-
+#rental_table td, #rental_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -211,6 +214,7 @@ Please fine below your account summary
              
        </tbody>
                   </table>
+                  <h2>ASSET SUMMARY</h2>
       <table class="table table-bordered" id="rental_table">
                         <thead>
                             <tr>
