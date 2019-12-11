@@ -6,6 +6,7 @@ use App\Asset;
 use App\Jobs\PortfolioSummaryJob;
 use App\Mail\EmailVerification;
 use App\ServiceCharge;
+use App\Subscription;
 use App\Tenant;
 use App\TenantProperty;
 use App\Unit;
@@ -270,10 +271,12 @@ if($unitUuid){
     public function portfolioSummary(){
         $users =User::where('email','itaforfrancis@gmail.com')->get();
        
-       //dd($users);
         if($users){
             foreach ($users as $key => $user) {
-                PortfolioSummaryJob::dispatch($user)
+                $subs = Subscription::where('subscriptions.user_id',$user->id)
+            ->where('subscriptions.status','active')->first();
+            //dd($subs);
+                PortfolioSummaryJob::dispatch($user,$subs)
             ->delay(now()->addSeconds(5));
             }
         }
