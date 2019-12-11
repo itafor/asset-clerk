@@ -268,9 +268,9 @@ if($unitUuid){
     }
 
     public function portfolioSummary(){
-        $users =User::all()
-        ->take(10);
-       // dd($users);
+        $users =User::where('email','itaforfrancis@gmail.com')->get();
+       
+       //dd($users);
         if($users){
             foreach ($users as $key => $user) {
                 PortfolioSummaryJob::dispatch($user)
