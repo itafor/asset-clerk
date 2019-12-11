@@ -217,6 +217,7 @@ Please fine below your account summary
                                 <th scope="">S/N</th>
                                 <th scope="">Asset</th>
                                 <th scope="">Number of Units</th>
+                                <th scope="">Number of rents</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -225,6 +226,12 @@ Please fine below your account summary
                   <td>{{$loop->iteration}}</td>
                   <td>{{$asset->description}}</td>
                   <td>{{$asset->units->count()}}</td>
+                  <td>
+                    @foreach($asset->units as $unit)
+                    reference({{$unit->uuid}}) : {{$unit->quantity}},
+              @endforeach
+
+                  </td>
                    </tr>
               @endforeach
                         </tbody>
