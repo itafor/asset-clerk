@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Subscriptions History', 'page' => 'my_account'])
+@extends('new.layouts.app', ['title' => 'Subscriptions History', 'page' => 'subscribers'])
 
 @section('content')
     <!-- Page Header -->
@@ -39,7 +39,9 @@
                       <tr>
                           <th scope="col">{{ __('S/N') }}</th>
                           <th scope="col">{{ __('Plan') }}</th>
-                          <th scope="col">{{ __('Slot') }}</th>
+                          <th scope="col">{{ __('Total Slot') }}</th>
+                          <th scope="col">{{ __('Slot Used') }}</th>
+                          <th scope="col">{{ __('Availble Slot') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
                           <th scope="col">{{ __('Name') }}</th>
                           <!-- <th scope="col">{{ __('Phone') }}</th> -->
@@ -57,6 +59,12 @@
                           <td>{{ $i++ }}</td>
                           <td>{{ $p->name }}</td>
                           <td>{{ $p->properties }}</td>
+                          <td>{{number_format(getTotalAssets($user->user->id))}}</td>
+                          @if (getSlots($user->user->id)['availableSlots'] == 'Unlimited')
+                       <td>{{getSlots($user->user->id)['availableSlots']}}</td>
+                    @else
+                        <td>{{number_format(getSlots($user->user->id)['availableSlots'])}}</td>
+                    @endif
                           <td>{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
                          <!--  <td>{{ $user->user->phone }}</td> -->
