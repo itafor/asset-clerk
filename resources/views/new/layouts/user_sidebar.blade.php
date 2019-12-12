@@ -2,6 +2,8 @@
     $user = auth()->user();
     $plan = getUserPlan();
 @endphp
+ @php $active_menu_color = '#8DC63F'; @endphp
+ @php $default_menu_color = 'white'; @endphp
 <!-- Sidebar -->
 <aside id="main-sidebar" class="dt-sidebar">
     <div class="dt-sidebar__container container-fluid">
@@ -66,8 +68,9 @@
             </li> -->
             <!-- /menu header -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'dashboard' ? 'open' : ''}}">
-                <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl text-white"></i>
-                    <span class="dt-side-nav__text text-white">Dashboard</span> </a>
+                <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl" style="color:{{ (Route::current()->getName() == 'home') ? $active_menu_color : $default_menu_color }};"></i>
+
+                    <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'home') ? $active_menu_color : $default_menu_color }};">Dashboard</span> </a>
             </li>
 
             <li class="dt-side-nav__item {{isset($page) && $page == 'landlord' ? 'open' : ''}} text-white">
@@ -78,12 +81,12 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('landlord.index')}}" class="dt-side-nav__link" title="List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'landlord.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'landlord.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
                     <a href="{{route('landlord.create')}}" class="dt-side-nav__link" title="Add New">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'landlord.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'landlord.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>
 
             </ul>
@@ -99,17 +102,17 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('asset.index')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List Assets</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'asset.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'asset.index') ? $active_menu_color : $default_menu_color }};">List Assets</span> </a>
                 </li>
                 
                 <li class="dt-side-nav__item">
                     <a href="{{route('asset.create')}}" class="dt-side-nav__link" title="Listing">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'asset.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'asset.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
                     <a href="{{route('asset.my')}}" class="dt-side-nav__link" title="My Assets">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">My Assets</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'asset.my') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'asset.my') ? $active_menu_color : $default_menu_color }};">My Assets</span> </a>
                 </li>
 
             </ul>
@@ -125,18 +128,15 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('tenant.index')}}" class="dt-side-nav__link" title="List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white" ></i>  <span class="dt-side-nav__text text-white">List</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.index') ? $active_menu_color : $default_menu_color }};" ></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                 </li>
-
+ <!-- <p >Pages</p> -->
                 <li class="dt-side-nav__item">
                     <a href="{{route('tenant.create')}}" class="dt-side-nav__link" title="Add New">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>
 
-                <li class="dt-side-nav__item">
-                    <a href="{{route('tenant.to.asset')}}" class="dt-side-nav__link" title="Add New">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add to Asset</span> </a>
-                </li>
+                
 
             </ul>
             <!-- /sub-menu -->
@@ -152,28 +152,32 @@
 
                   <li class="dt-side-nav__item">
                     <a href="{{route('rental.index')}}" class="dt-side-nav__link" title="List Rentals">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rental.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rental.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
+                    <li class="dt-side-nav__item">
+                    <a href="{{route('tenant.to.asset')}}" class="dt-side-nav__link" title="Add tenant to Asset">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};">Add tenant to Asset</span> </a>
+                </li>
                     <a href="{{route('rental.create')}}" class="dt-side-nav__link" title="Add New Rental">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('rentalPayment.history')}}" class="dt-side-nav__link" title="Rental Payment History">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">History</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rentalPayment.history') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rentalPayment.history') ? $active_menu_color : $default_menu_color }};">History</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
                     <a href="{{route('rentalPayment.debtors')}}" class="dt-side-nav__link" title="Rent Debtors">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Debtors</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm " style="color:{{ (Route::current()->getName() == 'rentalPayment.debtors') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rentalPayment.debtors') ? $active_menu_color : $default_menu_color }};">Debtors</span> </a>
                 </li>
 
              
                  <li class="dt-side-nav__item">
                     <a href="{{route('rental.my')}}" title="My Rented Apartments" class="dt-side-nav__link">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">My Rented Apartments</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rental.my') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rental.my') ? $active_menu_color : $default_menu_color }};" >My Rented Apartments</span> </a>
                 </li>
 
             </ul>
@@ -189,27 +193,27 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{ route('service.charges') }}" class="dt-side-nav__link" title="List">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>
-                    <span class="dt-side-nav__text text-white">List</span>
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'service.charges') ? $active_menu_color : $default_menu_color }};"></i>
+                    <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'service.charges') ? $active_menu_color : $default_menu_color }};">List</span>
                 </a>
                 </li>
 
                 <li class="dt-side-nav__item">
                     <a href="{{route('pay.service.charge')}}" class="dt-side-nav__link" title="Service Charge Payment">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Payment</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm text" style="color:{{ (Route::current()->getName() == 'pay.service.charge') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'pay.service.charge') ? $active_menu_color : $default_menu_color }};">Payment</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('debtors.get')}}" class="dt-side-nav__link" title="Debtors" title="Debtors">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Debtors</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'debtors.get') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'debtors.get') ? $active_menu_color : $default_menu_color }};">Debtors</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('fetch.service.charge.payment.history')}}" class="dt-side-nav__link" title="Service Charge Payment History">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">History</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'fetch.service.charge.payment.history') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'fetch.service.charge.payment.history') ? $active_menu_color : $default_menu_color }};">History</span> </a>
                 </li>
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'payment' ? 'open' : ''}}">
+            <li class="dt-side-nav__item {{isset($page) && $page == 'wallet' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Tenant's Service Charge Wallet">
                 <i class="icon icon-card icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Wallet</span> </a>
 
@@ -217,17 +221,17 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('tenant.wallet')}}" class="dt-side-nav__link" title="Tenant's Service Charge Wallet Details">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.wallet') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.wallet') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
                     <a href="{{route('wallet.index')}}" class="dt-side-nav__link" title="Fund Tenant's Wallet">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Fund</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'wallet.index') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'wallet.index') ? $active_menu_color : $default_menu_color }};">Fund</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('wallet.history')}}" class="dt-side-nav__link" title="Tenant's Wallet Transactions History">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">History</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'wallet.history') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'wallet.history') ? $active_menu_color : $default_menu_color }};">History</span> </a>
                 </li>
 
             </ul>
@@ -245,39 +249,39 @@
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('maintenance.index')}}" class="dt-side-nav__link text-white">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text">List</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'maintenance.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'maintenance.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                 </li>
                 <li class="dt-side-nav__item">
                     <a href="{{route('maintenance.create')}}" class="dt-side-nav__link text-white">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text">Add New</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'maintenance.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'maintenance.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>
             </ul>
             <!-- /sub-menu -->
             </li>
           
 
-                   <li class="dt-side-nav__item {{isset($page) && $page == 'asset' ? 'open' : ''}}">
+                   <li class="dt-side-nav__item {{isset($page) && $page == 'report' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
                 <i class="icon icon-company icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Reports</span> </a>
              <!-- Sub-menu -->
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('report.assetreport')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Asset</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm " style="color:{{ (Route::current()->getName() == 'report.assetreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.assetreport') ? $active_menu_color : $default_menu_color }};">Asset</span> </a>
                 </li>
                 <li class="dt-side-nav__item">
                     <a href="{{route('report.rentalreport')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Rental</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.rentalreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.rentalreport') ? $active_menu_color : $default_menu_color }};">Rental</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('report.servicechargereport')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Service Charge</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.servicechargereport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.servicechargereport') ? $active_menu_color : $default_menu_color }};">Service Charge</span> </a>
                 </li>
 
                    <li class="dt-side-nav__item">
                     <a href="{{route('report.landlordreport')}}" class="dt-side-nav__link" title="Asset List">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Landlord</span> </a>
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};">Landlord</span> </a>
                 </li>
 
             </ul>
@@ -294,12 +298,12 @@
                 <ul class="dt-side-nav__sub-menu">
                     <li class="dt-side-nav__item">
                         <a href="{{route('subs.index')}}" class="dt-side-nav__link" title="List">
-                            <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">List</span> </a>
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'subs.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'subs.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
                     </li>
 
                     <li class="dt-side-nav__item">
                         <a href="{{route('subs.create')}}" class="dt-side-nav__link" title="Add New">
-                            <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Add New</span> </a>
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'subs.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'subs.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                     </li>
 
                 </ul>
@@ -313,16 +317,16 @@
                 <ul class="dt-side-nav__sub-menu">
                     <li class="dt-side-nav__item">
                         <a href="{{route('transactions.history')}}" class="dt-side-nav__link">
-                            <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i>  <span class="dt-side-nav__text text-white">Transactions</span> </a>
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'transactions.history') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'transactions.history') ? $active_menu_color : $default_menu_color }};">Transactions</span> </a>
                     </li>
 
                     <li class="dt-side-nav__item">
                         <a href="{{route('subscription.history')}}" class="dt-side-nav__link">
-                            <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Subscription History</span> </a>
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'subscription.history') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'subscription.history') ? $active_menu_color : $default_menu_color }};">Subscription History</span> </a>
                     </li>
                     <li class="dt-side-nav__item">
                         <a href="{{route('profile.upgrade')}}" class="dt-side-nav__link" title="Buy A Plan">
-                            <i class="icon icon-listing-dbrd icon-fw icon-sm text-white"></i> <span class="dt-side-nav__text text-white">Buy A Plan</span> </a>
+                            <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'profile.upgrade') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'profile.upgrade') ? $active_menu_color : $default_menu_color }};">Buy A Plan</span> </a>
                     </li>
 
                 </ul>
