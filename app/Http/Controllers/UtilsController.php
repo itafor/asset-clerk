@@ -270,8 +270,8 @@ if($unitUuid){
     }
 
     public function portfolioSummary(){
-        $users =User::where('email','!=','admin')->get();
-       
+        $users =User::where('email','!=','admin@assetclerk.com')->get();
+        
         if($users){
             foreach ($users as $key => $user) {
                 $subs = Subscription::where('subscriptions.user_id',$user->id)
