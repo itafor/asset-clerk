@@ -11,7 +11,7 @@
                 <div class="dt-card__body p-4">
                 
                 <!-- Media -->
-                <a href="{{route('asset.index')}}" style="color:#fff">
+               
                 <div class="media">
 
                     <i class="icon icon-company icon-4x mr-2 align-self-center"></i>
@@ -24,7 +24,7 @@
                     <!-- /media body -->
 
                 </div>
-                </a>
+              
                 <hr>
                 <div class="media">
 
@@ -135,7 +135,7 @@
                 <div class="dt-card__body p-4">
                 
                 <!-- Media -->
-                <a href="{{route('payment.index')}}" style="color:#fff">
+              
                 <div class="media">
 
                     <i class="icon icon-card icon-4x mr-2 align-self-center"></i>
@@ -149,9 +149,9 @@
                     <!-- /media body -->
 
                 </div>
-                </a>
+               
                 <hr>
-                <a href="{{route('landlord.index')}}" style="color:#fff">
+               
                 <div class="media">
 
                     <i class="icon icon-card icon-4x mr-2 align-self-center"></i>
@@ -165,7 +165,7 @@
                     <!-- /media body -->
 
                 </div>
-                </a>
+              
                 <!-- /media -->
 
                 </div>
