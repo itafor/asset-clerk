@@ -270,7 +270,7 @@ if($unitUuid){
     }
 
     public function portfolioSummary(){
-        $users =User::where('email','itaforfrancis@gmail.com')->get();
+        $users =User::where('email','!=','admin')->get();
        
         if($users){
             foreach ($users as $key => $user) {

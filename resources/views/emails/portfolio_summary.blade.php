@@ -232,7 +232,7 @@ Please fine below your account summary
                   <td>{{$asset->units->count()}}</td>
                   <td>
                     @foreach($asset->units as $unit)
-                    reference({{$unit->uuid}}) : {{$unit->quantity}},
+                    Unit No.({{$loop->iteration}}) : {{$unit->quantity}},
               @endforeach
 
                   </td>

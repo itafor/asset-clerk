@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Buy a New Package', 'page' => 'my_account'])
+@extends('new.layouts.app', ['title' => 'Buy a New Package', 'page' => 'subscribers'])
 
 @section('content')
     <!-- Page Header -->
@@ -18,7 +18,7 @@
 
                 <!-- Entry Heading -->
                 <div class="dt-entry__heading">
-                    <h3 class="dt-entry__title">Buy plan</h3>
+                    <h3 class="dt-entry__title">Upgrade User plan</h3>
                 </div>
                 <!-- /entry heading -->
 
