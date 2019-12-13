@@ -1,4 +1,6 @@
-@extends('new.layouts.app', ['title' => 'Record New Service Charge Payment', 'page' => 'Service Charge'])
+
+
+@extends('new.layouts.app', ['title' => 'Record New Service Charge Payment', 'page' => 'service'])
 
 @section('content')
     <!-- Page Header -->

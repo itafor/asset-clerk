@@ -28,32 +28,16 @@
     <link type="text/css" href="{{ url('assets/css/style.css') }}" rel="stylesheet">
     <!-- Data table stylesheet -->
     <link href="{{url('assets/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
-    <!-- load fontawesome -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-  
-<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script> -->
-<!-- https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css
-https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css
- -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-<!-- https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css
-https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css">
+<!-- datatable with fixedheader -->
+ <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css"> -->
 
-
-
-
-
-
-<!-- 
-https://code.jquery.com/jquery-3.3.1.js
-https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js
-https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js -->
     <style>
         .select2-selection {
             font-size: 1.4rem !important;
@@ -146,10 +130,10 @@ https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js --
 
 
 <!-- new datatable with fixedheader and footer -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js
 "></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> -->
 
     <script>
         const toast = swal.mixin({

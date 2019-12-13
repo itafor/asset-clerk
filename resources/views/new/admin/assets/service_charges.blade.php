@@ -208,7 +208,9 @@
                 <!-- Tables -->
                 <div class="table-responsive">
 
-                  <table class="display" style="width:100%" id="table-1">
+                 <!--  <table class="display" style="width:100%" id="table-1"> --> 
+              <table class="table table-striped table-bordered table-hover datatable"
+                  >
                     <thead>
                     <tr>
                         <th>No</th>
@@ -261,7 +263,7 @@
                         </tr>
                     @endforeach
                     </tbody>
-                        <tfoot>
+                        <!-- <tfoot>
             <tr>
                        <th>No</th>
                         <th><b>Property</b></th>
@@ -273,7 +275,7 @@
                         <th><b>Due date</b></th>
                         <th class="text-center"><b>Action</b></th>
             </tr>
-        </tfoot>
+        </tfoot> -->
                   </table>
 
                 </div>
