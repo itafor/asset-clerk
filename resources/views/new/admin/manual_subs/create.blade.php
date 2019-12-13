@@ -117,11 +117,9 @@
                                     <div class="total" id="total">0.00</div>
                                 </div>
                             </div>
-                            <div>
-                                <img src="{{ url('img/paystack.png') }}" class="img-center offset-3" width="350px">
-                            </div>
+                           
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success mt-4">{{ __('Buy this Package Now!') }}</button>
+                                <button type="submit" class="btn btn-success mt-4">{{ __('Proceed to upgrade the selected user plan!') }}</button>
                             </div>
                         </div>
                     </form>
