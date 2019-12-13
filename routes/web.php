@@ -55,6 +55,13 @@ Route::post('add_subscription_plan', ['as' => 'plan.save', 'uses' => 'AdminContr
 Route::get('transactions', ['as' => 'plan.transactions', 'uses' => 'AdminController@transactions']);
 Route::get('subscribers', ['as' => 'plan.subscribers', 'uses' => 'AdminController@subscribers']);
 });
+Route::prefix('manual_subscription')->group(function(){
+Route::get('create','ManualSubscriptionController@create')->name('manual_subscription.create');
+Route::get('/fetch-user-email/{userId}','ManualSubscriptionController@fetchUserEmail')->name('manual_subscription.useremail');
+Route::get('/fetch-plan-price-id/{planNane}','ManualSubscriptionController@fetchPlanPrice')->name('manual_subscription.planPrice');
+Route::post('/process-user-plan','ManualSubscriptionController@process_user_plan')->name('manual_subscription.process.plan');
+
+});
 //Route::prefix('agents')->middleware('role:agent')->group(function(){
 Route::prefix('asset')->group(function(){
 Route::get('/', 'AssetController@index')->name('asset.index');
@@ -124,6 +131,8 @@ Route::get('/profile-details/{id}', 'TenantController@tenantProfile')->name('ten
 Route::get('/search/tenant', 'TenantController@searchTenantGlobally')->name('search.tenant');
 Route::get('update-doc-name/{docId}/{docname}','TenantController@editDocumentName')->name('update.docname');
 Route::get('delete-document/{docId}','TenantController@deleteDocument')->name('delete.doc');
+Route::get('add-tenant-to-asset','TenantController@addTenantToAssetView')->name('tenant.to.asset');
+Route::post('assign-tenant-to-asset','TenantController@addTenantToAssetStore')->name('tenant.to.asset.store');
 });
 Route::prefix('customer')->group(function(){
 Route::get('/', 'CustomerController@index')->name('customer.index');
@@ -222,6 +231,10 @@ Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
+Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
+Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
+Route::get('fetch-tenants-added-to-assetunit/{unit_uuid}', 'UtilsController@fetchTenantAddedToUnit');
+
 Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 Route::get('fetch-service-charge-by-property/{property}', 'UtilsController@fetchServiceChargeByProperty');
 Route::get('search-users', 'UtilsController@searchUsers');
@@ -242,3 +255,4 @@ Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotificatio
 Route::get('rent-due-in-next-ninetydays', 'RentalController@dueRentInNext90DaysNotification');
 Route::get('rent-due-in-next-thirdtydays', 'RentalController@dueRentInNext30DaysNotification');
 Route::get('past-due-rents', 'RentalController@pastDueRentsNotification');
+Route::get('portfolio-summary', 'UtilsController@portfolioSummary');

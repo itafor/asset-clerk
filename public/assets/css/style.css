@@ -456,6 +456,26 @@ width: 150px;
   }
 *//* end activate and deactivate rental renewal*/
 
+/*.datatable tbody{
+  display:block;
+  overflow:auto;
+  height:300px;
+  width:100%;
+  margin-right: 0px;
+}
+.datatable thead tr{
+  display:block;
+  margin-right: 0px;
+
+}*/
+
+
+/*#table-1 > thead > tr{
+        position: fixed;
+        width: 100%;
+        top: 20em;
+        z-index: 300;
+    }*/
 
 @media only screen and (max-width: 600px) {
 section{

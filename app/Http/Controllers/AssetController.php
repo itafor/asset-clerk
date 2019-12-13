@@ -322,7 +322,7 @@ $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())-
                         &&  $request->startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
                          &&  $request->dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
                     ){
-                         return back()->withInput()->with('error','A tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
+                         return back()->withInput()->with('error','The selected tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
                     }
 
                     }
@@ -332,7 +332,7 @@ $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())-
         }
 
 
-        $asset = Asset::find($request['asset']);
+        $asset = Asset::where('uuid',$request['asset'])->first();
 
         if($asset){
                 Asset::addServiceCharge($request->all(), $asset);

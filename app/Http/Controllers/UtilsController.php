@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\Jobs\PortfolioSummaryJob;
+use App\Landlord;
 use App\Mail\EmailVerification;
 use App\ServiceCharge;
+use App\Subscription;
 use App\Tenant;
+use App\TenantProperty;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -92,6 +96,64 @@ class UtilsController extends Controller
         }
     }
 
+   public function fetchPropertiesAssignToTenant($tenant_uuid)
+    {
+        //$tenant = Tenant::where('uuid', $tenant_uuid)->first();
+        if($tenant_uuid){
+            $units = TenantProperty::where('tenant_uuid', $tenant_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->select('u.*', 'tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->groupby('tenant_properties.property_uuid')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+    public function fetchUnitsAssignToTenant($property_uuid,$selected_tenant_uuid ='')
+    {
+
+        if($property_uuid && $selected_tenant_uuid !=0){
+            $units = TenantProperty::where('property_uuid',$property_uuid)
+            ->where('tenant_uuid',$selected_tenant_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->select('u.*','c.*','tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->get();
+            return response()->json($units);
+        }elseif($property_uuid && $selected_tenant_uuid ==0){
+            $units = TenantProperty::where('property_uuid',$property_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->select('u.*','c.*','tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+public function fetchTenantAddedToUnit($unitUuid){
+if($unitUuid){
+            $units = TenantProperty::where('unit_uuid',$unitUuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+            ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
+            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
+            ->select('tn.*')
+            ->get();
+            return response()->json($units);
+        }
+        else{
+            return [];
+        }
+}
     public function resendVerification()
     {
         try{
@@ -205,5 +267,23 @@ class UtilsController extends Controller
     if($pay_date > $current_timestamp){
         return 'invalidate';
     }
+    }
+
+    public function portfolioSummary(){
+        $users =User::where('email','!=','admin')->get();
+       
+        if($users){
+            foreach ($users as $key => $user) {
+                $subs = Subscription::where('subscriptions.user_id',$user->id)
+            ->where('subscriptions.status','active')->first();
+            $landlord = Landlord::where('landlords.user_id',$user->id)->count();
+            $tenant = Tenant::where('tenants.user_id',$user->id)->count();
+            $assets = Asset::where('assets.user_id',$user->id)->get();
+            //dd($assets);
+                PortfolioSummaryJob::dispatch($user,$subs,$landlord,$tenant,$assets)
+            ->delay(now()->addSeconds(5));
+            }
+        }
+        return 'Done';
     }
 }

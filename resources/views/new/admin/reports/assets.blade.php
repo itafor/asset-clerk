@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'List of Service Charges', 'page' => 'service'])
+@extends('new.layouts.app', ['title' => 'List of Service Charges', 'page' => 'report'])
 
 @section('content')
     <!-- Page Header -->

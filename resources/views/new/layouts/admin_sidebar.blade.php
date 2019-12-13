@@ -1,3 +1,5 @@
+@php $active_menu_color = '#8DC63F'; @endphp
+ @php $default_menu_color = 'white'; @endphp
 <!-- Sidebar -->
     <aside id="main-sidebar" class="dt-sidebar">
       <div class="dt-sidebar__container container-fluid">
@@ -61,25 +63,25 @@
             </li>
             <!-- /menu header -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'dashboard' ? 'open' : ''}}">
-                <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl"></i>
-                <span class="dt-side-nav__text">Dashboard</span> </a>
+                <a href="{{route('home')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl" style="color:{{ (Route::current()->getName() == 'home') ? $active_menu_color : $default_menu_color }};"></i>
+                <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'home') ? $active_menu_color : $default_menu_color }};">Dashboard</span> </a>
             </li>
 
             <!-- Menu Item -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'subscription' ? 'open' : ''}}"">
                 <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Dashboard">
-                <i class="icon icon-company icon-fw icon-xl"></i> <span class="dt-side-nav__text">Subscription Plans</span> </a>
+                <i class="icon icon-company icon-fw icon-xl" style="color: {{$default_menu_color}}"></i> <span class="dt-side-nav__text" style="color: {{$default_menu_color}}">Subscription Plans</span> </a>
 
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{url('subscription_plans')}}" class="dt-side-nav__link" title="Asset List">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List Plans</span> </a>
+                    <a href="{{route('plan.index')}}" class="dt-side-nav__link" title="Asset List">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'plan.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'plan.index') ? $active_menu_color : $default_menu_color }};">List Plans</span> </a>
                 </li>
 
                 <li class="dt-side-nav__item">
-                    <a href="{{url('subscription_plans/add_subscription_plan')}}" class="dt-side-nav__link" title="Listing">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i> <span class="dt-side-nav__text">Add New Plan</span> </a>
+                    <a href="{{route('plan.add')}}" class="dt-side-nav__link" title="Listing">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'plan.add') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'plan.add') ? $active_menu_color : $default_menu_color }};">Add New Plan</span> </a>
                 </li>
 
                 </ul>
@@ -89,13 +91,13 @@
             <!-- Menu Item -->
             <li class="dt-side-nav__item {{isset($page) && $page == 'transactions' ? 'open' : ''}}"">
                 <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
-                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Transactions</span> </a>
+                <i class="icon icon-user-o icon-fw icon-xl" style="color: {{$default_menu_color}}"></i> <span class="dt-side-nav__text" style="color: {{$default_menu_color}}">Transactions</span> </a>
 
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{url('subscription_plans/transactions')}}" class="dt-side-nav__link">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">Transactions Log</span> </a>
+                    <a href="{{route('plan.transactions')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'plan.transactions') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'plan.transactions') ? $active_menu_color : $default_menu_color }};">Transactions Log</span> </a>
                 </li>
 
                 </ul>
@@ -104,13 +106,21 @@
             
             <li class="dt-side-nav__item {{isset($page) && $page == 'subscribers' ? 'open' : ''}}"">
                 <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow">
-                <i class="icon icon-user-o icon-fw icon-xl"></i> <span class="dt-side-nav__text">Subscribers Management</span> </a>
+                <i class="icon icon-user-o icon-fw icon-xl" style="color: {{$default_menu_color}}"></i> <span class="dt-side-nav__text" style="color: {{$default_menu_color}}">Subscribers Management</span> </a>
 
                 <!-- Sub-menu -->
                 <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
                     <a href="{{route('plan.subscribers')}}" class="dt-side-nav__link">
-                    <i class="icon icon-listing-dbrd icon-fw icon-sm"></i>  <span class="dt-side-nav__text">List Subscribers</span> </a>
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'plan.subscribers') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'plan.subscribers') ? $active_menu_color : $default_menu_color }};">List Subscribers</span> </a>
+                </li>
+                </ul>
+                <!-- /sub-menu -->
+                   <!-- Sub-menu -->
+                <ul class="dt-side-nav__sub-menu">
+                <li class="dt-side-nav__item">
+                    <a href="{{route('manual_subscription.create')}}" class="dt-side-nav__link">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'manual_subscription.create') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'manual_subscription.create') ? $active_menu_color : $default_menu_color }};">Upgrade</span> </a>
                 </li>
                 </ul>
                 <!-- /sub-menu -->

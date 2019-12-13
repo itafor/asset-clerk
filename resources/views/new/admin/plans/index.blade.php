@@ -1,3 +1,4 @@
+
 @extends('new.layouts.app', ['title' => 'List of Rentals', 'page' => 'subscription'])
 
 @section('content')

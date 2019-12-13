@@ -28,11 +28,16 @@
     <link type="text/css" href="{{ url('assets/css/style.css') }}" rel="stylesheet">
     <!-- Data table stylesheet -->
     <link href="{{url('assets/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
-    <!-- load fontawesome -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
     <script>
         var baseUrl = '{{url("/")}}';
     </script>
+
+<!-- datatable with fixedheader -->
+ <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css"> -->
+
     <style>
         .select2-selection {
             font-size: 1.4rem !important;
@@ -119,8 +124,16 @@
     <script src="{{url('assets/datatables.net/js/jquery.dataTables.js')}}"></script>
     <script src="{{url('assets/datatables.net-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script src="{{ asset('argon') }}/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- Custom JavaScript -->
     <script src="{{url('assets/js/script.js')}}"></script>
+
+
+<!-- new datatable with fixedheader and footer -->
+<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js
+"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> -->
 
     <script>
         const toast = swal.mixin({
@@ -152,8 +165,11 @@
         @endif
 
         $('.datatable').DataTable({
-            dom: '<"html5buttons" B>lTfgitp'
+            dom: '<"html5buttons" B>lTfgitp',
+
         });
+
+    
 
         $('body').on('click', '[data-confirm]', function () {
             return confirm('Are you sure?');
@@ -249,7 +265,7 @@ $(document).ready(function(){
                       if(data ==='invalidate'){
                     toast({
                         type: 'warning',
-                        title: 'Ooops!! Invalid payment date. Future date ('+ selected_date +') detected'
+                        title: 'Ooops!! Invalid date. Future date ('+ selected_date +') detected'
                     })
                     $("#payment_date").val('')
             }
@@ -258,7 +274,50 @@ $(document).ready(function(){
     });
 })
     </script>
+ <script>
+//Add tenant to property
+        $('#input-property').change(function(){
+            var property = $(this).val();
+            if(property){
+                $('#input-unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#input-unit');
+                $.ajax({
+                    url: baseUrl+'/fetch-units/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#input-unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.name+' | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#input-unit');
+                        });
+                    }
+                });
+            }
+            else{
+                $('#input-unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+            }
+        });
+        
+        $('#input-unit').change(function(){
+            var unit = $(this).val();
+            if(unit){
+                var price = $(this).find(':selected').attr('data-price')
+                $('#input_price').val(price);
+            }
+            else{
+                $('#input_price').val('');
+            }
+        });
 
+
+//highlight sidebar menus when clicked
+    $("ul").delegate("li", "click", function() {
+  $(this).addClass("active_menu").siblings().removeClass("active_menu");
+});
+
+    </script>
     @yield('script')
 </body>
 </html>

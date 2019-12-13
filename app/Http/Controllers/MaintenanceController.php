@@ -14,7 +14,8 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')->get();
+        $maintenances = Maintenance::where('user_id', getOwnerUserID())->with('categoryy')
+        ->orderby('created_at','desc')->get();
         return view('new.admin.maintenance.index', compact('maintenances'));
     }
 
@@ -37,11 +38,12 @@ class MaintenanceController extends Controller
 
     public function store(Request $request)
     {
+       // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'customer' => 'required',
-            // 'category' => 'required',
+            'tenant_uuid' => 'required',
             'asset_description' => 'required',
-            'building_section' => 'required',
+            'unit_uuid' => 'required',
+            // 'building_section' => 'required',
             'reported_date' => 'required|date_format:"d/m/Y"',
             //'status' => 'required',
             'fault_description' => 'required',
@@ -54,8 +56,10 @@ class MaintenanceController extends Controller
 
         $maintenance = Maintenance::createNew($request->all());
         $status = '';
+        if($maintenance->tenant){
          $toEmail = $maintenance->tenant->email;
         Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+        }
 
         return redirect()->route('maintenance.index')->with('success', 'Maintenance added successfully');
     }
@@ -118,8 +122,11 @@ class MaintenanceController extends Controller
                 $get_maintenance->status = 'Unfixed';
                if($get_maintenance->save()){
                  $maintenance =Maintenance::where('uuid',$get_maintenance->uuid)->first();
-                $toEmail = $maintenance->tenant->email;
+                 if($maintenance->tenant){
+                     $toEmail = $maintenance->tenant->email;
                 Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+                 }
+               
                }
             }
             return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Unfixed');
@@ -129,11 +136,13 @@ class MaintenanceController extends Controller
             $get_unfixed_maintenance = Maintenance::where('uuid',$uuid)->first();
 
                 $get_unfixed_maintenance->status = 'Fixed';
-                  if($get_unfixed_maintenance->save()){
-                 $maintenance =Maintenance::where('uuid',$get_unfixed_maintenance->uuid)->first();
-                
-                $toEmail = $maintenance->tenant->email;
+         if($get_unfixed_maintenance->save()){
+        $maintenance =Maintenance::where('uuid',$get_unfixed_maintenance->uuid)->first();
+                if($maintenance->tenant){
+                    $toEmail = $maintenance->tenant->email;
                 Mail::to($toEmail)->send(new MaintenanceComplaintMail($maintenance,$status));
+                }
+                
                }
             
              return redirect()->route('maintenance.index')->with('success', 'Maintenance status successfully set to Fixed');

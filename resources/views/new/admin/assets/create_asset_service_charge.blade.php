@@ -22,6 +22,12 @@
                 <h3 class="dt-entry__title">Add New Service Charge</h3>
               </div>
               <!-- /entry heading -->
+                <!-- Entry Heading -->
+              <div class="dt-entry__heading">
+  
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
+              </div>
+              <!-- /entry heading -->
 
             </div>
             <!-- /entry header -->
@@ -55,26 +61,38 @@
                 <div class="modal-body" style="text-align:left">
                           <div class="row">
 
-                             <div class="form-group col-4">
+                             <div class="form-group col-3">
                                 <label class="form-control-label" for="input-category">{{ __('Property (Asset)') }}</label>
                                 <div>
                                     <select name="asset" id="asset" class="form-control asset" style="width:100%" required>
                                     <option value="">Select Property</option>
                                     @foreach(getAssets() as $asset)
-                                    <option value="{{$asset->id}}">{{$asset->description}}</option>
+                                    <option value="{{$asset->uuid}}">{{$asset->description}}</option>
                                     @endforeach
                                     
                                 </select>
                                 </div>
                             </div>
+                                <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
+                                        <select name="unit" id="unit" class="form-control" required>
+                                            <option value="">Select Unit</option>
+                                        </select>
+                                        
+                                        @if ($errors->has('unit'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('unit') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
 
 
-                                <div class="form-group col-4">
+                                <div class="form-group col-3">
                                 <label class="form-control-label" for="input-price">{{ __('Start Date') }}</label>
                                 <input type="text" name="startDate" id="input-startDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
                             </div>
 
-                             <div class="form-group col-4">
+                             <div class="form-group col-3">
                                 <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
                                 <input type="text" name="dueDate" id="input-dueDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
                             </div>
@@ -141,13 +159,11 @@
 
         </div>
         <!-- /grid -->
+        @include('new.admin.assets.partials.addTenantToProperty')
 @endsection
 
 @section('script')
     <script>
-
-
-
        
 
         $('body').on('change', '.sc_type', function(){
@@ -183,18 +199,19 @@
                 });
  // check whether to select all tenants or not ends
 
-        $('body').on('change', '.asset', function(){
+        $('body').on('change', '#unit', function(){
 
-            var asset = $(this).val();
-            if(asset){
+            var unit = $(this).val();
+            if(unit){
 
                 $('#tenant_id').empty();
                 $('<option>').val('').text('Loading...').appendTo('#tenant_id');
                 $.ajax({
-                    url:"{{URL::to('tenant/fetch-tenants')}}/"+asset,
+                    url: baseUrl+'/fetch-tenants-added-to-assetunit/'+unit,
                     type: "GET",
-                    data: {'asset':'json'},
+                    dataType: 'json',
                     success: function(data) {
+                        console.log(data)
                         $('#tenant_id').empty();
 
                          if($allTenants==true){
@@ -207,14 +224,50 @@
 
                         $.each(data, function(k, v) {
                             if($allTenants==true){
-                                $('<option>').attr('selected', true).val(v.tenantId).text(v.tenant + ' - ' + v.name).appendTo('#tenant_id');
+                                $('<option>').attr('selected', true).val(v.id).text(v.designation +'.' + v.firstname + '-'+ v.lastname).appendTo('#tenant_id');
                             }else{
-                                $('<option>').val(v.tenantId).text(v.tenant + ' - ' + v.name).appendTo('#tenant_id');
+                                $('<option>').val(v.id).text(v.designation + '.'+ v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
                             }
                             
                         });
                     }
                 });
+            }  else{
+                $('#tenant_id').empty();
+                $('<option>').attr('selected', true).val('').text('Select Tenant').appendTo('#tenant_id');
+            }
+        });
+
+
+$('#asset').change(function(){
+            var property = $(this).val();
+            var selected_tenant_uuid =0;
+            if(property && selected_tenant_uuid ==0){
+                $('#unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#unit');
+                $.ajax({
+                    url: baseUrl+'/fetch-units-assigned-to-tenant/'+property+'/'+selected_tenant_uuid,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data !=''){
+                        $('#unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').val(v.uuid).text(v.name+' Bedroom | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
+                        });
+                        }else{
+                    toast({
+                        type: 'warning',
+                        title: 'Ooops!! No tenant has been added to the selected property'
+                    })
+                }
+            }
+     });
+}
+            else{
+                $('#unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#unit');
             }
         });
 

@@ -73,7 +73,7 @@ class TenantRent extends Model
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
-        self::reduceUnit($data);
+        // self::reduceUnit($data);
         self::addNextPayment($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
@@ -93,13 +93,12 @@ class TenantRent extends Model
         ]);
     }
 
-    public static function reduceUnit($data)
-    {
-        $unit = Unit::where('uuid', $data['unit'])->first();
-        $unit->quantity_left -= 1;
-        // $unit->quantity_left = $unit->quantity_left >=1 ? $unit->quantity_left-1 : $unit->quantity_left-0;
-        $unit->save();
-    }
+    // public static function reduceUnit($data)
+    // {
+    //     $unit = Unit::where('uuid', $data['unit'])->first();
+    //     $unit->quantity_left -= 1;
+    //     $unit->save();
+    // }
 
     /**
      * Delete rental

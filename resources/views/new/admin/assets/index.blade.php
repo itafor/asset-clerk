@@ -209,6 +209,7 @@
         })
         $('.addUnit').click(function(){
             var asset = $(this).data('asset');
+            console.log('asset id',asset);
             $('#assetU').val(asset);
         })
 
