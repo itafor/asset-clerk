@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Subscriptions History', 'page' => 'my_account'])
+@extends('new.layouts.app', ['title' => 'Subscriptions History', 'page' => 'pending_subscriber'])
 
 @section('content')
     <!-- Page Header -->
@@ -40,15 +40,14 @@
                           <th scope="col">{{ __('S/N') }}</th>
                           <th scope="col">{{ __('Plan') }}</th>
                           <th scope="col">{{ __('Total Slot') }}</th>
-                          <th scope="col">{{ __('Slot Used') }}</th>
-                          <th scope="col">{{ __('Availble Slot') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
                           <th scope="col">{{ __('Name') }}</th>
                           <!-- <th scope="col">{{ __('Phone') }}</th> -->
                           <th scope="col">{{ __('Email') }}</th>
                           <th scope="col">{{ __('Status') }}</th>
                           <th scope="col">{{ __('Date Subscribed') }}</th>
-                          <th scope="col">{{ __('Expiry Date') }}</th>
+                          <!-- <th scope="col">{{ __('Expiry Date') }}</th> -->
+                          <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -59,19 +58,28 @@
                           <td>{{ $i++ }}</td>
                           <td>{{ $p->name }}</td>
                           <td>{{ $p->properties }}</td>
-                          <td>{{number_format(getTotalAssets($user->user->id))}}</td>
-                          @if (getSlots($user->user->id)['availableSlots'] == 'Unlimited')
-                       <td>{{getSlots($user->user->id)['availableSlots']}}</td>
-                    @else
-                        <td>{{number_format(getSlots($user->user->id)['availableSlots'])}}</td>
-                    @endif
+
                           <td>&#8358;{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
                          <!--  <td>{{ $user->user->phone }}</td> -->
                           <td>{{ $user->user->email }}</td>
                           <td>{{ $user->substatus }}</td>
                           <td>{{ \Carbon\Carbon::parse($user->start)->format('d M, Y') }}</td>
-                          <td>{{ \Carbon\Carbon::parse($user->end)->format('d M, Y') }}</td>
+                          <!-- <td>{{ \Carbon\Carbon::parse($user->end)->format('d M, Y') }}</td> -->
+                          <td>
+                            @if($user->substatus =='Active')
+                            <button class="btn btn-xs btn-success">Activated</button>
+                             @else
+                              <!-- <a href="{{ route('plan.activate.pending_subscribers', ['userid'=>$user->user->id,'sub_uuid'=>$user->subuuid]) }}"><button class="btn btn-xs btn-primary">Activate </button></a> -->
+
+                                 <form action="{{ route('plan.activate.pending_subscribers', ['userid'=>$user->user->id,'sub_uuid'=>$user->subuuid]) }}" method="get">
+                                            
+                                            <button type="button" class="btn btn-xs btn-primary" onclick="confirm('{{ __("Are you sure? This action cannot be undo") }}') ? this.parentElement.submit() : ''">
+                                                {{ __('Activate') }}
+                                            </button>
+                                        </form> 
+                             @endif
+                         </td>
                       </tr>
                   @endforeach
                     </tbody>

@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'List of Sub Accounts', 'page' => 'sub_account'])
+@extends('new.layouts.app', ['title' => 'List of Sub Accounts', 'page' => 'my_account'])
 
 @section('content')
     <!-- Page Header -->

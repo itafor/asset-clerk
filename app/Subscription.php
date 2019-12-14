@@ -16,7 +16,7 @@ class Subscription extends Model
     }
 
     protected $fillable = [
-        'uuid', 'user_id', 'transaction_id', 'start', 'end', 'reference','plan_id','status'
+        'uuid', 'user_id', 'transaction_id', 'start', 'end', 'reference','plan_id','channel','status'
     ];
 
     public function user()

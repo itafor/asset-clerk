@@ -75,14 +75,15 @@ class SubscriptionsController extends Controller
             'status' => 'Pending'
         ]);
         if($sub){
-         SubPaymentMetalDatas::create([
+        $metalData = SubPaymentMetalDatas::create([
             'user_id' => auth()->id(),
             'email' => $request->email,
             'amount' => fixKobo($transaction->amount), // amount is in kobo so add 00
             'subscription_uuid' => $sub->uuid,
            'transaction_uuid' => $transaction->uuid,
             'payment_reference' => $transaction->reference,
-            'plan_id' => $sub->plan_id
+            'plan_id' => $sub->plan_id,
+            'bank_transfer_reference' => auth()->id()+'123456',
         ]);
 
         }
@@ -109,7 +110,9 @@ class SubscriptionsController extends Controller
             // if the email matches the customer who owns the product etc
             // Give value
 
-            $getMetadata = SubPaymentMetalDatas::where('user_id',getOwnerUserID())->latest()->first();
+            $getMetadata = SubPaymentMetalDatas::where('user_id',getOwnerUserID())
+            ->where('bank_transfer_reference',auth()->id()+'123456')->first();
+             
             if($getMetadata){
             $reference = $getMetadata->payment_reference;
             $subscription = $getMetadata->subscription_uuid;
@@ -162,7 +165,8 @@ public function updateUnitSetPlanIdNull($plan_id){
  }
 public function removeMetaData($id,$user_id){
           $smd = SubPaymentMetalDatas::where('id',$id)
-          ->where('user_id',$user_id)->latest()->first();
+          ->where('user_id',$user_id)
+          ->where('bank_transfer_reference',auth()->id()+'123456')->first();
          if($smd){
         $smd->delete();
          }
