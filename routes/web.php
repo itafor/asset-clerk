@@ -37,6 +37,8 @@ Route::post('update-company-detail',['as'=>'companydetail.update', 'uses'=>'Prof
 
 Route::post('buy-plan', ['as' => 'do.buy.plan', 'uses' => 'SubscriptionsController@redirectToGateway'])->middleware('sub.account');;
 
+Route::post('buy-plan-bank-transfer', ['as' => 'buy.plan.by.bank.transfer', 'uses' => 'BankTransferSubscriptionsController@buyPlanByDirectBankTransfer'])->middleware('sub.account');;
+
 Route::resource('subs', 'SubAccountController', ['except' => ['show', 'index']])->middleware('sub.account');
 Route::get('subs', 'SubAccountController@index')->name('subs.index');
 
@@ -54,6 +56,8 @@ Route::get('add_subscription_plan', ['as' => 'plan.add', 'uses' => 'AdminControl
 Route::post('add_subscription_plan', ['as' => 'plan.save', 'uses' => 'AdminController@save_subscription_plan']);
 Route::get('transactions', ['as' => 'plan.transactions', 'uses' => 'AdminController@transactions']);
 Route::get('subscribers', ['as' => 'plan.subscribers', 'uses' => 'AdminController@subscribers']);
+Route::get('pending-subscribers', ['as' => 'plan.pending_subscribers', 'uses' => 'AdminController@pendingSubscribers']);
+Route::get('activate-pending-subscribers/{userId}/{subUuid}', ['as' => 'plan.activate.pending_subscribers', 'uses' => 'BankTransferSubscriptionsController@activatePendingSubscribers']);
 });
 Route::prefix('manual_subscription')->group(function(){
 Route::get('create','ManualSubscriptionController@create')->name('manual_subscription.create');

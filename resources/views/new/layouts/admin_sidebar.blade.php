@@ -126,6 +126,11 @@
                 <!-- /sub-menu -->
             </li>
           <!-- /menu item -->
+          <!-- /menu header -->
+            <li class="dt-side-nav__item {{isset($page) && $page == 'pending_subscriber' ? 'open' : ''}}">
+                <a href="{{route('plan.pending_subscribers')}}" class="dt-side-nav__link" title="Dashboard"> <i class="icon icon-dashboard icon-fw icon-xl" style="color:{{ (Route::current()->getName() == 'plan.pending_subscribers') ? $active_menu_color : $default_menu_color }};"></i>
+                <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'plan.pending_subscribers') ? $active_menu_color : $default_menu_color }};">Pending Upgrade</span> </a>
+            </li>
         </ul>
         <!-- /sidebar navigation -->
 

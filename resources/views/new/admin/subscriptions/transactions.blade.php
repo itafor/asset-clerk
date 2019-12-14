@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Transactions History', 'page' => 'transactions'])
+@extends('new.layouts.app', ['title' => 'Transactions History', 'page' => 'my_account'])
 
 @section('content')
     <!-- Page Header -->

@@ -4,88 +4,69 @@ namespace App\Http\Controllers;
 
 use App\SubPaymentMetalDatas;
 use App\Subscription;
-use App\SubscriptionPlan;
 use App\Transaction;
 use App\Unit;
-use App\User;
 use Illuminate\Http\Request;
 
-class ManualSubscriptionController extends Controller
+class BankTransferSubscriptionsController extends Controller
 {
-     /**
-     * Show the form for creating a new user
-     *
-     * @return \Illuminate\View\View
+        /**
+     * Redirect the User to Direct bank transfer Payment Page
+     * @return Url
      */
-    public function create()
+    public function buyPlanByDirectBankTransfer(Request $request)
     {
-        return view('new.admin.manual_subs.create');
-    }
-
-    public function fetchUserEmail($userId){
-    	$user_email=User::where('id',$userId)->first();
-    	if($user_email){
-    		return response()->json($user_email);
-        }
-        else{
-            return [];
-        }
-    }
-   public function fetchPlanPrice($plan_name){
-    	$planName=SubscriptionPlan::where('name',$plan_name)->first();
-    	if($planName){
-    		return response()->json($planName);
-        }
-        else{
-            return [];
-        }
-    }
-  
-  public function process_user_plan(Request $request) {
-    	//dd($request->all());
- $transaction = Transaction::create([
-            'user_id' => $request->user_id,
+            $transaction = Transaction::create([
+            'user_id' => auth()->id(),
             'plan_id' => $request->plan_id,
             'status' => 'Pending',
-            'channel' => $request->name =='Free' ? 'Free Signup':'Manual',
+            'channel' => 'Bank Transfer',
             'reference' => generateUUID(),
             'amount' => $request->amount * $request->period
         ]);
         $sub = Subscription::create([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->id(),
             'transaction_id' => $transaction->uuid,
             'start' => date('Y-m-d H:i:s'),
             'end' => date('Y-m-d H:i:s', strtotime('+'.$request->period.' years')),
             'reference' => $transaction->reference,
             'plan_id' => $request->plan_id,
-            'status' => 'Pending'
+            'status' => 'Pending',
+            'channel' => 'Bank Transfer'
         ]);
         if($sub){
-       $metalData = SubPaymentMetalDatas::create([
-            'user_id' => $request->user_id,
+         SubPaymentMetalDatas::create([
+            'user_id' => auth()->id(),
             'email' => $request->email,
             'amount' => fixKobo($transaction->amount), // amount is in kobo so add 00
             'subscription_uuid' => $sub->uuid,
-           'transaction_uuid' => $transaction->uuid,
+            'transaction_uuid' => $transaction->uuid,
             'payment_reference' => $transaction->reference,
-            'plan_id' => $sub->plan_id
+            'plan_id' => $sub->plan_id,
+            'bank_transfer_reference' => generateUUID(),
         ]);
-         $this->finalize_plan_processing($request->all(),$metalData);
-         return redirect()->to('home')->with('success', 'Congratulations! Selected user plan upgrade was successful!');
-        }
 
+        }
+	
+	return redirect()->to('home')->with('success', 'Congratulatuins, request logged successfully, Pending approval!');
+            
     }
 
-
-    public function finalize_plan_processing($data,$meta_data)
+   public function activatePendingSubscribers($user_id,$sub_uuid)
     {
-       
-        if($data['user_id']){
+       $subs=Subscription::join('sub_payment_metal_datas as md','md.subscription_uuid','=','subscriptions.uuid')
+       ->where('subscriptions.uuid',$sub_uuid)
+      ->where('subscriptions.user_id',$user_id)
+      ->select('subscriptions.uuid as subuuid','md.bank_transfer_reference as bnkref')
+      ->first();
+     
+        
+        if($subs){
+            $getMetadata = SubPaymentMetalDatas::where('user_id',$user_id)
+            ->where('subscription_uuid',$subs->subuuid)
+            ->where('bank_transfer_reference',$subs->bnkref)->first();
             
-             $getMetadata = SubPaymentMetalDatas::where('user_id',$data['user_id'])
-            ->where('subscription_uuid',$meta_data->subscription_uuid)
-            ->where('payment_reference',$meta_data->payment_reference)->first();
-
+             //dd($getMetadata);
             if($getMetadata){
             $reference = $getMetadata->payment_reference;
             $subscription = $getMetadata->subscription_uuid;
@@ -99,7 +80,7 @@ class ManualSubscriptionController extends Controller
                 'provider_reference' => $provider_reference
             ]);
             //Find if user has any active subscription
-            $active = Subscription::where('user_id', $data['user_id'])->where('status','Active')->get();
+            $active = Subscription::where('user_id',$user_id)->where('status','Active')->get();
             if(!is_null($active)){
                 foreach ($active as $act){
                     $sub_ = Subscription::find($act->id);
@@ -113,8 +94,10 @@ class ManualSubscriptionController extends Controller
             $sub->update([
                 'status' => 'Active'
             ]);
-            $this->updateUnitSetPlanIdNull($getMetadata->plan_id,$data['user_id']);
-            //$this->removeMetaData($getMetadata->id,$getMetadata->user_id);
+            $this->updateUnitSetPlanIdNull($getMetadata->plan_id,$user_id);
+           // $this->removeMetaData($getMetadata->id,$getMetadata->user_id,$sub_uuid);
+
+            return redirect()->to('home')->with('success', 'Plan activated successfully!');
         }
       }
     }
@@ -135,9 +118,10 @@ class ManualSubscriptionController extends Controller
       }
    }
  }
-public function removeMetaData($id,$user_id){
+public function removeMetaData($id,$user_id,$subUuid){
           $smd = SubPaymentMetalDatas::where('id',$id)
-          ->where('user_id',$user_id)->latest()->first();
+          ->where('user_id',$user_id)
+          ->where('subscription_uuid',$subUuid)->latest()->first();
          if($smd){
         $smd->delete();
          }
