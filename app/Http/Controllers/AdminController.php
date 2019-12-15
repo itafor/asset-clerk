@@ -33,6 +33,17 @@ class AdminController extends Controller
         return view('new.admin.subscriptions.index', compact('subs'));
     }
 
+    public function pendingSubscribers()
+    {
+        $subs = Subscription::join('users','users.id','=','subscriptions.user_id')
+            ->select('subscriptions.*','users.*','subscriptions.status as substatus','subscriptions.uuid as subuuid')
+            ->where('subscriptions.channel','Bank Transfer')
+            ->where('subscriptions.status','!=','Revoked')
+            ->orderby('subscriptions.created_at','desc')
+            ->get();
+        return view('new.admin.subscriptions.pending_upgrade_request', compact('subs'));
+    }
+
     public function create_subscription_plan()
     {
         return view('new.admin.plans.create');
