@@ -59,7 +59,7 @@
                           <td>{{ $p->name }}</td>
                           <td>{{ $p->properties }}</td>
 
-                          <td>{{ number_format($p->amount, 2) }}</td>
+                          <td>&#8358;{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
                          <!--  <td>{{ $user->user->phone }}</td> -->
                           <td>{{ $user->user->email }}</td>

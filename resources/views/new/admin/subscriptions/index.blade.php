@@ -65,7 +65,7 @@
                     @else
                         <td>{{number_format(getSlots($user->user->id)['availableSlots'])}}</td>
                     @endif
-                          <td>{{ number_format($p->amount, 2) }}</td>
+                          <td>&#8358;{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
                          <!--  <td>{{ $user->user->phone }}</td> -->
                           <td>{{ $user->user->email }}</td>
