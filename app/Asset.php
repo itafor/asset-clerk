@@ -126,6 +126,7 @@ class Asset extends Model
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
+                'rent_commission' => $unit['rent_commission'],
                 'property_type_id' => $unit['property_type'],
                 'apartment_type' => $unit['apartment_type'],
                 'uuid' => generateUUID(),

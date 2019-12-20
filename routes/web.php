@@ -228,7 +228,11 @@ Route::post('servicecharge-report', 'ReportController@getServiceChargeReport')->
 
 Route::get('approvals', 'ReportController@approvals')->name('report.approvals');
 Route::get('maintenance', 'ReportController@maintenance')->name('report.maintenance');
-Route::get('legal', 'ReportController@legal')->name('report.legal');
+Route::get('show-portFolio-report', 'ReportController@showPortfolioReport')->name('report.showgeneralportfolio');
+Route::post('show-portFolio-report', 'ReportController@generalPortfolioReport')->name('report.search_gen_portfolio');
+
+Route::get('show-my-portFolio-report', 'ReportController@showMyPortfolioReport')->name('report.showmyportfolio');
+Route::post('show-my-portFolio-report', 'ReportController@myPortfolioReport')->name('report.search_my_portfolio');
 });
 
 Route::get('fetch-states/{country}', 'UtilsController@fetchState');

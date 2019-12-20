@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Unit extends Model
 {
     protected $fillable = [
-        'asset_id','user_id','plan_id','category_id', 'quantity', 'standard_price', 'quantity_left', 'uuid',
+        'asset_id','user_id','plan_id','category_id', 'quantity','rent_commission','standard_price', 'quantity_left', 'uuid',
         'property_type_id','apartment_type'
     ];
 

@@ -64,6 +64,7 @@ class AssetController extends Controller
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
             'unit.*.apartment_type' => 'required',
+            'unit.*.rent_commission' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
