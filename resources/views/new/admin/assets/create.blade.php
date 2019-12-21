@@ -180,7 +180,7 @@
      @endif
     </div>
    </div>
-                                <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
+                                <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-2">
                                     <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                     <select name="unit[112211][property_type]"  class="form-control" required>
                                         <option value="">Select Property Type</option>
@@ -222,13 +222,23 @@
                                         </span>
                                     @endif
                                 </div>                   
-                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
+                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-2">
                                     <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
                                     <input type="number" min="1" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>
 
                                     @if ($errors->has('standard_price'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('standard_price') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('rent_commission') ? ' has-danger' : '' }} col-2">
+                                    <label class="form-control-label" for="input-standard_price">{{ __('Rent Commission') }}</label>
+                                    <input type="number" min="1" name="unit[112211][rent_commission]" id="input-rent_commission" class="form-control {{ $errors->has('rent_commission') ? ' is-invalid' : '' }} rent_commission" placeholder="Enter Rent Commission" value="{{old('rent_commission')}}" required>
+
+                                    @if ($errors->has('standard_price'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('rent_commission') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -355,6 +365,7 @@
         
         $('#country').change(function(){
             var country = $(this).val();
+            console.log('country id',country)
             if(country){
                 $('#state').empty();
                 $('<option>').val('').text('Loading...').appendTo('#state');
@@ -366,6 +377,7 @@
                         $('#state').empty();
                         $('<option>').val('').text('Select State').appendTo('#state');
                         $.each(data, function(k, v) {
+
                             $('<option>').val(v.id).text(v.name).appendTo('#state');
                         });
                     }
@@ -375,6 +387,8 @@
 
         $('#state').change(function(){
             var state = $(this).val();
+            console.log('state id',state)
+
             if(state){
                 $('#city').empty();
                 $('<option>').val('').text('Loading...').appendTo('#city');
@@ -386,6 +400,8 @@
                         $('#city').empty();
                         $('<option>').val('').text('Select City').appendTo('#city');
                         $.each(data, function(k, v) {
+            console.log('city id',v.id,'name',v.name)
+
                             $('<option>').val(v.id).text(v.name).appendTo('#city');
                         });
                     }
@@ -430,7 +446,7 @@
   +'</div>'
 
                     
-                        +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-category">{{ __('Property Type') }}</label>'
                         +'    <select name="unit['+rowId+'][property_type]"  class="form-control select'+rowId+'" required>'
                         +'        <option value="">Select Property Type</option>'
@@ -472,13 +488,23 @@
                         +'        </span>'
                         +'    @endif'
                         +'</div>         '          
-                        +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">'
+                        +'<div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-2">'
                         +'    <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>'
                         +'    <input type="number" min="1" name="unit['+rowId+'][standard_price]" class="standard_price form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price')}}" required>'
 
                         +'    @if ($errors->has('standard_price'))'
                         +'        <span class="invalid-feedback" role="alert">'
                         +'            <strong>{{ $errors->first('standard_price') }}</strong>'
+                        +'        </span>'
+                        +'    @endif'
+                        +'</div>'
+                        +'<div class="form-group{{ $errors->has('rent_commission') ? ' has-danger' : '' }} col-2">'
+                        +'    <label class="form-control-label" for="input-standard_price">{{ __('Rent Commission') }}</label>'
+                        +'    <input type="number" min="1" name="unit['+rowId+'][rent_commission]" class="rent_commission form-control {{ $errors->has('rent_commission') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Rent Commission" value="{{old('rent_commission')}}" required>'
+
+                        +'    @if ($errors->has('rent_commission'))'
+                        +'        <span class="invalid-feedback" role="alert">'
+                        +'            <strong>{{ $errors->first('rent_commission') }}</strong>'
                         +'        </span>'
                         +'    @endif'
                         +'</div>'
