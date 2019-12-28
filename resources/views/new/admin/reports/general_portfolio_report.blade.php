@@ -1,5 +1,5 @@
 
-@extends('new.layouts.app', ['title' => 'Portfolio Report', 'page' => 'report'])
+@extends('new.layouts.app', ['title' => 'Portfolio Report', 'page' => 'portfolio'])
 
 @section('content')
     <!-- Page Header -->
