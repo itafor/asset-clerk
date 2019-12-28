@@ -800,37 +800,13 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','pt.*','tenant_rents.id as rental_id')
                     ->get();
                     
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
+                  $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
 
       $start_date = '';
       $end_date = '';
@@ -853,37 +829,12 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','pt.*','tenant_rents.id as rental_id')
                     ->get();
          
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
+                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
       $start_date = '';
       $end_date = '';
@@ -906,37 +857,13 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','pt.*','tenant_rents.id as rental_id')
                     ->get();
         
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
+                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
 
       $start_date = '';
       $end_date = '';
@@ -961,37 +888,12 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.id as rental_id')
                     ->get();
 
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
+                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
       $start_date = '';
       $end_date = '';
@@ -1043,53 +945,20 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
+                    ->where('tenant_rents.user_id',getOwnerUserID())
+                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
                     
-                     $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                        $commissions=[];
-                        $paid_rent_collections=[];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                      $commissions[]=$this->commission($value->rentCommission,$value->amount);
-                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-                   $commission_collections=new collection($commissions);
-                   $paid_rents=new collection($paid_rent_collections);
-                   $total_paid_rent = $paid_rents->sum();
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $total_fees = $commission_collections->sum();
-                   $performance=0;
-                   if($property_count !=0 && $rents_count !=0){
-                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
-                        }
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
-
+                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = $this->portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = $this->portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
       $start_date = '';
       $end_date = '';
@@ -1109,52 +978,20 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.apartment_type',$property_used)
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
+                    ->where('tenant_rents.user_id',getOwnerUserID())
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
          
-                     $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                        $commissions=[];
-                        $paid_rent_collections=[];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                      $commissions[]=$this->commission($value->rentCommission,$value->amount);
-                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-                   $commission_collections=new collection($commissions);
-                   $paid_rents=new collection($paid_rent_collections);
-                   $total_paid_rent = $paid_rents->sum();
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $total_fees = $commission_collections->sum();
-                   $performance=0;
-                   if($property_count !=0 && $rents_count !=0){
-                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
-                        }
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
+               $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = $this->portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = $this->portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
 
       $start_date = '';
@@ -1175,52 +1012,20 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.property_type_id',$data['property_type'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
+                    ->where('tenant_rents.user_id',getOwnerUserID())
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
         
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                        $commissions=[];
-                        $paid_rent_collections=[];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                      $commissions[]=$this->commission($value->rentCommission,$value->amount);
-                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-                   $commission_collections=new collection($commissions);
-                   $paid_rents=new collection($paid_rent_collections);
-                   $total_paid_rent = $paid_rents->sum();
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $total_fees = $commission_collections->sum();
-                   $performance=0;
-                   if($property_count !=0 && $rents_count !=0){
-                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
-                        }
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
+                     $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = $this->portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = $this->portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
 
       $start_date = '';
@@ -1230,7 +1035,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
       $propertyUsed = $property_used;
       $propertyType = $data['property_type'];
-        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance'));
+        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent'));
 
                     }else{
 
@@ -1243,53 +1048,20 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.status as rent_payment_status','units.rent_commission as rentCommission','tenant_rents.id as rental_id','total_paid_rent')
+                    ->where('tenant_rents.user_id',getOwnerUserID())
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.status as rent_payment_status','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
 
-                    $standard_amts = [];
-                   foreach ($portfolio_reportDetails as $key => $value) {
-                      $standard_amts[] = $value->amount;
-                   }
-
-                   $standard_amt_collections=new collection($standard_amts);
-                        $min_amt = $standard_amt_collections->min();
-                        $max_amt = $standard_amt_collections->max();
-                        $amt_sum = $standard_amt_collections->sum();
-                        $amt_count = $standard_amt_collections->count();
-                        $averageAmt=0;
-                        if($amt_count !=0){
-                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
-                        }
-
-                        $properties = [];
-                        $rents = [];
-                        $commissions=[];
-                        $paid_rent_collections=[];
-                  foreach ($portfolio_reportDetails as $key => $value) {
-                      $properties[] = $value->quantity;
-                      $rents[] = $value->rental_id;
-                      $commissions[]=$this->commission($value->rentCommission,$value->amount);
-                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
-                   }
-
-                   $property_collections=new collection($properties);
-                   $rents_collections=new collection($rents);
-                   $commission_collections=new collection($commissions);
-                   $paid_rents=new collection($paid_rent_collections);
-                   $total_paid_rent = $paid_rents->sum();
-
-                   $rents_count = $rents_collections->count();
-                   $property_count = $property_collections->sum();
-                   $total_fees = $commission_collections->sum();
-                   $performance=0;
-                   if($property_count !=0 && $rents_count !=0){
-                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
-                        }
-                   $occupancyRate = 0.0;
-                   if($property_count !=0){
-                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
-                        }
-
+                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = $this->portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = $this->portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
       $start_date = '';
       $end_date = '';
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
@@ -1334,7 +1106,74 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
     }
 
 
+    public function portfolioData($reports)
+    {
+        $standard_amts = [];
+                   foreach ($reports as $key => $value) {
+                      $standard_amts[] = $value->amount;
+                   }
 
+                   $standard_amt_collections=new collection($standard_amts);
+                        $min_amt = $standard_amt_collections->min();
+                        $max_amt = $standard_amt_collections->max();
+                        $amt_sum = $standard_amt_collections->sum();
+                        $amt_count = $standard_amt_collections->count();
+                        $averageAmt=0;
+                        if($amt_count !=0){
+                        $averageAmt = $this->average_amt($amt_sum,$amt_count);
+                        }
+
+                        $unit_ids=[];
+                        $properties =[];
+                        $rents = [];
+                        $commissions=[];
+                        $paid_rent_collections=[];
+                  foreach ($reports as $key => $value) {
+                       $unit_ids[]=$value->unitID;
+                      $rents[] = $value->rental_id;
+                      $commissions[]=$this->commission($value->rentCommission,$value->amount);
+                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
+                   }
+
+                   $unit_uuids = array_unique($unit_ids);
+                   foreach ($unit_uuids as $key => $uid) {
+                    $unit=Unit::where('uuid',$uid)->first();
+                    if($unit){
+                      $properties[] = $unit->quantity;
+                    }
+                 }
+
+
+                   $property_collections=new collection($properties);
+                   $rents_collections=new collection($rents);
+                   $commission_collections=new collection($commissions);
+                   $paid_rents=new collection($paid_rent_collections);
+
+                   $total_paid_rent = $paid_rents->sum();
+                   $rents_count = $rents_collections->count();
+                   $property_count = $property_collections->sum();
+                   $total_fees = $commission_collections->sum();
+                   $performance=0;
+                   if($property_count !=0 && $rents_count !=0){
+                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
+                        }
+                   $occupancyRate = 0.0;
+                   if($property_count !=0){
+                   $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
+                        }
+                  return [
+                      'min_amt'=>$min_amt,
+                      'max_amt'=>$max_amt,
+                      'averageAmt'=>$averageAmt,
+                      'property_count'=>$property_count,
+                      'rents_count'=>$rents_count,
+                      'occupancyRate'=>$occupancyRate,
+                      'amt_sum'=>$amt_sum,
+                      'total_fees'=>$total_fees,
+                      'total_paid_rent'=>$total_paid_rent,
+                      'performance'=>$performance,
+                  ];
+    }
 
 
 
