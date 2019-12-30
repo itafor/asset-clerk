@@ -388,7 +388,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
+                             <!--    <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-commission">{{ __('Commission (%)') }}</label>
                                     <input type="text"  name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission', $asset->commission)}}" required>
 
@@ -397,7 +397,7 @@
                                             <strong>{{ $errors->first('commission') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div style="clear:both"></div>                         
                             </div>
 

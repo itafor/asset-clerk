@@ -764,9 +764,9 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
     {
       $start_date = '';
       $end_date = '';
-      $country = DB::table('countries')->where('id','160')->select('id','name')->first();
-      $state = DB::table('states')->where('id','2671')->select('id','name')->first();
-      $city =  DB::table('cities')->where('id','30983 ')->select('id','name')->first();
+      $country = DB::table('countries')->where('id','3')->select('id','name')->first();
+      $state = DB::table('states')->where('id','112')->select('id','name')->first();
+      $city =  DB::table('cities')->where('id','6089 ')->select('id','name')->first();
       $propertyUsed = '';
       $propertyType = '';
         return view('new.admin.reports.general_portfolio_report',compact('start_date','end_date','country','state','city','propertyType','propertyUsed'));
@@ -797,7 +797,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','pt.*','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
                     ->get();
                     
                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -808,8 +808,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
 
-      $start_date = '';
-      $end_date = '';
+     $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -826,7 +826,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.apartment_type',$property_used)
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
                     ->get();
          
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -836,8 +836,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
                    $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
-      $start_date = '';
-      $end_date = '';
+      $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -854,7 +854,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.property_type_id',$data['property_type'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
                     ->get();
         
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -865,8 +865,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
 
-      $start_date = '';
-      $end_date = '';
+      $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -885,7 +885,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.id as rental_id')
                     ->get();
 
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -895,8 +895,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $rents_count = $this->portfolioData($portfolio_reportDetails)['rents_count'];
                    $occupancyRate = $this->portfolioData($portfolio_reportDetails)['occupancyRate'];
 
-      $start_date = '';
-      $end_date = '';
+      $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -911,9 +911,9 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
     {
       $start_date = '';
       $end_date = '';
-      $country = DB::table('countries')->where('id','160')->select('id','name')->first();
-      $state = DB::table('states')->where('id','2671')->select('id','name')->first();
-      $city =  DB::table('cities')->where('id','30983 ')->select('id','name')->first();
+      $country = DB::table('countries')->where('id','3')->select('id','name')->first();
+      $state = DB::table('states')->where('id','112')->select('id','name')->first();
+      $city =  DB::table('cities')->where('id','6089 ')->select('id','name')->first();
       $propertyUsed = '';
       $propertyType = '';
         return view('new.admin.reports.my_portfolio_report',compact('start_date','end_date','country','state','city','propertyType','propertyUsed'));
@@ -960,8 +960,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
                    $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
-      $start_date = '';
-      $end_date = '';
+      $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -982,7 +982,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
          
-               $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
+                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
                    $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
                    $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
                    $property_count = $this->portfolioData($portfolio_reportDetails)['property_count'];
@@ -994,8 +994,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
 
-      $start_date = '';
-      $end_date = '';
+      $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -1028,8 +1028,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
 
 
-      $start_date = '';
-      $end_date = '';
+       $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
@@ -1062,8 +1062,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $total_fees = $this->portfolioData($portfolio_reportDetails)['total_fees'];
                    $total_paid_rent = $this->portfolioData($portfolio_reportDetails)['total_paid_rent'];
                    $performance = $this->portfolioData($portfolio_reportDetails)['performance'];
-      $start_date = '';
-      $end_date = '';
+       $start_date = $start_date;
+      $end_date = $end_date;
       $country = DB::table('countries')->where('id',$data['country'])->select('id','name')->first();
       $state = DB::table('states')->where('id',$data['state'])->select('id','name')->first();
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();

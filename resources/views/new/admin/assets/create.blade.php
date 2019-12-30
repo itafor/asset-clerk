@@ -196,7 +196,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }} col-2">
-                                    <label class="form-control-label" for="input-category">{{ __('Description') }}</label>
+                                    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>
 
 
                                     <select name="unit[112211][category]"  class="form-control" required>
@@ -291,7 +291,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
+                              <!--   <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-commission">{{ __('Commission (%)') }}</label>
                                     <input type="text" name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission')}}" required>
 
@@ -300,7 +300,7 @@
                                             <strong>{{ $errors->first('commission') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div style="clear:both"></div>                         
                             </div>
 
@@ -462,7 +462,7 @@
                         +'    @endif'
                         +'</div>'
                         +'<div class="form-group{{ $errors->has('Rooms') ? ' has-danger' : '' }} col-2">'
-                        +'    <label class="form-control-label" for="input-category">{{ __('Description') }}</label>'
+                        +'    <label class="form-control-label" for="input-category">{{ __('Rooms') }}</label>'
 
                         // + '<input type="number" min="1" name="unit['+rowId+'][category]"   placeholder="Enter Number of Rooms" class="form-control rooms" required>'
 
