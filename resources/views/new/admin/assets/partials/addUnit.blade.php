@@ -35,7 +35,7 @@
 
 
 
-                            <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-3">
+                            <div class="form-group{{ $errors->has('property_type') ? ' has-danger' : '' }} col-2">
                                 <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                 <select name="unit[112211][property_type]"  class="form-control" required>
                                     <option value="">Select Property Type</option>
@@ -80,7 +80,7 @@
                                     </span>
                                 @endif
                             </div>                   
-                            <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
+                            <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-2">
                                 <label class="form-control-label" for="input-standard_price">{{ __('Property Estimate') }}</label>
                                 <input type="number" min="1" name="unit[112211][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Standard Price" value="{{old('standard_price')}}" required>
 
@@ -90,6 +90,16 @@
                                     </span>
                                 @endif
                             </div>
+                              <div class="form-group{{ $errors->has('rent_commission') ? ' has-danger' : '' }} col-2">
+                                    <label class="form-control-label" for="input-standard_price">{{ __('Rent Commission') }}</label>
+                                    <input type="number" min="1" name="unit[112211][rent_commission]" id="input-rent_commission" class="form-control {{ $errors->has('rent_commission') ? ' is-invalid' : '' }} rent_commission" placeholder="Enter Rent Commission" value="{{old('rent_commission')}}" required>
+
+                                    @if ($errors->has('standard_price'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('rent_commission') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                     </div>
                             <div style="clear:both"></div>
                             <div id="container">

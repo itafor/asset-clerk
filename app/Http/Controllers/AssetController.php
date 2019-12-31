@@ -73,7 +73,7 @@ class AssetController extends Controller
             'detailed_information' => 'required',
             'features.*' => 'required',
             'photos.*' => 'image',
-            'commission' => 'required|numeric',
+            // 'commission' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -109,7 +109,7 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'commission' => 'required|numeric',
+            // 'commission' => 'required|numeric',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
