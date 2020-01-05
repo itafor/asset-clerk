@@ -168,18 +168,18 @@
            @if(isset($portfolio_reportDetails))
                     <tbody>
                    <tr>
-                     <td style="width: 200px;">Lowest Price(Rents)</td>
+                     <td style="width: 200px;">Lowest Price</td>
                      <td>&#8358;{{number_format($min_amt,2)}}</td>
                    </tr>
 
                      <tr>
-                     <td style="width: 200px;">Highest Price (Rents)</td>
+                     <td style="width: 200px;">Highest Price</td>
                      <td>&#8358;{{number_format($max_amt,2)}}
                      </td>
                    </tr>
 
                     <tr>
-                     <td style="width: 200px;">Average Price (Rents)</td>
+                     <td style="width: 200px;">Average Price</td>
                 <td>&#8358;{{number_format($averageAmt,2)}}</td>           
               </tr>
               <tr>

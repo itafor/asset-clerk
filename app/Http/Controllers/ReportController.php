@@ -790,14 +790,14 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
     $end_date   = Carbon::parse(formatDate($data['dueDate'], 'd/m/Y', 'Y-m-d'));
 
        if($data['property_type'] =='All' && $property_used =='All'){
-                       $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                 $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
                     ->join('units','units.uuid','=','tenant_rents.unit_uuid')
                     ->join('property_types as pt','pt.id','=','units.property_type_id')
                     ->whereBetween('tenant_rents.startDate',[$start_date,$end_date])
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
                     
                   $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -818,7 +818,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
         return view('new.admin.reports.general_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate'));
 
                     }else if($data['property_type'] =='All' && $property_used !='All'){
-                  $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
                     ->join('units','units.uuid','=','tenant_rents.unit_uuid')
                     ->join('property_types as pt','pt.id','=','units.property_type_id')
                     ->whereBetween('tenant_rents.startDate',[$start_date,$end_date])
@@ -826,9 +826,8 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.apartment_type',$property_used)
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
-                    ->get();
-         
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
+                    ->get();         
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
                    $max_amt = $this->portfolioData($portfolio_reportDetails)['max_amt'];
                    $averageAmt = $this->portfolioData($portfolio_reportDetails)['averageAmt'];
@@ -854,7 +853,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('units.property_type_id',$data['property_type'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
         
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -885,7 +884,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->where('assets.country_id',$data['country'])
                     ->where('assets.state_id',$data['state'])
                     ->where('assets.city_id',$data['city'])
-                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.id as rental_id')
+                    ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.status as rent_payment_status','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
 
                    $min_amt = $this->portfolioData($portfolio_reportDetails)['min_amt'];
@@ -1132,7 +1131,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                        $unit_ids[]=$value->unitID;
                       $rents[] = $value->rental_id;
                       $commissions[]=$this->commission($value->rentCommission,$value->amount);
-                      $paid_rent_collections[]=$value->rent_payment_status == 'Paid' ? $value->amount : 0;
+                      $paid_rent_collections[]=$value->balance == 0 ? $value->amount : 0;
                    }
 
                    $unit_uuids = array_unique($unit_ids);
