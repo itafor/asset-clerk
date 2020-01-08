@@ -1159,9 +1159,9 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    if($property_count !=0){
                    $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
                         }
-                        
+
                    if($property_count !=0 && $rents_count !=0){
-                    $collection_performance = ($amt_sum/$total_paid_rent) * 100;
+                    $collection_performance = ($total_paid_rent/$amt_sum) * 100;
 
                    $performance = $this->performance($collection_performance,$occupancyRate);
                         }
