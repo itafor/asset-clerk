@@ -1097,9 +1097,9 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
         return $final_commission;
     }
 
-    public function performance($collectn,$rent_count,$prop_count)
+    public function performance($collection_performance,$occupancyRate)
     {
-        $performant= ($collectn/$rent_count) + ($rent_count/$prop_count);
+        $performant= ($collection_performance + $occupancyRate);
        $final_performant= round($performant/2,2);
         return $final_performant;
     }
@@ -1153,13 +1153,20 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $property_count = $property_collections->sum();
                    $total_fees = $commission_collections->sum();
                    $performance=0;
-                   if($property_count !=0 && $rents_count !=0){
-                   $performance = $this->performance($total_paid_rent,$rents_count,$property_count);
-                        }
-                   $occupancyRate = 0.0;
+
+
+                    $occupancyRate = 0.0;
                    if($property_count !=0){
                    $occupancyRate = $this->occupancy_rate($rents_count,$property_count);
                         }
+                        
+                   if($property_count !=0 && $rents_count !=0){
+                    $collection_performance = ($amt_sum/$total_paid_rent) * 100;
+
+                   $performance = $this->performance($collection_performance,$occupancyRate);
+                        }
+
+                  
                   return [
                       'min_amt'=>$min_amt,
                       'max_amt'=>$max_amt,

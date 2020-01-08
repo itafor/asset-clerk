@@ -19,7 +19,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Portfolio</h3>
+                <h3 class="dt-entry__title">My Portfolio</h3>
               </div>
               <!-- /entry heading -->
 
@@ -166,7 +166,27 @@
           
                   <table class="table table-bordered" id="tbl_id">
            @if(isset($portfolio_reportDetails))
+             @if(count($portfolio_reportDetails) >=1)
                     <tbody>
+                <tr>
+               <td style="width: 200px;">Lowest Price</td>
+               <td>&#8358;{{number_format($min_amt,2)}}</td>
+             </tr>
+
+             <tr>
+             <td style="width: 200px;">Highest Price</td>
+             <td>&#8358;{{number_format($max_amt,2)}}
+             </td>
+           </tr>
+
+                    <tr>
+                     <td style="width: 200px;">Average Price</td>
+                <td>&#8358;{{number_format($averageAmt,2)}}</td>           
+              </tr>
+               <tr>
+                     <td style="width: 200px;">Total Property</td>
+                <td>{{$property_count}}</td>           
+              </tr>
                    <tr>
                      <td style="width: 200px;">Total Rentals</td>
                      <td>{{$rents_count}}</td>
@@ -177,22 +197,19 @@
                      <td>&#8358;{{number_format($amt_sum,2)}}
                      </td>
                    </tr>
-
                     <tr>
-                     <td style="width: 200px;">Total Property</td>
-                <td>{{$property_count}}</td>           
-              </tr>
-                    <tr>
-                     <td style="width: 200px;">Total Fees</td>
-                <td>&#8358;{{number_format($total_fees,2)}}</td>           
-              </tr>
-               <tr>
-                     <td style="width: 200px;">Collections</td>
+                     <td style="width: 200px;">Collections (Paid Rentals)</td>
                 <td>&#8358;{{number_format($total_paid_rent,2)}}</td>           
               </tr>
+                   
+                    <tr>
+                     <td style="width: 200px;">Total Fees (Commissions)</td>
+                <td>&#8358;{{number_format($total_fees,2)}}</td>           
+              </tr>
+              
                 <tr>
                      <td style="width: 200px;">Performance</td>
-                <td>{{$performance}}</td>           
+                <td>{{$performance}} %</td>           
               </tr>
               <tr>
                      <td style="width: 200px;">Occupancy Rate</td>
@@ -200,6 +217,10 @@
               </tr>
             
                     </tbody>
+                     @else
+                    <span>No matching records found</span>
+
+                    @endif
                     @endif
                   </table>
 
