@@ -288,7 +288,7 @@
 
 
 
-         <!--    <li class="dt-side-nav__item {{isset($page) && $page == 'portfolio' ? 'open' : ''}}">
+            <li class="dt-side-nav__item {{isset($page) && $page == 'portfolio' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
                 <i class="icon icon-company icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Portfolio</span> </a>
              
@@ -304,7 +304,7 @@
                 </li>
 
             </ul>
-            </li> -->
+            </li>
 </li>
 
 
