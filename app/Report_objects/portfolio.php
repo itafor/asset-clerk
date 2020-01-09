@@ -1,12 +1,11 @@
 <?php
+
 namespace App\Report_objects;
 
 use App\TenantRent;
 use App\Unit;
 use Illuminate\Support\collection;
-/**
- * 
- */
+
 class Portfolio 
 {
 
