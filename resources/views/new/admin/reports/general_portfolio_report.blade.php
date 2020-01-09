@@ -166,6 +166,7 @@
           
                   <table class="table table-bordered" id="tbl_id">
            @if(isset($portfolio_reportDetails))
+                @if(count($portfolio_reportDetails) >=1)
                     <tbody>
                    <tr>
                      <td style="width: 200px;">Lowest Price</td>
@@ -196,6 +197,10 @@
               </tr>
 
                     </tbody>
+                    @else
+                    <span>No matching records found</span>
+
+                    @endif
                     @endif
                   </table>
 
