@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Report_objects;
+namespace App\ReportObjects;
 
 use App\TenantRent;
 use App\Unit;
