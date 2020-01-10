@@ -283,17 +283,6 @@
                     <a href="{{route('report.landlordreport')}}" class="dt-side-nav__link" title="Landlord Report">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};">Landlord</span> </a>
                 </li>
-
-                 <li class="dt-side-nav__item">
-                    <a href="{{route('report.showgeneralportfolio')}}" class="dt-side-nav__link" title="Portfolio">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};">Portfolio</span> </a>
-                </li>
-
-                <li class="dt-side-nav__item">
-                    <a href="{{route('report.showmyportfolio')}}" class="dt-side-nav__link" title="My Portfolio">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};">My Portfolio</span> </a>
-                </li>
-
             </ul>
             </li>
 
