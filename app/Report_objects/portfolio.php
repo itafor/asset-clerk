@@ -71,7 +71,7 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
                     ->where('assets.city_id',$data['city'])
                     ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.status as rent_payment_status','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
-                    
+
                     return $portfolio_reportDetails;
 
 	}
@@ -168,7 +168,6 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
                    $performance = self::performance($collection_performance,$occupancyRate);
                         }
 
-                  
                   return [
                       'min_amt'=>$min_amt,
                       'max_amt'=>$max_amt,
