@@ -167,53 +167,67 @@
                   <table class="table table-bordered" id="tbl_id">
            @if(isset($portfolio_reportDetails))
              @if(count($portfolio_reportDetails) >=1)
+             <thead>
+               <th>TITLE</th>
+               <th>MY PORTFOLIO</th>
+               <th>GENERAL PORTFOLIO</th>
+             </thead>
                     <tbody>
                 <tr>
-               <td style="width: 200px;">Lowest Price</td>
+               <td style="width: 200px;"><strong>Lowest Price</strong> </td>
                <td>&#8358;{{number_format($min_amt,2)}}</td>
+               <td>&#8358;{{number_format($gen_portfolio_min_amt,2)}}</td>
              </tr>
 
              <tr>
-             <td style="width: 200px;">Highest Price</td>
-             <td>&#8358;{{number_format($max_amt,2)}}
-             </td>
+             <td style="width: 200px;"><strong>Highest Price</strong></td>
+        <td>&#8358;{{number_format($max_amt,2)}}</td>
+        <td>&#8358;{{number_format($gen_portfolio_max_amt,2)}}</td>
            </tr>
 
                     <tr>
-                     <td style="width: 200px;">Average Price</td>
+                     <td style="width: 200px;"><strong>Average Price</strong></td>
                 <td>&#8358;{{number_format($averageAmt,2)}}</td>           
+                <td>&#8358;{{number_format($gen_portfolio_averageAmt,2)}}</td>           
               </tr>
                <tr>
-                     <td style="width: 200px;">Total Property</td>
+                     <td style="width: 200px;"><strong>Total Property</strong></td>
                 <td>{{$property_count}}</td>           
+                <td>{{$gen_portfolio_property_count}}</td>           
               </tr>
                    <tr>
-                     <td style="width: 200px;">Total Rentals</td>
+                     <td style="width: 200px;"><strong>Total Rentals</strong></td>
                      <td>{{$rents_count}}</td>
+                     <td>{{$gen_portfolio_rents_count}}</td>
                    </tr>
 
                      <tr>
-                     <td style="width: 200px;">Total Rental Amount</td>
-                     <td>&#8358;{{number_format($amt_sum,2)}}
-                     </td>
+                     <td style="width: 200px;"><strong>Total Rental Amount</strong></td>
+                     <td>&#8358;{{number_format($amt_sum,2)}}</td>
+                     <td>&#8358;{{number_format($gen_portfolio_amt_sum,2)}}</td>
                    </tr>
                     <tr>
-                     <td style="width: 200px;">Collections (Paid Rentals)</td>
-                <td>&#8358;{{number_format($total_paid_rent,2)}}</td>           
+                     <td style="width: 200px;"><strong>Collections (Paid Rentals)</strong></td>
+                <td>&#8358;{{number_format($total_paid_rent,2)}}</td>
+                <td>&#8358;{{number_format($gen_portfolio_total_paid_rent,2)}}</td>
+
               </tr>
                    
                     <tr>
-                     <td style="width: 200px;">Total Fees (Commissions)</td>
+                     <td style="width: 200px;"><strong>Total Fees (Commissions)</strong></td>
                 <td>&#8358;{{number_format($total_fees,2)}}</td>           
+                <td>&#8358;{{number_format($gen_portfolio_total_fees,2)}}</td>           
               </tr>
               
                 <tr>
-                     <td style="width: 200px;">Performance</td>
+                     <td style="width: 200px;"><strong>Performance</strong></td>
                 <td>{{$performance}} %</td>           
+                <td>{{$gen_portfolio_performance}} %</td>           
               </tr>
               <tr>
-                     <td style="width: 200px;">Occupancy Rate</td>
-                <td>  {{$occupancyRate}} %</td>           
+                     <td style="width: 200px;"><strong>Occupancy Rate</strong></td>
+                <td>  {{$occupancyRate}} %</td>       
+                <td>  {{$gen_portfolio_occupancyRate}} %</td>         
               </tr>
             
                     </tbody>
