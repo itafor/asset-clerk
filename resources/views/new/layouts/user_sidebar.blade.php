@@ -266,22 +266,52 @@
              <!-- Sub-menu -->
             <ul class="dt-side-nav__sub-menu">
                 <li class="dt-side-nav__item">
-                    <a href="{{route('report.assetreport')}}" class="dt-side-nav__link" title="Asset List">
+                    <a href="{{route('report.assetreport')}}" class="dt-side-nav__link" title="Asset Reports">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm " style="color:{{ (Route::current()->getName() == 'report.assetreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.assetreport') ? $active_menu_color : $default_menu_color }};">Asset</span> </a>
                 </li>
                 <li class="dt-side-nav__item">
-                    <a href="{{route('report.rentalreport')}}" class="dt-side-nav__link" title="Asset List">
+                    <a href="{{route('report.rentalreport')}}" class="dt-side-nav__link" title="Rentals Report">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.rentalreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.rentalreport') ? $active_menu_color : $default_menu_color }};">Rental</span> </a>
                 </li>
 
                  <li class="dt-side-nav__item">
-                    <a href="{{route('report.servicechargereport')}}" class="dt-side-nav__link" title="Asset List">
+                    <a href="{{route('report.servicechargereport')}}" class="dt-side-nav__link" title="Service Charge Report">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.servicechargereport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.servicechargereport') ? $active_menu_color : $default_menu_color }};">Service Charge</span> </a>
                 </li>
 
                    <li class="dt-side-nav__item">
-                    <a href="{{route('report.landlordreport')}}" class="dt-side-nav__link" title="Asset List">
+                    <a href="{{route('report.landlordreport')}}" class="dt-side-nav__link" title="Landlord Report">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};">Landlord</span> </a>
+                </li>
+
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('report.showgeneralportfolio')}}" class="dt-side-nav__link" title="Portfolio">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};">Portfolio</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('report.showmyportfolio')}}" class="dt-side-nav__link" title="My Portfolio">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};">My Portfolio</span> </a>
+                </li>
+
+            </ul>
+            </li>
+
+
+
+            <li class="dt-side-nav__item {{isset($page) && $page == 'portfolio' ? 'open' : ''}}">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
+                <i class="icon icon-company icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Portfolio</span> </a>
+             <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+                 <li class="dt-side-nav__item">
+                    <a href="{{route('report.showgeneralportfolio')}}" class="dt-side-nav__link" title="Portfolio">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showgeneralportfolio') ? $active_menu_color : $default_menu_color }};">Portfolio</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                    <a href="{{route('report.showmyportfolio')}}" class="dt-side-nav__link" title="My Portfolio">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.showmyportfolio') ? $active_menu_color : $default_menu_color }};">My Portfolio</span> </a>
                 </li>
 
             </ul>

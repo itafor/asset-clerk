@@ -33,11 +33,6 @@
         var baseUrl = '{{url("/")}}';
     </script>
 
-<!-- datatable with fixedheader -->
- <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css"> -->
-
     <style>
         .select2-selection {
             font-size: 1.4rem !important;
@@ -128,12 +123,6 @@
     <!-- Custom JavaScript -->
     <script src="{{url('assets/js/script.js')}}"></script>
 
-
-<!-- new datatable with fixedheader and footer -->
-<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js
-"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script> -->
 
     <script>
         const toast = swal.mixin({

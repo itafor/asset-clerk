@@ -68,7 +68,7 @@ class Asset extends Model
     {
         
         $asset = self::create([
-            'commission' => $data['commission'],
+            // 'commission' => $data['commission'],
             'description' => $data['description'],
             'landlord_id' => $data['landlord'],
             'country_id' => $data['country'],
@@ -90,7 +90,7 @@ class Asset extends Model
     {
        // dd($data);
         self::where('uuid', $data['uuid'])->update([
-            'commission' => $data['commission'],
+            // 'commission' => $data['commission'],
             'description' => $data['description'],
             'landlord_id' => $data['landlord'],
             'country_id' => $data['country'],
@@ -126,6 +126,7 @@ class Asset extends Model
                 'quantity' => $unit['quantity'],
                 'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
+                'rent_commission' => $unit['rent_commission'],
                 'property_type_id' => $unit['property_type'],
                 'apartment_type' => $unit['apartment_type'],
                 'uuid' => generateUUID(),

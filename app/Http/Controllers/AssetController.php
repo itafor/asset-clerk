@@ -64,6 +64,7 @@ class AssetController extends Controller
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
             'unit.*.apartment_type' => 'required',
+            'unit.*.rent_commission' => 'required',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -72,7 +73,7 @@ class AssetController extends Controller
             'detailed_information' => 'required',
             'features.*' => 'required',
             'photos.*' => 'image',
-            'commission' => 'required|numeric',
+            // 'commission' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -108,7 +109,7 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'commission' => 'required|numeric',
+            // 'commission' => 'required|numeric',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
