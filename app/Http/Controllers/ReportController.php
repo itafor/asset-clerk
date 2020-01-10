@@ -931,16 +931,16 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','tenant_rents.amount as rent_real_amt','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
                     
-                    $min_amt = Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
-                   $max_amt = Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
-                   $averageAmt = Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
-                   $property_count = Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
-                   $rents_count = Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
-                   $occupancyRate = Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
-                   $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
-                   $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
-                   $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
-                   $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
+                    $min_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
                     //general portfolio data
   $general_portfolio_reportDetails = Portfolio::generalPortfolioForAllPropertyTypeAndAllPropertyUsed($data,$start_date,$end_date);
@@ -978,16 +978,16 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
          
-                   $min_amt = Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
-                   $max_amt = Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
-                   $averageAmt = Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
-                   $property_count = Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
-                   $rents_count = Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
-                   $occupancyRate = Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
-                   $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
-                   $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
-                   $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
-                   $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
+                   $min_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
 //general portfolio data
   $general_portfolio_reportDetails =Portfolio::generalPortfolioForAllPropertyType($data,$start_date,$end_date,$property_used);
@@ -1023,16 +1023,16 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
         
-                     $min_amt = Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
-                   $max_amt = Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
-                   $averageAmt = Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
-                   $property_count = Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
-                   $rents_count = Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
-                   $occupancyRate = Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
-                   $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
-                   $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
-                   $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
-                   $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
+                     $min_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
                    //general portfolio data
   $general_portfolio_reportDetails = Portfolio::generalPortfolioForAllPropertyUsed($data,$start_date,$end_date);
@@ -1070,16 +1070,16 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                     ->select('tenant_rents.*','units.*','units.uuid as unitID','pt.*','tenant_rents.amount as rent_real_amt','tenant_rents.status as rent_payment_status','units.rent_commission as rentCommission','tenant_rents.id as rental_id')
                     ->get();
 
-                   $min_amt = Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
-                   $max_amt = Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
-                   $averageAmt = Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
-                   $property_count = Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
-                   $rents_count = Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
-                   $occupancyRate = Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
-                   $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
-                   $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
-                   $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
-                   $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
+                   $min_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['min_amt'];
+                   $max_amt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['max_amt'];
+                   $averageAmt = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['averageAmt'];
+                   $property_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['property_count'];
+                   $rents_count = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['rents_count'];
+                   $occupancyRate = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['occupancyRate'];
+                   $amt_sum = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
+                   $total_fees = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
+                   $total_paid_rent = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance = \App\Report_objects\Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
                    //general portfolio data
                     $general_portfolio_reportDetails = Portfolio::generalPortfolioForAllPropertyUsed($data,$start_date,$end_date);
