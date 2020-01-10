@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
-use App\Report_objects\Portfolio;
+use App\ReportObjects\Portfolio;
 use App\Tenant;
 use App\TenantRent;
 use App\TenantServiceCharge;
