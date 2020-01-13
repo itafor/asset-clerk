@@ -44,7 +44,7 @@
                           <th scope="col">{{ __('Availble Slot') }}</th>
                           <th scope="col">{{ __('Price') }}</th>
                           <th scope="col">{{ __('Name') }}</th>
-                          <!-- <th scope="col">{{ __('Phone') }}</th> -->
+                          <th scope="col">{{ __('Phone') }}</th>
                           <th scope="col">{{ __('Email') }}</th>
                           <th scope="col">{{ __('Status') }}</th>
                           <th scope="col">{{ __('Date Subscribed') }}</th>
@@ -67,7 +67,7 @@
                     @endif
                           <td>&#8358;{{ number_format($p->amount, 2) }}</td>
                           <td>{{ $user->user->firstname }} {{ $user->user->lastname }} </td>
-                         <!--  <td>{{ $user->user->phone }}</td> -->
+                          <td>{{ $user->user->phone }}</td>
                           <td>{{ $user->user->email }}</td>
                           <td>{{ $user->substatus }}</td>
                           <td>{{ \Carbon\Carbon::parse($user->start)->format('d M, Y') }}</td>
