@@ -6,6 +6,7 @@ use App\Asset;
 use App\Jobs\DueRentInNext30DaysNotificationJob;
 use App\Jobs\DueRentInNext90DaysNotificationJob;
 use App\Jobs\NotifyDueRentJob;
+use App\Jobs\NotifyFinalDueRentJob;
 use App\Jobs\PastDueRentNotificationJob;
 use App\Jobs\PlanUpgradeNotificationJob;
 use App\Jobs\RentalCreatedEmailJob;
@@ -278,18 +279,16 @@ public function notifyDueRentAt6Percent()
 
 public function notifyDueRentAt0Percent()
     {
-     $dueRentals = TenantRent::where('renewable', 'yes')
+     $dueRentals = TenantRent::whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0') 
+         // ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0') 
          ->get();
          //dd($dueRentals);
          if($dueRentals){
         foreach($dueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
-             if($renewed_rental){
-                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+            // $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+                 NotifyFinalDueRentJob::dispatch($rental)
             ->delay(now()->addSeconds(5));
-             }
             
         }
         return 'done';
