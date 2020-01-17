@@ -221,7 +221,7 @@ Please fine below your account summary
                                 <th scope="">S/N</th>
                                 <th scope="">Asset</th>
                                 <th scope="">Number of Units</th>
-                                <th scope="">Number of rents</th>
+                                <th scope="">Properties per Unit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -232,7 +232,7 @@ Please fine below your account summary
                   <td>{{$asset->units->count()}}</td>
                   <td>
                     @foreach($asset->units as $unit)
-                    Unit No.({{$loop->iteration}}) : {{$unit->quantity}},
+                    ({{$unit->uuid}}) : {{$unit->quantity}} Property(ies),
               @endforeach
 
                   </td>
