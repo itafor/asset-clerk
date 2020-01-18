@@ -222,17 +222,17 @@ public function viewDetail($uuid){
      */
 public function notifyDueRentAt25Percent()
     {
-     $dueRentals = TenantRent::where('renewable', 'yes')
+     $dueRentals = TenantRent::whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
          ->get();
+
          if($dueRentals){
         foreach($dueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
-             if($renewed_rental){
-                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+             // $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             // if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental)
             ->delay(now()->addSeconds(5));
-             }
+             //}
             
         }
         return 'done';
@@ -241,17 +241,17 @@ public function notifyDueRentAt25Percent()
 
 public function notifyDueRentAt12Percent()
     {
-     $dueRentals = TenantRent::where('renewable', 'yes')
+     $dueRentals = TenantRent::whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (12/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (12/100) ),0)') 
          ->get();
+
          if($dueRentals){
         foreach($dueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
-             if($renewed_rental){
-                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+             // $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             // if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental)
             ->delay(now()->addSeconds(5));
-             }
+             //}
         }
         return 'done';
     }
@@ -259,18 +259,17 @@ public function notifyDueRentAt12Percent()
 
 public function notifyDueRentAt6Percent()
     {
-     $dueRentals = TenantRent::where('renewable', 'yes')
+     $dueRentals = TenantRent::whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (6/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
-         ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (6/100) ),0)') 
          ->get();
          //dd($dueRentals);
          if($dueRentals){
         foreach($dueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
-             if($renewed_rental){
-                 NotifyDueRentJob::dispatch($rental,$renewed_rental)
+             //$renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             //if($renewed_rental){
+                 NotifyDueRentJob::dispatch($rental)
             ->delay(now()->addSeconds(5));
-             }
+             //}
             
         }
         return 'done';
