@@ -15,14 +15,16 @@ class NotifyFinalDueRentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $theRental; 
+    public $defaultRemainingDuration;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($theRental)
+    public function __construct($theRental,$defaultRemainingDuration)
     {
         $this->theRental = $theRental;
+        $this->defaultRemainingDuration = $defaultRemainingDuration;
     }
 
     /**
@@ -33,7 +35,7 @@ class NotifyFinalDueRentJob implements ShouldQueue
     public function handle()
     {
          $toEmail = $this->theRental->tenant->email;
-        Mail::to($toEmail)->send(new NotifyFinalDueRent($this->theRental));
+        Mail::to($toEmail)->send(new NotifyFinalDueRent($this->theRental, $this->defaultRemainingDuration));
 
     }
 }

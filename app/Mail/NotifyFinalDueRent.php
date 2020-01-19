@@ -14,14 +14,17 @@ class NotifyFinalDueRent extends Mailable
     public $rental;
     public $landlord;
     public $companyDetail;
+    public $defaultRemainingDuration;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($rental)
+    public function __construct($rental,$defaultRemainingDuration)
     {
         $this->rental = $rental;
+        $this->defaultRemainingDuration = $defaultRemainingDuration;
         $this->landlord = $rental->unit->getProperty()->landlord;
         $this->companyDetail = comany_detail($rental->user_id);
     }
@@ -34,7 +37,7 @@ class NotifyFinalDueRent extends Mailable
     public function build()
     {
         return $this->view('emails.notify_final_duerent')
-        ->subject('Rent Completely Due Notification')
+        ->subject('Due Rentals Notification')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->cc($this->landlord->email, $this->landlord->name());
     }
