@@ -157,6 +157,7 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
 
 
                     $occupancyRate = 0.0;
+                    $performance_rate = 0.0;
                    if($property_count !=0){
                    $occupancyRate = self::occupancy_rate($rents_count,$property_count);
                         }
