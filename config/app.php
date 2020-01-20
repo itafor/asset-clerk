@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'Input'     => Illuminate\Support\Facades\Input::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+        'Captcha' => 'Mews\Captcha\Facades\Captcha',
     ],
 
 ];

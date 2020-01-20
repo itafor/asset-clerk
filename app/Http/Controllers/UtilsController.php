@@ -286,4 +286,9 @@ if($unitUuid){
         }
         return 'Done';
     }
+
+    public function refreshCaptcha() {
+        
+        return response()->json(['captcha'=>captcha_img()]);
+    }
 }
