@@ -64,7 +64,7 @@ class AssetController extends Controller
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
             'unit.*.apartment_type' => 'required',
-            'unit.*.rent_commission' => 'required',
+            'unit.*.rent_commission' => 'required|numeric',
             'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
@@ -121,6 +121,7 @@ class AssetController extends Controller
             'unit.*.category' => 'required',
             // 'unit.*.quantity' => 'required',
             'unit.*.standard_price' => 'required',
+            'unit.*.rent_commission' => 'required|numeric',
             'unit.*.property_type' => 'required',
             'photos.*' => 'image',
         ]);
