@@ -280,6 +280,7 @@
 
 <script>
     $('.btn-refresh').click(function(){
+        $('#captcha').val('');
        $.ajax({
             url:"{{URL::to('refresh-captcha')}}",
             type: "GET",
