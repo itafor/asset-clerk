@@ -236,7 +236,7 @@
                                     <label class="form-control-label" for="input-standard_price">{{ __('Rent Commission') }}</label>
                                     <input type="number" min="1" name="unit[112211][rent_commission]" id="input-rent_commission" class="form-control {{ $errors->has('rent_commission') ? ' is-invalid' : '' }} rent_commission" placeholder="Enter Rent Commission" value="{{old('rent_commission')}}" required>
 
-                                    @if ($errors->has('standard_price'))
+                                    @if ($errors->has('rent_commission'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('rent_commission') }}</strong>
                                         </span>

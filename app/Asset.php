@@ -145,6 +145,7 @@ class Asset extends Model
                 // $u->quantity = $unit['quantity'];
                 $u->apartment_type = $unit['apartment_type'];
                 $u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
+                $u->rent_commission = $unit['rent_commission'];
                 $u->save();
             }
             else{
@@ -157,6 +158,7 @@ class Asset extends Model
                     'standard_price' => $unit['standard_price'],
                     'property_type_id' => $unit['property_type'],
                     'apartment_type' => $unit['apartment_type'],
+                    'rent_commission' => $unit['rent_commission'],
                     'uuid' => generateUUID(),
                 ]);
             }
