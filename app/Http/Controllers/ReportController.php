@@ -940,7 +940,9 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
                    $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
                    $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance_rate = Portfolio::portfolioData($portfolio_reportDetails)['performance_rate'];
                    $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
+
 
                     //general portfolio data
   $general_portfolio_reportDetails = Portfolio::generalPortfolioForAllPropertyTypeAndAllPropertyUsed($data,$start_date,$end_date);
@@ -954,6 +956,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $gen_portfolio_amt_sum = Portfolio::portfolioData($general_portfolio_reportDetails)['amt_sum'];
                    $gen_portfolio_total_fees = Portfolio::portfolioData($general_portfolio_reportDetails)['total_fees'];
                    $gen_portfolio_total_paid_rent = Portfolio::portfolioData($general_portfolio_reportDetails)['total_paid_rent'];
+                   $gen_performance_rate = Portfolio::portfolioData($general_portfolio_reportDetails)['performance_rate'];
                    $gen_portfolio_performance = Portfolio::portfolioData($general_portfolio_reportDetails)['performance'];
 
       $start_date = $start_date;
@@ -963,7 +966,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
       $propertyUsed = $property_used;
       $propertyType = $data['property_type'];
-        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance'));
+        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance','performance_rate','gen_performance_rate'));
 
                     }else if($data['property_type'] =='All' && $property_used !='All'){
                   $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
@@ -987,6 +990,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
                    $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
                    $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance_rate = Portfolio::portfolioData($portfolio_reportDetails)['performance_rate'];
                    $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
 //general portfolio data
@@ -1000,6 +1004,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $gen_portfolio_amt_sum = Portfolio::portfolioData($general_portfolio_reportDetails)['amt_sum'];
                    $gen_portfolio_total_fees = Portfolio::portfolioData($general_portfolio_reportDetails)['total_fees'];
                    $gen_portfolio_total_paid_rent = Portfolio::portfolioData($general_portfolio_reportDetails)['total_paid_rent'];
+                   $gen_performance_rate = Portfolio::portfolioData($general_portfolio_reportDetails)['performance_rate'];
                    $gen_portfolio_performance = Portfolio::portfolioData($general_portfolio_reportDetails)['performance'];
       $start_date = $start_date;
       $end_date = $end_date;
@@ -1008,7 +1013,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
       $propertyUsed = $property_used;
       $propertyType = $data['property_type'];
-        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance'));
+        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance','performance_rate','gen_performance_rate'));
 
                     }else if($data['property_type'] !='All' && $property_used =='All'){
                   $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_rents.asset_uuid')
@@ -1032,6 +1037,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
                    $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
                    $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance_rate = Portfolio::portfolioData($portfolio_reportDetails)['performance_rate'];
                    $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
                    //general portfolio data
@@ -1045,6 +1051,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $gen_portfolio_amt_sum = Portfolio::portfolioData($general_portfolio_reportDetails)['amt_sum'];
                    $gen_portfolio_total_fees = Portfolio::portfolioData($general_portfolio_reportDetails)['total_fees'];
                    $gen_portfolio_total_paid_rent = Portfolio::portfolioData($general_portfolio_reportDetails)['total_paid_rent'];
+                   $gen_performance_rate = Portfolio::portfolioData($general_portfolio_reportDetails)['performance_rate'];
                    $gen_portfolio_performance = Portfolio::portfolioData($general_portfolio_reportDetails)['performance'];
        $start_date = $start_date;
       $end_date = $end_date;
@@ -1053,7 +1060,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
       $propertyUsed = $property_used;
       $propertyType = $data['property_type'];
-        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance'));
+        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','performance','total_paid_rent','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance','performance_rate','gen_performance_rate'));
 
                     }else{
 
@@ -1079,6 +1086,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $amt_sum = Portfolio::portfolioData($portfolio_reportDetails)['amt_sum'];
                    $total_fees = Portfolio::portfolioData($portfolio_reportDetails)['total_fees'];
                    $total_paid_rent = Portfolio::portfolioData($portfolio_reportDetails)['total_paid_rent'];
+                   $performance_rate = Portfolio::portfolioData($portfolio_reportDetails)['performance_rate'];
                    $performance = Portfolio::portfolioData($portfolio_reportDetails)['performance'];
 
                    //general portfolio data
@@ -1093,6 +1101,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
                    $gen_portfolio_amt_sum = Portfolio::portfolioData($general_portfolio_reportDetails)['amt_sum'];
                    $gen_portfolio_total_fees = Portfolio::portfolioData($general_portfolio_reportDetails)['total_fees'];
                    $gen_portfolio_total_paid_rent = Portfolio::portfolioData($general_portfolio_reportDetails)['total_paid_rent'];
+                   $gen_performance_rate = Portfolio::portfolioData($general_portfolio_reportDetails)['performance_rate'];
                    $gen_portfolio_performance = Portfolio::portfolioData($general_portfolio_reportDetails)['performance'];
 
 
@@ -1103,7 +1112,7 @@ return view('new.admin.reports.service_charge_report',compact('start_date','end_
       $city =  DB::table('cities')->where('id',$data['city'])->select('id','name')->first();
       $propertyUsed = $property_used;
       $propertyType = $data['property_type'];
-        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','total_paid_rent','performance','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance'));
+        return view('new.admin.reports.my_portfolio_report',compact('portfolio_reportDetails','start_date','end_date','country','state','city','propertyType','propertyUsed','min_amt','max_amt','averageAmt','property_count','rents_count','occupancyRate','amt_sum','total_fees','total_paid_rent','performance','gen_portfolio_min_amt','gen_portfolio_max_amt','gen_portfolio_averageAmt','gen_portfolio_property_count','gen_portfolio_rents_count','gen_portfolio_occupancyRate','gen_portfolio_amt_sum','gen_portfolio_total_fees','gen_portfolio_total_paid_rent','gen_portfolio_performance','performance_rate','gen_performance_rate'));
                     }
 
     }
