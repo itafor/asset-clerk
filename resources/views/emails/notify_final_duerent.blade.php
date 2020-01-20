@@ -167,7 +167,7 @@ Dear {{$rental->unit->getTenant()->firstname}},<br/>
 @else
   We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}
 @endif
-<br/> Please find below rental information.</em>
+<br/> Please find below rental details.</em>
                                 </p>
                             </td>
                         </tr>
@@ -245,74 +245,7 @@ Dear {{$rental->unit->getTenant()->firstname}},<br/>
        </tbody>
                   </table>
 
-        <h4>NEW RENT DETAILS AND PRICE</h4>
-        <table class="table table-bordered" id="rental_table">
-           
-                    <tbody>
-
-                   <tr>
-                     <td class="rent_title">PROPERTY</td>
-                     <td> {{$renewed_rental->asset ? $renewed_rental->asset->description : ''}}
-                     - {{$renewed_rental->unit->category->name}} Bedroom</td>
-                   </tr>
-
-                     <tr>
-                     <td class="rent_title">PRICE</td>
-                     <td>&#8358; {{number_format($renewed_rental->amount,2)}}</td>
-                   </tr>
-
-                    <tr>
-                     <td class="rent_title">RENT DURATION</td>
-                <td>{{$renewed_rental->duration}}</td>           
-              </tr>
-
-                 <tr>
-                     <td class="rent_title">START DATE</td>
-                     <td>{{ \Carbon\Carbon::parse($renewed_rental->startDate)->format('d M Y')}}</td>
-                </tr>
-
-                 <tr>
-                     <td class="rent_title">DUE DATE</td>
-                     <td>
-                      
-                     {{getNextRentPayment($renewed_rental)['due_date']}}
-                    
-                    </td>
-                </tr>
-
-                 <tr>
-                     <td class="rent_title">DATE CREATED</td>
-                      <td>
-     {{ \Carbon\Carbon::parse($renewed_rental->created_at)->format('d M Y')}}
-                        </td>
-                </tr>
-                <tr>
-                     <td class="rent_title">PAYMENT STATUS</td>
-                      <td>
-                           @if ($renewed_rental->status == 'Partly paid' )
-                           <span style="color: brown">{{$renewed_rental->status}}</span>
-
-                           @elseif($renewed_rental->status == 'Paid')
-                           <span style="color: green">{{$renewed_rental->status}}</span> 
-
-                            @else
-                           <span style="color: red">{{$renewed_rental->status}}</span>
-                           @endif
-                          </td>
-
-                </tr>
-                <tr>
-                     <td class="rent_title">RENEWABLE STATUS</td>
-                     
-                           @if($renewed_rental->renewable == 'yes')
-                            <td style="color: green"> Renewable</td>
-                           @else
-                            <td style="color: red">Not Renewable</td>
-                           @endif
-
-                </tr>
-       </tbody>
-                  </table>
+        
 
 
 <br><br>

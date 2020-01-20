@@ -218,17 +218,22 @@
                 <td>&#8358;{{number_format($total_fees,2)}}</td>           
                 <td>&#8358;{{number_format($gen_portfolio_total_fees,2)}}</td>           
               </tr>
-              
                 <tr>
-                     <td style="width: 200px;"><strong>Performance</strong></td>
-                <td>{{$performance}} %</td>           
-                <td>{{$gen_portfolio_performance}} %</td>           
-              </tr>
-              <tr>
                      <td style="width: 200px;"><strong>Occupancy Rate</strong></td>
                 <td>  {{$occupancyRate}} %</td>       
                 <td>  {{$gen_portfolio_occupancyRate}} %</td>         
               </tr>
+                <tr>
+                     <td style="width: 200px;"><strong>Performance Rate</strong></td>
+                <td>  {{$performance_rate}} %</td>       
+                <td>  {{$gen_performance_rate}} %</td>         
+              </tr>
+                <tr>
+                     <td style="width: 200px;"><strong>Performance Index</strong></td>
+                <td>{{$performance}} %</td>           
+                <td>{{$gen_portfolio_performance}} %</td>           
+              </tr>
+            
             
                     </tbody>
                      @else
