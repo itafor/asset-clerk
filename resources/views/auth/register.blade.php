@@ -168,7 +168,7 @@
                         </div>
                         <!-- /form group -->
 
-                         <!-- Form Group -->
+                         <!-- Form Group captcha -->
                         <div class="form-group{{ $errors->has('captcha') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="captcha">Captcha</label>
                             <div class="captcha">
