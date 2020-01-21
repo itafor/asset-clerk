@@ -172,7 +172,7 @@
                         <div class="form-group{{ $errors->has('captcha') ? ' has-danger' : '' }}">
                             <label class="sr-only" for="captcha">Captcha</label>
                             <div class="captcha">
-                                <span>{!!  captcha_img() !!}</span>
+                                <span>{!!  Captcha::img('inverse') !!}</span>
                                 <button type="button" class="btn btn-success btn-refresh">Refresh</button>
                             </div>
                           <input type="text" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}"
