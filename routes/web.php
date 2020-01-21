@@ -253,6 +253,8 @@ Route::get('fetch-tenant-asset/{tenant}', 'UtilsController@fetchTenantAsset');
 Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateSelectedPaymentDate');
 });
 
+//captcha routes
+Route::get('refresh-captcha','UtilsController@refreshCaptcha')->name('catpcha.refresh');
 //cron job's routes
 Route::get('notify-due-rent-at25percent', 'RentalController@notifyDueRentAt25Percent');
 Route::get('notify-due-rent-at12percent', 'RentalController@notifyDueRentAt12Percent');
