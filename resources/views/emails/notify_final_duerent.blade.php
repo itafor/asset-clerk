@@ -82,10 +82,7 @@
 #rental_table .rent_title{
   width: 150px;
 }
-#rental_table td, #rental_table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
+
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {
@@ -127,11 +124,14 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                          <td>
+                            @if(getUserPlan($rental->user_id)['details']->name == 'Free')
                             <a href="http://assetclerk.com/">
-                        <img src="{{ asset('img/logo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
+                        <img src="{{ asset('img/companydefaultlogo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
                             </a> 
-                            </td>
+                            @else
+                              @include('new.layouts.email_logo')
+                            @endif
+                            
                             <td style="text-align:right">
                                 
                             </td>
@@ -143,16 +143,31 @@
             <tr class="information">
                 <td colspan="2">
                     <table>
+                        <tr>
+                            <td>
+                                <b>Address:</b><br>
+                               {{$rental->unit->getTenant()->address}}
+                            </td>
+                            
+                            <td style="text-align:right">
+                              <strong> Name:</strong> {{$rental->unit->getTenant()->name()}} <br>
+                              <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
+                            </td>
+                        </tr>
+                       
                           <tr>
                             <td colspan="2">
 
                                 <p>
                                 
-Dear {{$user->firstname}} {{$user->lastname}},<br/>
-
-Please fine below your account summary
-
-<br/> </em>
+Dear {{$rental->unit->getTenant()->firstname}},<br/>
+<em>
+ @if($defaultRemainingDuration == 0)
+   We wish to notify you that your current rent is due. Renew you rent as soon as possible.
+@else
+  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}
+@endif
+<br/> Please find below rental details.</em>
                                 </p>
                             </td>
                         </tr>
@@ -160,91 +175,81 @@ Please fine below your account summary
                 </td>
             </tr>
         </table>
-  <h4>ACCOUNT SUMMARY</h4>
+
+<h4>CURRENT RENT DETAILS </h4> 
         <table class="table table-bordered" id="rental_table">
            
                     <tbody>
-                      <tr>
-                     <td class="rent_title">Plan</td>
-                     <td>
-                    
-        {{getSubscriptionByUUid($subs->plan_id)->name}}
-                   
-                     </td>
-                   </tr>
 
                    <tr>
-                     <td class="rent_title">Total Slot</td>
-                     <td>
-                     @if (getSlots($user->id)['totalSlots'] == 'Unlimited')
-                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{getSlots()['totalSlots']}}</h2>
-                    @else
-                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots($user->id)['totalSlots'])}}</h2>
-                    @endif
-                     </td>
+                     <td class="rent_title">PROPERTY</td>
+                     <td> {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom</td>
                    </tr>
 
                      <tr>
-                     <td class="rent_title">Slot used</td>
-                     <td> 
-                      <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getTotalAssets($user->id))}}</h2>
-                     </td>
+                     <td class="rent_title">PRICE</td>
+                     <td>&#8358; {{number_format($rental->amount,2)}}</td>
                    </tr>
-
 
                     <tr>
-                     <td class="rent_title">Available Slot</td>
-                <td>
-                   @if (getSlots($user->id)['availableSlots'] == 'Unlimited')
-                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{getSlots($user->id)['availableSlots']}}</h2>
-                    @else
-                        <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getSlots($user->id)['availableSlots'])}}</h2>
-                    @endif
-                </td>           
+                     <td class="rent_title">RENT DURATION</td>
+                <td>{{$rental->duration}}</td>           
               </tr>
-              <tr>
-                <td>Number of Landlords</td>
-                <td>{{$landlord}}</td>
-              </tr>
-              <tr>
-                <td>Number of Tenants</td>
-                <td>{{$tenant}}</td>
-              </tr>
-              
-             
+
+                 <tr>
+                     <td class="rent_title">START DATE</td>
+                     <td>{{ \Carbon\Carbon::parse($rental->startDate)->format('d M Y')}}</td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DUE DATE</td>
+                     <td>
+                      
+                     {{getNextRentPayment($rental)['due_date']}}
+                    
+                    </td>
+                </tr>
+
+                 <tr>
+                     <td class="rent_title">DATE CREATED</td>
+                      <td>
+     {{ \Carbon\Carbon::parse($rental->created_at)->format('d M Y')}}
+                        </td>
+                </tr>
+                 <tr>
+                     <td class="rent_title">PAYMENT STATUS</td>
+                      <td>
+                           @if ($rental->status == 'Partly paid' )
+                           <span style="color: brown">{{$rental->status}}</span>
+
+                           @elseif($rental->status == 'Paid')
+                           <span style="color: green">{{$rental->status}}</span> 
+
+                            @else
+                           <span style="color: red">{{$rental->status}}</span>
+                           @endif
+                          </td>
+
+                </tr>
+                <tr>
+                     <td class="rent_title">RENEWABLE STATUS</td>
+                     
+                           @if($rental->renewable == 'yes')
+                            <td style="color: green"> Renewable</td>
+                           @else
+                            <td style="color: red">Not Renewable</td>
+                           @endif
+
+                </tr>
+               
        </tbody>
                   </table>
-                  <h2>ASSET SUMMARY</h2>
-      <table class="table table-bordered" id="rental_table">
-                        <thead>
-                            <tr>
-                                <th scope="">S/N</th>
-                                <th scope="">Asset</th>
-                                <th scope="">Number of Units</th>
-                                <th scope="">Properties per Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                 @foreach($assets as $asset)
-                                    <tr>
-                  <td>{{$loop->iteration}}</td>
-                  <td>{{$asset->description}}</td>
-                  <td>{{$asset->units->count()}}</td>
-                  <td>
-                    @foreach($asset->units as $unit)
-                    ({{$unit->uuid}}) : {{$unit->quantity}} Property(ies),
-              @endforeach
 
-                  </td>
-                   </tr>
-              @endforeach
-                        </tbody>
-                    </table>
-
+        
 
 
 <br><br>
-                   
+                    @include('new.layouts.poweredby')
     </div>
 </body>
 </html>

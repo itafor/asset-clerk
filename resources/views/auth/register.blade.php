@@ -89,7 +89,7 @@
                 <div class="dt-login__content-inner">
                     <h2 class="dt-login__title text-black-50">Sign Up</h2>
                     <!-- Form -->
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" autocomplete="false">
                     @csrf
                     <!-- Form Group -->
                         <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}">
@@ -165,6 +165,23 @@
                             <input type="password"
                                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                    name="password_confirmation" required placeholder="Confirm Password">
+                        </div>
+                        <!-- /form group -->
+
+                         <!-- Form Group captcha -->
+                        <div class="form-group{{ $errors->has('captcha') ? ' has-danger' : '' }}">
+                            <label class="sr-only" for="captcha">Captcha</label>
+                            <div class="captcha">
+                                <span>{!!  Captcha::img() !!}</span>
+                                <button type="button" class="btn btn-success btn-refresh">Refresh</button>
+                            </div>
+                          <input type="text" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}"
+                                   name="captcha" id="captcha" placeholder="Type the above word " autocomplete="off">
+                                    @if ($errors->has('captcha'))
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ $errors->first('captcha') }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <!-- /form group -->
 
@@ -261,5 +278,18 @@
 <!-- Custom JavaScript -->
 <script src="{{url('assets/js/script.js')}}"></script>
 
+<script>
+    $('.btn-refresh').click(function(){
+        $('#captcha').val('');
+       $.ajax({
+            url:"{{URL::to('refresh-captcha')}}",
+            type: "GET",
+            success: function(data){
+                console.log(data.captcha)
+                $('.captcha span').html(data.captcha);
+            }
+        })
+    })
+</script>
 </body>
 </html>

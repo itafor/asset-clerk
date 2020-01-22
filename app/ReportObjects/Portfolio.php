@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Report_objects;
+namespace App\ReportObjects;
 
 use App\TenantRent;
 use App\Unit;
@@ -98,9 +98,9 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
         return $final_commission;
     }
 
-    public static function performance($collection_performance,$occupancyRate)
+    public static function performance($performance_rate,$occupancyRate)
     {
-        $performant= ($collection_performance + $occupancyRate);
+        $performant= ($performance_rate + $occupancyRate);
        $final_performant= round($performant/2,2);
         return $final_performant;
     }
@@ -157,14 +157,15 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
 
 
                     $occupancyRate = 0.0;
+                    $performance_rate = 0.0;
                    if($property_count !=0){
                    $occupancyRate = self::occupancy_rate($rents_count,$property_count);
                         }
 
                    if($property_count !=0 && $rents_count !=0){
-                    $collection_performance = ($total_paid_rent/$amt_sum) * 100;
+                    $performance_rate = round(($total_paid_rent/$amt_sum) * 100,2) ;
 
-                   $performance = self::performance($collection_performance,$occupancyRate);
+                   $performance = self::performance($performance_rate,$occupancyRate);
                         }
 
                   return [
@@ -177,6 +178,7 @@ $portfolio_reportDetails = TenantRent::join('assets','assets.uuid','=','tenant_r
                       'amt_sum'=>$amt_sum,
                       'total_fees'=>$total_fees,
                       'total_paid_rent'=>$total_paid_rent,
+                      'performance_rate'=>$performance_rate,
                       'performance'=>$performance,
                   ];
     }

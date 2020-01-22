@@ -161,8 +161,12 @@
                                 <p>
                                 
 Dear {{$rental->unit->getTenant()->firstname}},<br/>
-
- <em>  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}
+<em>
+ @if($defaultRemainingDuration == 0)
+   We wish to notify you that your current rent is due. Renew you rent as soon as possible.
+@else
+  We wish to notify you that your rent will be due on {{getNextRentPayment($rental)['due_date']}}
+@endif
 <br/> Please find below rental information.</em>
                                 </p>
                             </td>

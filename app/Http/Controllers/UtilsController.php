@@ -279,11 +279,14 @@ if($unitUuid){
             $landlord = Landlord::where('landlords.user_id',$user->id)->count();
             $tenant = Tenant::where('tenants.user_id',$user->id)->count();
             $assets = Asset::where('assets.user_id',$user->id)->get();
-            //dd($assets);
                 PortfolioSummaryJob::dispatch($user,$subs,$landlord,$tenant,$assets)
             ->delay(now()->addSeconds(5));
             }
         }
         return 'Done';
+    }
+
+    public function refreshCaptcha() {
+        return response()->json(['captcha'=>captcha_img()]);
     }
 }
