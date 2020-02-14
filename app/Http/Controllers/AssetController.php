@@ -40,7 +40,7 @@ class AssetController extends Controller
     {
         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
          ->where('assets.user_id', getOwnerUserID())
-         ->where('status', 1)
+         ->where('asset_service_charges.status', 1)
          ->with('asset')
          ->select('asset_service_charges.*')
          ->get();
@@ -505,7 +505,7 @@ public function tenantsServiceCharge($id){
   public function  AssetServiceCharges($assetId){
      $charges = AssetServiceCharge::with('asset','serviceCharge')
             ->where('user_id',getOwnerUserID())
-            ->where('status',1)
+            ->where('asset_service_charges.status',1)
             ->where('asset_id',$assetId)
             ->orderBy('created_at','desc')->get();
     $asset = Asset::find($assetId);
@@ -515,14 +515,16 @@ public function tenantsServiceCharge($id){
     }
 
     public function checkAvailableSlot($request){
+        //$asset = $request->all();
+        $totalAsset = $request->default_quantity;
 
-     $units = $request->unit ? $request->unit : $request->all;
-     $totalUnit = 0;
-       foreach ($units as $key => $unit) {
-            $totalUnit += $unit['quantity'];
-       }
+     // $units = $request->unit ? $request->unit : $request->all;
+     // $totalUnit = 0;
+     //   foreach ($units as $key => $unit) {
+     //        $totalUnit += $unit['quantity'];
+     //   }
 
-       if( $totalUnit > (int)getSlots()['availableSlots']){
+       if( $totalAsset > (int)getSlots()['availableSlots']){
          return false;
        }else{
         return true;

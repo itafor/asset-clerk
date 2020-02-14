@@ -20,9 +20,10 @@
                     <div class="card-body">
                         <form method="post" action="{{ route('asset.store') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
-                            
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="pl-lg-4">
+                            <input type="text" name="default_quantity" value="1">
+                                
                                 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Description') }}</label>
                                     <textarea rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Description') }}" required autofocus>{{ old('description') }}</textarea>

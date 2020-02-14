@@ -36,6 +36,8 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="row">
+                            <input type="text" name="default_quantity" value="1">
+                                
                                 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-name">{{ __('Property Name') }}</label>
                                     <textarea rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Name') }}" required autofocus>{{ old('description') }}</textarea>

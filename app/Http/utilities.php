@@ -80,9 +80,12 @@ function getTotalAssets($user_id ='')
 {
     //return Asset::where('user_id', getOwnerUserID())->count();
     $userId = $user_id !='' ? $user_id : getOwnerUserID();
-    return Unit::where('user_id', $userId)
-            ->where('plan_id', activePlanId($userId))
-            ->sum('quantity');
+    return Asset::where('user_id', $userId)
+    ->where('slot_plan_id', activePlanId($userId))->count();
+
+    // return Unit::where('user_id', $userId)
+    //         ->where('plan_id', activePlanId($userId))
+    //         ->sum('quantity');
 }
 
 function getSlots($user_id ='')

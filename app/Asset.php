@@ -32,6 +32,9 @@ class Asset extends Model
         'bathrooms',
         'uuid', 'construction_year',
         'user_id',
+        'status',
+        'plan_id',
+        'slot_plan_id'
     ];
 
     public function Tenant(){
@@ -67,6 +70,8 @@ class Asset extends Model
     public static function createNew($data)
     {
         
+        $getActivePlan =  activePlanId(getOwnerUserID());
+
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
@@ -79,7 +84,10 @@ class Asset extends Model
             'construction_year' => $data['construction_year'],
             'features' => isset($data['features']) ? implode(',',$data['features']) : null,
             'uuid' => generateUUID(),
-            'user_id' => getOwnerUserID()
+            'user_id' => getOwnerUserID(),
+            'plan_id' => $getActivePlan,
+            'slot_plan_id' => $getActivePlan,
+
         ]); 
 
         self::createUnit($data,$asset);

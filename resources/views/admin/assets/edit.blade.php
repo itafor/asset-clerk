@@ -21,6 +21,7 @@
                         <form method="post" action="{{ route('asset.update') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="uuid" value="{{$asset->uuid}}">
+                            <input type="text" name="default_quantity" value="1">
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="pl-lg-4">
