@@ -241,7 +241,8 @@ Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
 Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
 Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
-Route::get('fetch-tenants-added-to-assetunit/{unit_uuid}', 'UtilsController@fetchTenantAddedToUnit');
+Route::get('fetch-tenants-added-to-asset/{asset_uuid}', 'UtilsController@fetchTenantAddedToAsset');
+Route::get('check-occupied-assets/{asset_uuid}', 'UtilsController@checkOccupiedAsset');
 
 Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 Route::get('fetch-service-charge-by-property/{property}', 'UtilsController@fetchServiceChargeByProperty');

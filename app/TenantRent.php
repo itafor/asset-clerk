@@ -40,6 +40,10 @@ class TenantRent extends Model
     {
         return $this->belongsTo(User::class,'user_id', 'id');
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'property_type','id');
+    }
 
     public static function createNew($data)
     {
@@ -59,7 +63,7 @@ class TenantRent extends Model
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
-            'unit_uuid' => $data['unit'],
+            // 'unit_uuid' => $data['unit'],
             'price' => $data['price'],
             'amount' => $data['amount'],
             'balance' => $data['amount'],

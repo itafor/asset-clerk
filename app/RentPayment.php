@@ -43,7 +43,7 @@ class RentPayment extends Model
     			'uuid' =>  generateUUID(),
     			'tenant_uuid' => $data['tenant_uuid'],
     			'asset_uuid' => $data['asset_uuid'],
-    			'unit_uuid' => $data['unit_uuid'],
+    			// 'unit_uuid' => $data['unit_uuid'],
     			'tenantRent_uuid' => $data['tenantRent_uuid'],
     			'proposed_amount' => $data['proposed_amount'],
     			'actual_amount' => $data['actual_amount'],

@@ -289,7 +289,7 @@ $(document).ready(function(){
             }
         });
         
-        $('#input-unit').change(function(){
+        $('#input-property').change(function(){
             var unit = $(this).val();
             if(unit){
                 var price = $(this).find(':selected').attr('data-price')
@@ -297,6 +297,34 @@ $(document).ready(function(){
             }
             else{
                 $('#input_price').val('');
+            }
+        });
+
+        //Check if a property is occupied
+        $('.occupiedProperty').change(function(){
+            var property = $(this).val();
+            //alert(property);
+            if(property){
+                // $('#input-unit').empty();
+                // $('<option>').val('').text('Loading...').appendTo('#input-unit');
+                $.ajax({
+                    url: baseUrl+'/check-occupied-assets/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                       if(data !=''){
+                         toast({
+                        type: 'warning',
+                        title: 'The selected property has been occupied by ('+ data.firstname+' '+ data.lastname +') '
+                    })
+                 $('<option>').attr('selected', true).val('').text('Select property').appendTo('.occupiedProperty');
+
+                       }
+                    }
+                });
+            }
+            else{
+                
             }
         });
 

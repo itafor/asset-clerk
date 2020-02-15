@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Asset;
 use App\TenantDocument;
 use App\TenantProperty;
 use App\Unit;
@@ -145,20 +146,20 @@ public static function assignTenantToProperty($data){
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
             'property_uuid' => $data['property'],
-            'unit_uuid' => $data['unit'],
-            'property_proposed_pice' => $data['price'],
+            // 'unit_uuid' => $data['unit'],
+            // 'property_proposed_pice' => $data['price'],
             'tenant_uuid' => $data['tenant']
     ]);
 
-    self::reduceUnit($data);
+    self::markAssetAsOccupied($data);
 }
 
 
-public static function reduceUnit($data)
+public static function markAssetAsOccupied($data)
     {
-        $unit = Unit::where('uuid', $data['unit'])->first();
-        $unit->quantity_left -= 1;
-        $unit->save();
+        $asset = Asset::where('uuid', $data['property'])->first();
+        $asset->status = 'Occupied';
+        $asset->save();
          // $unit->quantity_left = $unit->quantity_left >=1 ? $unit->quantity_left-1 : $unit->quantity_left-0;
     }
 }

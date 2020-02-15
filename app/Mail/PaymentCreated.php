@@ -24,7 +24,7 @@ class PaymentCreated extends Mailable
     public function __construct(RentPayment $payment)
     {
         $this->payment = $payment;
-        $this->landlord = $payment->unitt->getProperty()->landlord;
+        $this->landlord = $payment->asset->Landlord ? $payment->asset->Landlord : '';
         $this->companyDetail = comany_detail($payment->user_id);
     }
 
@@ -38,6 +38,6 @@ class PaymentCreated extends Mailable
         return $this->view('emails.payment')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Rent Payment Notification')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->cc($this->landlord != '' ? $this->landlord->email:'noreply@assetclerk.com', $this->landlord != '' ?  $this->landlord->name() : 'Asset clerk');
     }
 }

@@ -19,7 +19,7 @@ class Asset extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'description', 'category_id', 'quantity_added','quantity_left ','price',
+        'description', 'category_id', 'quantity_added','quantity_left ','price','property_type',
         'address','agent_id','country', 'state', 'features',
         'quantity_occupied', 'commission',
         'landlord_id',
@@ -75,14 +75,16 @@ class Asset extends Model
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'landlord_id' => $data['landlord'],
+            // 'landlord_id' => $data['landlord'],
+            'price' => $data['asking_price'],
+            'property_type' => $data['property_type'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
-            'detailed_information' => $data['detailed_information'],
+            // 'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'construction_year' => $data['construction_year'],
-            'features' => isset($data['features']) ? implode(',',$data['features']) : null,
+            // 'construction_year' => $data['construction_year'],
+            // 'features' => isset($data['features']) ? implode(',',$data['features']) : null,
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
             'plan_id' => $getActivePlan,
@@ -90,32 +92,34 @@ class Asset extends Model
 
         ]); 
 
-        self::createUnit($data,$asset);
-        self::addPhoto($data,$asset); 
+        // self::createUnit($data,$asset);
+        // self::addPhoto($data,$asset); 
     }
 
     public static function updateAsset($data)
     {
-       // dd($data);
+        // dd($data);
         self::where('uuid', $data['uuid'])->update([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'landlord_id' => $data['landlord'],
+            'price' => $data['asking_price'],
+            'property_type' => $data['property_type'],
+            // 'landlord_id' => $data['landlord'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
-            'detailed_information' => $data['detailed_information'],
+            // 'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'construction_year' => $data['construction_year'],
-            'features' => implode(',',$data['features'])
+            // 'construction_year' => $data['construction_year'],
+            // 'features' => implode(',',$data['features'])
         ]); 
 
-        $asset = self::where('uuid', $data['uuid'])->first();
+        // $asset = self::where('uuid', $data['uuid'])->first();
 
-        if(isset($data['photos'])){
-            self::addPhoto($data,$asset);
-        }
-        self::updateUnits($data,$asset);
+        // if(isset($data['photos'])){
+        //     self::addPhoto($data,$asset);
+        // }
+        // self::updateUnits($data,$asset);
     }
 
     public static function removeUnits($asset)

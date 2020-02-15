@@ -51,7 +51,7 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-
+        // dd($request->all());
       if(!$this->checkAvailableSlot($request)){
             return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
             }
@@ -59,20 +59,22 @@ class AssetController extends Controller
         chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'unit.*.category' => 'required',
-            'unit.*.quantity' => 'required',
-            'unit.*.standard_price' => 'required',
-            'unit.*.property_type' => 'required',
-            'unit.*.apartment_type' => 'required',
-            'unit.*.rent_commission' => 'required|numeric',
-            'landlord' => 'required',
+            'property_type' => 'required',
+            'asking_price' => 'required',
+            // 'unit.*.category' => 'required',
+            // 'unit.*.quantity' => 'required',
+            // 'unit.*.standard_price' => 'required',
+            // 'unit.*.property_type' => 'required',
+            // 'unit.*.apartment_type' => 'required',
+            // 'unit.*.rent_commission' => 'required|numeric',
+            // 'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'address' => 'required',
-            'detailed_information' => 'required',
-            'features.*' => 'required',
-            'photos.*' => 'image',
+            // 'detailed_information' => 'required',
+            // 'features.*' => 'required',
+            // 'photos.*' => 'image',
             // 'commission' => 'required|numeric',
         ]);
 
@@ -109,21 +111,23 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'description' => 'required',
+            'property_type' => 'required',
+            'asking_price' => 'required',
             // 'commission' => 'required|numeric',
-            'landlord' => 'required',
+            // 'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'address' => 'required',
-            'detailed_information' => 'required',
-            'features.*' => 'required',
-            'uuid' => 'required',
-            'unit.*.category' => 'required',
+            // 'detailed_information' => 'required',
+            // 'features.*' => 'required',
+            // 'uuid' => 'required',
+            // 'unit.*.category' => 'required',
             // 'unit.*.quantity' => 'required',
-            'unit.*.standard_price' => 'required',
-            'unit.*.rent_commission' => 'required|numeric',
-            'unit.*.property_type' => 'required',
-            'photos.*' => 'image',
+            // 'unit.*.standard_price' => 'required',
+            // 'unit.*.rent_commission' => 'required|numeric',
+            // 'unit.*.property_type' => 'required',
+            // 'photos.*' => 'image',
         ]);
 
         if ($validator->fails()) {

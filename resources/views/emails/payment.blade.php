@@ -139,12 +139,13 @@
                         <tr>
                             <td>
                                 <b>Address:</b><br>
-                               {{$payment->unitt->getTenant()->address}}
+                               {{$payment->get_tenant->address}}
                             </td>
                             
                             <td style="text-align:right">
-                                {{$payment->unitt->getTenant()->name()}} <br>
-                                {{$payment->unitt->getTenant()->email}}
+                                {{$payment->get_tenant->firstname}}
+                                {{$payment->get_tenant->lastname}} <br>
+                                {{$payment->get_tenant->email}}
                             </td>
                         </tr>
 
@@ -152,7 +153,8 @@
                           <tr>
                             <td colspan="2">
                                 <p>
-Dear {{$payment->unitt->getTenant()->email}},<br/>
+                          Dear,  {{$payment->get_tenant->email}} <br/>
+
 
  <em>  
     This is to notify you that the sum of  &#8358; {{number_format($payment->amount_paid, 2)}} has been recorded successfully for the payment of ({{$payment->startDate}}  <strong>to</strong>  {{$payment->due_date}}) rent
@@ -172,7 +174,7 @@ Dear {{$payment->unitt->getTenant()->email}},<br/>
                 </td>
                 
                 <td>
-                   {{$payment->unitt->getProperty()->description}}
+                   {{$payment->asset->description}}
                 </td>
             </tr>
          <tr class="item">
@@ -182,16 +184,6 @@ Dear {{$payment->unitt->getTenant()->email}},<br/>
                 
                 <td>
                     {{$payment->paymentMode->name}}
-                </td>
-         </tr>
-            
-            <tr class="item">
-                <td>
-                   <b> Payment Item :</b>
-                </td>
-                
-                <td>
-                     {{$payment->unitt->category->name}} Bedroom
                 </td>
          </tr>
 

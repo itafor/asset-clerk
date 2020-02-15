@@ -20,6 +20,7 @@ class AssetServiceChargeController extends Controller
            ->join('assets','assets.id','=','asset_service_charges.asset_id')
          ->where('tenant_service_charges.user_id', getOwnerUserID())
          ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
+         ->orderby('asset_service_charges.created_at','desc')
          ->get();
 
      $overAllSCdebts = DB::table('tenant_service_charges')

@@ -39,7 +39,7 @@
                                <!--  <div class="row"> -->
                                     <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
-                                        <select name="property" id="input-property" class="form-control" required autofocus>
+                                        <select name="property" id="input-property" class="form-control occupiedProperty" required autofocus>
                                             <option value="">Select Property</option>
                                             @foreach (getAssets() as $asset)
                                                 <option value="{{$asset->uuid}}">{{$asset->description}}</option>
@@ -52,7 +52,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                 <!--    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
                                         <select name="unit" id="input-unit" class="form-control" required>
                                             <option value="">Select Unit</option>
@@ -63,8 +63,8 @@
                                                 <strong>{{ $errors->first('unit') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
-                                    <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
+                                    </div> -->
+                                   <!--  <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
                                         
                                         <input type="hidden" name="price" id="input_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
@@ -73,7 +73,7 @@
                                                 <strong>{{ $errors->first('price') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
+                                    </div> -->
                                  
                                      <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-tenant">{{ __('Tenant') }}</label>

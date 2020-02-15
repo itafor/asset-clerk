@@ -36,11 +36,11 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="row">
-                            <input type="text" name="default_quantity" value="1">
-                                
-                                <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-12">
+                            <input type="hidden" name="default_quantity" value="1">
+
+                                <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-name">{{ __('Property Name') }}</label>
-                                    <textarea rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Name') }}" required autofocus>{{ old('description') }}</textarea>
+                                    <input rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Name') }}" value="{{ old('description') }}" required autofocus>
 
                                     @if ($errors->has('description'))
                                         <span class="invalid-feedback" role="alert">
@@ -49,7 +49,33 @@
                                     @endif
                                 </div>
                                      
-                                <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
+
+                                <div class="form-group {{ $errors->has('property_type') ? 'has-danger':'' }} col-4">
+                                    <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
+                                    <select name="property_type"  class="form-control" required>
+                                        <option value="">Select Property Type</option>
+                                        @foreach (getPropertyTypes() as $pt)
+                                            <option value="{{$pt->id}}">{{$pt->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('property_type'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('property_type') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                 <div class="form-group {{ $errors->has('asking_price') ? 'has-danger':'' }} col-4">
+                                    <label class="form-control-label" for="input-asking_price">{{ __('Asking Price') }}</label>
+                                    <input rows="5" name="asking_price" id="input-asking_price" class="form-control {{ $errors->has('asking_price') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Price') }}" value="{{ old('asking_price') }}" required autofocus>
+                                     @if ($errors->has('asking_price'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('asking_price') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                               <!--  <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
                                     <select name="landlord"  class="form-control" required>
                                         <option value="">Select Landlord</option>
@@ -63,7 +89,7 @@
                                             <strong>{{ $errors->first('landlord') }}</strong>
                                         </span>
                                     @endif
-                                </div>                     
+                                </div> -->                     
                             </div>
 
 
@@ -122,8 +148,8 @@
                                 <div style="clear:both"></div>                         
                             </div>
                        
-                            <h6 class="heading-small text-muted mb-4">{{ __('Property Type') }}</h6>
-                            @if(count($errors) > 0)
+                            <!-- <h6 class="heading-small text-muted mb-4">{{ __('Property Type') }}</h6> -->
+                          <!--   @if(count($errors) > 0)
                             <div class="row">
                                 @foreach (old('unit') as $key => $value)
                                 <div class="form-group {{ $errors->has('unit.'.$key.'.property_type') ? 'has-danger':'' }} col-3">
@@ -154,6 +180,8 @@
                                     <input type="number" name="unit[{{$key}}][standard_price]" id="input-standard_price{{$key}}" class="form-control {{ $errors->has('unit.'.$key.'.standard_price') ? ' is-invalid' : '' }}" placeholder="Enter Property Estimate" value="{{old('unit.'.$key.'.standard_price')}}" required>
                                 </div>
                             </div>
+ -->
+                           <!--  
                                 <div style="clear:both"></div>
                                 @endforeach
                                 <div id="container">
@@ -251,8 +279,8 @@
                                 <div class="form-group">
                                     <button type="button" id="addMore" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                                 </div>   
-                            @endif
-
+                            @endif -->
+<!-- 
                             <h6 class="heading-small text-muted mb-4">{{ __('Additional information') }}</h6>
                             <div class="row">
                                 <div class="form-group{{ $errors->has('photos') ? ' has-danger' : '' }} col-12">
@@ -292,7 +320,7 @@
                                             <strong>{{ $errors->first('construction_year') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> -->
                               <!--   <div class="form-group{{ $errors->has('commission') ? ' has-danger' : '' }} col-4">
                                     <label class="form-control-label" for="input-commission">{{ __('Commission (%)') }}</label>
                                     <input type="text" name="commission" id="input-commission" class="form-control {{ $errors->has('commission') ? ' is-invalid' : '' }}" placeholder="Enter Commission" value="{{old('commission')}}" required>
@@ -303,12 +331,12 @@
                                         </span>
                                     @endif
                                 </div> -->
-                                <div style="clear:both"></div>                         
-                            </div>
+                              <!--   <div style="clear:both"></div>                         
+                            </div> -->
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Features') }}</h6>
+                            <!-- <h6 class="heading-small text-muted mb-4">{{ __('Features') }}</h6> -->
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('detailed_information') ? ' has-danger' : '' }}">
+                                <!-- <div class="form-group{{ $errors->has('detailed_information') ? ' has-danger' : '' }}">
                                     @foreach (getAssetFeatures() as $feature)
                                         <div class="custom-control custom-checkbox custom-control-inline" style="margin-right:25px; float:left">
                                             <input type="checkbox" id="customcheckboxInline{{$loop->iteration}}" name="features[]" value="{{$feature->id}}"
@@ -318,7 +346,7 @@
                                     @endforeach
                                     
                                     <div class="clearfix"></div>
-                                </div>
+                                </div> -->
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save Asset') }}</button>
                                 </div>

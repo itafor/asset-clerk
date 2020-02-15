@@ -53,7 +53,7 @@ class RentalController extends Controller
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
             'property' => 'required',
-            'unit' => 'required',
+            // 'unit' => 'required',
             'price' => 'required|numeric',
             'amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -68,15 +68,15 @@ class RentalController extends Controller
     $data=$request->all();
 
     $getTenantRents = TenantRent::where('tenant_rents.asset_uuid', $data['property'])
-                    ->join('units as a', 'a.uuid', '=', 'tenant_rents.unit_uuid')
+                    // ->join('units as a', 'a.uuid', '=', 'tenant_rents.unit_uuid')
                     ->join('tenants as t','t.uuid','=','tenant_rents.tenant_uuid')
-                    ->selectRaw('a.*,t.*,tenant_rents.*')
+                    ->selectRaw('t.*,tenant_rents.*')
                     ->get();
                             
     if($getTenantRents){
       foreach ($getTenantRents as $key => $tenantRent) {
             if($data['property'] == $tenantRent->asset_uuid 
-                && $data['unit'] == $tenantRent->unit_uuid
+                // && $data['unit'] == $tenantRent->unit_uuid
                 && $data['price'] == $tenantRent->price
                 && $data['tenant'] == $tenantRent->tenant_uuid)
             {
@@ -150,7 +150,7 @@ public function update(Request $request){
      $validator = Validator::make($data, [
             'tenant_uuid' => 'required',
             'asset_uuid' => 'required',
-            'unit_uuid' => 'required',
+            // 'unit_uuid' => 'required',
             'tenantRent_uuid'=>'required',
             'actual_amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -257,7 +257,7 @@ public function notifyDueRentAt0Percent()
      foreach($newRentals as $rent) {
     $newRentDetails['tenant']    = $rent->tenant_uuid;
     $newRentDetails['property']  = $rent->asset_uuid;
-    $newRentDetails['unit']      = $rent->unit_uuid;
+    // $newRentDetails['unit']      = $rent->unit_uuid;
     $newRentDetails['price']     = $rent->price;
     $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
