@@ -174,38 +174,38 @@
                     <div class="dt-card__body">
                        
 <div class="col-md-12 pull-left">
-    <div class="tenant-profile-container">
+<!--     <div class="tenant-profile-container">
          @if($tenantDetail->photo)
 <img src="{{$tenantDetail->photo}}" class="tenant-profile-image">
      @else
       <img src="{{ url('img/defaultprofilePhoto.jpg') }}" class="tenant-profile-image" alt="Tenant Photo">  @endif                        
-</div>
+</div> -->
 <div class="row">
    <table class="table align-items-center table-flush">
-     <tr><td><strong>Documents :</strong></td>
+    <!--  <tr><td><strong>Documents :</strong></td>
         <td>
       <a href="#"  data-toggle="modal" data-target=".tenantdocument">
                                     View documents 
       </a>
         </td>
-    </tr>
+    </tr> -->
       <tr><td><strong>Full Name :</strong></td>
         <td>
       {{$tenantDetail->designation}}. {{$tenantDetail->firstname}} {{$tenantDetail->lastname}}
         </td>
     </tr>
 
- <tr><td><strong>Gender :</strong></td>
+<!--  <tr><td><strong>Gender :</strong></td>
         <td>
        {{$tenantDetail->gender}}
         </td>
-    </tr>
+    </tr> -->
 
-     <tr><td><strong>Date Of Birth :</strong> </td>
+    <!--  <tr><td><strong>Date Of Birth :</strong> </td>
         <td>
       {{\Carbon\Carbon::parse($tenantDetail->date_of_birth)->format('d M Y')}}
         </td>
-    </tr>
+    </tr> -->
 
     <tr><td><strong> Phone :</strong> </td>
         <td>
@@ -218,13 +218,13 @@
         </td>
     </tr>
 
-    <tr><td> <strong> Occupation : </strong> </td>
+    <!-- <tr><td> <strong> Occupation : </strong> </td>
         <td>
     {{$tenantDetail->occupation}}
         </td>
     </tr>
-
-     <tr><td>  <strong>Address : </strong></td>
+ -->
+<!--      <tr><td>  <strong>Address : </strong></td>
         <td>
      {{$tenantDetail->address}}
         </td>
@@ -245,7 +245,7 @@
         <td>
    {{$tenantDetail->cityName}}
         </td>
-    </tr>
+    </tr> -->
    </table>
 </div>
 </div>

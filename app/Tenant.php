@@ -50,22 +50,22 @@ class Tenant extends Model
         $passport = isset($data['passport']) ? uploadImage($data['passport']) : null;
 
       $tenant = self::create([
-            'designation' => $data['designation'],
-            'gender' => $data['gender'],
+            // 'designation' => $data['designation'],
+            // 'gender' => $data['gender'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
-            'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
-            'occupation' => $data['occupation'],
-            'office_country_id' => $data['office_country'],
-            'office_state_id' => $data['office_state'],
-            'office_city_id' => $data['office_city'],
-            'country_id' => $data['country'],
-            'state_id' => $data['state'],
-            'city_id' => $data['city'],
-            'address' => $data['address'],
+            // 'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
+            // 'occupation' => $data['occupation'],
+            // 'office_country_id' => $data['office_country'],
+            // 'office_state_id' => $data['office_state'],
+            // 'office_city_id' => $data['office_city'],
+            // 'country_id' => $data['country'],
+            // 'state_id' => $data['state'],
+            // 'city_id' => $data['city'],
+            // 'address' => $data['address'],
             'email' => $data['email'],
             'phone' => $data['contact_number'],
-            'photo' => $passport,
+            // 'photo' => $passport,
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]);
@@ -76,33 +76,33 @@ class Tenant extends Model
     public static function updateTenant($data)
     {
         $tenant = self::where('uuid', $data['uuid'])->first();
-        $tenant->designation = $data['designation'];
-        $tenant->gender = $data['gender'];
+        // $tenant->designation = $data['designation'];
+        // $tenant->gender = $data['gender'];
         $tenant->firstname = $data['firstname'];
         $tenant->lastname = $data['lastname'];
-        $tenant->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
-        $tenant->occupation = $data['occupation'];
-        // $tenant->occupation_id = $data['occupation'];
-        $tenant->office_country_id = $data['office_country'];
-        $tenant->office_state_id = $data['office_state'];
-        $tenant->office_city_id = $data['office_city'];
-        $tenant->country_id = $data['country'];
-        $tenant->state_id = $data['state'];
-        $tenant->city_id = $data['city'];
-        $tenant->address = $data['address'];
+        // $tenant->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
+        // $tenant->occupation = $data['occupation'];
+        // // $tenant->occupation_id = $data['occupation'];
+        // $tenant->office_country_id = $data['office_country'];
+        // $tenant->office_state_id = $data['office_state'];
+        // $tenant->office_city_id = $data['office_city'];
+        // $tenant->country_id = $data['country'];
+        // $tenant->state_id = $data['state'];
+        // $tenant->city_id = $data['city'];
+        // $tenant->address = $data['address'];
         $tenant->email = $data['email'];
         $tenant->phone = $data['contact_number'];
-        if(isset($data['passport'])){
-            $passport = uploadImage($data['passport']);
-            if($passport){
-                $tenant->photo = $passport;
-            }
-        }
+        // if(isset($data['passport'])){
+        //     $passport = uploadImage($data['passport']);
+        //     if($passport){
+        //         $tenant->photo = $passport;
+        //     }
+        // }
         $tenant->save();
 
-         if(isset($data['document'])){
-        self::addDocument($data,$tenant);
-        }
+        //  if(isset($data['document'])){
+        // self::addDocument($data,$tenant);
+        // }
     }
 
        public static function addDocument($data,$tenant)

@@ -24,19 +24,19 @@ class LandlordController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'designation' => 'required',
-            'gender' => 'required',
+            // 'designation' => 'required',
+            // 'gender' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
-            'date_of_birth' => 'required|date_format:"d/m/Y"',
-            'occupation' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'address' => 'required',
+            // 'date_of_birth' => 'required|date_format:"d/m/Y"',
+            // 'occupation' => 'required',
+            // 'country' => 'required',
+            // 'state' => 'required',
+            // 'city' => 'required',
+            // 'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'required|image'
+            // 'passport' => 'required|image'
         ]);
 
         if ($validator->fails()) {
@@ -80,19 +80,19 @@ class LandlordController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'designation' => 'required',
-            'gender' => 'required',
+            // 'designation' => 'required',
+            // 'gender' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
-            'date_of_birth' => 'required|date_format:"d/m/Y"',
-            'occupation' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'address' => 'required',
+            // 'date_of_birth' => 'required|date_format:"d/m/Y"',
+            // 'occupation' => 'required',
+            // 'country' => 'required',
+            // 'state' => 'required',
+            // 'city' => 'required',
+            // 'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'image',
+            // 'passport' => 'image',
             'uuid' => 'required'
         ]);
 

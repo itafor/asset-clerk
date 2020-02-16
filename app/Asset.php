@@ -50,6 +50,11 @@ class Asset extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function propertyType()
+    {
+        return $this->belongsTo(PropertyType::class,'property_type','id');
+    }
+
     public function photos()
     {
         return $this->hasMany(AssetPhoto::class);

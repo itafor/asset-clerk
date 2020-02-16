@@ -30,7 +30,6 @@
                       <tr>
                           <th>No</th>
                           <th><b>Tenant Name</b></th>
-                          <th><b>Unit</b></th>
                           <th><b>Property</b></th>
                           <th><b>Property Type</b></th>
                           <th><b>Property Estimate</b></th>
@@ -51,9 +50,8 @@
                             {{$rental->tenant ? $rental->tenant->firstname : ''}}
                             {{$rental->tenant ? $rental->tenant->lastname : ''}}
                           </td>
-                          <td>{{$rental->unit->category ? $rental->unit->category->name : ''}}</td>
                           <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
-                          <td>{{$rental->unit->propertyType ? $rental->unit->propertyType->name : ''}}</td>
+                          <td>{{$rental->asset->propertyType ? $rental->asset->propertyType->name : ''}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
                           <td>&#8358; {{number_format($rental->amount,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
