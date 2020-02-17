@@ -41,7 +41,7 @@
                             <div class="pl-lg-4">
                                 <div class="row">
                                 
-<div class="form-group{{ $errors->has('tenant_uuid') ? ' has-danger' : '' }} col-4">
+<div class="form-group{{ $errors->has('tenant_uuid') ? ' has-danger' : '' }} col-6">
     <label class="form-control-label" for="input-tenant">{{ __('Tenant') }} 
     </label>
 <select name="tenant_uuid" id="input_tenant" class="form-control" required autofocus>
@@ -58,7 +58,7 @@
 @endif
 </div>
 
-  <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+  <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-6">
 <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
 <select name="asset_description" id="property" class="form-control" required autofocus>
      <option value="">Select Property</option>
@@ -70,7 +70,7 @@
     </span>
 @endif
 </div>
-<div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
+<!-- <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
 <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
 <select name="unit_uuid" id="unit" class="form-control" required>
     <option value="">Select Unit</option>
@@ -81,7 +81,7 @@
         <strong>{{ $errors->first('unit_uuid') }}</strong>
     </span>
 @endif
-</div>
+</div> -->
 
 
                                     <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-12">
