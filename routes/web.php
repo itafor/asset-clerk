@@ -219,6 +219,9 @@ Route::post('/multi-step-store-landlord', 'MultiStepFormController@multiStepOneS
 Route::post('/multi-step-store-asset', 'MultiStepFormController@multiStepTwoStoreAsset')->name('multi-step.storeAsset');
 Route::post('/multi-step-store-tenant', 'MultiStepFormController@multiStepThreeStoreTenant')->name('multi-step.storeTenant');
 
+Route::get('/asset/store', 'MultiStepFormController@nextToAsset')->name('multi-step.get.asset');
+Route::get('/landlord/store', 'MultiStepFormController@backToLandlord')->name('multi-step.get.landlord');
+
 });
 
 

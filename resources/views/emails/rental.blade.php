@@ -106,13 +106,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                       <!--      @if(getUserPlan()['details']->name == 'Free')
-                            <a href="http://assetclerk.com/">
-                        <img src="{{ asset('img/companydefaultlogo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
-                            </a> 
-                            @else
-                              @include('new.layouts.email_logo')
-                            @endif -->
+                      
                             
                             <td style="text-align:right">
                                 

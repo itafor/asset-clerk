@@ -343,7 +343,13 @@
                                     <div class="clearfix"></div>
                                 </div> -->
                                 <div class="text-center">
+
+                                     <a href="{{ route('multi-step.get.landlord') }}">
+                                     <button type="button" class="btn btn-warning mt-4">{{ __('Previous') }}</button>
+                                     </a>
+
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save and Continue') }}</button>
+                                    
                                 </div>
                             </div>
                         </form>

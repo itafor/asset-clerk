@@ -55,8 +55,7 @@ Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
  <select name="tenant" id="input_tenant" class="form-control" required autofocus>
     <option value="">Select Tenant</option>
     @foreach (getTenants() as $tenant)
-        <option value="{{$tenant->uuid}}"
-            {{$tenant->uuid == $tenant_value->uuid ? 'selected' : ''}}>
+        <option value="{{$tenant->uuid}}">
             {{$tenant->name()}}
         </option>
     @endforeach

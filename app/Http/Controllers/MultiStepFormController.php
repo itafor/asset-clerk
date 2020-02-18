@@ -93,5 +93,34 @@ class MultiStepFormController extends Controller
     }
   }
 
+public function nextToAsset(Request $request)
+{
+  $rentalsDueInNextThreeMonths = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
+                ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 120 DAY)")// Get payments due in next 120 days
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
+      $renewedRentals = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
+                ->where('new_rental_status','New')
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+      $next_step_asset = '';
+
+
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset'));
+    
+ }
+
+ public function backToLandlord(Request $request)
+{
+  $rentalsDueInNextThreeMonths = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
+                ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 120 DAY)")// Get payments due in next 120 days
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+
+      $renewedRentals = TenantRent::where('tenant_rents.user_id', getOwnerUserID())
+                ->where('new_rental_status','New')
+                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
+      $next_step_landlord = '';
+
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_landlord'));
+    
+}
 }
