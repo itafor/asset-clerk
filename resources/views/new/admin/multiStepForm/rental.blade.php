@@ -1,6 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Add New Rental', 'page' => 'rental'])
 
-@section('content')
     <!-- Page Header -->
         <div class="dt-page__header">
           <h1 class="dt-page__title"><i class="icon icon-company"></i> Rental Management</h1>
@@ -18,7 +16,10 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Rental</h3>
+                <h3 class="dt-entry__title">Add New Rental
+Asset: {{$asset_value->description}}, 
+Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
+                </h3>
               </div>
               <!-- /entry heading -->
  <!-- Entry Heading -->
@@ -54,7 +55,10 @@
  <select name="tenant" id="input_tenant" class="form-control" required autofocus>
     <option value="">Select Tenant</option>
     @foreach (getTenants() as $tenant)
-        <option value="{{$tenant->uuid}}">{{$tenant->name()}}</option>
+        <option value="{{$tenant->uuid}}"
+            {{$tenant->uuid == $tenant_value->uuid ? 'selected' : ''}}>
+            {{$tenant->name()}}
+        </option>
     @endforeach
 </select>
                                        
@@ -149,7 +153,7 @@
                                 </div>
                                                                <div style="clear:both"></div>    
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save and Continue') }}</button>
                                 </div>                     
                             </div>
 
@@ -168,13 +172,12 @@
         <!-- /grid -->
                                 @include('new.admin.assets.partials.addTenantToProperty')
 
-@endsection
-
 @section('script')
 
     <script>
      
 
+   
          let selected_tenant_uuid ='';
         $('#input_tenant').change(function(){
             var tenant_uuid = $(this).val();
@@ -212,7 +215,6 @@
                 
             }
         });
-
 
         
         $('#property').change(function(){

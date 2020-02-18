@@ -1,13 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Add New Assets', 'page' => 'asset'])
-
-@section('content')
-    <!-- Page Header -->
-        <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-company"></i> Asset Management</h1>
-        </div>
-        <!-- /page header -->
-
-        <!-- Grid -->
+<!-- Grid -->
         <div class="row">
 
           <!-- Grid Item -->
@@ -18,7 +9,9 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Asset</h3>
+                <h3 class="dt-entry__title">Add New Asset 
+         
+                </h3>
               </div>
               <!-- /entry heading -->
 
@@ -30,8 +23,8 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-
-                    <form method="post" action="{{ route('asset.store') }}" autocomplete="off" enctype="multipart/form-data">
+                    
+                    <form method="post" action="{{ route('multi-step.storeAsset') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
@@ -74,13 +67,14 @@
                                         </span>
                                     @endif
                                 </div>
-
+                                @if(isset($landlord))
                                 <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
-                                    <select name="landlord"  class="form-control">
+                                    <select name="landlord"  class="form-control" required>
                                         <option value="">Select Landlord</option>
                                         @foreach (getLandlords() as $land)
-                                            <option value="{{$land->id}}">{{$land->name()}}</option>
+                                            <option value="{{$land->id}}"
+                                                {{$land->id == $landlord->id ? 'selected' : ''}}>{{$land->name()}}</option>
                                         @endforeach
                                     </select>
                                     
@@ -89,7 +83,8 @@
                                             <strong>{{ $errors->first('landlord') }}</strong>
                                         </span>
                                     @endif
-                                </div>                     
+                                </div>  
+                                @endif
                             </div>
 
 
@@ -348,7 +343,7 @@
                                     <div class="clearfix"></div>
                                 </div> -->
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save Asset') }}</button>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save and Continue') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -364,11 +359,8 @@
 
         </div>
         <!-- /grid -->
-       
-        @include('admin.assets.partials.addUnit')
-@endsection
 
-@section('script')
+        @section('script')
     <script>
 
         $('body').on('change', '.sc_type', function(){

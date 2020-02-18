@@ -36,7 +36,7 @@ class Landlord extends Model
     {
         // $passport = uploadImage($data['passport']);
 
-        self::create([
+     $landlord =   self::create([
             // 'designation' => $data['designation'],
             // 'gender' => $data['gender'],
             'firstname' => $data['firstname'],
@@ -54,6 +54,7 @@ class Landlord extends Model
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]);
+     return $landlord;
     }
 
     public static function updateLandlord($data)

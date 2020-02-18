@@ -8,7 +8,7 @@
 /*form styles*/
 #msform {
     width: 800px;
-    margin: 50px auto;
+    margin: 10px auto;
     text-align: center;
     position: relative;
 }
@@ -71,31 +71,68 @@ a { color: inherit; }
 
     <!-- progressbar -->
     <ul id="progressbar">
-           <li class="activ">
-            <a href="{{route('landlord.create')}}" title="Add New Landlord">
-           Landlords
-          </a>
-       </li>
-           <li>
-            <a href="{{route('asset.create')}}" title="Add New Asset">
+           
+             @if(isset($next_step_landlord))
+             <li class="active">
+        Landlords
+        </li>
+     @else 
+      <li class="activ">
+        Landlords
+        </li>
+      @endif
+       
+ @if(isset($next_step_asset))
+       <li class="active">
            Assets
-          </a>
        </li>
+      @else 
            <li>
-            <a href="{{route('tenant.create')}}" title="Add New Tenant">
-           Tenants
-          </a>
+           Assets
        </li>
-          <li>
-             <a href="{{route('rental.create')}}" title="Add New Rental">
+@endif
+
+@if(isset($next_step_tenant))
+    
+           <li class="active">
+           Tenants
+       </li>
+@else 
+       <li> 
+           Tenants
+       </li>
+@endif
+
+@if(isset($next_step_rental))
+           <li class="active">
            Rentals
-          </a>
-      </li>
+       </li>
+@else 
+       <li> 
+           Rentals
+       </li>
+@endif
     </ul>
 
 </form>
 
 </div>
+    
+    @if(isset($next_step_landlord))
+        @include('new.admin.multiStepForm.landlord')
+    @endif
+
+    @if(isset($next_step_asset))
+        @include('new.admin.multiStepForm.asset')
+    @endif
+
+     @if(isset($next_step_tenant))
+        @include('new.admin.multiStepForm.tenant')
+    @endif
+
+    @if(isset($next_step_rental))
+        @include('new.admin.multiStepForm.rental')
+    @endif
 
     <div class="row">
 

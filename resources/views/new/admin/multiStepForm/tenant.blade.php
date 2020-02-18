@@ -1,11 +1,3 @@
-@extends('new.layouts.app', ['title' => 'Add New Landlord', 'page' => 'landlord'])
-
-@section('content')
-    <!-- Page Header -->
-        <div class="dt-page__header">
-          <h1 class="dt-page__title"><i class="icon icon-company"></i> Landlord Management</h1>
-        </div>
-        <!-- /page header -->
 
         <!-- Grid -->
         <div class="row">
@@ -18,7 +10,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Add New Landlord</h3>
+                <h3 class="dt-entry__title">Add New Tenant</h3>
               </div>
               <!-- /entry heading -->
 
@@ -30,12 +22,13 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-<form method="post" action="{{ route('landlord.store') }}" autocomplete="off" enctype="multipart/form-data">
+
+                    <form method="post" action="{{ route('multi-step.storeTenant') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             
-                            <h6 class="heading-small text-muted mb-4">{{ __('Add Landlord') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Add Tenant') }}</h6>
                             <div class="pl-lg-4">
-                              <!--   <div class="form-group{{ $errors->has('designation') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                <!-- <div class="form-group{{ $errors->has('designation') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-category">{{ __('Designation') }}</label>
                                     <select name="designation" id="" class="form-control" required autofocus>
                                         <option value="">Select Designation</option>
@@ -50,7 +43,7 @@
                                         </span>
                                     @endif
                                 </div> -->
-                              <!--   <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                <!-- <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-gender">{{ __('Gender') }}</label>
                                     <select name="gender" id="" class="form-control" required>
                                         <option value="">Select Gender</option>
@@ -76,6 +69,7 @@
                                         </span>
                                     @endif
                                 </div>
+
                                 <div class="form-group{{ $errors->has('lastname') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-lastname">{{ __('Last Name') }}</label>
                                     <input type="text" name="lastname" id="input-lastname" class="form-control form-control-alternative{{ $errors->has('lastname') ? ' is-invalid' : '' }}" placeholder="Enter Last Name" value="{{old('lastname')}}" required>
@@ -86,8 +80,8 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div style="clear:both"></div>  
-                                 <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                       <div style="clear:both"></div>                           
+                                <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
                                     <input type="email" name="email" id="input-email" class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Enter Email" value="{{old('email')}}" required>
 
@@ -98,7 +92,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('contact_number') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-contact_number">{{ __('Phone') }}</label>
+                                    <label class="form-control-label" for="input-contact_number">{{ __('Contact Number') }}</label>
                                     <input type="text" name="contact_number" id="input-contact_number" class="form-control form-control-alternative{{ $errors->has('contact_number') ? ' is-invalid' : '' }}" placeholder="Enter Contact Number" value="{{old('contact_number')}}" required>
                                     
                                     @if ($errors->has('contact_number'))
@@ -107,9 +101,9 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div style="clear:both"></div>       
+                                <div style="clear:both"></div>         
 
-                            <!--     <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                               <!--  <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-date_of_birth">{{ __('Date of Birth') }}</label>
                                     <input type="text" name="date_of_birth" id="input-date_of_birth" class="datepicker form-control form-control-alternative{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}" placeholder="Select Date of Birth" value="{{old('date_of_birth')}}" required>
 
@@ -119,7 +113,7 @@
                                         </span>
                                     @endif
                                 </div> -->
-                            <!--     <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                               <!--  <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
                                     <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required>
                                     {{-- <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
@@ -134,17 +128,63 @@
                                         </span>
                                     @endif
                                 </div> -->
-                                <!-- <div style="clear:both"></div>   -->                       
+                                <div style="clear:both"></div>                         
                             </div>
 
-                           <!--  <h6 class="heading-small text-muted mb-4">{{ __('Contact Address') }}</h6>
+
+                          <!--   <h6 class="heading-small text-muted mb-4">{{ __('Office Address') }}</h6> -->
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                <!-- <div class="form-group{{ $errors->has('office_country') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    <label class="form-control-label" for="input-country">{{ __('Country') }}</label>
+                                    <select name="office_country" class="form-control country" required>
+                                        <option value="">Select Country</option>
+                                        @foreach (getCountries() as $c)
+                                            <option class="{{$c->sortname}}" value="{{$c->id}}">{{$c->name}}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('office_country'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('office_country') }}</strong>
+                                        </span>
+                                    @endif
+                                </div> -->
+                                <!-- <div class="form-group{{ $errors->has('office_state') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                    <label class="form-control-label" for="input-state">{{ __('State') }}</label>
+                                    <select name="office_state" class="form-control state" required>
+                                        <option value="">Select State</option>
+                                    </select>
+                                    
+                                    @if ($errors->has('office_state'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('office_state') }}</strong>
+                                        </span>
+                                    @endif
+                                </div> -->
+                            <!--     <div style="clear:both"></div>                         
+                                <div class="form-group{{ $errors->has('office_city') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    <label class="form-control-label" for="input-city">{{ __('City') }}</label>
+                                    <select name="office_city" class="form-control city" required>
+                                        <option value="">Select City</option>
+                                    </select>
+
+                                    @if ($errors->has('office_city'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('office_city') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div style="clear:both"></div>  -->                        
+                            </div>
+
+                            <!-- <h6 class="heading-small text-muted mb-4">{{ __('Contact Address') }}</h6> -->
+                            <div class="pl-lg-4">
+                               <!--  <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-country">{{ __('Country') }}</label>
                                     <select name="country" class="form-control country1" required>
                                         <option value="">Select Country</option>
                                         @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                            <option class="{{$c->sortname}}" value="{{$c->id}}">{{$c->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -153,8 +193,8 @@
                                             <strong>{{ $errors->first('country') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('state') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                </div> -->
+                               <!--  <div class="form-group{{ $errors->has('state') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-state">{{ __('State') }}</label>
                                     <select name="state" class="form-control state1" required>
                                         <option value="">Select State</option>
@@ -166,8 +206,8 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div style="clear:both"></div>                         
-                                <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                <div style="clear:both"></div> -->                         
+                             <!--    <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-city">{{ __('City') }}</label>
                                     <select name="city" class="form-control city1" required>
                                         <option value="">Select City</option>
@@ -178,8 +218,8 @@
                                             <strong>{{ $errors->first('city') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                </div> -->
+                                <!-- <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-state">{{ __('Address') }}</label>
                                     <input type="text" name="address" id="input-address" class="form-control form-control-alternative{{ $errors->has('address') ? ' is-invalid' : '' }}" placeholder="Enter Address" value="{{old('address')}}" required>
                                     
@@ -188,27 +228,52 @@
                                             <strong>{{ $errors->first('address') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div style="clear:both"></div>                           
-                                                        
+                                </div> -->
+                         
+                                <div style="clear:both"></div>                         
                             </div>
-
-                            <h6 class="heading-small text-muted mb-4">{{ __('Passport') }}</h6>
+<!-- 
+                            <h6 class="heading-small text-muted mb-4">{{ __('Passport (optional) ') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('passport') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-passport">{{ __('Passport') }}</label>
-                                    <input type="file" name="passport" id="input-passport" class="form-control form-control-alternative{{ $errors->has('passport') ? ' is-invalid' : '' }}" required>
+                                    <input type="file" name="passport" id="input-passport" class="form-control form-control-alternative{{ $errors->has('passport') ? ' is-invalid' : '' }}" >
                                     
                                     @if ($errors->has('passport'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('passport') }}</strong>
                                         </span>
                                     @endif
-                                </div> -->
+                                </div>
+                            </div> -->
+
+
+                           <!--            <div style="clear:both"></div>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Documents (optional)') }}</h6>
+
+                           <div class="form-group col-12 row">
+                               <div class="col-5">
+                                   <input type="file" name="document[112211][path]" class="form-control">
+                               </div>
+                                <div class="col-5">
+                                   <input type="text" name="document[112211][name]" class="form-control" placeholder="Enter document name">
+                               </div>
+                        
+                         <div class="col-2">
+                                   <button type="button" class="form-control" id="addMore"><i class="fa fa-plus"></i>  Add More</button>
+                               </div>
+                        </div>
+                            <div id="container">
+                                </div> 
+                                <div style="clear:both"></div>  -->
+
+
+
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>
                         </form>
+                    
                 </div>
                 <!-- /card body -->
 
@@ -220,90 +285,3 @@
 
         </div>
         <!-- /grid -->
-@endsection
-
-@section('script')
-    <script>
-        
-        $('.country').change(function(){
-            var country = $(this).val();
-            if(country){
-                $('.state').empty();
-                $('<option>').val('').text('Loading...').appendTo('.state');
-                $.ajax({
-                    url: baseUrl+'/fetch-states/'+country,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('.state').empty();
-                        $('<option>').val('').text('Select State').appendTo('.state');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('.state');
-                        });
-                    }
-                });
-            }
-        });
-
-        $('.state').change(function(){
-            var state = $(this).val();
-            if(state){
-                $('.city').empty();
-                $('<option>').val('').text('Loading...').appendTo('.city');
-                $.ajax({
-                    url: baseUrl+'/fetch-cities/'+state,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('.city').empty();
-                        $('<option>').val('').text('Select City').appendTo('.city');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('.city');
-                        });
-                    }
-                });
-            }
-        });
-
-        $('.country1').change(function(){
-            var country = $(this).val();
-            if(country){
-                $('.state1').empty();
-                $('<option>').val('').text('Loading...').appendTo('.state1');
-                $.ajax({
-                    url: baseUrl+'/fetch-states/'+country,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('.state1').empty();
-                        $('<option>').val('').text('Select State').appendTo('.state1');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('.state1');
-                        });
-                    }
-                });
-            }
-        });
-
-        $('.state1').change(function(){
-            var state = $(this).val();
-            if(state){
-                $('.city1').empty();
-                $('<option>').val('').text('Loading...').appendTo('.city1');
-                $.ajax({
-                    url: baseUrl+'/fetch-cities/'+state,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('.city1').empty();
-                        $('<option>').val('').text('Select City').appendTo('.city1');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.id).text(v.name).appendTo('.city1');
-                        });
-                    }
-                });
-            }
-        });
-        
-    </script>
-@endsection

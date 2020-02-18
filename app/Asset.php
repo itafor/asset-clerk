@@ -76,11 +76,11 @@ class Asset extends Model
     {
         
         $getActivePlan =  activePlanId(getOwnerUserID());
-
+        $landlord = isset($data['landlord']) ? $data['landlord'] : '';
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            // 'landlord_id' => $data['landlord'],
+            'landlord_id' => $landlord,
             'price' => $data['asking_price'],
             'property_type' => $data['property_type'],
             'country_id' => $data['country'],
@@ -99,17 +99,19 @@ class Asset extends Model
 
         // self::createUnit($data,$asset);
         // self::addPhoto($data,$asset); 
+        return $asset;
     }
 
     public static function updateAsset($data)
     {
-        // dd($data);
+        $landlord = isset($data['landlord']) ? $data['landlord'] : '';
+        
         self::where('uuid', $data['uuid'])->update([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
             'price' => $data['asking_price'],
             'property_type' => $data['property_type'],
-            // 'landlord_id' => $data['landlord'],
+            'landlord_id' => $landlord,
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],

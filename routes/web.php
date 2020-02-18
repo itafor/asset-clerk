@@ -213,6 +213,15 @@ Route::get('/get-tenant-email/{id}','TenantController@getTenantEmail')->name('te
 
 });
 
+Route::prefix('multi-step')->group(function(){
+
+Route::post('/multi-step-store-landlord', 'MultiStepFormController@multiStepOneStoreLandlord')->name('multi-step.storelandlord');
+Route::post('/multi-step-store-asset', 'MultiStepFormController@multiStepTwoStoreAsset')->name('multi-step.storeAsset');
+Route::post('/multi-step-store-tenant', 'MultiStepFormController@multiStepThreeStoreTenant')->name('multi-step.storeTenant');
+
+});
+
+
 Route::prefix('report')->group(function(){
 Route::get('assets-report', 'ReportController@assetReport')->name('report.assetreport');
 Route::post('assets-report', 'ReportController@getAssetReport')->name('report.get_asset_report');

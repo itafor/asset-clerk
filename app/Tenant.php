@@ -70,7 +70,8 @@ class Tenant extends Model
             'user_id' => getOwnerUserID()
         ]);
 
-        self::addDocument($data,$tenant);
+        //self::addDocument($data,$tenant);
+      return $tenant;
     }
 
     public static function updateTenant($data)

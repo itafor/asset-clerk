@@ -75,9 +75,9 @@
                                         </span>
                                     @endif
                                 </div>
-                             <!--    <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
+                                <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
-                                    <select name="landlord"  class="form-control" required>
+                                    <select name="landlord"  class="form-control" >
                                         <option value="">Select Landlord</option>
                                         @foreach (getLandlords() as $land)
                                             <option value="{{$land->id}}" {{$land->id == $asset->landlord_id ? 'selected' : ''}}>{{$land->name()}}</option>
@@ -89,7 +89,7 @@
                                             <strong>{{ $errors->first('landlord') }}</strong>
                                         </span>
                                     @endif
-                                </div>                        -->
+                                </div>                       
                             </div>
 
 
