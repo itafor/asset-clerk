@@ -17,15 +17,14 @@
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
                 <h3 class="dt-entry__title">Add New Rental
-Asset: {{$asset_value->description}}, 
-Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
+
                 </h3>
               </div>
               <!-- /entry heading -->
  <!-- Entry Heading -->
               <div class="dt-entry__heading">
-  
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
+Asset: {{$asset_value->description}}, 
+Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
               </div>
               <!-- /entry heading -->
             </div>
@@ -36,7 +35,7 @@ Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                   <form method="post" action="{{ route('rental.store') }}" autocomplete="off">
+                   <form method="post" action="{{ route('multi-step.storeRental') }}" autocomplete="off">
                             @csrf
                                 <input type="hidden" name="user_id" value="">
                                 <input type="hidden" name="new_rental_status" value="">

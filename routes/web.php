@@ -213,14 +213,23 @@ Route::get('/get-tenant-email/{id}','TenantController@getTenantEmail')->name('te
 
 });
 
+//Multi-step forms
 Route::prefix('multi-step')->group(function(){
 
 Route::post('/multi-step-store-landlord', 'MultiStepFormController@multiStepOneStoreLandlord')->name('multi-step.storelandlord');
 Route::post('/multi-step-store-asset', 'MultiStepFormController@multiStepTwoStoreAsset')->name('multi-step.storeAsset');
 Route::post('/multi-step-store-tenant', 'MultiStepFormController@multiStepThreeStoreTenant')->name('multi-step.storeTenant');
 
+Route::post('/multi-step-store-rental', 'MultiStepFormController@multiStepFourStoreRental')->name('multi-step.storeRental');
+
+Route::post('/multi-step-store-rental-payment', 'MultiStepFormController@multiStepFiveStoreRentalPayment')->name('multi-step.storeRentalPayment');
+
 Route::get('/asset/store', 'MultiStepFormController@nextToAsset')->name('multi-step.get.asset');
 Route::get('/landlord/store', 'MultiStepFormController@backToLandlord')->name('multi-step.get.landlord');
+
+Route::get('/next/summary', 'MultiStepFormController@nextToSummary')->name('multi-step.next.to.summary');
+
+Route::get('/done', 'MultiStepFormController@done')->name('multi-step.done');
 
 });
 

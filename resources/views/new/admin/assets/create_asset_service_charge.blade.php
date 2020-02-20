@@ -226,7 +226,7 @@
       var tenants = localStorage.getItem('assignedTenants');
         $('#tenant_id').empty();
                $.each(JSON.parse(tenants), function(k, v) {
-    $('<option>').attr('selected', true).val(v.id).text(v.designation + '.'+ v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
+    $('<option>').attr('selected', true).val(v.id).text(v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
         
      });
   }

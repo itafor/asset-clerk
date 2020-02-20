@@ -205,7 +205,8 @@
                                toast({
                         type: 'error',
                         title: 'Rental renewal has been deactivated successfully'
-                    })
+                    });
+           window.location.href=window.location.href// refresh page
                       }
                     }
                 });
@@ -231,6 +232,7 @@ $('div.yes').click(function() {
                         type: 'success',
                         title: 'Rental renewal has been activated successfully'
                     })
+           window.location.href=window.location.href// refresh page
                       }
                     }
                 });

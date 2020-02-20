@@ -8,7 +8,7 @@
 /*form styles*/
 #msform {
     width: 800px;
-    margin: 10px auto;
+    margin: 5px auto;
     text-align: center;
     position: relative;
 }
@@ -22,9 +22,9 @@
 #progressbar li {
     list-style-type: none;
     color: #003366;
-    text-transform: uppercase;
-    font-size: 16px;
-    width: 20%;
+    /*text-transform: uppercase;*/
+    font-size: 14px;
+    width: 15%;
     float: left;
     position: relative;
 }
@@ -36,7 +36,7 @@
     display: block;
     font-size: 10px;
     color: #333;
-    background: white;
+    /*background: white;*/
     border-radius: 3px;
     margin: 0 auto 5px auto;
 }
@@ -64,26 +64,35 @@
 
 a { color: inherit; } 
 
+.activ{
+    background: #003366;
+    border-radius: 5px;
+}
+
+#progressbar .activ:before {
+    color: #ffffff;
+}
 </style>
 <div class="row">
     <!-- multistep form -->
+                <h2 class="dt-entry__title" style="margin-left: 20px;">Add Records</h2>
 <form id="msform">
 
     <!-- progressbar -->
     <ul id="progressbar">
            
              @if(isset($next_step_landlord))
-             <li class="active">
+             <li class="activ text-white">
         Landlords
         </li>
      @else 
-      <li class="activ">
+      <li>
         Landlords
         </li>
       @endif
        
  @if(isset($next_step_asset))
-       <li class="active">
+       <li class="activ text-white">
            Assets
        </li>
       @else 
@@ -94,7 +103,7 @@ a { color: inherit; }
 
 @if(isset($next_step_tenant))
     
-           <li class="active">
+           <li class="activ text-white">
            Tenants
        </li>
 @else 
@@ -104,12 +113,32 @@ a { color: inherit; }
 @endif
 
 @if(isset($next_step_rental))
-           <li class="active">
+           <li class="activ text-white">
            Rentals
        </li>
 @else 
        <li> 
            Rentals
+       </li>
+@endif
+
+@if(isset($next_step_rental_payment))
+           <li class="activ text-white">
+           Payment
+       </li>
+@else 
+       <li> 
+           Payment
+       </li>
+@endif
+
+@if(isset($next_step_rental_summary))
+           <li class="activ text-white">
+           Summary
+       </li>
+@else 
+       <li> 
+           Summary
        </li>
 @endif
     </ul>
@@ -133,6 +162,14 @@ a { color: inherit; }
     @if(isset($next_step_rental))
         @include('new.admin.multiStepForm.rental')
     @endif
+
+    @if(isset($next_step_rental_payment))
+         @include('new.admin.multiStepForm.payRent')
+    @endif
+
+     <!-- @if(isset($next_step_rental_summary))
+         @include('new.admin.multiStepForm.summary')
+    @endif -->
 
     <div class="row">
 
