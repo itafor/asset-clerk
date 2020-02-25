@@ -12,6 +12,7 @@ use App\TenantRent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MultiStepFormController extends Controller
 {
@@ -36,10 +37,22 @@ public static function getRentals()
     public function multiStepOneStoreLandlord(Request $request)
     {
       
+      $data=$request->all();
+        //Alert::success('Success Title', 'Success Message');
+
       $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];
   
     	$next_step_asset = '';
+
+      $landlord_exist=Landlord::where('firstname',$data['firstname'])
+                              ->where('lastname',$data['lastname'])
+                              ->where('email',$data['email'])
+                              ->where('phone',$data['contact_number'])->first();
+         if($landlord_exist)
+         {
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset'));
+         }else{  
 
     	$landlord = Landlord::createNew($request->all());
 
@@ -47,34 +60,53 @@ public static function getRentals()
 
      return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','landlord','next_step_asset'));
 
-    }else{
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset'));
     }
   }
-
+}
     public function multiStepTwoStoreAsset(Request $request)
     {
-    
+       $data=$request->all();
       $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];    	
       $next_step_tenant = '';
 
+        $asset_exist=Asset::where('description',$data['description'])
+                              ->where('country_id',$data['country'])
+                              ->where('state_id',$data['state'])
+                              ->where('city_id',$data['city'])
+                              ->where('property_type',$data['property_type'])
+                              ->where('address',$data['address'])
+                              ->where('price',$data['asking_price'])
+                              ->first();
+         if($asset_exist)
+         {
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_tenant'));
+         }else{
     	$asset = Asset::createNew($request->all());
 
     	if($asset){
     	session(['asset_key' => $asset]);
      return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','asset','next_step_tenant'));
-
     }
   }
-
+}
    public function multiStepThreeStoreTenant(Request $request)
     {
+       $data=$request->all();
 
      $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];
+      $next_step_rental = '';
 
-    	$next_step_rental = '';
+       $tenant_exist=Tenant::where('firstname',$data['firstname'])
+                              ->where('lastname',$data['lastname'])
+                              ->where('email',$data['email'])
+                              ->where('phone',$data['contact_number'])->first();
+         if($tenant_exist)
+         {
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental',));
+         }else{ 
+
 
     	$tenant = Tenant::createNew($request->all());
     	session(['tenant_key' => $tenant]);
@@ -97,7 +129,7 @@ public static function getRentals()
 
     }
   }
-
+}
 
     public function multiStepFourStoreRental(Request $request)
     {
@@ -162,8 +194,6 @@ public function nextToAsset(Request $request)
 
  public function nextToSummary(Request $request)
 {
-  
-
       $rentalsDueInNextThreeMonths = getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = getRentals()['renewedRentals'];
 

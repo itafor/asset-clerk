@@ -177,7 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
     ],
 
     /*
@@ -231,6 +231,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'Captcha' => 'Mews\Captcha\Facades\Captcha',
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
     ],
 
 ];

@@ -22,10 +22,12 @@
               </div>
               <!-- /entry heading -->
  <!-- Entry Heading -->
+ @if(isset($asset_value))
               <div class="dt-entry__heading">
 Asset: {{$asset_value->description}}, 
 Tenant: {{$tenant_value->firstname}} {{$tenant_value->lastname}}
               </div>
+@endif
               <!-- /entry heading -->
             </div>
             <!-- /entry header -->
