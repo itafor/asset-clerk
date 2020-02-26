@@ -120,10 +120,10 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
+                            <!-- <td>
                                 <b>Address:</b><br>
                                {{$rental->tenant->address}}
-                            </td>
+                            </td> -->
                             
                             <td style="text-align:right">
                                  {{$rental->tenant->firstname}}

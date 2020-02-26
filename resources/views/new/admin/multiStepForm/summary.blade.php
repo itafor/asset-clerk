@@ -21,8 +21,60 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
-                    <h5 class="card-title">Primary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title">Summary Message</h5>
+    <p class="card-text">
+      
+      You have successfully added (<strong>{{$tenant_record->firstname}} {{$tenant_record->lastname}}</strong>) to your property, (<strong>{{$asset_record->description}}</strong>)  
+      @if(isset($landlord_record))
+      @if($landlord_record !=null)
+      belong to
+      (<strong>
+        {{$landlord_record->firstname}} {{$landlord_record->lastname}}</strong>)
+      @endif
+ @endif
+         with a rental value of <strong>&#8358;{{number_format($rental_record->amount,2)}}</strong> 
+      @if(isset($payment) && $payment !='')
+         and
+<strong>&#8358;{{number_format($payment->amount_paid,2)}}</strong> 
+paid.
+ @endif
+
+<br>
+<br>
+
+A notification with the details has been sent to <strong>{{$tenant_record->email}}</strong> and <strong>{{auth()->user()->email}}</strong>
+<br>
+<br>
+To add payment to current rent records please click here <a href="{{ route('rentalPayment.create', ['uuid'=>$rental_record->uuid]) }}" class="btn btn-xs btn-primary ">Add Payment</a>
+<br>
+<br>
+Rent renewal notifications of <strong>&#8358;{{number_format($rental_record->amount,2)}}</strong> will be sent out on the
+following dates to <strong>{{$tenant_record->email}}</strong> and <strong>{{auth()->user()->email}}</strong>
+<br>
+<br>
+
+<table>
+  <tr>
+    <td style="width: 100px;">Date 1:</td>
+    <td>25%</td>
+  </tr>
+  <tr>
+    <td style="width: 100px;">Date 2:</td>
+    <td>12.5%</td>
+  </tr>
+  <tr>
+    <td style="width: 100px;">Date 3:</td>
+    <td>6.5%</td>
+  </tr>
+  <tr>
+    <td style="width: 100px;">Date 5:</td>
+    <td>0%</td>
+  </tr>
+</table>
+<br>
+<br>
+To make changes to the next rental amount please click here.
+    </p>
 
     <div class="text-center">
          <a href="{{ route('multi-step.done') }}">

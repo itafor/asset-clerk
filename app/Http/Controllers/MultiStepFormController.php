@@ -13,10 +13,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
+use Session;
 
 class MultiStepFormController extends Controller
 {
 
+// public $landlordRecord ='';
+// public $assetRecord = '';
+// public $tenantRecord = '';
+// public $rentalRecord = '';
+// public $paymentRecord ='';
 
 public static function getRentals()
 {
@@ -57,7 +63,7 @@ public static function getRentals()
     	$landlord = Landlord::createNew($request->all());
 
     	if($landlord){
-
+        session(['landlordRecord' => $landlord]);
      return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','landlord','next_step_asset'));
 
     }
@@ -86,6 +92,7 @@ public static function getRentals()
 
     	if($asset){
     	session(['asset_key' => $asset]);
+      session(['assetRecord' => $asset]);
      return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','asset','next_step_tenant'));
     }
   }
@@ -110,10 +117,12 @@ public static function getRentals()
 
     	$tenant = Tenant::createNew($request->all());
     	session(['tenant_key' => $tenant]);
+      session(['tenantRecord' => $tenant]);
 
     	if($tenant){
      $asset_value = $request->session()->pull('asset_key', 'default');
      $tenant_value = $request->session()->pull('tenant_key', 'default');
+
      
      $property = $asset_value->uuid;
      $tenant = $tenant_value->uuid;
@@ -133,39 +142,55 @@ public static function getRentals()
 
     public function multiStepFourStoreRental(Request $request)
     {
-
+      $data=$request->all();
   $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];
             $next_step_rental_payment = '';
+
+          $tenantRent=TenantRent::where('tenant_uuid',$data['tenant'])
+                              ->where('asset_uuid',$data['property'])
+                              ->where('price',$data['price'])
+                              ->where('amount',$data['amount'])->first();
+         if($tenantRent)
+         {
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_payment','tenantRent'));
+         }else{ 
 
       $tenantRent = TenantRent::createNew($request->all());
 
             RentalCreatedEmailJob::dispatch($tenantRent)
                 ->delay(now()->addSeconds(3));
           if($tenantRent){
+      session(['rentalRecord' => $tenantRent]);
 
      return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_payment','tenantRent'));
     }
   }
-
+}
 
 public function multiStepFiveStoreRentalPayment(Request $request)
     {
+      $data=$request->all();
 
     $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];
 
       $next_step_rental_summary = '';
+     $landlord_record = Session::get('landlordRecord');
+     $asset_record = Session::get('assetRecord'); 
+     $tenant_record = Session::get('tenantRecord');
+     $rental_record = Session::get('rentalRecord');
+
 
       $payment = RentPayment::createNew($request->all());
               $toEmail = $payment->get_tenant->email;
             Mail::to($toEmail)->send(new PaymentCreated($payment));
           if($payment){
-
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary'));
+      session(['paymentRecord' => $payment]);
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment'));
     }
-  }
-
+  
+}
 
 public function nextToAsset(Request $request)
 {
@@ -194,12 +219,17 @@ public function nextToAsset(Request $request)
 
  public function nextToSummary(Request $request)
 {
-      $rentalsDueInNextThreeMonths = getRentals()['rentalsDueInNextThreeMonths'];
-      $renewedRentals = getRentals()['renewedRentals'];
+      $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
+      $renewedRentals = self::getRentals()['renewedRentals'];
 
-      $next_step_rental_summary = '';
+     $next_step_rental_summary = '';
+     $landlord_record = Session::get('landlordRecord');
+     $asset_record = Session::get('assetRecord'); 
+     $tenant_record = Session::get('tenantRecord');
+     $rental_record = Session::get('rentalRecord');
+     $payment_record = $request->session()->pull('paymentRecord', 'default');
 
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary'));
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment_record'));
     
 }
 
