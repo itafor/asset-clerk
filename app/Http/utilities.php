@@ -28,7 +28,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
 
-
 function generateUUID()
 {
     return Str::uuid()->toString();
@@ -415,6 +414,13 @@ function check_if_user_upload_comany_detail(){
        }
     }
 
+   function Userdetails($userId){
+        $user=User::where('id',$userId)->first();
+        if($user){
+            return $user;
+       }
+    }
+    
     function getUsers(){
         $users=User::where('email','!=','admin@assetclerk.com')->get();
         if($users){
@@ -432,3 +438,4 @@ function check_if_user_upload_comany_detail(){
         return false;
        }
     }
+

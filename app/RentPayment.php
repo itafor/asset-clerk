@@ -37,6 +37,11 @@ class RentPayment extends Model
       return $this->belongsTo(Tenant::class,'tenant_uuid','uuid');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
+    
     public static function createNew($data){
 
     	$rentPayment = self::create([

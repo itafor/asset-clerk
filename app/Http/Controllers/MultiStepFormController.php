@@ -14,15 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 use Session;
+use DateTime;
 
 class MultiStepFormController extends Controller
 {
-
-// public $landlordRecord ='';
-// public $assetRecord = '';
-// public $tenantRecord = '';
-// public $rentalRecord = '';
-// public $paymentRecord ='';
 
 public static function getRentals()
 {
@@ -44,7 +39,6 @@ public static function getRentals()
     {
       
       $data=$request->all();
-        //Alert::success('Success Title', 'Success Message');
 
       $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];
@@ -111,7 +105,9 @@ public static function getRentals()
                               ->where('phone',$data['contact_number'])->first();
          if($tenant_exist)
          {
-             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental',));
+          $asset_value = Session::get('asset_key'); 
+          $tenant_value = Session::get('tenant_key');
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental','asset_value','tenant_value'));
          }else{ 
 
 
@@ -120,8 +116,8 @@ public static function getRentals()
       session(['tenantRecord' => $tenant]);
 
     	if($tenant){
-     $asset_value = $request->session()->pull('asset_key', 'default');
-     $tenant_value = $request->session()->pull('tenant_key', 'default');
+     $asset_value = Session::get('asset_key'); 
+     $tenant_value = Session::get('tenant_key');
 
      
      $property = $asset_value->uuid;
@@ -181,15 +177,32 @@ public function multiStepFiveStoreRentalPayment(Request $request)
      $tenant_record = Session::get('tenantRecord');
      $rental_record = Session::get('rentalRecord');
 
+       $dateOne =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateOne'];
+
+       $dateTwo =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateTwo'];
+
+       $dateThree =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateThree'];
+
+       $datefour =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['datefour'];
+
+      $payment=RentPayment::where('tenant_uuid',$data['tenant_uuid'])
+                              ->where('asset_uuid',$data['asset_uuid'])
+                              ->where('tenantRent_uuid',$data['tenantRent_uuid'])
+                              ->first();
+         if($payment)
+         {
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment','dateOne','dateTwo','dateThree','datefour'));
+         }else{ 
 
       $payment = RentPayment::createNew($request->all());
               $toEmail = $payment->get_tenant->email;
             Mail::to($toEmail)->send(new PaymentCreated($payment));
           if($payment){
       session(['paymentRecord' => $payment]);
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment'));
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment','dateOne','dateTwo','dateThree','datefour'));
     }
   
+  }
 }
 
 public function nextToAsset(Request $request)
@@ -229,7 +242,16 @@ public function nextToAsset(Request $request)
      $rental_record = Session::get('rentalRecord');
      $payment_record = $request->session()->pull('paymentRecord', 'default');
 
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment_record'));
+      $dateOne =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateOne'];
+
+      $dateTwo =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateTwo'];
+
+     $dateThree =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['dateThree'];
+
+     $datefour =self::displayDueRentNotificationDates($rental_record->startDate,$rental_record->due_date)['datefour'];
+
+
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_rental_summary','landlord_record','asset_record','tenant_record','rental_record','payment_record','dateOne','dateTwo','dateThree','datefour'));
     
 }
 
@@ -240,5 +262,34 @@ public function nextToAsset(Request $request)
         ->orderBy('id', 'desc')->get();
         return view('new.admin.rental.index', compact('rentals'));
   }
+
+  public static function displayDueRentNotificationDates($startDate,$dueDate)
+    {
+        $start_date = new DateTime($startDate);
+        $due_date = new DateTime($dueDate);
+        $days  = $due_date->diff($start_date)->format('%a');
+
+        $fifty_percent = round(50/100 * $days,0);
+        $dateOne = date('Y-m-d', strtotime($start_date->format('Y-m-d'). ' + '.$fifty_percent.' days')); 
+
+        $seventy_five_percent = round(75/100 * $days,0);
+        $dateTwo = date('Y-m-d', strtotime($start_date->format('Y-m-d'). ' + '.$seventy_five_percent.' days')); 
+
+        $eighty_eight_percent = round(88/100 * $days,0);
+        $dateThree = date('Y-m-d', strtotime($start_date->format('Y-m-d'). ' + '.$eighty_eight_percent.' days')); 
+
+        $hundred_percent = round(100/100 * $days,0);
+        $datefour = date('Y-m-d', strtotime($start_date->format('Y-m-d'). ' + '.$hundred_percent.' days')); 
+
+        return [
+            'dateOne'=>$dateOne,
+            'dateTwo'=>$dateTwo,
+            'dateThree'=>$dateThree,
+            'datefour'=>$datefour,
+        ];
+
+        //40% renew, 50%, 50+25=75%, 75+13=88%, 88+12=100%
+        //60% renew, 50%,      25%,      13%,      0% cron job
+    }
 
 }

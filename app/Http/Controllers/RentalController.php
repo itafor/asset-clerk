@@ -23,6 +23,7 @@ use DB;
 use Illuminate\Http\Request;
 use Mail;
 use Validator;
+use DateTime;
 
 class RentalController extends Controller
 {
@@ -30,6 +31,7 @@ class RentalController extends Controller
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
         ->orderBy('id', 'desc')->get();
+
         return view('new.admin.rental.index', compact('rentals'));
     }
     
@@ -218,26 +220,26 @@ public function viewDetail($uuid){
      * Cron Job for rent due
      * Send landlord list of due rents
      * Send tentant due rent
-     *
+     *60% renew, 50%,      25%,      13%,      0% cron job
      * @return void
      */
+public function notifyDueRentAt50Percent()
+    {
+
+       DueRentNotification::DueRentNotificationAt50Percent();
+
+  return 'Done';
+}
+
 public function notifyDueRentAt25Percent()
     {
-
-       DueRentNotification::DueRentNotificationAt25Percent();
-
+  DueRentNotification::DueRentNotificationAt25Percent();
   return 'Done';
 }
 
-public function notifyDueRentAt12Percent()
+public function notifyDueRentAt13Percent()
     {
-  DueRentNotification::DueRentNotificationAt12Percent();
-  return 'Done';
-}
-
-public function notifyDueRentAt6Percent()
-    {
-    DueRentNotification::DueRentNotificationAt6Percent();
+    DueRentNotification::DueRentNotificationAt13Percent();
   return 'Done';
 }
 
@@ -247,9 +249,10 @@ public function notifyDueRentAt0Percent()
   return 'Done';
 }
 
- public function renewRentalsAt50Percent(){
+//rene
+ public function renewRentalsAt60Percent(){
         $newRentals = TenantRent::where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (50/100) ),0)')->with(['users'])
+        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (60/100) ),0)')->with(['users'])
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
 //dd($newRentals);
@@ -409,6 +412,6 @@ PastDueRentNotificationJob::dispatch($userDetail,$past_due_rents2,$totalRentsNot
 return 'Done';
   }
 }
- 
+
 }
 

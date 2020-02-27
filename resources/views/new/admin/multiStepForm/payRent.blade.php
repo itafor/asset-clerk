@@ -171,10 +171,11 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save Payment') }}</button>
-                                    <a href="{{ route('multi-step.next.to.summary') }}">
-                                     <button type="button" class="btn btn-warning mt-4">{{ __('Next') }}</button>
+                                       <a href="{{ route('multi-step.next.to.summary') }}">
+                                     <button type="button" class="btn btn-warning mt-4">{{ __('Skip') }}</button>
                                      </a>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save Payment') }}</button>
+                                 
                                 </div>                     
                             </div>
 

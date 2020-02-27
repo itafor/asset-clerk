@@ -167,9 +167,9 @@ a { color: inherit; }
          @include('new.admin.multiStepForm.payRent')
     @endif
 
-     <!-- @if(isset($next_step_rental_summary))
+     @if(isset($next_step_rental_summary))
          @include('new.admin.multiStepForm.summary')
-    @endif -->
+    @endif
 
     <div class="row">
 

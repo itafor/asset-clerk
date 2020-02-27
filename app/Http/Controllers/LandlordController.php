@@ -13,6 +13,7 @@ class LandlordController extends Controller
     {
         $landlords = Landlord::where('user_id',getOwnerUserID())
         ->orderBy('firstname')->get();
+        
         return view('new.admin.landlord.index', compact('landlords'));
     }
 

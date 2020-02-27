@@ -15,6 +15,7 @@ class PaymentCreated extends Mailable
     public $payment;
     public $landlord;
     public $companyDetail;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -26,6 +27,7 @@ class PaymentCreated extends Mailable
         $this->payment = $payment;
         $this->landlord = $payment->asset->Landlord ? $payment->asset->Landlord : '';
         $this->companyDetail = comany_detail($payment->user_id);
+        $this->user = Userdetails($payment->user_id);
     }
 
     /**
@@ -38,6 +40,6 @@ class PaymentCreated extends Mailable
         return $this->view('emails.payment')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Rent Payment Notification')
-        ->cc(auth()->user()->email,auth()->user()->firstname);
+        ->cc($this->user ? $this->user->email:'noreply@assetclerk.com', $this->user  ?  $this->user->firstname : 'Asset clerk');
     }
 }

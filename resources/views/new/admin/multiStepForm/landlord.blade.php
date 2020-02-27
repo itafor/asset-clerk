@@ -197,10 +197,11 @@
                                     @endif
                                 </div> -->
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save and Continue') }}</button>
                                     <a href="{{ route('multi-step.get.asset') }}">
-                                     <button type="button" class="btn btn-warning mt-4">{{ __('Next') }}</button>
+                                     <button type="button" class="btn btn-warning mt-4">{{ __('Skip') }}</button>
                                      </a>
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save and Continue') }}</button>
+                                    
                                 </div>
                         </form>
                 </div>

@@ -24,12 +24,12 @@
                     <h5 class="card-title">Summary Message</h5>
     <p class="card-text">
       
-      You have successfully added (<strong>{{$tenant_record->firstname}} {{$tenant_record->lastname}}</strong>) to your property, (<strong>{{$asset_record->description}}</strong>)  
+      You have successfully added <strong>{{$tenant_record->firstname}} {{$tenant_record->lastname}}</strong> to your property, <strong>{{$asset_record->description}}</strong>
       @if(isset($landlord_record))
       @if($landlord_record !=null)
       belong to
-      (<strong>
-        {{$landlord_record->firstname}} {{$landlord_record->lastname}}</strong>)
+      <strong>
+        {{$landlord_record->firstname}} {{$landlord_record->lastname}}</strong>
       @endif
  @endif
          with a rental value of <strong>&#8358;{{number_format($rental_record->amount,2)}}</strong> 
@@ -56,24 +56,26 @@ following dates to <strong>{{$tenant_record->email}}</strong> and <strong>{{auth
 <table>
   <tr>
     <td style="width: 100px;">Date 1:</td>
-    <td>25%</td>
+    <td>
+       {{ \Carbon\Carbon::parse($dateOne)->format('d M, Y')}}
+    </td>
   </tr>
   <tr>
     <td style="width: 100px;">Date 2:</td>
-    <td>12.5%</td>
+    <td>
+      {{ \Carbon\Carbon::parse($dateTwo)->format('d M, Y')}}
+    </td>
   </tr>
   <tr>
     <td style="width: 100px;">Date 3:</td>
-    <td>6.5%</td>
+    <td> {{ \Carbon\Carbon::parse($dateThree)->format('d M, Y')}}</td>
   </tr>
   <tr>
-    <td style="width: 100px;">Date 5:</td>
-    <td>0%</td>
+    <td style="width: 100px;">Date 4:</td>
+    <td> {{ \Carbon\Carbon::parse($datefour)->format('d M, Y')}}</td>
   </tr>
-</table>
+   </table>
 <br>
-<br>
-To make changes to the next rental amount please click here.
     </p>
 
     <div class="text-center">
