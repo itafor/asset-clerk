@@ -67,7 +67,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                @if(isset($landlord))
+                                @if(isset($landlord) && $landlord !='')
                                 <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
                                     <select name="landlord"  class="form-control" required>
@@ -75,6 +75,25 @@
                                         @foreach (getLandlords() as $land)
                                             <option value="{{$land->id}}"
                                                 {{$land->id == $landlord->id ? 'selected' : ''}}>{{$land->name()}}</option>
+                                        @endforeach
+                                    </select>
+                                    
+                                    @if ($errors->has('landlord'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('landlord') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>  
+                                @endif
+
+                                   @if(isset($landlord) && $landlord == '')
+                                <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
+                                    <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
+                                    <select name="landlord"  class="form-control" required>
+                                        <option value="">Select Landlord</option>
+                                        @foreach (getLandlords() as $land)
+                                            <option value="{{$land->id}}"
+                                                >{{$land->name()}}</option>
                                         @endforeach
                                     </select>
                                     

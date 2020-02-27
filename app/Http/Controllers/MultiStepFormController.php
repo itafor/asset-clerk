@@ -45,13 +45,13 @@ public static function getRentals()
   
     	$next_step_asset = '';
 
-      $landlord_exist=Landlord::where('firstname',$data['firstname'])
+      $landlord=Landlord::where('firstname',$data['firstname'])
                               ->where('lastname',$data['lastname'])
                               ->where('email',$data['email'])
                               ->where('phone',$data['contact_number'])->first();
-         if($landlord_exist)
+         if($landlord)
          {
-             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset'));
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset','landlord'));
          }else{  
 
     	$landlord = Landlord::createNew($request->all());
@@ -69,7 +69,7 @@ public static function getRentals()
       $rentalsDueInNextThreeMonths = self::getRentals()['rentalsDueInNextThreeMonths'];
       $renewedRentals = self::getRentals()['renewedRentals'];    	
       $next_step_tenant = '';
-
+      $landlord = '';
         $asset_exist=Asset::where('description',$data['description'])
                               ->where('country_id',$data['country'])
                               ->where('state_id',$data['state'])
@@ -80,14 +80,14 @@ public static function getRentals()
                               ->first();
          if($asset_exist)
          {
-             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_tenant'));
+             return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_tenant','landlord'));
          }else{
     	$asset = Asset::createNew($request->all());
 
     	if($asset){
     	session(['asset_key' => $asset]);
       session(['assetRecord' => $asset]);
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','asset','next_step_tenant'));
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','asset','next_step_tenant','landlord'));
     }
   }
 }
@@ -212,9 +212,9 @@ public function nextToAsset(Request $request)
   $renewedRentals = self::getRentals()['renewedRentals'];
 
       $next_step_asset = '';
+      $landlord = '';
 
-
-     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset'));
+     return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_asset','landlord'));
     
  }
 
