@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Landlord;
-use Validator;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Validator;
 
 class LandlordController extends Controller
 {
@@ -105,4 +106,44 @@ class LandlordController extends Controller
         Landlord::updateLandlord($request->all());
         return redirect()->route('landlord.index')->with('success', 'Landlord updated successfully');
     }
+
+    public function searchLandlord(Request $request){
+     if($request->get('query2') && $request->query2 !='')
+     {
+      $query2 = $request->get('query2');
+      $users = Landlord::where('firstname','like',"%{$query2}%")
+      ->orwhere('lastname','like',"%{$query2}%")
+      ->where('user_id', getOwnerUserID())
+    ->get();
+    if(count($users) > 1){
+    $output = '<ul class="dropdown-menu" 
+    style="display: block; 
+    position: absolute; z-index: 100; width:300px; padding-left:20px; margin-left:40px; margin-top: -160px;">';
+
+$output.='<li style="margin-left:230px; font-size:20px; color:red; cursor: pointer;">x</li>';
+    foreach ($users as $row) {
+       if($row->user_id == getOwnerUserID()){
+$output.='<li id="landlordId" data-value="'.$row->id.'" style="cursor: pointer;">'.$row->firstname.' '.$row->lastname.'</li>';
+ }
+    }
+   $output .='</ul>';
+   echo $output;
+}else{
+    echo 'No matching records found';
+}
+    }
+
+   }
+
+public function fetchLandlord($id)
+    {
+        $landlord = Landlord::where('id',$id)->first();
+        if($landlord){
+            return response()->json($landlord);
+        }
+        else{
+            return [];
+        }
+    }
+
 }

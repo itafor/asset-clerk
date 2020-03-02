@@ -59,17 +59,18 @@
 
                                 <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-firstname">{{ __('First Name') }}</label>
-                                    <input type="text" name="firstname" id="input-firstname" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required autofocus>
-
+                                    <input type="text" name="firstname" id="searchLandlord" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required autofocus>
+                                    <div id="listLandlord"></div>
                                     @if ($errors->has('firstname'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('firstname') }}</strong>
                                         </span>
                                     @endif
+                                    
                                 </div>
                                 <div class="form-group{{ $errors->has('lastname') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-lastname">{{ __('Last Name') }}</label>
-                                    <input type="text" name="lastname" id="input-lastname" class="form-control form-control-alternative{{ $errors->has('lastname') ? ' is-invalid' : '' }}" placeholder="Enter Last Name" value="{{old('lastname')}}" required>
+                                    <input type="text" name="lastname" id="input-lastname"  class="form-control form-control-alternative{{ $errors->has('lastname') ? ' is-invalid' : '' }}" placeholder="Enter Last Name" value="{{old('lastname')}}" required>
                                     
                                     @if ($errors->has('lastname'))
                                         <span class="invalid-feedback" role="alert">

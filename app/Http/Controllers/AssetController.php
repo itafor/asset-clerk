@@ -45,7 +45,7 @@ class AssetController extends Controller
          ->select('asset_service_charges.*')
          ->get();
 
-        chekUserPlan('property');
+       // chekUserPlan('property');
         return view('new.admin.assets.create', compact('charges'));
     }
 
@@ -60,7 +60,7 @@ class AssetController extends Controller
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'property_type' => 'required',
-            'asking_price' => 'required',
+            // 'asking_price' => 'required',
             // 'unit.*.category' => 'required',
             // 'unit.*.quantity' => 'required',
             // 'unit.*.standard_price' => 'required',

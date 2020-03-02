@@ -15,6 +15,7 @@ class NotifyFinalDueRent extends Mailable
     public $landlord;
     public $companyDetail;
     public $defaultRemainingDuration;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -25,7 +26,7 @@ class NotifyFinalDueRent extends Mailable
     {
         $this->rental = $rental;
         $this->defaultRemainingDuration = $defaultRemainingDuration;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->user = Userdetails($rental->user_id);
         $this->companyDetail = comany_detail($rental->user_id);
     }
 
@@ -39,6 +40,6 @@ class NotifyFinalDueRent extends Mailable
         return $this->view('emails.notify_final_duerent')
         ->subject('Due Rentals Notification')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->cc($this->user ? $this->user->email:'noreply@assetclerk.com', $this->user  ?  $this->user->firstname : 'Asset clerk');
     }
 }

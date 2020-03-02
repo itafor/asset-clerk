@@ -220,22 +220,13 @@ Please fine below your account summary
                             <tr>
                                 <th scope="">S/N</th>
                                 <th scope="">Asset</th>
-                                <th scope="">Number of Units</th>
-                                <th scope="">Properties per Unit</th>
                             </tr>
                         </thead>
                         <tbody>
                  @foreach($assets as $asset)
-                                    <tr>
+                 <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{$asset->description}}</td>
-                  <td>{{$asset->units->count()}}</td>
-                  <td>
-                    @foreach($asset->units as $unit)
-                    ({{$unit->uuid}}) : {{$unit->quantity}} Property(ies),
-              @endforeach
-
-                  </td>
                    </tr>
               @endforeach
                         </tbody>

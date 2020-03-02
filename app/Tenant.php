@@ -5,6 +5,7 @@ namespace App;
 use App\Asset;
 use App\TenantDocument;
 use App\TenantProperty;
+use App\TenantRent;
 use App\Unit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,7 +43,7 @@ class Tenant extends Model
 
     public function name()
     {
-        return $this->designation.' '.$this->lastname.' '.$this->firstname;
+        return $this->firstname.' '.$this->lastname;
     }
 
     public static function createNew($data)
@@ -147,12 +148,13 @@ public static function assignTenantToProperty($data){
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
             'property_uuid' => $data['property'],
-            // 'unit_uuid' => $data['unit'],
-            // 'property_proposed_pice' => $data['price'],
+            'unit_uuid' => $data['unit'],
+            'property_proposed_pice' => $data['price'],
             'tenant_uuid' => $data['tenant']
     ]);
 
-    self::markAssetAsOccupied($data);
+    //self::markAssetAsOccupied($data);
+   TenantRent::markUnitAsOccupied($data);
 }
 
 

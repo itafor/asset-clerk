@@ -39,7 +39,8 @@
                       <tr>
                           <th>No</th>
                           <th><b>Full Name</b></th>
-                          <th><b>Asset</b></th>
+                          <th><b>Property</b></th>
+                          <th><b>Unit</b></th>
                           <th><b>Property Estimate</b></th>
                           <th><b>Amount</b></th>
                           <th><b>Balance</b></th>
@@ -58,6 +59,7 @@
                             {{ $rent->tenant ? $rent->tenant->lastname : '' }}
                           </td>
                           <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
+                          <td>{{$rent->unit_rent_debtor ? $rent->unit_rent_debtor->unitname : 'N/A'}}</td>
                           <td>&#8358;{{number_format($rent->proposed_price,2)}}</td>
                           <td>&#8358;{{number_format($rent->actual_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->balance,2)}}</td>

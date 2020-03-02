@@ -150,6 +150,9 @@ Route::post('/store', 'LandlordController@store')->name('landlord.store');
 Route::get('/edit/{uuid}', 'LandlordController@edit')->name('landlord.edit');
 Route::post('/update', 'LandlordController@update')->name('landlord.update');
 Route::get('/delete/{uuid}', 'LandlordController@delete')->name('landlord.delete');
+Route::get('/search', 'LandlordController@searchLandlord')->name('landlord.search');
+Route::get('fetch-landland/{id}', 'LandlordController@fetchLandlord')->name('landlord.fetch');
+
 });
 Route::prefix('rental')->group(function(){
 Route::get('/', 'RentalController@index')->name('rental.index');
@@ -260,6 +263,7 @@ Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
+Route::get('analyse-property/{property}', 'UtilsController@analyseProperty');
 Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
 Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
 Route::get('fetch-tenants-added-to-asset/{asset_uuid}', 'UtilsController@fetchTenantAddedToAsset');

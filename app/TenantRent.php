@@ -63,7 +63,7 @@ class TenantRent extends Model
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
-            // 'unit_uuid' => $data['unit'],
+            'unit_uuid' => $data['unit'],
             'price' => $data['price'],
             'amount' => $data['amount'],
             'balance' => $data['amount'],
@@ -77,7 +77,7 @@ class TenantRent extends Model
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
-        // self::reduceUnit($data);
+         self::markUnitAsOccupied($data);
         self::addNextPayment($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
@@ -97,13 +97,13 @@ class TenantRent extends Model
         ]);
     }
 
-    // public static function reduceUnit($data)
-    // {
-    //     $unit = Unit::where('uuid', $data['unit'])->first();
-    //     $unit->quantity_left -= 1;
-    //     $unit->save();
-    // }
-
+    public static function markUnitAsOccupied($data)
+    {
+        $unit = Unit::where('uuid', $data['unit'])->first();
+        $unit->status = 'Occupied';
+        $unit->save();
+    }
+ 
     /**
      * Delete rental
      * Restore units

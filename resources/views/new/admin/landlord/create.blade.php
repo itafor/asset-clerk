@@ -68,8 +68,8 @@
 
                                 <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-firstname">{{ __('First Name') }}</label>
-                                    <input type="text" name="firstname" id="input-firstname" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required>
-
+                                    <input type="text" name="firstname" id="searchLandlord" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required>
+                                     <div id="listLandlord"></div>
                                     @if ($errors->has('firstname'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('firstname') }}</strong>

@@ -267,40 +267,42 @@ $(document).ready(function(){
     </script>
  <script>
 //Add tenant to property
-        $('#input-property').change(function(){
+       
+    $('#property').change(function(){
             var property = $(this).val();
             if(property){
-                $('#input-unit').empty();
-                $('<option>').val('').text('Loading...').appendTo('#input-unit');
+                $('#unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#unit');
                 $.ajax({
                     url: baseUrl+'/fetch-units/'+property,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        $('#input-unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+                        $('#unit').empty();
+                        $('<option>').val('').text('Select Unit').appendTo('#unit');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#input-unit');
+                            $('<option>').val(v.uuid).text(v.unitname).attr('data-price',v.standard_price).appendTo('#unit');
                         });
                     }
                 });
             }
             else{
-                $('#input-unit').empty();
-                $('<option>').val('').text('Select Unit').appendTo('#input-unit');
+                $('#unit').empty();
+                $('<option>').val('').text('Select Unit').appendTo('#unit');
             }
         });
         
-        $('#input-property').change(function(){
+        $('#unit').change(function(){
             var unit = $(this).val();
             if(unit){
                 var price = $(this).find(':selected').attr('data-price')
-                $('#input_price').val(price);
+                $('#price').val(price);
             }
             else{
-                $('#input_price').val('');
+                $('#price').val('');
             }
         });
+
 
         //Check if a property is occupied
         $('.occupiedProperty').change(function(){
@@ -336,6 +338,70 @@ $(document).ready(function(){
   $(this).addClass("active_menu").siblings().removeClass("active_menu");
 });
 
+
+  $(document).ready(function(){
+  $('#searchLandlord').keyup(function(){
+
+    var query2=$(this).val();
+    if(query2 !=''){
+      var _token = $('input[name="_token"').val();
+      $.ajax({
+        url:"{{ route('landlord.search')}}",
+        method:"get",
+        data:{query2:query2, _token:_token},
+        success:function(user){
+            //console.log(user)
+         if(user !=''){
+            $('#listLandlord').fadeIn();
+          $('#listLandlord').html(user);
+      }else{
+       
+        }
+      }
+      })
+    }else{
+        $('#listLandlord').html('');
+    }
+  }); 
+
+  $(document).on('click', 'li', function(e){  
+        $('#searchLandlord').val($(this).text()); 
+            $('#listLandlord').fadeOut();
+       let landId = $(this).attr("data-value");
+       //console.log(landId);
+        if(landId){
+                 $.ajax({
+                    url: baseUrl+'/landlord/fetch-landland/'+landId,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#searchLandlord').empty();
+                        $('#input-lastname').empty();
+                        $('#input-email').empty();
+                        $('#input-contact_number').empty();
+
+                        $('#searchLandlord').val(data.firstname)
+                        $('#input-lastname').val(data.lastname)
+                        $('#input-email').val(data.email)
+                        $('#input-contact_number').val(data.phone)
+
+                        if(data !=''){
+                     toast({
+                    type: 'warning',
+                    title: 'Landlord already exist'
+                    })
+                        $('#searchLandlord').val('');
+                        $('#input-lastname').val('');
+                        $('#input-email').val('');
+                        $('#input-contact_number').val('');
+                        }
+                    }
+                });
+
+        }
+    });  
+ 
+});
     </script>
     @yield('script')
 </body>

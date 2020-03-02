@@ -81,7 +81,7 @@ class Asset extends Model
             // 'commission' => $data['commission'],
             'description' => $data['description'],
             'landlord_id' => $landlord,
-            'price' => $data['asking_price'],
+            // 'price' => $data['asking_price'],
             'property_type' => $data['property_type'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
@@ -97,7 +97,7 @@ class Asset extends Model
 
         ]); 
 
-        // self::createUnit($data,$asset);
+        self::createUnit($data,$asset);
         // self::addPhoto($data,$asset); 
         return $asset;
     }
@@ -109,7 +109,7 @@ class Asset extends Model
         self::where('uuid', $data['uuid'])->update([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'price' => $data['asking_price'],
+            // 'price' => $data['asking_price'],
             'property_type' => $data['property_type'],
             'landlord_id' => $landlord,
             'country_id' => $data['country'],
@@ -141,13 +141,9 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'user_id' => getOwnerUserID(),
                 'plan_id' => activePlanId(getOwnerUserID()),
-                'category_id' => $unit['category'],
-                'quantity' => $unit['quantity'],
-                'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
-                'rent_commission' => $unit['rent_commission'],
-                'property_type_id' => $unit['property_type'],
-                'apartment_type' => $unit['apartment_type'],
+                'unitname' => $unit['unitname'],
+                'status' => 'vacant',
                 'uuid' => generateUUID(),
             ]);
         }

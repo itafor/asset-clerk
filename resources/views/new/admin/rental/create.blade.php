@@ -42,9 +42,51 @@
                                 <input type="hidden" name="previous_rental_id" value="">
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
+                              <div class="row">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
+                                         <select name="property" id="property" class="form-control propertycount" required autofocus>
+                                            <option value="">Select Property</option>
+                                            @foreach (getAssets() as $asset)
+                                                <option value="{{$asset->uuid}}">{{$asset->description}}</option>
+                                            @endforeach
+                                        </select>
 
-                                 <div class="row">
-                                    <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-4">
+                                        @if ($errors->has('property'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('property') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
+                                        <select name="unit" id="unit" class="form-control" required>
+                                            <option value="">Select Flat</option>
+                                        </select>
+                                        
+                                        @if ($errors->has('unit'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('unit') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-price">{{ __('Asking Price') }}</label>
+                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
+                                        
+                                        @if ($errors->has('price'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('price') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                              
+                                     </div>
+
+                                     <div class="row">
+                                    <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-12">
                                         <label class="form-control-label" for="input-tenant">{{ __('Tenant') }} 
 
 
@@ -65,42 +107,6 @@
         </span>
     @endif
 </div>
-                              
-                                          <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
-                                        <select name="property" id="property" class="form-control" required autofocus>
-                                             <option value="">Select Property</option>
-                                        </select>
-
-                                        @if ($errors->has('property'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('property') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-price">{{ __('Asking Price') }}</label>
-                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
-                                        
-                                        @if ($errors->has('price'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('price') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                <!--     <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
-                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
-                                        <select name="unit" id="unit" class="form-control" required>
-                                            <option value="">Select Unit</option>
-                                        </select>
-                                        
-                                        @if ($errors->has('unit'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('unit') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div> -->
 
 
                                 </div>
@@ -175,56 +181,44 @@
     <script>
      
 
-         let selected_tenant_uuid ='';
-        $('#input_tenant').change(function(){
-            var tenant_uuid = $(this).val();
-            selected_tenant_uuid = tenant_uuid;
-            console.log('selected:',selected_tenant_uuid);
-            if(tenant_uuid){
-                $('#property').empty();
-                $('<option>').val('').text('Loading...').appendTo('#property');
-                $.ajax({
-                    url: baseUrl+'/fetch-tenants-assigned-to-asset/'+tenant_uuid,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if(data !=''){
-                        $('#property').empty();
-                        $('<option>').val('').text('Select Property').appendTo('#property');
-                        $.each(data, function(k, v) {
-                            $('<option>').attr('selected',true).val(v.propertyUuid).text(v.propertyName).attr('data-price',v.propertyProposedPice).appendTo('#property');
-                            $('#price').attr('selected',true).val(v.propertyProposedPice);
-                        });
+    //      let selected_tenant_uuid ='';
+    //     $('#input_tenant').change(function(){
+    //         var tenant_uuid = $(this).val();
+    //         selected_tenant_uuid = tenant_uuid;
+    //         console.log('selected:',selected_tenant_uuid);
+    //         if(tenant_uuid){
+    //             $('#property').empty();
+    //             $('<option>').val('').text('Loading...').appendTo('#property');
+    //             $.ajax({
+    //                 url: baseUrl+'/fetch-tenants-assigned-to-asset/'+tenant_uuid,
+    //                 type: "GET",
+    //                 dataType: 'json',
+    //                 success: function(data) {
+    //                     if(data !=''){
+    //                     $('#property').empty();
+    //                     $('<option>').val('').text('Select Property').appendTo('#property');
+    //                     $.each(data, function(k, v) {
+    //                         $('<option>').attr('selected',true).val(v.propertyUuid).text(v.propertyName).attr('data-price',v.propertyProposedPice).appendTo('#property');
+    //                         $('#price').attr('selected',true).val(v.propertyProposedPice);
+    //                     });
                     
-                    }else{
-                    toast({
-                        type: 'warning',
-                        title: 'Ooops!! Selected tenant has not been added to a property'
-                  })
-            }
-        }
-    });
-            }
-            else{
-                $('#property').empty();
-                 $('#price').empty();
-                $('<option>').val('').text('Select Property').appendTo('#property');
+    //                 }else{
+    //                 toast({
+    //                     type: 'warning',
+    //                     title: 'Ooops!! Selected tenant has not been added to a property'
+    //               })
+    //         }
+    //     }
+    // });
+    //         }
+    //         else{
+    //             $('#property').empty();
+    //              $('#price').empty();
+    //             $('<option>').val('').text('Select Property').appendTo('#property');
                 
-            }
-        });
+    //         }
+    //     });
 
-
-        
-        $('#property').change(function(){
-            var unit = $(this).val();
-            if(unit){
-                var price = $(this).find(':selected').attr('data-price')
-                $('#price').val(price);
-            }
-            else{
-                $('#price').val('');
-            }
-        });
 
 
 $(document).on('keyup', '#amount', function(e){
@@ -235,6 +229,41 @@ if(value <= 0){
     $('#balance').val(' ')
 }
  });
+
+
+    $('.propertycount').change(function(){
+            var property = $(this).val();
+            if(property){
+               let vacantFlatCount = [];
+              let occupiedFlatCount=[];
+                $.ajax({
+                    url: baseUrl+'/analyse-property/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data.propertyName)
+                        $.each(data.flats, function(k, v) {
+                            //let cout = v.status.vacant;
+                            if(v.status =='vacant'){
+                               vacantFlatCount.push(v.status) 
+                            }
+                            if(v.status =='Occupied'){
+                               occupiedFlatCount.push(v.status) 
+                            }
+                            console.log('va cont',vacantFlatCount.length)
+                            console.log('oc cont',occupiedFlatCount.length)
+
+                        });
+
+                    }
+
+                });
+                
+            }
+        
+            
+        });
+    
     </script>
    
 @endsection
