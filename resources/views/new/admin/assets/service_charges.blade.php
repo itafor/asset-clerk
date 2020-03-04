@@ -23,7 +23,7 @@
               <!-- /entry heading -->
 
               <div class="dt-entry__heading">
-                <a href="{{ route('asset.service.create')}}"> <button type="button" class="btn btn-primary btn-sm"> Add Service Charge  </button>
+                <a href="{{ route('service.add')}}"> <button type="button" class="btn btn-primary btn-sm"> Add Service Charge  </button>
                  </a>
               </div>
 

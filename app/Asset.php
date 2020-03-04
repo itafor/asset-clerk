@@ -40,7 +40,19 @@ class Asset extends Model
     public function Tenant(){
         return $this->hasMany(Tenant::class);
     }
-    
+
+    public function country(){
+        return $this->belongsTo(Country::class,'country_id','id');
+    }
+
+    public function state(){
+        return $this->belongsTo(State::class,'state_id','id');
+    }
+
+    public function city(){
+        return $this->belongsTo(City::class,'city_id','id');
+    }
+
     public function Landlord(){
         return $this->belongsTo(Landlord::class);
     }
@@ -269,9 +281,10 @@ class Asset extends Model
 
     public static function addPhoto($data,$asset)
     {
+       
         if(isset($data['photos'])){
             foreach($data['photos'] as $photo){
-            $path = uploadImage($photo);
+            $path = uploadImage($photo['image_url']);
             if($path){
                 AssetPhoto::create([
                     'asset_id' => $asset->id,

@@ -84,6 +84,7 @@ Route::get('/get-tenants-service-charge/{id}', 'AssetController@getTenantsServic
 
 Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('addserviceCharge');
 Route::get('/create-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
+Route::get('/create/service/charge/rental', 'AssetController@createServiceChargewithRental')->name('asset.service.create.rental');
 
 Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
 
@@ -99,7 +100,12 @@ Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('
 
 Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
+Route::get('/service/charges/add', 'AssetController@addServiceCharges')->name('service.add');
 Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
+Route::get('/view/details/{assetUuid}', 'AssetController@viewDetails')->name('asset.view.details');
+
+Route::post('/add/photos', 'AssetController@addPhotos')->name('asset.add.photos');
+
 });
 
 Route::prefix('service-charge')->group(function(){
@@ -267,6 +273,7 @@ Route::get('analyse-property/{property}', 'UtilsController@analyseProperty');
 Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
 Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
 Route::get('fetch-tenants-added-to-asset/{asset_uuid}', 'UtilsController@fetchTenantAddedToAsset');
+Route::get('fetch-tenants-added-to-rental/{asset_uuid}', 'UtilsController@fetchTenantAddedToRental');
 Route::get('check-occupied-assets/{asset_uuid}', 'UtilsController@checkOccupiedAsset');
 
 Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');

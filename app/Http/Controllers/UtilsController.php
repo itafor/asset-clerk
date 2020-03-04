@@ -10,6 +10,7 @@ use App\ServiceCharge;
 use App\Subscription;
 use App\Tenant;
 use App\TenantProperty;
+use App\TenantRent;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -168,6 +169,21 @@ if($asset_uuid){
             return [];
         }
 }
+
+public function fetchTenantAddedToRental($asset_uuid){
+if($asset_uuid){
+            $rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_rents.unit_uuid')
+            ->join('tenants as tn', 'tn.uuid', '=', 'tenant_rents.tenant_uuid')
+            ->select('tn.*')
+            ->get();
+            return response()->json($rentals);
+        }
+        else{
+            return [];
+        }
+}
+
     public function resendVerification()
     {
         try{

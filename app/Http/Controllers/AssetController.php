@@ -14,6 +14,7 @@ use DB;
 use Illuminate\Http\Request;
 use Validator;
 use DateTime;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AssetController extends Controller
 {
@@ -36,6 +37,19 @@ class AssetController extends Controller
         return view('new.admin.assets.index', $data);
     }
 
+    public function viewDetails($assetUuid)
+    {
+        //dd($assetUuid);
+        $asset = Asset::where('uuid',$assetUuid)
+        ->where('user_id',getOwnerUserID())->first();
+        $units = Unit::where('asset_id',$asset->id)
+                    ->where('user_id',getOwnerUserID())->get();
+
+        $photos = AssetPhoto::where('asset_id',$asset->id)->get();
+
+        return view('new.admin.assets.partials.viewAssetDetail',compact('asset','units','photos'));
+    }
+
     public function create()
     {
         $charges = AssetServiceCharge::join('assets', 'asset_service_charges.asset_id', '=', 'assets.id')
@@ -52,11 +66,12 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $data=$request->all();
       if(!$this->checkAvailableSlot($request)){
             return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
             }
 
-        chekUserPlan('property');
+       // chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
             'property_type' => 'required',
@@ -82,6 +97,22 @@ class AssetController extends Controller
             return back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
+
+
+        $units=$data['unit'];
+        $unitNames = [];
+        foreach ($units as $key => $value) {
+           $unitNames[]=$value['unitname'];
+        }
+
+        $dup = self::array_has_dupes($unitNames);
+
+        if($dup){
+              // Alert::warning('Required Fields', 'Duplicate unit names detected, Check and try again!!');
+         return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
+
+        }
+
 
         DB::beginTransaction();
         try{
@@ -263,6 +294,10 @@ class AssetController extends Controller
 
     public function createServiceCharge(Request $request){
         return view('new.admin.assets.create_asset_service_charge');
+    }
+
+        public function createServiceChargewithRental(Request $request){
+        return view('new.admin.assets.create_asset_service_charge_rental');
     }
 
       public static function array_has_dupes($array) {
@@ -464,8 +499,7 @@ public function tenantsServiceCharge($id){
             }
 
         $validator = Validator::make($request->all(), [
-            'unit.*.category' => 'required',
-            'unit.*.quantity' => 'required',
+            'unit.*.unitname' => 'required',
             'unit.*.standard_price' => 'required',
             'asset' => 'required'
         ]);
@@ -473,6 +507,35 @@ public function tenantsServiceCharge($id){
             return  back()->withErrors($validator)
                         ->withInput()->with('error', 'Please fill in a required fields');
         }
+        $data=$request->all();
+
+        $units=$data['unit'];
+        $unitNames = [];
+        foreach ($units as $key => $value) {
+           $unitNames[]=$value['unitname'];
+        }
+
+        $dup = self::array_has_dupes($unitNames);
+
+        if($dup){
+         return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
+        }
+
+
+        $myUnits=Unit::where('asset_id',$data['asset'])
+        ->where('user_id',getOwnerUserID())->get();
+        if($myUnits){
+        foreach($myUnits as $myunit){
+         foreach($data['unit'] as $unit){
+            if($myunit->unitname == $unit['unitname']){
+                return  back()->withErrors($validator)
+                        ->withInput()->with('error', 'The selected property unit name already exists');
+            }
+         }
+        }
+}
+
+
         $asset = Asset::find($request['asset']);
         if($asset){
             Asset::createUnit($request->all(), $asset);
@@ -482,6 +545,18 @@ public function tenantsServiceCharge($id){
             return back()->with('error', 'Error: asset not found');
         }
     }
+
+     public function addPhotos(Request $request)
+     {
+        $asset = Asset::find($request['asset']);
+        if($asset){
+            Asset::addPhoto($request->all(), $asset);
+            return back()->with('success', 'Photo added successfully');
+        }
+        else{
+            return back()->with('error', 'Error: asset not found');
+        }
+     }
 
     public function serviceCharges()
     {
@@ -505,6 +580,12 @@ public function tenantsServiceCharge($id){
         ];
         return view('new.admin.assets.service_charges', $data);
     }
+
+ public function addServiceCharges(Request $request){
+   // dd('working');
+   return view('new.admin.assetServiceCharge.add');
+
+ }
 
   public function  AssetServiceCharges($assetId){
      $charges = AssetServiceCharge::with('asset','serviceCharge')

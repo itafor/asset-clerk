@@ -64,6 +64,9 @@
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                         <a href="{{ route('asset.view.details', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">View</a>
+
                                         <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
                                        
                                     <!--     <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a> -->

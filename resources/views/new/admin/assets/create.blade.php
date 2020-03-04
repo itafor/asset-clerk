@@ -148,12 +148,12 @@
                                 <div style="clear:both"></div>                         
                             </div>
                        
-                            <h6 class="heading-small text-muted mb-4">{{ __('Property Flats') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('Property Units') }}</h6>
                          
             <div class="row">
      
                                 <div class="form-group{{ $errors->has('unitname') ? ' has-danger' : '' }} col-6">
-                                    <label class="form-control-label" for="input-property_type">{{ __('Flat Name') }}</label>
+                                    <label class="form-control-label" for="input-property_type">{{ __('Name') }}</label>
                                     <input name="unit[112211][unitname]"  class="form-control" placeholder="Enter Flat Name" required>
 
                                     @if ($errors->has('unitname'))
