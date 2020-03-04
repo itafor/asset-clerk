@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\TenantProperty;
 use App\TenantRent;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,6 +49,15 @@ class Unit extends Model
     public function getTenant()
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
+        ->latest()->with('tenant')->first();
+         if($rental){
+        return $rental->tenant;
+        }
+    }
+
+    public function getTenantWithoutRent()
+    {
+        $rental = TenantProperty::where('unit_uuid', $this->uuid)
         ->latest()->with('tenant')->first();
          if($rental){
         return $rental->tenant;

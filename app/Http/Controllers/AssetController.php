@@ -561,6 +561,19 @@ public function tenantsServiceCharge($id){
 
   public function addAssetFeatures(Request $request)
      {
+        $data=$request->all();
+    $propertyFeatures=PropertyFeature::where('asset_id',$data['asset'])
+        ->where('user_id',getOwnerUserID())->get();
+        if($propertyFeatures){
+        foreach($propertyFeatures as $profeature){
+         foreach($data['features'] as $feature){
+            if($profeature->feature == $feature){
+                return  back()->withInput()->with('error', 'The selected feature alread exists in this property');
+            }
+         }
+    }
+}
+
         $asset = Asset::find($request['asset']);
         if($asset){
 
@@ -575,6 +588,9 @@ public function tenantsServiceCharge($id){
         else{
             return back()->with('error', 'Error: asset not found');
         }
+
+
+
      }
 
     public function serviceCharges()

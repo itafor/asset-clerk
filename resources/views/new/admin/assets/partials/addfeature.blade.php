@@ -6,6 +6,8 @@
                 <input type="hidden" name="asset" id="assetU" value="{{$asset->id}}">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add feature(s)</h5>
+               <button type="button" onclick="selectAllFecture()" class="float-left btn-xs btn-default">Select All</button>
+               <button type="button" onclick="unSelectAllFecture()" class="float-right btn-xs btn-default">Deselect All</button>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,10 +16,10 @@
                     @csrf
                 <div class="form-group col-12 row">
      
-                                <div class="form-group{{ $errors->has('unitname') ? ' has-danger' : '' }} col-12">
+                                <div class="form-group{{ $errors->has('unitname') ? ' has-danger' : '' }} col-12" id='list'>
                                       @foreach (getAssetFeatures() as $feature)
                                         <label style="margin-right:25px">
-                                            <input type="checkbox" name="features[]"  value="{{$feature->id}}"> {{$feature->name}}
+                                            <input type="checkbox" name="features[]"  value="{{$feature->id}}" id="features"> {{$feature->name}}
                                         </label>
                                     @endforeach
                                 </div>
@@ -41,6 +43,6 @@
 
 @section('script')
     <script>
-
+ 
           </script>
-        @endsection
+@endsection

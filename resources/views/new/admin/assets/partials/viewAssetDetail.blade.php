@@ -68,64 +68,7 @@
               </div>
             </div>
 
-            <div class="card">
-              <div class="card-header">
-                <h3 class="float-left">Units</h3>
-                    <button type="button" class="btn btn-default btn-xs float-right"> 
-                        <a href="#x" data-toggle="modal" data-target="#unitModal" class="addUnit text-white">
-                       <i class="fa fa-plus-circle"></i> Add Unit(s)</a>
-
-                    </button>
-                
-              </div>
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    
-                    <table class="table table-striped table-bordered table-hover datatable">
-                    <thead>
-                      <tr>
-                          <th>No</th>
-                          <th><b>Name</b></th>
-                          <th><b>Price</b></th>
-                          <th><b>Status</b></th>
-                          <th><b>Tenant</b></th>
-                          <th class="text-center"><b>Action</b></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($units as $unit)
-                      <tr>
-                          <td>{{$loop->iteration}}</td>
-                          <td>{{$unit->unitname}}</td>
-                          <td>{{$unit->standard_price}}</td>
-                          <td>{{$unit->status}}</td>
-                          <td>{{$unit->getTenant() ? $unit->getTenant()->firstname.' '.$unit->getTenant()->lastname:'N/A'}}</td>
-                          <td class="text-center">
-                              <div class="dropdown">
-                                  <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Manage
-                                  </a>
-                                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-
-                         <a class="dropdown-item">Edit</a>
-                                          
-                      <button type="button" class="dropdown-item" onclick="deleteData('asset','delete','unit',{{$unit->id}})">
-                          {{ __('Delete') }}
-                      </button>
-                                    
-                                  </div>
-                              </div>
-                          </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                  
-
-                  <footer class="blockquote-footer">Units in <cite title="Source Title">{{$asset->description}}</cite></footer>
-                </blockquote>
-              </div>
-            </div>
+           
 
             <div class="card">
               <div class="card-header">
@@ -189,6 +132,81 @@
                   <br>
                   <br>
                   <footer class="blockquote-footer">{{$asset->description}} <cite title="Source Title">photos</cite></footer>
+                </blockquote>
+              </div>
+            </div>
+
+ <div class="card">
+              <div class="card-header">
+                <h3 class="float-left">Units</h3>
+                    <button type="button" class="btn btn-default btn-xs float-right"> 
+                        <a href="#x" data-toggle="modal" data-target="#unitModal" class="addUnit text-white">
+                       <i class="fa fa-plus-circle"></i> Add Unit(s)</a>
+
+                    </button>
+                
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    
+                    <table class="table table-striped table-bordered table-hover datatable">
+                    <thead>
+                      <tr>
+                          <th>No</th>
+                          <th><b>Name</b></th>
+                          <th><b>Price</b></th>
+                          <th><b>Status</b></th>
+                          <th><b>Tenant</b></th>
+                          <th class="text-center"><b>Action</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($units as $unit)
+                      <tr>
+                          <td>{{$loop->iteration}}</td>
+                          <td>{{$unit->unitname}}</td>
+                          <td>{{$unit->standard_price}}</td>
+                          <td>{{$unit->status}}</td>
+                          <td>
+                            @if($unit->getTenant())
+
+                    {{$unit->getTenant()->firstname.' '.$unit->getTenant()->lastname}}
+
+                            @elseif($unit->getTenantWithoutRent())
+
+                    {{$unit->getTenantWithoutRent()->firstname.' '.$unit->getTenantWithoutRent()->lastname}}
+
+                    @else
+
+                    {{('N/A')}}
+                
+                @endif
+                            
+
+                        </td>
+                          <td class="text-center">
+                              <div class="dropdown">
+                                  <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Manage
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                         <a class="dropdown-item">Edit</a>
+                                          
+                      <button type="button" class="dropdown-item" onclick="deleteData('asset','delete','unit',{{$unit->id}})">
+                          {{ __('Delete') }}
+                      </button>
+                                    
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                  
+
+                  <footer class="blockquote-footer">Units in <cite title="Source Title">{{$asset->description}}</cite></footer>
                 </blockquote>
               </div>
             </div>
