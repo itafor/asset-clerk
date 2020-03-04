@@ -13,6 +13,7 @@ use App\Landlord;
 use App\Occupation;
 use App\PaymentMode;
 use App\PaymentType;
+use App\PropertyFeature;
 use App\PropertyType;
 use App\RentDue;
 use App\ServiceCharge;
@@ -142,6 +143,16 @@ function getTenants()
 function getAssetFeatures()
 {
     return AssetFeature::all();
+}
+
+function getPropertyFeatureName($id)
+{
+    $feature = PropertyFeature::where('feature',$id)->first();
+    if($feature){
+        return $feature->name;
+    }else{
+        return 'good';
+    }
 }
 
 function getBuildingAges()

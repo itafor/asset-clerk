@@ -76,7 +76,7 @@ Route::get('/edit/{uuid}', 'AssetController@edit')->name('asset.edit');
 Route::post('/update', 'AssetController@update')->name('asset.update');
 Route::post('/assign', 'AssetController@assign')->name('asset.assign');
 Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
-Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
+Route::get('/delete/unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
 Route::get('/tenants-service-charge/{id}', 'AssetController@tenantsServiceCharge')->name('asset.tenants.service');
 
@@ -101,10 +101,13 @@ Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('
 Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
 Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
 Route::get('/service/charges/add', 'AssetController@addServiceCharges')->name('service.add');
-Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
+Route::get('/delete/image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 Route::get('/view/details/{assetUuid}', 'AssetController@viewDetails')->name('asset.view.details');
 
 Route::post('/add/photos', 'AssetController@addPhotos')->name('asset.add.photos');
+Route::post('/add/feature', 'AssetController@addAssetFeatures')->name('asset.add.feature');
+Route::get('/delete/feature/{id}', 'AssetController@deleteFeature')->name('asset.delete.feature');
+
 
 });
 

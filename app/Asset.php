@@ -5,6 +5,7 @@ namespace App;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Jobs\ServiceChargeInvoiceJob;
+use App\PropertyFeature;
 use App\Tenant;
 use App\TenantServiceCharge;
 use App\Unit;
@@ -70,6 +71,11 @@ class Asset extends Model
     public function photos()
     {
         return $this->hasMany(AssetPhoto::class);
+    }
+
+    public function getfeatures()
+    {
+        return $this->hasMany(PropertyFeature::class);
     }
     
     public function units()
@@ -293,6 +299,22 @@ class Asset extends Model
             }
         }
         }
+    }
+
+      public static function addFeatures($data,$asset)
+    {
+      //dd($data['features']);
+        // if(isset($data['features']) && count($data['features']) !=0){
+            foreach($data['features'] as $feature){
+            
+                PropertyFeature::create([
+                    'asset_id' => $asset->id,
+                    'feature' => $feature,
+                    'user_id' => getOwnerUserID()
+                ]);
+           
+        }
+        // }
     }
 
 }

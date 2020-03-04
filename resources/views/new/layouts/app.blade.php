@@ -85,6 +85,8 @@
 
             <!-- Site Content -->
             <div class="dt-content">
+            @include('sweetalert::alert')
+
                 @yield('content')
             </div>
             <!-- /site content -->
@@ -122,6 +124,7 @@
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- Custom JavaScript -->
     <script src="{{url('assets/js/script.js')}}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
     <script>
@@ -402,6 +405,47 @@ $(document).ready(function(){
     });  
  
 });
+
+  // Delete data with ajax
+function deleteData (url1,url2,url3,id) {
+  swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover the selected data!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+
+ $.ajax({
+        url: baseUrl+'/'+url1+'/'+url2+'/'+url3+'/'+id,
+        type: "GET",
+        data: {'id':id},
+        success: function(data) {
+          if(data && data == 'Occupied'){
+     swal({
+        title: "Rented",
+        text: "The selected unit has been rented!",
+        icon: "warning",
+        dangerMode: true,
+      })
+          }else{
+             swal("Poof! The selected data has been deleted!", {
+            icon: "success",
+          });
+     window.location.href=window.location.href// refresh page
+          }
+          
+                    }
+                });
+
+        } else {
+          swal("Your data is safe!");
+        }
+      });
+ 
+}
     </script>
     @yield('script')
 </body>

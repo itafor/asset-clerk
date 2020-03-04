@@ -6,15 +6,16 @@ use App\Asset;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\AssignedAsset;
+use App\PropertyFeature;
 use App\Tenant;
 use App\TenantServiceCharge;
 use App\Unit;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Http\Request;
-use Validator;
 use DateTime;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Validator;
 
 class AssetController extends Controller
 {
@@ -44,10 +45,10 @@ class AssetController extends Controller
         ->where('user_id',getOwnerUserID())->first();
         $units = Unit::where('asset_id',$asset->id)
                     ->where('user_id',getOwnerUserID())->get();
-
+        $features = $asset->getfeatures;
         $photos = AssetPhoto::where('asset_id',$asset->id)->get();
 
-        return view('new.admin.assets.partials.viewAssetDetail',compact('asset','units','photos'));
+        return view('new.admin.assets.partials.viewAssetDetail',compact('asset','units','photos','features'));
     }
 
     public function create()
@@ -208,26 +209,26 @@ class AssetController extends Controller
     {
         $unit = Unit::find($id);
         if($unit){
-            if($unit->isRented()){
-                return back()->with('error', 'This unit has already been rented');
+            if($unit->status =='Occupied'){
+                return 'Occupied';
             }
             $unit->delete();
             return back()->with('success', 'Unit deleted successfully');
         }
-        else{
-            $unit = Unit::where('uuid',$id)->first();
-            if($unit){
-                if($unit->isRented()){
-                    return back()->with('error', 'This unit has already been rented');
-                }
-                $unit->delete();
-                return back()->with('success', 'Unit deleted successfully');
-            } else{
-                return back()->with('error', 'Unit not found. Please try again');
-            }
-        }
+  
     }
     
+    public function deleteFeature($id)
+    {
+        $feature = PropertyFeature::find($id);
+        if($feature){
+            $feature->delete();
+            return back()->with('success', 'Feature deleted successfully');
+        }
+        else{
+            return back()->with('error', 'Feature not found. Please try again');
+        }
+    }
     public function deleteService($id)
     {
         $sc = AssetServiceCharge::find($id);
@@ -552,6 +553,24 @@ public function tenantsServiceCharge($id){
         if($asset){
             Asset::addPhoto($request->all(), $asset);
             return back()->with('success', 'Photo added successfully');
+        }
+        else{
+            return back()->with('error', 'Error: asset not found');
+        }
+     }
+
+  public function addAssetFeatures(Request $request)
+     {
+        $asset = Asset::find($request['asset']);
+        if($asset){
+
+        if(isset($request['features']) && count($request['features']) !=0){
+            Asset::addFeatures($request->all(), $asset);
+            return back()->with('success', 'Feature added successfully');
+        }else{
+            return back()->with('error', 'Error: Please select at least a feature to add');
+        }
+
         }
         else{
             return back()->with('error', 'Error: asset not found');
