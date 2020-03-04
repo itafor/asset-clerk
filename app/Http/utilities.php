@@ -13,6 +13,7 @@ use App\Landlord;
 use App\Occupation;
 use App\PaymentMode;
 use App\PaymentType;
+use App\PropertyFeature;
 use App\PropertyType;
 use App\RentDue;
 use App\ServiceCharge;
@@ -27,7 +28,6 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
-
 
 function generateUUID()
 {
@@ -80,9 +80,12 @@ function getTotalAssets($user_id ='')
 {
     //return Asset::where('user_id', getOwnerUserID())->count();
     $userId = $user_id !='' ? $user_id : getOwnerUserID();
-    return Unit::where('user_id', $userId)
-            ->where('plan_id', activePlanId($userId))
-            ->sum('quantity');
+    return Asset::where('user_id', $userId)
+    ->where('slot_plan_id', activePlanId($userId))->count();
+
+    // return Unit::where('user_id', $userId)
+    //         ->where('plan_id', activePlanId($userId))
+    //         ->sum('quantity');
 }
 
 function getSlots($user_id ='')
@@ -140,6 +143,16 @@ function getTenants()
 function getAssetFeatures()
 {
     return AssetFeature::all();
+}
+
+function getPropertyFeatureName($id)
+{
+    $feature = PropertyFeature::where('feature',$id)->first();
+    if($feature){
+        return $feature->name;
+    }else{
+        return 'good';
+    }
 }
 
 function getBuildingAges()
@@ -412,6 +425,13 @@ function check_if_user_upload_comany_detail(){
        }
     }
 
+   function Userdetails($userId){
+        $user=User::where('id',$userId)->first();
+        if($user){
+            return $user;
+       }
+    }
+    
     function getUsers(){
         $users=User::where('email','!=','admin@assetclerk.com')->get();
         if($users){
@@ -429,3 +449,4 @@ function check_if_user_upload_comany_detail(){
         return false;
        }
     }
+

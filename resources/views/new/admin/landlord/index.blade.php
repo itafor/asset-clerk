@@ -38,11 +38,10 @@
                     <thead>
                       <tr>
                           <th>No</th>
-                          <th><b>Designation</b></th>
                           <th><b>First name</b></th>
                           <th><b>Last name</b></th>
                           <th><b>Phone</b></th>
-                          <th><b>Location</b></th>
+                          <th><b>Email</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -50,11 +49,10 @@
                     @foreach ($landlords as $landlord)
                       <tr>
                           <td>{{$loop->iteration}}</td>
-                          <td>{{$landlord->designation}}</td>
                           <td>{{$landlord->firstname}}</td>
                           <td>{{$landlord->lastname}}</td>
                           <td>{{$landlord->phone}}</td>
-                          <td>{{$landlord->address}}</td>
+                          <td>{{$landlord->email}}</td>
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

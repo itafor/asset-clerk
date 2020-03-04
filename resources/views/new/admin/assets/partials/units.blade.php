@@ -13,9 +13,6 @@
                     <thead>
                         <th>S/N</th>
                         <th>Property Type</th>
-                        <!-- <th>Category</th> -->
-                        <th>Description</th>
-                        <th>Quantity</th>
                         <th>Property Estimate</th>
                     </thead>
                     <tbody>
@@ -23,9 +20,7 @@
                         @foreach ($asset->units as $unit)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$unit->propertyType ? $unit->propertyType->name : 'N/A'}}</td>
-                                 <td>{{$unit->category->name}}</td>
-                                <td>{{$unit->quantity}}</td>
+                                <td>{{$unit->unitname}}</td>
                                 <td>&#8358; {{number_format($unit->standard_price, 2)}}</td>
                             </tr>
                         @endforeach

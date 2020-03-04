@@ -198,6 +198,13 @@
                 </a>
                 </li>
 
+                 <li class="dt-side-nav__item">
+                    <a href="{{ route('service.add') }}" class="dt-side-nav__link" title="List">
+                    <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'service.add') ? $active_menu_color : $default_menu_color }};"></i>
+                    <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'service.add') ? $active_menu_color : $default_menu_color }};">Add</span>
+                </a>
+                </li>
+
                 <li class="dt-side-nav__item">
                     <a href="{{route('pay.service.charge')}}" class="dt-side-nav__link" title="Service Charge Payment">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm text" style="color:{{ (Route::current()->getName() == 'pay.service.charge') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'pay.service.charge') ? $active_menu_color : $default_menu_color }};">Payment</span> </a>

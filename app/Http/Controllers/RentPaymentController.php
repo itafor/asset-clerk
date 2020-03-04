@@ -59,7 +59,7 @@ class RentPaymentController extends Controller
         $validator = validator::make($request->all(),[
         'tenant_uuid' => 'required',
         'asset_uuid' => 'required',
-        'unit_uuid' => 'required',
+        // 'unit_uuid' => 'required',
         'tenantRent_uuid' => 'required',
         'proposed_amount' => 'required|numeric',
         'actual_amount' => 'required|numeric',
@@ -80,7 +80,7 @@ class RentPaymentController extends Controller
         DB::beginTransaction();
         try {
           $payment = RentPayment::createNew($request->all());
-              $toEmail = $payment->unitt->getTenant()->email;
+              $toEmail = $payment->get_tenant->email;
             Mail::to($toEmail)->send(new PaymentCreated($payment));
             DB::commit();
         } catch (Exception $e) {
@@ -143,6 +143,7 @@ class RentPaymentController extends Controller
 
  public function fetchRentalDebtors(){
      $rentalDebtors = RentDebtor::where('user_id',getOwnerUserID())
+                     ->orderby('created_at','desc')
                         ->get();
 
       $totalSumOfRentalsNotPaid = DB::table('rent_debtors')

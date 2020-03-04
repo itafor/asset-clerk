@@ -42,7 +42,7 @@ class MaintenanceController extends Controller
         $validator = Validator::make($request->all(), [
             'tenant_uuid' => 'required',
             'asset_description' => 'required',
-            'unit_uuid' => 'required',
+            // 'unit_uuid' => 'required',
             // 'building_section' => 'required',
             'reported_date' => 'required|date_format:"d/m/Y"',
             //'status' => 'required',

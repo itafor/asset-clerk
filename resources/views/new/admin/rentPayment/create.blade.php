@@ -39,9 +39,9 @@
                                 
                                <div class="float-left"> <p>Fields marked (<span class="text-danger">*</span>) are required.</p></div>
                                <div class="float-right"><span></span>Landlord (
-                                {{$tenantRent->asset->Landlord->designation}}.
-                                {{$tenantRent->asset->Landlord->firstname}}
-                                {{$tenantRent->asset->Landlord->lastname}}
+                                {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->designation : ''}}.
+                                {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->firstname : ''}}
+                                {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->lastname : ''}}
                                 ) Property Estimate : &#8358; {{number_format($tenantRent->price,2)}} </div>
                            </div>
                            </div>
@@ -53,7 +53,7 @@
                                         <select name="asset_uuid" id="asset_uuid" class="form-control" required>
                                            
                                                 <option value="{{$tenantRent->asset_uuid}}" selected="true">
-                                                     {{$tenantRent->unit->getProperty()->description}} 
+                                                     {{$tenantRent->asset->description}} 
                                                 </option>
                                            
                                         </select>
@@ -65,9 +65,9 @@
                                         @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-unit">{{ __('Room') }}<span class="text-danger">*</span></label>
+                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}<span class="text-danger">*</span></label>
                                         <select name="unit_uuid" id="unit_uuid" class="form-control" required>
-                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit->category->name}} Bedroom
+                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit ? $tenantRent->unit->unitname : 'N/A'}}
                                             </option>
                                         </select>
                                        
@@ -163,7 +163,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                <div class="form-group{{ $errors->has('payment_mode_id') ? ' has-danger' : '' }} col-6">
+                                <div class="form-group{{ $errors->has('payment_mode_id') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-payment_mode">{{ __('Payment Mode') }}<span class="text-danger">*</span></label>
                                         <select name="payment_mode_id" id="payment_mode_id" class="form-control" required>
                                             <option value="">Select Payment Mode</option>
@@ -178,7 +178,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('payment_description') ? ' has-danger' : '' }} col-6">
+                                    <div class="form-group{{ $errors->has('payment_description') ? ' has-danger' : '' }} col-8">
                                         <label class="form-control-label" for="input-date">{{ __('Payment Description') }}<span class="text-danger">*</span></label>
                                         <textarea rows="5" name="payment_description" id="input-description" class="form-control form-control-alternative{{ $errors->has('payment_description') ? ' is-invalid' : '' }}" placeholder="Enter Description" required>{{old('payment_description')}}</textarea>
                                         

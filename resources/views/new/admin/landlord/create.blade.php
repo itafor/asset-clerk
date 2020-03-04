@@ -35,7 +35,7 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Landlord') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('designation') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                              <!--   <div class="form-group{{ $errors->has('designation') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-category">{{ __('Designation') }}</label>
                                     <select name="designation" id="" class="form-control" required autofocus>
                                         <option value="">Select Designation</option>
@@ -49,8 +49,8 @@
                                             <strong>{{ $errors->first('designation') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                </div> -->
+                              <!--   <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-gender">{{ __('Gender') }}</label>
                                     <select name="gender" id="" class="form-control" required>
                                         <option value="">Select Gender</option>
@@ -63,13 +63,13 @@
                                             <strong>{{ $errors->first('gender') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div style="clear:both"></div>
 
                                 <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-firstname">{{ __('First Name') }}</label>
-                                    <input type="text" name="firstname" id="input-firstname" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required>
-
+                                    <input type="text" name="firstname" id="searchLandlord" class="form-control form-control-alternative{{ $errors->has('firstname') ? ' is-invalid' : '' }}" placeholder="Enter First Name" value="{{old('firstname')}}" required>
+                                     <div id="listLandlord"></div>
                                     @if ($errors->has('firstname'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('firstname') }}</strong>
@@ -86,9 +86,30 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div style="clear:both"></div>         
+                                <div style="clear:both"></div>  
+                                 <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
+                                    <input type="email" name="email" id="input-email" class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Enter Email" value="{{old('email')}}" required>
 
-                                <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('contact_number') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                    <label class="form-control-label" for="input-contact_number">{{ __('Phone') }}</label>
+                                    <input type="text" name="contact_number" id="input-contact_number" class="form-control form-control-alternative{{ $errors->has('contact_number') ? ' is-invalid' : '' }}" placeholder="Enter Contact Number" value="{{old('contact_number')}}" required>
+                                    
+                                    @if ($errors->has('contact_number'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('contact_number') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div style="clear:both"></div>       
+
+                            <!--     <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-date_of_birth">{{ __('Date of Birth') }}</label>
                                     <input type="text" name="date_of_birth" id="input-date_of_birth" class="datepicker form-control form-control-alternative{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}" placeholder="Select Date of Birth" value="{{old('date_of_birth')}}" required>
 
@@ -97,8 +118,8 @@
                                             <strong>{{ $errors->first('date_of_birth') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
+                                </div> -->
+                            <!--     <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
                                     <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
                                     <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation')}}" required>
                                     {{-- <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
@@ -112,11 +133,11 @@
                                             <strong>{{ $errors->first('occupation') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div style="clear:both"></div>                         
+                                </div> -->
+                                <!-- <div style="clear:both"></div>   -->                       
                             </div>
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Contact Address') }}</h6>
+                           <!--  <h6 class="heading-small text-muted mb-4">{{ __('Contact Address') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-country">{{ __('Country') }}</label>
@@ -169,27 +190,7 @@
                                     @endif
                                 </div>
                                 <div style="clear:both"></div>                           
-                                <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
-                                    <input type="email" name="email" id="input-email" class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Enter Email" value="{{old('email')}}" required>
-
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('contact_number') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-contact_number">{{ __('Contact Number') }}</label>
-                                    <input type="text" name="contact_number" id="input-contact_number" class="form-control form-control-alternative{{ $errors->has('contact_number') ? ' is-invalid' : '' }}" placeholder="Enter Contact Number" value="{{old('contact_number')}}" required>
-                                    
-                                    @if ($errors->has('contact_number'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('contact_number') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div style="clear:both"></div>                         
+                                                        
                             </div>
 
                             <h6 class="heading-small text-muted mb-4">{{ __('Passport') }}</h6>
@@ -203,11 +204,10 @@
                                             <strong>{{ $errors->first('passport') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>
-                            </div>
                         </form>
                 </div>
                 <!-- /card body -->

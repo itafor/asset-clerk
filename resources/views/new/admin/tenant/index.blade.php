@@ -38,10 +38,9 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th><b>Designation</b></th>
                         <th><b>First Name</b></th>
                         <th><b>Last Name</b></th>
-                        <th><b>Occupation</b></th>
+                        <th><b>Email</b></th>
                         <th><b>Phone</b></th>
                         <th class="text-center"><b>Action</b></th>
                     </tr>
@@ -50,11 +49,9 @@
                     @foreach ($tenants as $tenant)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$tenant->designation}}</td>
                             <td>{{$tenant->firstname}}</td>
                             <td>{{$tenant->lastname}}</td>
-                            <td>{{$tenant->occupation}}</td>
-                            {{-- <td>{{$tenant->occupationName ? $tenant->occupationName->name : 'N/A'}}</td> --}}
+                            <td>{{$tenant->email}}</td>
                             <td>{{$tenant->phone}}</td>
                             <td class="text-center">
                                 <div class="dropdown">

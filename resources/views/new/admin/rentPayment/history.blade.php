@@ -41,6 +41,7 @@
                           <th>No</th>
                           <th><b>Full Name</b></th>
                           <th><b>Property</b></th>
+                          <th><b>Unit</b></th>
                           <th><b>Property Estimate</b></th>
                           <th><b>Actual Amount</b></th>
                           <th><b>Amount Paid</b></th>
@@ -58,11 +59,12 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>
-                            {{$rent->get_tenant ? $rent->get_tenant->designation : ''}}.
+                            {{$rent->get_tenant ? $rent->get_tenant->designation : ''}}
                             {{$rent->get_tenant ? $rent->get_tenant->firstname : ''}}
                             {{$rent->get_tenant ? $rent->get_tenant->lastname : ''}}
                           </td>
                           <td>{{$rent->asset ? $rent->asset->description : ''}}</td>
+                          <td>{{$rent->unitt ? $rent->unitt->unitname : 'N/A'}}</td>
                           <td>&#8358;{{number_format($rent->proposed_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->actual_amount,2)}}</td>
                           <td>&#8358;{{number_format($rent->amount_paid,2)}}</td>

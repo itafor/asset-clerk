@@ -146,7 +146,7 @@
                             <td colspan="2">
                                 Dear {{$theUser->firstname}} {{$theUser->lastname}},<br>
                                 <em>
-                                  We wish to inform you that <strong>{{$rental->unit->getTenant()->name()}}</strong> 's rent have been renewed successfully.
+                                  We wish to inform you that <strong>{{$rental->unit ? $rental->unit->getTenant()->name() : ''}}</strong> 's rent have been renewed successfully.
                                  <br/>
                                   Please find below rental information.
                                 </em>
@@ -165,7 +165,7 @@
                    <tr>
                      <td class="rent_title">PROPERTY</td>
                      <td> {{$currentRental->asset ? $currentRental->asset->description : ''}}
-                     - {{$currentRental->unit->category->name}} Bedroom</td>
+                     - {{$currentRental->unit ? $currentRental->unit->unitname:'N/A'}}</td>
                    </tr>
 
                      <tr>
@@ -235,7 +235,7 @@
 
                    <tr>
                      <td class="rent_title">PROPERTY</td>
-                     <td> {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom</td>
+                     <td> {{$rental->unit ? $rental->unit->getProperty()->description:''}} - {{$rental->unit ? $rental->unit->unitname:''}} </td>
                    </tr>
 
                      <tr>
@@ -304,48 +304,27 @@
 
                    <tr>
                      <td class="rent_title">NAME</td>
-                     <td> {{$rental->unit->getTenant()->name()}} </td>
+                     <td> {{$rental->unit ? $rental->unit->getTenant()->name():''}} </td>
                    </tr>
 
                      <tr>
                      <td class="rent_title">PHONE</td>
-                     <td>  {{$rental->unit->getTenant()->phone}}</td>
+                     <td>  {{$rental->unit ? $rental->unit->getTenant()->phone :''}}</td>
                    </tr>
 
                     <tr>
                      <td class="rent_title">EMAIL</td>
-                <td> {{$rental->unit->getTenant()->email}}</td>           
+                <td> {{$rental->unit ? $rental->unit->getTenant()->email : ''}}</td>           
               </tr>
                  <tr>
                      <td class="rent_title">ADDRESS</td>
-                <td> {{$rental->unit->getTenant()->address}}</td>           
+                <td> {{$rental->unit ? $rental->unit->getTenant()->address : ''}}</td>           
               </tr>
 
        </tbody>
                   </table>
 
-                  <h4>LANDLORD DETAILS</h4>
-        <table class="table table-bordered" id="rental_table">
-           
-                    <tbody>
-
-                   <tr>
-                     <td class="rent_title">NAME</td>
-                     <td>{{$rental->unit->getProperty()->landlord->name()}}</td>
-                   </tr>
-
-                     <tr>
-                     <td class="rent_title">PHONE</td>
-                     <td>  {{$rental->unit->getProperty()->landlord->phone}}</td>
-                   </tr>
-
-                    <tr>
-                     <td class="rent_title">EMAIL</td>
-                <td> {{$rental->unit->getProperty()->landlord->email}}</td>           
-              </tr>
-
-       </tbody>
-                  </table>
+        
 
     </div>
 </body>

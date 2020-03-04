@@ -40,6 +40,10 @@ class TenantRent extends Model
     {
         return $this->belongsTo(User::class,'user_id', 'id');
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'property_type','id');
+    }
 
     public static function createNew($data)
     {
@@ -73,7 +77,7 @@ class TenantRent extends Model
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
-        // self::reduceUnit($data);
+         self::markUnitAsOccupied($data);
         self::addNextPayment($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
@@ -93,13 +97,17 @@ class TenantRent extends Model
         ]);
     }
 
-    // public static function reduceUnit($data)
-    // {
-    //     $unit = Unit::where('uuid', $data['unit'])->first();
-    //     $unit->quantity_left -= 1;
-    //     $unit->save();
-    // }
+    public static function markUnitAsOccupied($data)
+    {
+        if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
+            return false;
+        }
 
+        $unit = Unit::where('uuid', $data['unit'])->first();
+        $unit->status = 'Occupied';
+        $unit->save();
+    }
+ 
     /**
      * Delete rental
      * Restore units

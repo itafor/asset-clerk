@@ -144,14 +144,10 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
-                                <b>Address:</b><br>
-                               {{$rental->unit->getTenant()->address}}
-                            </td>
                             
-                            <td style="text-align:right">
-                              <strong> Name:</strong> {{$rental->unit->getTenant()->name()}} <br>
-                              <strong> Email:</strong> {{$rental->unit->getTenant()->email}}
+                             <td style="text-align:right">
+                              <strong> Name:</strong> {{$rental->tenant->firstname}} {{$rental->tenant->lastname}} <br>
+                              <strong> Email:</strong> {{$rental->tenant->email}}
                             </td>
                         </tr>
                        
@@ -160,7 +156,7 @@
 
                                 <p>
                                 
-Dear {{$rental->unit->getTenant()->firstname}},<br/>
+Dear {{$rental->tenant->firstname}},<br/>
 <em>
  @if($defaultRemainingDuration == 0)
    We wish to notify you that your current rent is due. Renew you rent as soon as possible.
@@ -183,7 +179,8 @@ Dear {{$rental->unit->getTenant()->firstname}},<br/>
 
                    <tr>
                      <td class="rent_title">PROPERTY</td>
-                     <td> {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} Bedroom</td>
+                     <td> {{$rental->asset->description}} 
+                      - {{$rental->unit ? $rental->unit->unitname:'N/A'}}</td>
                    </tr>
 
                      <tr>

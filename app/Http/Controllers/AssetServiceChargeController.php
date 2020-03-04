@@ -20,6 +20,7 @@ class AssetServiceChargeController extends Controller
            ->join('assets','assets.id','=','asset_service_charges.asset_id')
          ->where('tenant_service_charges.user_id', getOwnerUserID())
          ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
+         ->orderby('asset_service_charges.created_at','desc')
          ->get();
 
      $overAllSCdebts = DB::table('tenant_service_charges')
@@ -112,10 +113,11 @@ class AssetServiceChargeController extends Controller
     public function getServiveChargePaymentHistory(Request $request){
               $service_charge_payment_histories = ServiceChargePaymentHistory::join('tenants','tenants.id','=','service_charge_payment_histories.tenant')
           ->join('service_charges','service_charges.id','=','service_charge_payment_histories.service_charge')
+          ->join('asset_service_charges','asset_service_charges.id','=','service_charge_payment_histories.asset_service_charge_id')
          ->where('service_charge_payment_histories.user_id', getOwnerUserID())
          ->select('service_charge_payment_histories.*',
             DB::raw('CONCAT(tenants.designation, " ", tenants.firstname, " ", tenants.lastname) as tenantDetail'),
-            'tenants.*','service_charges.*')
+            'tenants.*','service_charges.name as scname','asset_service_charges.description as otherSCname')
          ->orderby('service_charge_payment_histories.created_at','asc')
          ->get();
 

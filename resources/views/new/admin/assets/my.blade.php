@@ -40,7 +40,7 @@
                         <th>No</th>
                         <th><b>Description</b></th>
                         <th><b>Location</b></th>
-                        <th><b>Units</b></th>
+                      <!--   <th><b>Units</b></th> -->
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
@@ -56,9 +56,9 @@
                             </td>
                             <td>{{ $asset->description }}</td>
                             <td>{{ $asset->address }}</td>
-                            <td>
+                            <!-- <td>
                                 <a href="#x" data-toggle="modal" data-target="#unit{{$i}}" class="text-underline">{{ $asset->units ? $asset->units->count() : 0 }}</a>
-                            </td>
+                            </td> -->
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,8 +66,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
-                                        <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">Add Service Charge</a>
-                                        <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a>
+                                       <!--  <a href="#x" data-toggle="modal" data-target="#serviceModal" data-asset="{{$asset->id}}" class="dropdown-item addService">Add Service Charge</a> -->
+                                       <!--  <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a> -->
                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
                                         <form action="{{ route('asset.delete', ['uuid'=>$asset->uuid]) }}" method="get">
                                             

@@ -10,6 +10,7 @@ use App\ServiceCharge;
 use App\Subscription;
 use App\Tenant;
 use App\TenantProperty;
+use App\TenantRent;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -85,11 +86,26 @@ class UtilsController extends Controller
         $property = Asset::where('uuid', $property)->first();
         if($property){
             $units = Unit::where('asset_id', $property->id)
-            ->join('categories as c', 'c.id', '=', 'units.category_id')
-            ->select('units.*', 'c.name')
-            ->where('units.quantity_left', '>', 0)
+            ->select('units.*')
+            ->where('units.status','vacant')
             ->get();
             return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+    public function analyseProperty($property)
+    {
+        $propertyAnalysis = Asset::where('uuid', $property)->first();
+        if($propertyAnalysis){
+            $units = Unit::where('asset_id', $propertyAnalysis->id)
+            ->get();
+            return response()->json([
+                'propertyName'=>$propertyAnalysis->description,
+                'flats'=> $units,
+            ]);
         }
         else{
             return [];
@@ -101,9 +117,8 @@ class UtilsController extends Controller
         //$tenant = Tenant::where('uuid', $tenant_uuid)->first();
         if($tenant_uuid){
             $units = TenantProperty::where('tenant_uuid', $tenant_uuid)
-            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
-            ->select('u.*', 'tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->select('assets.price as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
             ->groupby('tenant_properties.property_uuid')
             ->get();
             return response()->json($units);
@@ -139,12 +154,12 @@ class UtilsController extends Controller
         }
     }
 
-public function fetchTenantAddedToUnit($unitUuid){
-if($unitUuid){
-            $units = TenantProperty::where('unit_uuid',$unitUuid)
-            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+public function fetchTenantAddedToAsset($asset_uuid){
+if($asset_uuid){
+            $units = TenantProperty::where('property_uuid',$asset_uuid)
+            // ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
-            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            // ->join('categories as c', 'c.id', '=', 'u.category_id')
             ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
             ->select('tn.*')
             ->get();
@@ -154,6 +169,21 @@ if($unitUuid){
             return [];
         }
 }
+
+public function fetchTenantAddedToRental($asset_uuid){
+if($asset_uuid){
+            $rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
+            ->join('units as u', 'u.uuid', '=', 'tenant_rents.unit_uuid')
+            ->join('tenants as tn', 'tn.uuid', '=', 'tenant_rents.tenant_uuid')
+            ->select('tn.*')
+            ->get();
+            return response()->json($rentals);
+        }
+        else{
+            return [];
+        }
+}
+
     public function resendVerification()
     {
         try{
@@ -289,4 +319,21 @@ if($unitUuid){
     public function refreshCaptcha() {
         return response()->json(['captcha'=>captcha_img()]);
     }
+
+    public function checkOccupiedAsset($asset_uuid){
+if($asset_uuid){
+            $asset = Asset::where('uuid',$asset_uuid)
+            ->where('status','Occupied')
+            ->first();
+            if($asset){
+                $tenant = TenantProperty::where('property_uuid',$asset->uuid)
+                ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
+            ->select('tn.*')->first();
+            return response()->json($tenant);
+            }
+        }
+        else{
+            return [];
+        }
+}
 }

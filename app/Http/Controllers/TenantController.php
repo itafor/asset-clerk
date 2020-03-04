@@ -35,23 +35,23 @@ class TenantController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'designation' => 'required',
-            'gender' => 'required',
+         $validator = Validator::make($request->all(), [
+        //     'designation' => 'required',
+        //     'gender' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
-            'date_of_birth' => 'required|date_format:"d/m/Y"',
-            'occupation' => 'required',
-            'office_country' => 'required',
-            'office_state' => 'required',
-            'office_city' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'address' => 'required',
+            // 'date_of_birth' => 'required|date_format:"d/m/Y"',
+            // 'occupation' => 'required',
+            // 'office_country' => 'required',
+            // 'office_state' => 'required',
+            // 'office_city' => 'required',
+            // 'country' => 'required',
+            // 'state' => 'required',
+            // 'city' => 'required',
+            // 'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'image',
+            // 'passport' => 'image',
         ]);
 
         if ($validator->fails()) {
@@ -102,22 +102,22 @@ class TenantController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'designation' => 'required',
-            'gender' => 'required',
+            // 'designation' => 'required',
+            // 'gender' => 'required',
             'firstname' => 'required',
             'lastname' => 'required',
-            'date_of_birth' => 'required|date_format:"d/m/Y"',
-            'occupation' => 'required',
-            'office_country' => 'required',
-            'office_state' => 'required',
-            'office_city' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'address' => 'required',
+            // 'date_of_birth' => 'required|date_format:"d/m/Y"',
+            // 'occupation' => 'required',
+            // 'office_country' => 'required',
+            // 'office_state' => 'required',
+            // 'office_city' => 'required',
+            // 'country' => 'required',
+            // 'state' => 'required',
+            // 'city' => 'required',
+            // 'address' => 'required',
             'email' => 'required|email',
             'contact_number' => 'required',
-            'passport' => 'image',
+            // 'passport' => 'image',
             'uuid' => 'required'
         ]);
 
@@ -182,10 +182,10 @@ class TenantController extends Controller
      $tenantId = Crypt::decrypt($id);
      
          $tenantDetail = Tenant::where('tenants.id', $tenantId)
-            ->join('countries as co','co.id','=','tenants.country_id')
-            ->join('states as st','st.id','=','tenants.state_id')
-            ->join('cities as c','c.id','=','tenants.city_id')
-            ->select('tenants.*','co.name as countryName','st.name as stateName','c.name as cityName')
+            // ->join('countries as co','co.id','=','tenants.country_id')
+            // ->join('states as st','st.id','=','tenants.state_id')
+            // ->join('cities as c','c.id','=','tenants.city_id')
+            // ->select('tenants.*','co.name as countryName','st.name as stateName','c.name as cityName')
             ->first();
 
  $tenantRents  = TenantRent::where('user_id', getOwnerUserID())
@@ -321,15 +321,15 @@ $output.='<li><a href="/tenant/profile-details/'.$tenant_id.'">'.$row->firstname
         }
 
             $data=$request->all();
-
-    $getTenantProperties = TenantProperty::where('unit_uuid',$data['unit'])
-            ->where('property_uuid', $data['property'])
+            //dd($data);
+    $getTenantProperties = TenantProperty::where('property_uuid', $data['property'])
             ->where('tenant_uuid', $data['tenant'])
             ->where('user_id', getOwnerUserID())
+            ->where('unit_uuid',$data['unit'])
             // ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             // ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
-            // ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
-            // ->select('tn')
+            // ->join('tenants', 'tenants.uuid', '=', 'tenant_properties.tenant_uuid')
+            // ->select('tenants')
             ->get();
                             
     if($getTenantProperties){

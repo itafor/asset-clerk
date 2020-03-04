@@ -14,7 +14,7 @@ class DueRentTenant extends Mailable
     public $rental;
     public $defaultRemainingDuration;
     public $renewed_rental;
-    public $landlord;
+    public $user;
     public $companyDetail;
 
     /**
@@ -27,7 +27,7 @@ class DueRentTenant extends Mailable
         $this->rental = $rental;
         $this->defaultRemainingDuration = $defaultRemainingDuration;
         $this->renewed_rental = $renewed_rental;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->user = Userdetails($rental->user_id);
         $this->companyDetail = comany_detail($rental->user_id);
     }
 
@@ -41,6 +41,6 @@ class DueRentTenant extends Mailable
         return $this->view('emails.due_rent_tenant')
         ->subject('Due Rentals Notification')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
-        ->cc($this->landlord->email, $this->landlord->name());
+         ->cc($this->user ? $this->user->email:'noreply@assetclerk.com', $this->user  ?  $this->user->firstname : 'Asset clerk');
     }
 }

@@ -5,6 +5,7 @@ namespace App;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Jobs\ServiceChargeInvoiceJob;
+use App\PropertyFeature;
 use App\Tenant;
 use App\TenantServiceCharge;
 use App\Unit;
@@ -19,7 +20,7 @@ class Asset extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'description', 'category_id', 'quantity_added','quantity_left ','price',
+        'description', 'category_id', 'quantity_added','quantity_left ','price','property_type',
         'address','agent_id','country', 'state', 'features',
         'quantity_occupied', 'commission',
         'landlord_id',
@@ -32,12 +33,27 @@ class Asset extends Model
         'bathrooms',
         'uuid', 'construction_year',
         'user_id',
+        'status',
+        'plan_id',
+        'slot_plan_id'
     ];
 
     public function Tenant(){
         return $this->hasMany(Tenant::class);
     }
-    
+
+    public function country(){
+        return $this->belongsTo(Country::class,'country_id','id');
+    }
+
+    public function state(){
+        return $this->belongsTo(State::class,'state_id','id');
+    }
+
+    public function city(){
+        return $this->belongsTo(City::class,'city_id','id');
+    }
+
     public function Landlord(){
         return $this->belongsTo(Landlord::class);
     }
@@ -47,9 +63,19 @@ class Asset extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function propertyType()
+    {
+        return $this->belongsTo(PropertyType::class,'property_type','id');
+    }
+
     public function photos()
     {
         return $this->hasMany(AssetPhoto::class);
+    }
+
+    public function getfeatures()
+    {
+        return $this->hasMany(PropertyFeature::class);
     }
     
     public function units()
@@ -67,47 +93,58 @@ class Asset extends Model
     public static function createNew($data)
     {
         
+        $getActivePlan =  activePlanId(getOwnerUserID());
+        $landlord = isset($data['landlord']) ? $data['landlord'] : '';
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'landlord_id' => $data['landlord'],
+            'landlord_id' => $landlord,
+            // 'price' => $data['asking_price'],
+            'property_type' => $data['property_type'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
-            'detailed_information' => $data['detailed_information'],
+            // 'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'construction_year' => $data['construction_year'],
-            'features' => isset($data['features']) ? implode(',',$data['features']) : null,
+            // 'construction_year' => $data['construction_year'],
+            // 'features' => isset($data['features']) ? implode(',',$data['features']) : null,
             'uuid' => generateUUID(),
-            'user_id' => getOwnerUserID()
+            'user_id' => getOwnerUserID(),
+            'plan_id' => $getActivePlan,
+            'slot_plan_id' => $getActivePlan,
+
         ]); 
 
         self::createUnit($data,$asset);
-        self::addPhoto($data,$asset); 
+        // self::addPhoto($data,$asset); 
+        return $asset;
     }
 
     public static function updateAsset($data)
     {
-       // dd($data);
+        $landlord = isset($data['landlord']) ? $data['landlord'] : '';
+        
         self::where('uuid', $data['uuid'])->update([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'landlord_id' => $data['landlord'],
+            // 'price' => $data['asking_price'],
+            'property_type' => $data['property_type'],
+            'landlord_id' => $landlord,
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
-            'detailed_information' => $data['detailed_information'],
+            // 'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            'construction_year' => $data['construction_year'],
-            'features' => implode(',',$data['features'])
+            // 'construction_year' => $data['construction_year'],
+            // 'features' => implode(',',$data['features'])
         ]); 
 
-        $asset = self::where('uuid', $data['uuid'])->first();
+        // $asset = self::where('uuid', $data['uuid'])->first();
 
-        if(isset($data['photos'])){
-            self::addPhoto($data,$asset);
-        }
-        self::updateUnits($data,$asset);
+        // if(isset($data['photos'])){
+        //     self::addPhoto($data,$asset);
+        // }
+        // self::updateUnits($data,$asset);
     }
 
     public static function removeUnits($asset)
@@ -122,13 +159,9 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'user_id' => getOwnerUserID(),
                 'plan_id' => activePlanId(getOwnerUserID()),
-                'category_id' => $unit['category'],
-                'quantity' => $unit['quantity'],
-                'quantity_left' => $unit['quantity'],
                 'standard_price' => $unit['standard_price'],
-                'rent_commission' => $unit['rent_commission'],
-                'property_type_id' => $unit['property_type'],
-                'apartment_type' => $unit['apartment_type'],
+                'unitname' => $unit['unitname'],
+                'status' => 'vacant',
                 'uuid' => generateUUID(),
             ]);
         }
@@ -254,9 +287,10 @@ class Asset extends Model
 
     public static function addPhoto($data,$asset)
     {
+       
         if(isset($data['photos'])){
             foreach($data['photos'] as $photo){
-            $path = uploadImage($photo);
+            $path = uploadImage($photo['image_url']);
             if($path){
                 AssetPhoto::create([
                     'asset_id' => $asset->id,
@@ -265,6 +299,22 @@ class Asset extends Model
             }
         }
         }
+    }
+
+      public static function addFeatures($data,$asset)
+    {
+      //dd($data['features']);
+        // if(isset($data['features']) && count($data['features']) !=0){
+            foreach($data['features'] as $feature){
+            
+                PropertyFeature::create([
+                    'asset_id' => $asset->id,
+                    'feature' => $feature,
+                    'user_id' => getOwnerUserID()
+                ]);
+           
+        }
+        // }
     }
 
 }

@@ -16,7 +16,7 @@
                                <!--  <div class="row"> -->
                                     <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
-                                        <select name="property" id="input-property" class="form-control" required autofocus style="width: 300px;">
+                                        <select name="property" id="property" class="form-control occupiedProperty" required autofocus style="width: 300px;">
                                             <option value="">Select Property</option>
                                             @foreach (getAssets() as $asset)
                                                 <option value="{{$asset->uuid}}">{{$asset->description}}</option>
@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
-                                        <select name="unit" id="input-unit" class="form-control" required style="width: 300px;">
+                                        <select name="unit" id="unit" class="form-control" required style="width: 300px;">
                                             <option value="">Select Unit</option>
                                         </select>
                                         
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
                                         
-                                        <input type="hidden" name="price" id="input_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required style="width: 300px;">
+                                        <input type="number" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required style="width: 300px;">
                                         
                                         @if ($errors->has('price'))
                                             <span class="invalid-feedback" role="alert">

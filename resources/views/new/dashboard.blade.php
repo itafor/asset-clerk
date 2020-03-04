@@ -1,6 +1,176 @@
 @extends('new.layouts.app', ['title' => 'Dashboard', 'page' => 'dashboard'])
 
 @section('content')
+<style type="text/css">
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+/*form styles*/
+#msform {
+    width: 800px;
+    margin: 5px auto;
+    text-align: center;
+    position: relative;
+}
+/*progressbar*/
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+#progressbar li {
+    list-style-type: none;
+    color: #003366;
+    /*text-transform: uppercase;*/
+    font-size: 14px;
+    width: 15%;
+    float: left;
+    position: relative;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    /*background: white;*/
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    /*connector not needed before the first step*/
+    content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+    background: #27AE60;
+    color: white;
+}
+
+a { color: inherit; } 
+
+.activ{
+    background: #003366;
+    border-radius: 5px;
+}
+
+#progressbar .activ:before {
+    color: #ffffff;
+}
+</style>
+<div class="row">
+    <!-- multistep form -->
+                <h2 class="dt-entry__title" style="margin-left: 20px;">Add Records</h2>
+<form id="msform">
+
+    <!-- progressbar -->
+    <ul id="progressbar">
+           
+             @if(isset($next_step_landlord))
+             <li class="activ text-white">
+        Landlords
+        </li>
+     @else 
+      <li>
+        Landlords
+        </li>
+      @endif
+       
+ @if(isset($next_step_asset))
+       <li class="activ text-white">
+           Assets
+       </li>
+      @else 
+           <li>
+           Assets
+       </li>
+@endif
+
+@if(isset($next_step_tenant))
+    
+           <li class="activ text-white">
+           Tenants
+       </li>
+@else 
+       <li> 
+           Tenants
+       </li>
+@endif
+
+@if(isset($next_step_rental))
+           <li class="activ text-white">
+           Rentals
+       </li>
+@else 
+       <li> 
+           Rentals
+       </li>
+@endif
+
+@if(isset($next_step_rental_payment))
+           <li class="activ text-white">
+           Payment
+       </li>
+@else 
+       <li> 
+           Payment
+       </li>
+@endif
+
+@if(isset($next_step_rental_summary))
+           <li class="activ text-white">
+           Summary
+       </li>
+@else 
+       <li> 
+           Summary
+       </li>
+@endif
+    </ul>
+
+</form>
+
+</div>
+    
+    @if(isset($next_step_landlord))
+        @include('new.admin.multiStepForm.landlord')
+    @endif
+
+    @if(isset($next_step_asset))
+        @include('new.admin.multiStepForm.asset')
+    @endif
+
+     @if(isset($next_step_tenant))
+        @include('new.admin.multiStepForm.tenant')
+    @endif
+
+    @if(isset($next_step_rental))
+        @include('new.admin.multiStepForm.rental')
+    @endif
+
+    @if(isset($next_step_rental_payment))
+         @include('new.admin.multiStepForm.payRent')
+    @endif
+
+     @if(isset($next_step_rental_summary))
+         @include('new.admin.multiStepForm.summary')
+    @endif
+
     <div class="row">
 
         <div class="col-xl-4 col-sm-6">
@@ -354,3 +524,7 @@
         <!-- /grid item -->
     </div>
 @endsection
+<!-- jQuery -->
+<script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<!-- jQuery easing plugin -->
+<script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
