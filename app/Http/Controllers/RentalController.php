@@ -168,8 +168,6 @@ public function update(Request $request){
             try{
                $rental = TenantRent::editTenantRent($request->all());
 
-            // RentalUpdatedEmailJob::dispatch($rental)
-            //     ->delay(now()->addSeconds(3));
 
                TenantRent::rentalDebtorsNewRentalStatusUpdate($request->all());
                 DB::commit();
@@ -336,7 +334,6 @@ public function planUpgradeNotification(){
                     $the_users[] =$due_rent->users;
                 }
         $all_users = array_unique($the_users);
-                // dd($all_users);
 
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
