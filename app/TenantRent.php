@@ -99,6 +99,10 @@ class TenantRent extends Model
 
     public static function markUnitAsOccupied($data)
     {
+        if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
+            return false;
+        }
+
         $unit = Unit::where('uuid', $data['unit'])->first();
         $unit->status = 'Occupied';
         $unit->save();

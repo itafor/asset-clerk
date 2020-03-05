@@ -29,7 +29,7 @@ class RentalRenewed extends Mailable
         $this->rental = $rental;
         $this->currentRental = $currentRental;
         $this->theUser = $theUser;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->landlord = $rental->unit ? $rental->unit->getProperty()->landlord:'';
         $this->agent = $rental->tenant_agent;
         $this->companyDetail = comany_detail($rental->user_id);
         $this->user = Userdetails($rental->user_id);

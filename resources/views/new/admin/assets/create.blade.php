@@ -76,8 +76,8 @@
                                 </div> -->
 
                                 <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-4">
-                                    <label class="form-control-label" for="input-landlord">{{ __('Landlord') }} (Optional)</label>
-                                    <select name="landlord"  class="form-control">
+                                    <label class="form-control-label" for="input-landlord">{{ __('Landlord') }} </label>
+                                    <select name="landlord"  class="form-control" required>
                                         <option value="">Select Landlord</option>
                                         @foreach (getLandlords() as $land)
                                             <option value="{{$land->id}}">{{$land->name()}}</option>

@@ -37,7 +37,7 @@ class DueRentNotification
          ->get();
     //dd($renewableDueRentals);
         foreach($renewableDueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->latest()->first();
              $defaultRemainingDuration=5;
              if($renewed_rental){
                  NotifyDueRentJob::dispatch($rental,$renewed_rental,$defaultRemainingDuration)
@@ -70,7 +70,7 @@ class DueRentNotification
           //dd($renewableDueRentals);
          
         foreach($renewableDueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->latest()->first();
              $defaultRemainingDuration=5;
              if($renewed_rental){
                  NotifyDueRentJob::dispatch($rental,$renewed_rental,$defaultRemainingDuration)
@@ -103,7 +103,7 @@ class DueRentNotification
          //dd($renewabledueRentals);
          
         foreach($renewabledueRentals as $rental) {
-             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+             $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->latest()->first();
              $defaultRemainingDuration=5;
              if($renewed_rental){
                  NotifyDueRentJob::dispatch($rental,$renewed_rental,$defaultRemainingDuration)
@@ -137,7 +137,7 @@ public static function DueRentNotificationAt0Percent()
          //dd($renewabledueRentals);
 
         foreach($renewabledueRentals as $rental) {
-               $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->first();
+               $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->latest()->first();
              $defaultRemainingDuration=0;
              if($renewed_rental){
                  NotifyDueRentJob::dispatch($rental,$renewed_rental,$defaultRemainingDuration)

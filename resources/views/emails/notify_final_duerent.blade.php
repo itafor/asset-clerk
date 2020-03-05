@@ -179,7 +179,8 @@ Dear {{$rental->tenant->firstname}},<br/>
 
                    <tr>
                      <td class="rent_title">PROPERTY</td>
-                     <td> {{$rental->asset->description}}</td>
+                     <td> {{$rental->asset->description}} 
+                      - {{$rental->unit ? $rental->unit->unitname:'N/A'}}</td>
                    </tr>
 
                      <tr>

@@ -220,6 +220,7 @@ Please fine below your account summary
                             <tr>
                                 <th scope="">S/N</th>
                                 <th scope="">Asset</th>
+                                <th scope="" rowspan="8">Unit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -227,6 +228,43 @@ Please fine below your account summary
                  <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{$asset->description}}</td>
+                  @if($asset->units)
+                  <table class="table table-bordered" id="rental_table">
+                        <thead>
+                            <tr>
+                                <th scope="">Unit name</th>
+                                <th scope="">Unit price</th>
+                                <th scope="">Occupancy</th>
+                                <th scope="">Tenants</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                 @foreach($asset->units as $unit)
+                 <tr>
+                  <td>{{$unit->unitname}}</td>
+                  <td>&#8358;{{number_format($unit->standard_price,2)}}</td>
+                  <td>{{$unit->status !=null ? $unit->status : 'N/A'}}</td>
+                      <td>
+                            @if($unit->getTenant())
+
+                    {{$unit->getTenant()->firstname.' '.$unit->getTenant()->lastname}}
+
+                            @elseif($unit->getTenantWithoutRent())
+
+                    {{$unit->getTenantWithoutRent()->firstname.' '.$unit->getTenantWithoutRent()->lastname}}
+
+                    @else
+
+                    {{('N/A')}}
+                
+                @endif
+             </td>
+
+                </tr>
+                 @endforeach
+                </tbody>
+                    </table>
+                  @endif
                    </tr>
               @endforeach
                         </tbody>

@@ -260,7 +260,7 @@ public function notifyDueRentAt0Percent()
      foreach($newRentals as $rent) {
     $newRentDetails['tenant']    = $rent->tenant_uuid;
     $newRentDetails['property']  = $rent->asset_uuid;
-    // $newRentDetails['unit']      = $rent->unit_uuid;
+    $newRentDetails['unit']      = $rent->unit_uuid;
     $newRentDetails['price']     = $rent->price;
     $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
