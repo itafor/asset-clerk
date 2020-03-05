@@ -174,6 +174,7 @@ Dear {{$userDetail->firstname}} {{$userDetail->lastname}},<br/>
                                 <th scope="">S/N</th>
                                 <th scope="">Tenant</th>
                                 <th scope="col">Property</th>
+                                <th scope="col">Unit</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Balance</th>
                                 <th scope="col">Due Date</th>
@@ -186,6 +187,7 @@ Dear {{$userDetail->firstname}} {{$userDetail->lastname}},<br/>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$rental->tenant ? $rental->tenant->name() : ''}}</td>
                                     <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
+                                    <td>{{$rental->unit ? $rental->unit->unitname : 'N/A'}}</td>
                                     <td>&#8358;{{number_format($rental->price,2)}}</td>
                                     <td>&#8358;{{number_format($rental->balance,2)}}</td>
                                     <td>{{getNextRentPayment($rental)['due_date']}}</td>
