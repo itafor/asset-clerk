@@ -75,12 +75,13 @@ class AssetController extends Controller
        // chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'property_type' => 'required',
+           // 'property_type' => 'required',
             // 'asking_price' => 'required',
             // 'unit.*.category' => 'required',
             // 'unit.*.quantity' => 'required',
-            // 'unit.*.standard_price' => 'required',
-            // 'unit.*.property_type' => 'required',
+            'unit.*.number_of_room' => 'required',
+            'unit.*.standard_price' => 'required',
+            'unit.*.property_type' => 'required',
             // 'unit.*.apartment_type' => 'required',
             // 'unit.*.rent_commission' => 'required|numeric',
             // 'landlord' => 'required',
@@ -100,18 +101,18 @@ class AssetController extends Controller
         }
 
 
-        // $units=$data['unit'];
-        // $unitNames = [];
-        // foreach ($units as $key => $value) {
-        //    $unitNames[]=$value['unitname'];
-        // }
+        $units=$data['unit'];
+        $propertyType = [];
+        foreach ($units as $key => $value) {
+           $propertyType[]=$value['property_type'];
+        }
 
-        // $dup = self::array_has_dupes($unitNames);
+        $dup = self::array_has_dupes($propertyType);
 
-        // if($dup){
-        //  return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
+        if($dup){
+         return back()->withInput()->with('error','Duplicate property types detected, Check and try again!!');
 
-        // }
+        }
 
 
         DB::beginTransaction();

@@ -44,23 +44,23 @@
                       <table class="table table-hover ">
   <tr>
     <td >Property Name  :</td><td>{{$asset->description}}</td>
-     <td>Property Type :</td>  <td>{{$asset->propertyType ? $asset->propertyType->name : 'N/A'}}</td>
+    <td >Landlord :</td> <td>{{$asset->Landlord ? $asset->Landlord->firstname.' '.$asset->Landlord->lastname : 'N/A'}}</td>
   </tr>
 
   <tr>
- <td>Landlord :</td> <td>{{$asset->Landlord ? $asset->Landlord->firstname.' '.$asset->Landlord->lastname : 'N/A'}}</td>
-
  <td>Country :</td> <td>{{$asset->country ? $asset->country->name : 'N/A'}}</td>
-  </tr>
 
-   <tr>
  <td>State :</td> <td>{{$asset->state ? $asset->state->name : 'N/A'}}</td>
-
  <td>City :</td> <td>{{$asset->city ? $asset->city->name : 'N/A'}}</td>
+
   </tr>
+
 
 </table>
                   </p>
+
+
+
 
 
                   <footer class="blockquote-footer">{{$asset->description}} <cite title="Source Title">general info</cite></footer>
@@ -153,10 +153,9 @@
                     <thead>
                       <tr>
                           <th>No</th>
-                          <th><b>Name</b></th>
+                          <th><b>Property Type</b></th>
                           <th><b>Price</b></th>
-                          <th><b>Status</b></th>
-                          <th><b>Tenant</b></th>
+                          <th><b>Rooms</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -164,26 +163,9 @@
                     @foreach ($units as $unit)
                       <tr>
                           <td>{{$loop->iteration}}</td>
-                          <td>{{$unit->unitname}}</td>
+                          <td> {{$unit->propertyType ? $unit->propertyType->name : 'N/A'}}</td>
                           <td>{{$unit->standard_price}}</td>
-                          <td>{{$unit->status}}</td>
-                          <td>
-                            @if($unit->getTenant())
-
-                    {{$unit->getTenant()->firstname.' '.$unit->getTenant()->lastname}}
-
-                            @elseif($unit->getTenantWithoutRent())
-
-                    {{$unit->getTenantWithoutRent()->firstname.' '.$unit->getTenantWithoutRent()->lastname}}
-
-                    @else
-
-                    {{('N/A')}}
-                
-                @endif
-                            
-
-                        </td>
+                          <td>{{$unit->number_of_room}}</td>
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
