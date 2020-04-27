@@ -45,7 +45,7 @@
 <table class="table table-hover table-bordered">
   <tr>
     <td><b>Tenant Name</b> : </td> <td>{{$rental3->tenant ? $rental3->tenant->name() : ''}}</td>
-     <td><b>Unit</b> : </td>  <td>{{$rental3->unit ? $rental3->unit->unitname : 'N/A'}}</td>
+     <td><b>Flat</b> : </td>  <td>{{$rental3->flat_number ? $rental3->flat_number : 'N/A'}}</td>
  <td><b>Rental Start Date</b> : <td>{{formatDate($rental3->startDate, 'Y-m-d', 'd M Y')}}</td>
   </tr>
 

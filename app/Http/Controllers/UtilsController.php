@@ -98,13 +98,18 @@ class UtilsController extends Controller
 
     public function analyseProperty($property)
     {
-        $propertyAnalysis = Asset::where('uuid', $property)->first();
-        if($propertyAnalysis){
-            $units = Unit::where('asset_id', $propertyAnalysis->id)
-            ->get();
+        $asset = Asset::where('uuid', $property)->first();
+        if($asset){
+     $numberOfFlat = array();
+     for ($i=1;$i<=$asset->number_of_flat; $i++){
+    $numberOfFlat[] = $i;
+        }
+
+            // $units = Unit::where('asset_id', $propertyAnalysis->id)
+            // ->get();
             return response()->json([
-                'propertyName'=>$propertyAnalysis->description,
-                'flats'=> $units,
+                'asskingPrice'=>$asset->price,
+                'flats'=> $numberOfFlat,
             ]);
         }
         else{

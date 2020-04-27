@@ -375,7 +375,7 @@
             var tenant = $(this).val();
             if(tenant){
 
-                $('#input-previous_balance').empty();
+                $('#input-previous_balance').val('');
                 $('<option>').val('').text('Loading...').appendTo('#input-previous_balance');
                 $.ajax({
                     url: baseUrl+'/wallet/tenant-wallet-balance/'+tenant,

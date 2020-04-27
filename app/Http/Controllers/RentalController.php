@@ -55,7 +55,7 @@ class RentalController extends Controller
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
             'property' => 'required',
-            // 'unit' => 'required',
+            'flat_number' => 'required',
             'price' => 'required|numeric',
             'amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -70,22 +70,14 @@ class RentalController extends Controller
     $data=$request->all();
 
     $getTenantRents = TenantRent::where('tenant_rents.asset_uuid', $data['property'])
-                    // ->join('units as a', 'a.uuid', '=', 'tenant_rents.unit_uuid')
-                    ->join('tenants as t','t.uuid','=','tenant_rents.tenant_uuid')
-                    ->selectRaw('t.*,tenant_rents.*')
+                     ->where('flat_number',$data['flat_number'])
                     ->get();
                             
-    if($getTenantRents){
-      foreach ($getTenantRents as $key => $tenantRent) {
-            if($data['property'] == $tenantRent->asset_uuid 
-                // && $data['unit'] == $tenantRent->unit_uuid
-                && $data['price'] == $tenantRent->price
-                && $data['tenant'] == $tenantRent->tenant_uuid)
-            {
-                 return back()->withInput()->with('error','The selected tentant has already been added to the given property\'s unit ');
+    if(count($getTenantRents) >=1){
+                 return back()->withInput()->with('error','The selected flat has already been assigned');
             }
-      }
-    }
+    
+    
    
     date_default_timezone_set("Africa/Lagos");
     $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));

@@ -20,9 +20,9 @@ class Asset extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'description', 'category_id', 'quantity_added','quantity_left ','price','property_type',
+        'description', 'category_id', 'quantity_added','quantity_left','price','property_type',
         'address','agent_id','country', 'state', 'features',
-        'quantity_occupied', 'commission',
+        'quantity_occupied','number_of_flat','commission',
         'landlord_id',
         'country_id',
         'state_id',
@@ -95,11 +95,15 @@ class Asset extends Model
         
         $getActivePlan =  activePlanId(getOwnerUserID());
         $landlord = isset($data['landlord']) ? $data['landlord'] : '';
+        $numberOfFlat = $data['number_of_flat'];
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
             'landlord_id' => $landlord,
-            // 'price' => $data['asking_price'],
+            'price' => $data['asking_price'],
+            'number_of_flat' => $numberOfFlat,
+            'quantity_left' => $numberOfFlat,
+            'quantity_occupied' => 0,
             'property_type' => $data['property_type'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
@@ -115,7 +119,7 @@ class Asset extends Model
 
         ]); 
 
-        self::createUnit($data,$asset);
+        //self::createUnit($data,$asset);
         // self::addPhoto($data,$asset); 
         return $asset;
     }
