@@ -59,22 +59,22 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
-                                        <select name="unit" id="unit" class="form-control" required>
+                                    <div class="form-group{{ $errors->has('flat_number') ? ' has-danger' : '' }} col-4">
+                                        <label class="form-control-label" for="input-flat">{{ __('Flats') }}</label>
+                                        <select name="flat_number" id="flat" class="form-control" required>
                                             <option value="">Select Flat</option>
                                         </select>
                                         
-                                        @if ($errors->has('unit'))
+                                        @if ($errors->has('flat_number'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('unit') }}</strong>
+                                                <strong>{{ $errors->first('flat_number') }}</strong>
                                             </span>
                                         @endif
                                     </div>
 
                                      <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
                                         <label class="form-control-label" for="input-price">{{ __('Asking Price') }}</label>
-                                        <input type="text" name="price" id="price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
+                                        <input type="text" name="price" id="asking_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
                                         @if ($errors->has('price'))
                                             <span class="invalid-feedback" role="alert">
@@ -236,27 +236,35 @@ if(value <= 0){
             if(property){
                let vacantFlatCount = [];
               let occupiedFlatCount=[];
+
+               $('#flat').empty();
+                $('<option>').val('').text('Loading...').appendTo('#flat');
                 $.ajax({
                     url: baseUrl+'/analyse-property/'+property,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        console.log(data.propertyName)
+                        if(data !=''){
+                     $('#flat').empty();
+                     $('<option>').val('').text('Select Flat').appendTo('#flat');
                         $.each(data.flats, function(k, v) {
+                            // console.log('asskingPrice',data.asskingPrice);
+                            $('<option>').attr('selected',false).val(v).text(v).appendTo('#flat');
+                             $('#asking_price').attr('selected',true).val(data.asskingPrice);
                             //let cout = v.status.vacant;
-                            if(v.status =='vacant'){
-                               vacantFlatCount.push(v.status) 
-                            }
-                            if(v.status =='Occupied'){
-                               occupiedFlatCount.push(v.status) 
-                            }
-                            console.log('va cont',vacantFlatCount.length)
-                            console.log('oc cont',occupiedFlatCount.length)
+                            // if(v.status =='vacant'){
+                            //    vacantFlatCount.push(v.status) 
+                            // }
+                            // if(v.status =='Occupied'){
+                            //    occupiedFlatCount.push(v.status) 
+                            // }
+                            // console.log('va cont',vacantFlatCount.length)
+                            // console.log('oc cont',occupiedFlatCount.length)
 
                         });
 
                     }
-
+                }
                 });
                 
             }

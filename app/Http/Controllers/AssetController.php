@@ -100,19 +100,18 @@ class AssetController extends Controller
         }
 
 
-        $units=$data['unit'];
-        $unitNames = [];
-        foreach ($units as $key => $value) {
-           $unitNames[]=$value['unitname'];
-        }
+        // $units=$data['unit'];
+        // $unitNames = [];
+        // foreach ($units as $key => $value) {
+        //    $unitNames[]=$value['unitname'];
+        // }
 
-        $dup = self::array_has_dupes($unitNames);
+        // $dup = self::array_has_dupes($unitNames);
 
-        if($dup){
-              // Alert::warning('Required Fields', 'Duplicate unit names detected, Check and try again!!');
-         return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
+        // if($dup){
+        //  return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
 
-        }
+        // }
 
 
         DB::beginTransaction();

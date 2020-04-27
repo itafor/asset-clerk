@@ -17,7 +17,7 @@ class TenantRent extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'tenant_id','previous_rental_id','asset_uuid', 'price','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
+        'tenant_id','previous_rental_id','asset_uuid', 'price','flat_number','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
         'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date','balance'
     ];
 
@@ -63,7 +63,8 @@ class TenantRent extends Model
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
-            'unit_uuid' => $data['unit'],
+            // 'unit_uuid' => $data['unit'],
+            'flat_number' => $data['flat_number'],
             'price' => $data['price'],
             'amount' => $data['amount'],
             'balance' => $data['amount'],
@@ -77,8 +78,8 @@ class TenantRent extends Model
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
-         self::markUnitAsOccupied($data);
-        self::addNextPayment($data, $rental);
+         //self::markUnitAsOccupied($data);
+        //self::addNextPayment($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
     }
