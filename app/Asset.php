@@ -92,19 +92,19 @@ class Asset extends Model
 
     public static function createNew($data)
     {
+        //dd($data);
         
         $getActivePlan =  activePlanId(getOwnerUserID());
         $landlord = isset($data['landlord']) ? $data['landlord'] : '';
-        $numberOfFlat = $data['number_of_flat'];
         $asset = self::create([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
             'landlord_id' => $landlord,
-            'price' => $data['asking_price'],
-            'number_of_flat' => $numberOfFlat,
-            'quantity_left' => $numberOfFlat,
-            'quantity_occupied' => 0,
-            'property_type' => $data['property_type'],
+            //'price' => $data['asking_price'],
+            //'number_of_flat' => $numberOfFlat,
+            //'quantity_left' => $numberOfFlat,
+            //'quantity_occupied' => 0,
+            //'property_type' => $data['property_type'],
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
@@ -119,7 +119,7 @@ class Asset extends Model
 
         ]); 
 
-        //self::createUnit($data,$asset);
+          self::createUnit($data,$asset);
         // self::addPhoto($data,$asset); 
         return $asset;
     }
@@ -163,8 +163,9 @@ class Asset extends Model
                 'asset_id' => $asset->id,
                 'user_id' => getOwnerUserID(),
                 'plan_id' => activePlanId(getOwnerUserID()),
+                'number_of_room' => $unit['number_of_room'],
+                'property_type_id' => $unit['property_type'],
                 'standard_price' => $unit['standard_price'],
-                'unitname' => $unit['unitname'],
                 'status' => 'vacant',
                 'uuid' => generateUUID(),
             ]);
