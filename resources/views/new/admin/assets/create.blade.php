@@ -457,7 +457,7 @@ if(value <= 0){
     $('#property_type_id').change(function(){
             var property_type_id = $(this).val();
             console.log('property_type_id id',property_type_id)
-            alert('property_type_id id',property_type_id)
+            // alert('property_type_id id',property_type_id)
            
         });
  })
