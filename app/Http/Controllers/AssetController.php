@@ -78,7 +78,7 @@ class AssetController extends Controller
            // 'property_type' => 'required',
             // 'asking_price' => 'required',
             // 'unit.*.category' => 'required',
-            // 'unit.*.quantity' => 'required',
+            'unit.*.quantity' => 'required',
             'unit.*.number_of_room' => 'required',
             'unit.*.standard_price' => 'required',
             'unit.*.property_type' => 'required',
