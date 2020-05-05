@@ -156,10 +156,10 @@
                 </li>
 
                 <li class="dt-side-nav__item">
-                    <li class="dt-side-nav__item">
+                 <!--    <li class="dt-side-nav__item">
                     <a href="{{route('tenant.to.asset')}}" class="dt-side-nav__link" title="Add tenant to Asset">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};">Add tenant to Asset</span> </a>
-                </li>
+                </li> -->
                     <a href="{{route('rental.create')}}" class="dt-side-nav__link" title="Add New Rental">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
                 </li>

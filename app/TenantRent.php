@@ -63,8 +63,8 @@ class TenantRent extends Model
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
-            // 'unit_uuid' => $data['unit'],
-            'flat_number' => $data['flat_number'],
+            'unit_uuid' => $data['main_unit'],
+            'flat_number' => $data['sub_unit'],
             'price' => $data['price'],
             'amount' => $data['amount'],
             'balance' => $data['amount'],
@@ -80,6 +80,7 @@ class TenantRent extends Model
         ]);
          //self::markUnitAsOccupied($data);
         //self::addNextPayment($data, $rental);
+        self::reduceUnitQuantityByOne($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
     }
@@ -98,13 +99,24 @@ class TenantRent extends Model
         ]);
     }
 
+      public static function reduceUnitQuantityByOne($data)
+    {
+        if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
+            return false;
+        }
+
+        $unit = Unit::where('uuid', $data['main_unit'])->first();
+        $unit->quantity_left -= 1;
+        $unit->save();
+    }
+
     public static function markUnitAsOccupied($data)
     {
         if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
             return false;
         }
 
-        $unit = Unit::where('uuid', $data['unit'])->first();
+        $unit = Unit::where('uuid', $data['main_unit'])->first();
         $unit->status = 'Occupied';
         $unit->save();
     }

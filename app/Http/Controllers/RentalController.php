@@ -55,7 +55,8 @@ class RentalController extends Controller
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
             'property' => 'required',
-            'flat_number' => 'required',
+            'main_unit' => 'required',
+            'sub_unit' => 'required',
             'price' => 'required|numeric',
             'amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -70,11 +71,12 @@ class RentalController extends Controller
     $data=$request->all();
 
     $getTenantRents = TenantRent::where('tenant_rents.asset_uuid', $data['property'])
-                     ->where('flat_number',$data['flat_number'])
+                     ->where('flat_number',$data['sub_unit'])
+                     ->where('unit_uuid',$data['main_unit'])
                     ->get();
                             
     if(count($getTenantRents) >=1){
-                 return back()->withInput()->with('error','The selected flat has already been assigned');
+                 return back()->withInput()->with('error','The selected unit has already been assigned');
             }
     
     

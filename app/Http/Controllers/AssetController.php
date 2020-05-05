@@ -40,7 +40,6 @@ class AssetController extends Controller
 
     public function viewDetails($assetUuid)
     {
-        //dd($assetUuid);
         $asset = Asset::where('uuid',$assetUuid)
         ->where('user_id',getOwnerUserID())->first();
         $units = Unit::where('asset_id',$asset->id)
