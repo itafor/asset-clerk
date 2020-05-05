@@ -157,6 +157,7 @@
                           <th><b>Price</b></th>
                           <th><b>Rooms</b></th>
                           <th><b>Units</b></th>
+                          <th><b>Units Left</b></th>
                           <th class="text-center"><b>Action</b></th>
                       </tr>
                     </thead>
@@ -168,6 +169,7 @@
                           <td>{{$unit->standard_price}}</td>
                           <td>{{$unit->number_of_room}}</td>
                           <td>{{$unit->quantity}}</td>
+                          <td>{{$unit->quantity_left}}</td>
                           <td class="text-center">
                               <div class="dropdown">
                                   <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

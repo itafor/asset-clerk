@@ -86,8 +86,9 @@ class UtilsController extends Controller
         $property = Asset::where('uuid', $property)->first();
         if($property){
             $units = Unit::where('asset_id', $property->id)
-            ->select('units.*')
-            ->where('units.status','vacant')
+            ->join('property_types', 'property_types.id', '=', 'units.property_type_id')
+            ->select('units.*','property_types.name as propertyType','units.quantity as qty','units.quantity_left as qty_left','units.uuid as unitUuid')
+            ->where('units.quantity_left','>=',0)
             ->get();
             return response()->json($units);
         }
@@ -96,19 +97,19 @@ class UtilsController extends Controller
         }
     }
 
-    public function analyseProperty($property)
+    public function analyseProperty($unit_uuid)
     {
-        $asset = Asset::where('uuid', $property)->first();
-        if($asset){
+        $unit = Unit::where('uuid', $unit_uuid)->first();
+        if($unit){
      $numberOfFlat = array();
-     for ($i=1;$i<=$asset->number_of_flat; $i++){
+     for ($i=1;$i<=$unit->quantity; $i++){
     $numberOfFlat[] = $i;
         }
 
             // $units = Unit::where('asset_id', $propertyAnalysis->id)
             // ->get();
             return response()->json([
-                'asskingPrice'=>$asset->price,
+                'asskingPrice'=>$unit->standard_price,
                 'flats'=> $numberOfFlat,
             ]);
         }

@@ -24,7 +24,7 @@
  <!-- Entry Heading -->
               <div class="dt-entry__heading">
   
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button> -->
               </div>
               <!-- /entry heading -->
             </div>
@@ -43,7 +43,7 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                               <div class="row">
-                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
                                          <select name="property" id="property" class="form-control propertycount" required autofocus>
                                             <option value="">Select Property</option>
@@ -59,20 +59,35 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('flat_number') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-flat">{{ __('Flats') }}</label>
-                                        <select name="flat_number" id="flat" class="form-control" required>
-                                            <option value="">Select Flat</option>
+                                       <div class="form-group{{ $errors->has('main_unit') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-main_unit">{{ __('Property Units') }}</label>
+                                        <select name="main_unit" id="main_unit" class="form-control" required>
+                                            <option value="">Select Unit</option>
                                         </select>
                                         
-                                        @if ($errors->has('flat_number'))
+                                        @if ($errors->has('main_unit'))
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('flat_number') }}</strong>
+                                                <strong>{{ $errors->first('main_unit') }}</strong>
                                             </span>
                                         @endif
                                     </div>
 
-                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('') ? ' has-danger' : '' }} col-3">
+                                        <label class="form-control-label" for="input-sub_unit">{{ __('Property Sub Unit') }}</label>
+                                        <select name="sub_unit" id="sub_unit" class="form-control" required>
+                                            <option value="">Select sub unit</option>
+                                        </select>
+                                        
+                                        @if ($errors->has('sub_unit'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('sub_unit') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                 
+
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-price">{{ __('Asking Price') }}</label>
                                         <input type="text" name="price" id="asking_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
@@ -230,36 +245,23 @@ if(value <= 0){
 }
  });
 
-
     $('.propertycount').change(function(){
             var property = $(this).val();
             if(property){
-               let vacantFlatCount = [];
-              let occupiedFlatCount=[];
 
-               $('#flat').empty();
-                $('<option>').val('').text('Loading...').appendTo('#flat');
+               $('#main_unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#main_unit');
                 $.ajax({
-                    url: baseUrl+'/analyse-property/'+property,
+                    url: baseUrl+'/fetch-units/'+property,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data)
                         if(data !=''){
-                     $('#flat').empty();
-                     $('<option>').val('').text('Select Flat').appendTo('#flat');
-                        $.each(data.flats, function(k, v) {
-                            // console.log('asskingPrice',data.asskingPrice);
-                            $('<option>').attr('selected',false).val(v).text(v).appendTo('#flat');
-                             $('#asking_price').attr('selected',true).val(data.asskingPrice);
-                            //let cout = v.status.vacant;
-                            // if(v.status =='vacant'){
-                            //    vacantFlatCount.push(v.status) 
-                            // }
-                            // if(v.status =='Occupied'){
-                            //    occupiedFlatCount.push(v.status) 
-                            // }
-                            // console.log('va cont',vacantFlatCount.length)
-                            // console.log('oc cont',occupiedFlatCount.length)
+                     $('#main_unit').empty();
+                     $('<option>').val('').text('Select Unit').appendTo('#main_unit');
+                        $.each(data, function(k, v) {
+                            $('<option>').attr('selected',false).val(v.unitUuid).text(v.propertyType +' - '+ v.qty+'units, '+v.qty_left+' left').appendTo('#main_unit');
 
                         });
 
@@ -268,8 +270,37 @@ if(value <= 0){
                 });
                 
             }
-        
-            
+        });
+
+
+    $('#main_unit').change(function(){
+            var property = $(this).val();
+            if(property){
+               let vacantFlatCount = [];
+              let occupiedFlatCount=[];
+
+               $('#sub_unit').empty();
+                $('<option>').val('').text('Loading...').appendTo('#sub_unit');
+                $.ajax({
+                    url: baseUrl+'/analyse-property/'+property,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data !=''){
+                     $('#sub_unit').empty();
+                     $('<option>').val('').text('Select sub unit').appendTo('#sub_unit');
+                        $.each(data.flats, function(k, v) {
+                            // console.log('asskingPrice',data.asskingPrice);
+                            $('<option>').attr('selected',false).val(v).text(v).appendTo('#sub_unit');
+                             $('#asking_price').attr('selected',true).val(data.asskingPrice);
+
+                        });
+
+                    }
+                }
+                });
+                
+            }
         });
     
     </script>
