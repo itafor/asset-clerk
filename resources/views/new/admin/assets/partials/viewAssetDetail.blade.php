@@ -166,8 +166,8 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td> {{$unit->propertyType ? $unit->propertyType->name : 'N/A'}}</td>
-                          <td>{{$unit->standard_price}}</td>
-                          <td>{{$unit->number_of_room}}</td>
+                          <td> &#8358;{{number_format($unit->standard_price,2)}}</td>
+                          <td>{{$unit->number_of_room}} BR</td>
                           <td>{{$unit->quantity}}</td>
                           <td>{{$unit->quantity_left}}</td>
                           <td class="text-center">
@@ -197,7 +197,7 @@
               </div>
             </div>
 
-             <div class="card">
+             {{--<div class="card">
               <div class="card-header">
                 Tenants
               </div>
@@ -207,7 +207,7 @@
                   <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
                 </blockquote>
               </div>
-            </div>
+            </div>--}}
 
                 </div>
                 <!-- /tables -->

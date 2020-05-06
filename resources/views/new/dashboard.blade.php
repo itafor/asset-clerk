@@ -2,8 +2,8 @@
 
 @section('content')
 <style type="text/css">
-/*basic reset*/
-* {margin: 0; padding: 0;}
+/*basic reset*//*
+* {margin: 0; padding: 0;}*/
 
 /*form styles*/
 #msform {
@@ -72,104 +72,19 @@ a { color: inherit; }
 #progressbar .activ:before {
     color: #ffffff;
 }
+.recordButtons{
+  background: #003366;
+}
 </style>
-<div class="row">
-    <!-- multistep form -->
-                <h2 class="dt-entry__title" style="margin-left: 20px;">Add Records</h2>
-<form id="msform">
+<div style="text-align: center; margin-bottom: 10px;">
+                <h2 class="dt-entry__title" style="margin-left: 20px; margin-bottom: 10px;">Add Records</h2>
 
-    <!-- progressbar -->
-    <ul id="progressbar">
-           
-             @if(isset($next_step_landlord))
-             <li class="activ text-white">
-        Landlords
-        </li>
-     @else 
-      <li>
-        Landlords
-        </li>
-      @endif
-       
- @if(isset($next_step_asset))
-       <li class="activ text-white">
-           Assets
-       </li>
-      @else 
-           <li>
-           Assets
-       </li>
-@endif
+               <a href="{{route('landlord.create')}}"> <button class="btn btn-success recordButtons">Landlord</button></a>
+              <a href="{{route('asset.create')}}">  <button class="btn btn-success recordButtons">Asset</button></a>
+              <a href="{{route('tenant.create')}}">   <button class="btn btn-success recordButtons">Tenants</button></a>
+              <a href="{{route('rental.create')}}">  <button class="btn btn-success recordButtons">Rental</button></a>
+          </div>
 
-@if(isset($next_step_tenant))
-    
-           <li class="activ text-white">
-           Tenants
-       </li>
-@else 
-       <li> 
-           Tenants
-       </li>
-@endif
-
-@if(isset($next_step_rental))
-           <li class="activ text-white">
-           Rentals
-       </li>
-@else 
-       <li> 
-           Rentals
-       </li>
-@endif
-
-@if(isset($next_step_rental_payment))
-           <li class="activ text-white">
-           Payment
-       </li>
-@else 
-       <li> 
-           Payment
-       </li>
-@endif
-
-@if(isset($next_step_rental_summary))
-           <li class="activ text-white">
-           Summary
-       </li>
-@else 
-       <li> 
-           Summary
-       </li>
-@endif
-    </ul>
-
-</form>
-
-</div>
-    
-    @if(isset($next_step_landlord))
-        @include('new.admin.multiStepForm.landlord')
-    @endif
-
-    @if(isset($next_step_asset))
-        @include('new.admin.multiStepForm.asset')
-    @endif
-
-     @if(isset($next_step_tenant))
-        @include('new.admin.multiStepForm.tenant')
-    @endif
-
-    @if(isset($next_step_rental))
-        @include('new.admin.multiStepForm.rental')
-    @endif
-
-    @if(isset($next_step_rental_payment))
-         @include('new.admin.multiStepForm.payRent')
-    @endif
-
-     @if(isset($next_step_rental_summary))
-         @include('new.admin.multiStepForm.summary')
-    @endif
 
     <div class="row">
 
