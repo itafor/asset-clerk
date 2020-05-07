@@ -43,7 +43,7 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Add Rental') }}</h6>
                             <div class="pl-lg-4">
                               <div class="row">
-                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-3">
+                                    <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
                                          <select name="property" id="property" class="form-control propertycount" required autofocus>
                                             <option value="">Select Property</option>
@@ -59,7 +59,7 @@
                                         @endif
                                     </div>
 
-                                       <div class="form-group{{ $errors->has('main_unit') ? ' has-danger' : '' }} col-3">
+                                       <div class="form-group{{ $errors->has('main_unit') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-main_unit">{{ __('Property Units') }}</label>
                                         <select name="main_unit" id="main_unit" class="form-control" required>
                                             <option value="">Select Unit</option>
@@ -72,7 +72,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('') ? ' has-danger' : '' }} col-3">
+                                    <div class="form-group{{ $errors->has('') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-sub_unit">{{ __('Property Sub Unit') }}</label>
                                         <select name="sub_unit" id="sub_unit" class="form-control" required>
                                             <option value="">Select sub unit</option>
@@ -87,7 +87,7 @@
 
                                  
 
-                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-3">
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-price">{{ __('Asking Price') }}</label>
                                         <input type="text" name="price" id="asking_price" class="form-control" value="{{old('price')}}" readonly="true" placeholder="Enter Price" required>
                                         
@@ -100,41 +100,36 @@
                               
                                      </div>
 
-                                     <div class="row">
-                                    <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-12">
-                                        <label class="form-control-label" for="input-tenant">{{ __('Tenant') }} 
-
-
-                                        </label>
-
-
- <select name="tenant" id="input_tenant" class="form-control" required autofocus>
-    <option value="">Select Tenant</option>
-    @foreach (getTenants() as $tenant)
-        <option value="{{$tenant->uuid}}">{{$tenant->name()}}</option>
-    @endforeach
-</select>
-                                       
-
-    @if ($errors->has('tenant'))
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $errors->first('tenant') }}</strong>
-        </span>
-    @endif
-</div>
-
-
-                                </div>
 
                                 <div class="row">
 
+                         <div class="form-group{{ $errors->has('tenant') ? ' has-danger' : '' }} col-6">
+                                <label class="form-control-label" for="input-tenant">{{ __('Tenant') }} 
 
+
+                                </label>
+
+
+                        <select name="tenant" id="input_tenant" class="form-control" required autofocus>
+                        <option value="">Select Tenant</option>
+                        @foreach (getTenants() as $tenant)
+                        <option value="{{$tenant->uuid}}">{{$tenant->name()}}</option>
+                        @endforeach
+                        </select>
+                               
+
+                        @if ($errors->has('tenant'))
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('tenant') }}</strong>
+                        </span>
+                        @endif
+                        </div>
                               
 
 
                                    
 
-                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-4">
+                                     <div class="form-group{{ $errors->has('price') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-price">{{ __('Amount') }}</label>
                                         <input type="number" min="1" name="amount" id="amount" class="form-control" value="{{old('amount')}}" placeholder="Enter amount" required>
                                         
@@ -146,7 +141,7 @@
                                     </div>
 
 
-                                              <div class="form-group{{ $errors->has('startDate') ? ' has-danger' : '' }} col-4">
+                                              <div class="form-group{{ $errors->has('startDate') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-duration">{{ __('Start Date') }}</label>
 
                                          <input type="text" name="startDate" id="startDate" class="datepicker form-control form-control-alternative{{ $errors->has('startDate') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('startDate')}}" >
@@ -157,7 +152,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
+                                    <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-date">{{ __('End Date') }}</label>
                                         <input type="text" name="due_date" id="input-date" class="datepicker form-control form-control-alternative{{ $errors->has('due_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('due_date')}}" required>
                                         

@@ -100,18 +100,18 @@ class AssetController extends Controller
         }
 
 
-        $units=$data['unit'];
-        $propertyType = [];
-        foreach ($units as $key => $value) {
-           $propertyType[]=$value['property_type'];
-        }
+        // $units=$data['unit'];
+        // $propertyType = [];
+        // foreach ($units as $key => $value) {
+        //    $propertyType[]=$value['property_type'];
+        // }
 
-        $dup = self::array_has_dupes($propertyType);
+        // $dup = self::array_has_dupes($propertyType);
 
-        if($dup){
-         return back()->withInput()->with('error','Duplicate property types detected, Check and try again!!');
+        // if($dup){
+        //  return back()->withInput()->with('error','Duplicate property types detected, Check and try again!!');
 
-        }
+        // }
 
 
         DB::beginTransaction();
@@ -499,8 +499,10 @@ public function tenantsServiceCharge($id){
             }
 
         $validator = Validator::make($request->all(), [
-            'unit.*.unitname' => 'required',
+            'unit.*.quantity' => 'required',
+            'unit.*.number_of_room' => 'required',
             'unit.*.standard_price' => 'required',
+            'unit.*.property_type' => 'required',
             'asset' => 'required'
         ]);
         if ($validator->fails()) {
@@ -509,31 +511,18 @@ public function tenantsServiceCharge($id){
         }
         $data=$request->all();
 
-        $units=$data['unit'];
-        $unitNames = [];
-        foreach ($units as $key => $value) {
-           $unitNames[]=$value['unitname'];
-        }
+        // $units=$data['unit'];
+        // $propertyType = [];
+        // foreach ($units as $key => $value) {
+        //    $propertyType[]=$value['property_type'];
+        // }
 
-        $dup = self::array_has_dupes($unitNames);
+        // $dup = self::array_has_dupes($propertyType);
 
-        if($dup){
-         return back()->withInput()->with('error','Duplicate unit names detected, Check and try again!!');
-        }
+        // if($dup){
+        //  return back()->withInput()->with('error','Duplicate property types detected, Check and try again!!');
 
-
-        $myUnits=Unit::where('asset_id',$data['asset'])
-        ->where('user_id',getOwnerUserID())->get();
-        if($myUnits){
-        foreach($myUnits as $myunit){
-         foreach($data['unit'] as $unit){
-            if($myunit->unitname == $unit['unitname']){
-                return  back()->withErrors($validator)
-                        ->withInput()->with('error', 'The selected property unit name already exists');
-            }
-         }
-        }
-}
+        // }
 
 
         $asset = Asset::find($request['asset']);
