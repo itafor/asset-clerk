@@ -162,7 +162,44 @@
                    {{$rental->asset->description}}
                 </td>
             </tr>
+
+              <tr class="heading">
+                <td>
+                    Property Type
+                </td>
+                
+                <td>
+                  
+                </td>
+            </tr>
             
+            <tr class="details">
+                <td colspan="2">
+               @if($rental->unit)
+                         @if($rental->unit->propertyType)
+                         {{$rental->unit->propertyType->name}}
+                         @endif
+                         @else
+                         <span>N/A</span>
+                         @endif
+                </td>
+            </tr>
+
+             <tr class="heading">
+                <td>
+                    Property Type
+                </td>
+                
+                <td>
+                  
+                </td>
+            </tr>
+               <tr class="details">
+                <td colspan="2">
+{{$rental->flat_number ? $rental->flat_number : 'N/A'}}
+                </td>
+            </tr>
+              
             <tr class="heading">
                 <td>
                   Rent Details

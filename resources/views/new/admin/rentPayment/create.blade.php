@@ -38,11 +38,12 @@
                                 <input type="hidden" name="tenantRent_uuid" value="{{$tenantRent->uuid}}">
                                 
                                <div class="float-left"> <p>Fields marked (<span class="text-danger">*</span>) are required.</p></div>
-                               <div class="float-right"><span></span>Landlord (
-                                {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->designation : ''}}.
+                               <div class="float-right"><span></span>Landlord (            {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->designation : ''}}
                                 {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->firstname : ''}}
                                 {{$tenantRent->asset->Landlord ? $tenantRent->asset->Landlord->lastname : ''}}
-                                ) Property Estimate : &#8358; {{number_format($tenantRent->price,2)}} </div>
+                                ) Asking Price : &#8358;{{ $tenantRent->unit ? number_format($tenantRent->unit->standard_price,2) : 'N/A' }}
+
+                            </div>
                            </div>
                            </div>
                             <div class="pl-lg-4">
@@ -65,9 +66,16 @@
                                         @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}<span class="text-danger">*</span></label>
+                                        <label class="form-control-label" for="input-unit">{{ __('Property Type') }}<span class="text-danger">*</span></label>
                                         <select name="unit_uuid" id="unit_uuid" class="form-control" required>
-                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit ? $tenantRent->unit->unitname : 'N/A'}}
+                                            <option value="{{$tenantRent->unit_uuid}}">
+                            @if($tenantRent->unit)
+                             @if($tenantRent->unit->propertyType)
+                             {{$tenantRent->unit->propertyType->name}}
+                             @endif
+                             @else
+                             <span>N/A</span>
+                             @endif
                                             </option>
                                         </select>
                                        

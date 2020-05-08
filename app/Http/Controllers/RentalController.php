@@ -24,16 +24,32 @@ use Illuminate\Http\Request;
 use Mail;
 use Validator;
 use DateTime;
+use DateInterval;
 
 class RentalController extends Controller
 {
     public function index()
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
+                ->whereNotNull('startDate')
+                ->whereNotNull('due_date')
+                ->whereNotNull('amount')
         ->orderBy('id', 'desc')->get();
 
         return view('new.admin.rental.index', compact('rentals'));
     }
+
+     public function displayAllocton()
+    {
+        $rentals = TenantRent::where('user_id', getOwnerUserID())
+                ->where('startDate',null)
+                ->where('due_date',null)
+                ->where('amount',null)
+        ->orderBy('id', 'desc')->get();
+
+        return view('new.admin.rental.partials.list_allocation', compact('rentals'));
+    }
+    
     
     public function myRentals()
     {
@@ -41,6 +57,60 @@ class RentalController extends Controller
         ->where('t.email', auth()->user()->email)
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         return view('new.admin.rental.my', compact('rentals'));
+    }
+
+     public function addRental($uuid)
+    {
+         $data['tenantRent'] = TenantRent::where('uuid',$uuid)
+       ->where('user_id',getOwnerUserID())->first();
+
+        return view('new.admin.rental.partials.add_rental',$data);
+    }
+
+     public function saveRental(Request $request)
+    {
+        $data=$request->all();
+
+        $startDate = formatDate($data['startDate'], 'd/m/Y', 'Y-m-d');
+        $startDate = Carbon::parse($startDate);
+        $dueDate = formatDate($data['due_date'], 'd/m/Y', 'Y-m-d');
+        $dueDate = Carbon::parse($dueDate);
+           
+
+        $duration = $startDate->diff($dueDate)->days;
+        $end_date = (new $startDate)->add(new DateInterval("P{$duration}D") );
+        $dd = date_diff($startDate,$end_date);
+        $final_duration = $dd->y." years, ".$dd->m." months, ".$dd->d." days";
+
+        date_default_timezone_set("Africa/Lagos");
+    $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));
+    $enddate   =   Carbon::parse(formatDate($request->due_date, 'd/m/Y', 'Y-m-d'));
+
+    if($enddate < $startdate){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+        
+
+     $rental =  tenantRent::where('uuid', $data['tenantRent_uuid'])
+                ->where('tenant_uuid', $data['tenant_uuid'])
+                ->where('user_id', getOwnerUserID())->first();
+        
+if($rental){
+    $rental->amount = $data['actual_amount'];
+    $rental->startDate = $startDate;
+    $rental->due_date = $dueDate;
+    $rental->new_rental_status = null;
+    $rental->duration = $final_duration;//star date
+    $rental->renewable = 'yes';
+    $rental->status = 'pending';
+   if($rental->save()){
+
+    RentalCreatedEmailJob::dispatch($rental)
+                ->delay(now()->addSeconds(3));
+
+     return back()->with('success', 'Rental added successfully');
+   }
+}
     }
 
     public function create()
