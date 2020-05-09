@@ -142,6 +142,29 @@
             <!-- /sub-menu -->
             </li>
 
+            <li class="dt-side-nav__item {{isset($page) && $page == 'allocation' ? 'open' : ''}}">
+            <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Rentals">
+                <i class="icon icon-card icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Allocation</span> </a>
+
+            <!-- Sub-menu -->
+            <ul class="dt-side-nav__sub-menu">
+
+                  <li class="dt-side-nav__item">
+                    <a href="{{route('allocation.index')}}" class="dt-side-nav__link" title="List Rentals">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'allocation.index') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'allocation.index') ? $active_menu_color : $default_menu_color }};">List</span> </a>
+                </li>
+
+                <li class="dt-side-nav__item">
+                
+                    <a href="{{route('allocation.create')}}" class="dt-side-nav__link" title="Add new allocation">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'allocation.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'allocation.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
+                </li>
+
+
+            </ul>
+            <!-- /sub-menu -->
+            </li>
+
             
             <li class="dt-side-nav__item {{isset($page) && $page == 'rental' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Rentals">
@@ -156,13 +179,14 @@
                 </li>
 
                 <li class="dt-side-nav__item">
-                 <!--    <li class="dt-side-nav__item">
-                    <a href="{{route('tenant.to.asset')}}" class="dt-side-nav__link" title="Add tenant to Asset">
-                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'tenant.to.asset') ? $active_menu_color : $default_menu_color }};">Add tenant to Asset</span> </a>
-                </li> -->
+                    <li class="dt-side-nav__item">
+                    <a href="{{route('allocation.view')}}" class="dt-side-nav__link" title="Add Rental">
+                        <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'allocation.view') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'allocation.view') ? $active_menu_color : $default_menu_color }};">Add new</span> </a>
+                </li>
+               {{--<li class="dt-side-nav__item">
                     <a href="{{route('rental.create')}}" class="dt-side-nav__link" title="Add New Rental">
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};"></i> <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'rental.create') ? $active_menu_color : $default_menu_color }};">Add New</span> </a>
-                </li>
+                </li>--}}
 
                  <li class="dt-side-nav__item">
                     <a href="{{route('rentalPayment.history')}}" class="dt-side-nav__link" title="Rental Payment History">
@@ -183,6 +207,10 @@
             </ul>
             <!-- /sub-menu -->
             </li>
+
+             
+            
+
             
 
           <li class="dt-side-nav__item {{isset($page) && $page == 'service' ? 'open' : ''}}">

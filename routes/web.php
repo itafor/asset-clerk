@@ -176,7 +176,15 @@ Route::get('/yes-renew-rental/{uuid}', 'RentalController@yesRenewRent')->name('r
 Route::get('/no-renew-rental/{uuid}', 'RentalController@noRenewRent')->name('renewable.no');
 Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 Route::get('/view-detail/{uuid}', 'RentalController@viewDetail')->name('rental.view.detail');
+Route::get('/add-rental/{uuid}', 'RentalController@addRental')->name('rental.add');
+Route::post('/save/rental', 'RentalController@saveRental')->name('rental.save');
+Route::get('/rental/allocation', 'RentalController@displayAllocton')->name('allocation.view');
+});
 
+Route::prefix('allocation')->group(function(){
+Route::get('/', 'AllocationController@index')->name('allocation.index');
+Route::get('/create', 'AllocationController@create')->name('allocation.create');
+Route::post('/store', 'AllocationController@store')->name('rent.allocation.store');
 });
 
 Route::prefix('rent-payment')->group(function(){
