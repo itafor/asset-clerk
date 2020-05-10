@@ -12,7 +12,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="text-align:left">
+            <div class="modal-body" style="text-align:left" >
                     @csrf
                 <div class="form-group col-12 row">
      

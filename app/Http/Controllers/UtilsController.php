@@ -176,18 +176,67 @@ if($asset_uuid){
         }
 }
 
-public function fetchTenantAddedToRental($asset_uuid){
-if($asset_uuid){
+public function fetchTenantAddedToRental(Request $request){
+ if($request->get('asset')){
+  $asset_uuid = $request->get('asset');
+
             $rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
-            ->join('units as u', 'u.uuid', '=', 'tenant_rents.unit_uuid')
-            ->join('tenants as tn', 'tn.uuid', '=', 'tenant_rents.tenant_uuid')
-            ->select('tn.*')
+            // ->join('units as u', 'u.uuid', '=', 'tenant_rents.unit_uuid')
+            // ->join('tenants as tn', 'tn.uuid', '=', 'tenant_rents.tenant_uuid')
+            // ->select('tn.*')
             ->get();
-            return response()->json($rentals);
+
+
+              if(count($rentals) <=0 ){
+
+              echo  $output = "No tenant allocated to the selected property";  
+
+            }else{
+
+           $output = '';
+
+              $output .= '
+                     <table class="table table-striped table-bordered table-hover datatable">
+                    <thead>
+                      <tr>
+                          <th>
+                          <input id="selectAll" type="checkbox" value="Check All" onclick="selectAllAllocation()"> <span id="selectAllTest">Select all</span>
+
+                           <input id="deselectAll" type="checkbox" value="Check All" onclick="unSelectAllAllocation()" style="display: none;">
+                           <span id="deselectAllTest" style="display: none;">Deselect all</span>
+                          </th>
+
+                          <th><b>Tenant Name</b></th>
+                          <th><b>Property Type</b></th>
+                          <th><b>Unit</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    ';
+                    
+                      
+                     
+
+        foreach($rentals as $rental){
+             $output .= '<tr>';
+$output.='<td><input type="checkbox" id="tenant_id'.$rental->tenant->id.'" name="tenant_id[]" value="'.$rental->tenant->id.'"></td>';
+
+      $output.='<td>'.$rental->tenant->firstname.' '.$rental->tenant->lastname.'</td>';
+      $output.='<td>'.$rental->unit->propertyType->name .'</td>';
+      $output.='<td>'.$rental->flat_number .'</td>';
+            $output .= '</tr>';
+          }
+
+                     $output .= '</tbody>
+                  </table>';
+   
+    }
+
+       echo $output;
+            //return response()->json($rentals);
         }
-        else{
-            return [];
-        }
+        
 }
 
     public function resendVerification()
