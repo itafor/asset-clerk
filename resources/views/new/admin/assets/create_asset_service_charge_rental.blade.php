@@ -25,7 +25,7 @@
                 <!-- Entry Heading -->
               <div class="dt-entry__heading">
   
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Allocate tenants to properties</button>
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#allocationModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Allocate tenants to properties</button> -->
               </div>
               <!-- /entry heading -->
 
@@ -150,7 +150,6 @@
 
         </div>
         <!-- /grid -->
-        @include('new.admin.assets.partials.addTenantToProperty')
 @endsection
 
 @section('script')
@@ -203,11 +202,8 @@
         method:"get",
         data:{asset:asset, _token:_token},
         success:function(data){
-           if(data === 'No tenant allocated to the selected property'){
-
-           $('#list_allocated_tenants').fadeIn();
-            $('#list_allocated_tenants').html(data);
-                       alert('No tenant allocated to the selected property')
+           if(data == 'No tenant allocated to the selected property'){
+                       console.log('No tenant allocated to the selected property')
           }else{
                $('#list_allocated_tenants').fadeIn();
                $('#list_allocated_tenants').html(data);
