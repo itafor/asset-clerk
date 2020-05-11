@@ -12,7 +12,7 @@ class TenantServiceCharge extends Model
 {
 	 use SoftDeletes;
 	 
-    protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal','startDate','dueDate'];
+    protected $fillable = ['tenant_id','asc_id','service_chargeId','user_id','bal','startDate','dueDate','tenant_rent_id'];
 
  public function asc()
     {

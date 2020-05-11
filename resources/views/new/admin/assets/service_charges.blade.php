@@ -142,7 +142,7 @@
                     <tr>
                         <th>No</th>
                         <th><b>Property</b></th>
-                        <th><b>Location</b></th>
+                        <th><b>Property Type</b></th>
                         <th><b>Service Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
@@ -161,7 +161,7 @@
                             {{$i}} 
                             </td>
                             <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
-                            <td>{{ $asset->asset ? $asset->asset->address : '' }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->propertyType->name : '' }}</td>
                             <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>
@@ -215,7 +215,7 @@
                     <tr>
                         <th>No</th>
                         <th><b>Property</b></th>
-                        <th><b>Location</b></th>
+                        <th><b>Property Type</b></th>
                         <th><b>Service Name</b></th>
                         <th><b>Category</b></th>
                         <th><b>Amount</b></th>
@@ -234,7 +234,7 @@
                             {{$i}} 
                             </td>
                             <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
-                            <td>{{ $asset->asset ? $asset->asset->address : '' }}</td>
+                            <td>{{ $asset->asset ? $asset->asset->units : '' }}</td>
                             <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
                             <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
                             <td>&#8358; {{number_format($asset->price,2)}}</td>

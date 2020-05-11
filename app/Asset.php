@@ -7,6 +7,7 @@ use App\AssetServiceCharge;
 use App\Jobs\ServiceChargeInvoiceJob;
 use App\PropertyFeature;
 use App\Tenant;
+use App\TenantRent;
 use App\TenantServiceCharge;
 use App\Unit;
 use Carbon\Carbon;
@@ -209,8 +210,9 @@ class Asset extends Model
     
     public static function addServiceCharge($data,$asset)
     {
-
-        $tenantIds=$data['tenant_id'];
+        
+        // $tenantIds=$data['tenant_id'];
+        $tenantRent_ids=$data['tenant_rent_id'];
         $startDate = $data['startDate'];
         $dueDate = $data['dueDate'];
         $services = $data['service'];
@@ -232,15 +234,18 @@ class Asset extends Model
             ]);
 
                 if($asc){
-                    self::addTenantToServiceCharge($tenantIds,$asc->id, $unit['service_charge'],$unit['price'],$startDate,$dueDate);
+                    self::addTenantToServiceCharge($tenantRent_ids,$asc->id, $unit['service_charge'],$unit['price'],$startDate,$dueDate);
                  }
         }
     }
 
-    public static function addTenantToServiceCharge($tenantIds,$sc_id,$service_charge_ids,$bal,$startDate,$dueDate){
-        foreach ($tenantIds as $key => $id) {
+    public static function addTenantToServiceCharge($tenantRent_ids,$sc_id,$service_charge_ids,$bal,$startDate,$dueDate){
+        foreach ($tenantRent_ids as $key => $id) {
+            $rental = TenantRent::where('id',$id)->first();
+            $tenantid = $rental->tenant->id;
             TenantServiceCharge::create([
-                'tenant_id' => $id,
+                'tenant_id' => $tenantid,
+                'tenant_rent_id' => $id,
                 'asc_id' =>$sc_id,
                 'service_chargeId' => $service_charge_ids,
                 'user_id' =>getOwnerUserID(),
@@ -248,7 +253,7 @@ class Asset extends Model
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
             ]);
-            $tenant = Tenant::where('id',$id)->first();
+            $tenant = Tenant::where('id',$tenantid)->first();
             $serviceCharge = AssetServiceCharge::with('asset','serviceCharge')
             ->where('user_id',getOwnerUserID())
             ->where('id',$sc_id)->first();

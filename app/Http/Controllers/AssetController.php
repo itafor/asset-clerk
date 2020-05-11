@@ -317,7 +317,7 @@ class AssetController extends Controller
             'dueDate' => 'required',
             'startDate' => 'required',
             'asset' => 'required',
-            'tenant_id' => 'required',
+            'tenant_rent_id' => 'required',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)
@@ -351,27 +351,27 @@ class AssetController extends Controller
           }
         }
    
-$allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
+// $allTenantServiceCharges=TenantServiceCharge::where('user_id',getOwnerUserID())->get();
         
-       if($allTenantServiceCharges){
-            foreach ($allTenantServiceCharges as $key => $aTSC) {
-                foreach ($services as $key => $service) {
-                    foreach ($tenantIds as $key => $tenantId) {
+//        if($allTenantServiceCharges){
+//             foreach ($allTenantServiceCharges as $key => $aTSC) {
+//                 foreach ($services as $key => $service) {
+//                     foreach ($tenantIds as $key => $tenantId) {
 
-                    if(
-                            $tenantId == $aTSC->tenant_id
-                        &&  $service['service_charge'] == $aTSC->service_chargeId
-                        &&  $request->startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
-                         &&  $request->dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
-                    ){
-                         return back()->withInput()->with('error','The selected tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
-                    }
+//                     if(
+//                             $tenantId == $aTSC->tenant_id
+//                         &&  $service['service_charge'] == $aTSC->service_chargeId
+//                         &&  $request->startDate == Carbon::parse($aTSC->startDate)->format('d/m/Y')
+//                          &&  $request->dueDate == Carbon::parse($aTSC->dueDate)->format('d/m/Y')
+//                     ){
+//                          return back()->withInput()->with('error','The selected tenant has already been added to this service Charge for the specified start and due date, Check and try again!!');
+//                     }
 
-                    }
-                }
+//                     }
+//                 }
                
-            }
-        }
+//             }
+//         }
 
 
         $asset = Asset::where('uuid',$request['asset'])->first();
