@@ -309,6 +309,7 @@ class AssetController extends Controller
     {
          $services = $request->service;
          $tenantIds= $request->tenant_id;
+      
         $validator = Validator::make($request->all(), [
             'service.*.type' => 'required',
             'service.*.service_charge' => 'required',

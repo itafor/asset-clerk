@@ -1,4 +1,4 @@
-@extends('new.layouts.app', ['title' => 'Add New Service Charge', 'page' => 'Service Charge'])
+@extends('new.layouts.app', ['title' => 'Add New Service Charge', 'page' => 'service'])
 
 @section('content')
  
@@ -19,14 +19,14 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Select tenants from rentals</h3>
+                <h3 class="dt-entry__title">Add Service Charge</h3>
               </div>
               <!-- /entry heading -->
                 <!-- Entry Heading -->
-            <!--   <div class="dt-entry__heading">
+              <div class="dt-entry__heading">
   
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
-              </div> -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Allocate tenants to properties</button>
+              </div>
               <!-- /entry heading -->
 
             </div>
@@ -40,7 +40,7 @@
                      <form id="forms" action="{{ route('addserviceCharge') }}" method="post" autocomplete="off">
                     @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5>
+                    <!-- <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5> -->
 
                 </div>
                 <div class="modal-body" style="text-align:left">
@@ -83,7 +83,9 @@
                             </div>
 
                           </div>
-                          <div class="row">
+
+                          
+                     <!--      <div class="row">
 
                             <div class="form-group col-12">
                                 <label class="form-control-label" for="input-category">{{ __('Tenants: ') }}
@@ -94,7 +96,7 @@
                                 </select>
                                 </div>
                             </div>
-                          </div>
+                          </div> -->
                         <div class="row">
                             <div class="form-group col-3">
                                 <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
@@ -123,12 +125,15 @@
                                 <input type="text" name="service[112211][description]" id="input-price" class="form-control" placeholder="Enter description" >
                             </div>
                         </div>
+
+                        <div id="list_allocated_tenants"></div>
+
                             <div style="clear:both"></div>
-                            <div id="containerSC">
+                          <!--   <div id="containerSC">
                             </div>   
                             <div class="form-group">
                                 <button type="button" id="addMoreSC" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
-                            </div>  
+                            </div>  --> 
                 </div>
                <div class="text-center">
                 <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
@@ -183,6 +188,60 @@
                         $allTenants = false
                     }
                 });
+
+
+
+            $('.asset').change(function(){
+   
+          var asset = $(this).val();
+
+           if(asset !=''){
+            
+      var _token = $('input[name="_token"').val();
+      $.ajax({
+        url: baseUrl+'/fetch-tenants-added-to-rental/'+asset,
+        method:"get",
+        data:{asset:asset, _token:_token},
+        success:function(data){
+           if(data === 'No tenant allocated to the selected property'){
+
+           $('#list_allocated_tenants').fadeIn();
+            $('#list_allocated_tenants').html(data);
+                       alert('No tenant allocated to the selected property')
+          }else{
+               $('#list_allocated_tenants').fadeIn();
+               $('#list_allocated_tenants').html(data);
+          }
+        }
+      })
+    }else{
+         //$('#post_data').html('');
+    }
+          
+        });
+
+ function selectAllAllocation() {
+  $(':checkbox').each(function() {
+    this.checked  = true;
+    $('#selectAll').hide()
+    $('#selectAllTest').hide()
+    $('#deselectAll').show()
+    $('#deselectAllTest').show()
+
+});
+}
+
+function unSelectAllAllocation() {
+   $(':checkbox').each(function() {
+    this.checked  = false;
+    $('#selectAll').show()
+    $('#selectAllTest').show()
+    $('#deselectAll').hide()
+    $('#deselectAllTest').hide()
+});
+}
+
+
  // check whether to select all tenants or not ends
 
         $('body').on('change', '#asset', function(){
