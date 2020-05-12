@@ -14,17 +14,19 @@ class ServiceChargeInvoiceMail extends Mailable
     public $tenant;
     public $service_charge;
     public $companyDetail;
+    public $rental;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($tenant,$service_charge)
+    public function __construct($tenant,$service_charge,$rental)
     {
         $this->tenant = $tenant;
         $this->service_charge = $service_charge;
         $this->companyDetail = comany_detail($tenant->user_id);
+        $this->rental = $rental;
     }
 
     /**

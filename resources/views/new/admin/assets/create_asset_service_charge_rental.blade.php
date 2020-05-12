@@ -37,10 +37,14 @@
 
                 <!-- Card Body -->
                 <div class="dt-card__body">
+
                      <form id="forms" action="{{ route('addserviceCharge') }}" method="post" autocomplete="off">
                     @csrf
                 <div class="modal-header">
                     <!-- <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5> -->
+                               <div class="text-center">
+                <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
+            </div>
 
                 </div>
                 <div class="modal-body" style="text-align:left">
@@ -78,7 +82,7 @@
                             </div>
 
                              <div class="form-group col-4">
-                                <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
+                                <label class="form-control-label" for="input-price">{{ __('End Date') }}</label>
                                 <input type="text" name="dueDate" id="input-dueDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
                             </div>
 
@@ -135,9 +139,9 @@
                                 <button type="button" id="addMoreSC" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                             </div>  --> 
                 </div>
-               <div class="text-center">
+              {{--<div class="text-center">
                 <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
-            </div>
+            </div>--}}
                 </form>
                 </div>
                 <!-- /card body -->

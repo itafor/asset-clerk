@@ -99,7 +99,6 @@ Route::get('/get-asset-location/{asset_id}', 'AssetController@getAssetLocation')
 Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('search.service.charge');
 
 Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
-Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
 Route::get('/service/charges/add', 'AssetController@addServiceCharges')->name('service.add');
 Route::get('/delete/image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
 Route::get('/view/details/{assetUuid}', 'AssetController@viewDetails')->name('asset.view.details');
@@ -120,6 +119,9 @@ Route::get('/fetch-tenant-service-charge/{id}', 'AssetServiceChargeController@ge
 Route::get('/fetch-service-charge-amount/{id}/{tenantId}', 'AssetServiceChargeController@getServiceChargeAmount')->name('fetch.service.charge.amount');
 
 Route::get('/service-charge-payment-histories', 'AssetServiceChargeController@getServiveChargePaymentHistory')->name('fetch.service.charge.payment.history');
+
+Route::get('/service/charges', 'AssetServiceChargeController@serviceCharges')->name('service.charges');
+
 });
 
 

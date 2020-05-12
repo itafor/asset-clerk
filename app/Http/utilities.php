@@ -450,3 +450,7 @@ function check_if_user_upload_comany_detail(){
        }
     }
 
+function fetchRental($id){
+  return TenantRent::find($id);
+    }
+
