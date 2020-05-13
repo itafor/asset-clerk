@@ -44,7 +44,7 @@ class ServiceChargePaymentHistory extends Model
 
    public static function payServiceCharge($data){
 
-  return 	self::create([
+  $payment = 	self::create([
    			'user_id' => getOwnerUserID(),
         'tenant' => $data['tenant'],
    			'asset_id' => $data['asset_id'],
@@ -61,21 +61,18 @@ class ServiceChargePaymentHistory extends Model
    	]);
 
    	if($data['balance']){
-      self::updateTenantSC($data['tenant_id'],$data['service_charge_id'],$data['balance']);
+      self::updateTenantSC($data['tenant'],$data['service_charge'],$data['balance']);
    	}
-
-      // if($data['balance'] == 0){
-      //    self::removeTenantThatHaveCompletedSCPayment($data['tenant_id'],$data['service_charge_id']);
-      // }
-
+return $payment;
    }
 
-   public static function updateTenantSC($tenantId, $sc_id,$balance){
+   public static function updateTenantSC($tenantId,$sc_id,$balance){
+
    	TenantServiceCharge::where('tenant_id',$tenantId)
    	->where('service_chargeId',$sc_id)
    	->update([
       'bal' => $balance,
-   		'paymentStatus' => $balance === 0 ? 'Paid' : 'Partly Paid' 
+   		'paymentStatus' => $balance == 0 ? 'Paid' : 'Partly Paid' 
    	]);
    }
 
