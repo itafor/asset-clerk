@@ -23,7 +23,7 @@
               <!-- /entry heading -->
 
               <div class="dt-entry__heading">
-                <a href="{{ route('service.add')}}"> <button type="button" class="btn btn-primary btn-sm"> Add Service Charge  </button>
+                <a href="{{ route('asset.service.create.rental')}}"> <button type="button" class="btn btn-primary btn-sm"> Add Service Charge  </button>
                  </a>
               </div>
 
@@ -36,251 +36,61 @@
               <!-- Card Body -->
               <div class="dt-card__body">
 
-<!-- search description -->
-<form action="{{route('search.service.charge')}}" method="post">
-   @csrf
-  <div class="row">
-     <div class="form-group col-2">
-      <label class="form-control-label" for="input-category">{{ __('Property') }}</label>
-          
-              <select name="asset" id="asset" class="form-control {{$errors->has('asset') ? ' is-invalid' : ''}} asset" style="width:100%" required>
-              <option value="">Select Property</option>
-              @foreach(getAssets() as $asset)
-              <option value="{{$asset->id}}">{{$asset->description}}</option>
-              @endforeach
-              
-          </select>
-          
-             @if ($errors->has('asset'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('asset') }}</strong>
-                      </span>
-                @endif               
-</div>
-<div class="form-group col-2">
-              <label class="form-control-label" for="input-category">{{ __('Location') }}</label>
-              <div>
-                  <select name="location" id="searchlocation" class="form-control {{$errors->has('location') ? ' is-invalid' : ''}}" style="width:100%" required>
-                  <option value="" selected="selected">Select Location</option>
-              </select>
-               @if ($errors->has('location'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('location') }}</strong>
-                                        </span>
-                @endif
-              </div>
-  </div>
-
-   <div class="form-group col-2">
- <label class="form-control-label" for="input-category">{{ __('Type') }}</label>
-                                <div>
-                                    <select name="type" class="form-control {{$errors->has('type') ? ' is-invalid' : ''}} sc_type" style="width:100%" >
-                                    <option value="">Select Type</option>
-                                    <option value="fixed">Fixed</option>
-                                    <option value="variable">Variable</option>
-                                </select>
-                    @if ($errors->has('type'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('type') }}</strong>
-                      </span>
-                @endif   
-                                </div>
-</div>
-
-   <div class="form-group col-2">
-  <label class="form-control-label" for="input-quantity">{{ __('Service Charge') }}</label>
-                  <div>
-                      <select name="service_name" id="service_name" style="width:100%" class="form-control {{$errors->has('service_name') ? ' is-invalid' : ''}}">
-                      <option value="">Select Service Charge</option>
-                  </select>
-                   @if ($errors->has('service_name'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('service_name') }}</strong>
-                      </span>
-                @endif   
-                  </div>
-</div>
-
-   <div class="form-group col-2">
-   <label class="form-control-label" for="input-quantity">{{ __('Min Amt') }}</label>
-
-     <input type="number" min="1" class="form-control {{$errors->has('minAmt') ? ' is-invalid' : ''}}" name="minAmt" id="minAmt" placeholder="Min. Amount" autocomplete="off">
-  @if ($errors->has('minAmt'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('minAmt') }}</strong>
-                      </span>
-                @endif   
-</div>
-
- <div class="form-group col-2">
-   <label class="form-control-label" for="input-quantity">{{ __('Max Amt') }}</label>
-
-     <input type="number" min="1" name="maxAmt" id="maxAmt" class="form-control {{$errors->has('maxAmt') ? ' is-invalid' : ''}}"  placeholder="Max. Amount" autocomplete="off">
-   @if ($errors->has('maxAmt'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('maxAmt') }}</strong>
-                      </span>
-                @endif   
-</div>
-
-  <div class="form-group col-2">
-  <div class="text-center">
-    <button type="submit" value="Search" class="btn-sm btn-info"> Search</button>
-  </div>
-</div>
-</div>
-</form>
-<!-- search description ends-->
-
-@if(isset($assetsServiceCharges))
-  @if(count($assetsServiceCharges) >=1)
-  <!-- Tables -->
-                <div class="table-responsive">
-
-                  <table class="table table-striped table-bordered table-hover datatable">
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><b>Property</b></th>
-                        <th><b>Property Type</b></th>
-                        <th><b>Service Name</b></th>
-                        <th><b>Category</b></th>
-                        <th><b>Amount</b></th>
-                        <th><b>Start Date</b></th>
-                        <th><b>Due Date</b></th>
-                        <th class="text-center"><b>Action</b></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($assetsServiceCharges as $asset)
-                        <tr>
-                            <td>
-                                @php
-                                    $i = $loop->iteration;
-                                @endphp
-                            {{$i}} 
-                            </td>
-                            <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
-                            <td>{{ $asset->asset ? $asset->asset->propertyType->name : '' }}</td>
-                            <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
-                            <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
-                            <td>&#8358; {{number_format($asset->price,2)}}</td>
-                            <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
-                             <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
-                            <td class="text-center">
-                                <div class="dropdown">
-                                    <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </a>
-                                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                      
-                                            <a href="/asset/tenants-service-charge/{{$asset->id}}" target="_blank|_parent" class="dropdown-item" >Tenants</a>
-                                      
-                                       <!--  <a href="{{ route('asset.service.charge.edit', ['id'=>$asset->id]) }}" class="dropdown-item">Edit</a> -->
-                                        
-                                        <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
-                                            
-                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge? This action will also remove tenants assigned to this Service Charge") }}') ? this.parentElement.submit() : ''">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form> 
-                                    </div>
-
-                                </div>
-</td>
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                                    @else
-  <tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>
-    @endif
-                  </table>
-
-                </div>
-                <!-- /tables -->
-
-
-@else
-
-
 
                 <!-- Tables -->
                 <div class="table-responsive">
 
-                 <!--  <table class="display" style="width:100%" id="table-1"> --> 
-              <table class="table table-striped table-bordered table-hover datatable"
-                  >
+                @if(isset($charges))
+           @if(count($charges) >=1)
+        <table class="table table-striped table-bordered table-hover datatable">
                     <thead>
                     <tr>
-                        <th>No</th>
+                        <th>S/N</th>
+                        <th><b>Tenant</b></th>
                         <th><b>Property</b></th>
                         <th><b>Property Type</b></th>
-                        <th><b>Service Name</b></th>
-                        <th><b>Category</b></th>
+                        <th><b>Service Charge</b></th>
                         <th><b>Amount</b></th>
-                        <th><b>Start date</b></th>
-                        <th><b>Due date</b></th>
-                        <th class="text-center"><b>Action</b></th>
+                        <th><b>Start Date</b></th>
+                        <th><b>End Date</b></th>
+                        <th><b>Payment Status</b></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($charges as $asset)
+                       
+                                
+                    @foreach ($charges as $tenant)
                         <tr>
-                            <td>
-                                @php
-                                    $i = $loop->iteration;
-                                @endphp
-                            {{$i}} 
-                            </td>
-                            <td>{{ $asset->asset ? $asset->asset->description : '' }}</td>
-                            <td>{{ $asset->asset ? $asset->asset->units : '' }}</td>
-                            <td>{{$asset->serviceCharge->name === 'Other' ? $asset->description : $asset->serviceCharge->name}}</td>
-                            <td>{{ucwords($asset->serviceCharge ? $asset->serviceCharge->type : 'N/A')}}</td>
-                            <td>&#8358; {{number_format($asset->price,2)}}</td>
-                             <td> {{ \Carbon\Carbon::parse($asset->startDate)->format('d M Y')}}</td>
-                            <td> {{ \Carbon\Carbon::parse($asset->dueDate)->format('d M Y')}}</td>
-                            <td class="text-center">
-                                <div class="dropdown">
-                                    <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </a>
-                                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                      
-                                            <a href="{{route('asset.tenants.service',['id'=>$asset->id])}}" target="_blank" class="dropdown-item">Tenants</a>
-                                           
-                                        
-                                        <form action="{{ route('asset.delete.service', ['id'=>$asset->id]) }}" method="get">
-                                            
-                                            <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this Service Charge? This action will also remove tenants assigned to this Service Charge") }}') ? this.parentElement.submit() : ''">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </form> 
-                                    </div>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$tenant->designation}}
+                           {{$tenant->firstname}}
+                            {{$tenant->lastname}}</td>
+                            <td>{{$tenant->assetName}}</td>
+                            
+                            <td>{{fetchRental($tenant->tenantRentId)->unit->propertyType->name}}</td>
 
-                                </div>
-</td>
+                            <td>{{$tenant->name === 'Other' ? $tenant->asc->description : $tenant->name}}</td>
+                            
+                            <td>&#8358;{{number_format($tenant->price,2)}}</td>
+                            
+                             <td>   {{  \Carbon\Carbon::parse($tenant->startDate)->format('d M Y')}}</td>
+                             <td>   {{  \Carbon\Carbon::parse($tenant->dueDate)->format('d M Y')}}</td>
+                            <td>{{$tenant->paymentStatus}}</td>
+
                         </tr>
                     @endforeach
+
+                   @else
+  <tr><td style="text-align: center;" colspan="19">No matching records found</td></tr>
+    @endif
+    @endif
+                    
                     </tbody>
-                        <!-- <tfoot>
-            <tr>
-                       <th>No</th>
-                        <th><b>Property</b></th>
-                        <th><b>Location</b></th>
-                        <th><b>Service Name</b></th>
-                        <th><b>Category</b></th>
-                        <th><b>Amount</b></th>
-                        <th><b>Start date</b></th>
-                        <th><b>Due date</b></th>
-                        <th class="text-center"><b>Action</b></th>
-            </tr>
-        </tfoot> -->
                   </table>
 
                 </div>
                 <!-- /tables -->
-@endif
+
               </div>
               <!-- /card body -->
 

@@ -250,6 +250,7 @@ class Asset extends Model
                 'service_chargeId' => $service_charge_ids,
                 'user_id' =>getOwnerUserID(),
                 'bal' => $bal,
+                'paymentStatus'=>'Pending',
                 'startDate' => Carbon::parse(formatDate($startDate, 'd/m/Y', 'Y-m-d')),
                 'dueDate' => Carbon::parse(formatDate($dueDate, 'd/m/Y', 'Y-m-d')),
             ]);
@@ -258,7 +259,7 @@ class Asset extends Model
             ->where('user_id',getOwnerUserID())
             ->where('id',$sc_id)->first();
 
-            ServiceChargeInvoiceJob::dispatch($tenant,$serviceCharge)
+            ServiceChargeInvoiceJob::dispatch($tenant,$serviceCharge,$rental)
                 ->delay(now()->addSeconds(3));
         }
     }

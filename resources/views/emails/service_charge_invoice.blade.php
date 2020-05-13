@@ -174,6 +174,18 @@ Please find below
                      </td>
                    </tr>
 
+                   <tr>
+                     <td class="rent_title">PROPERTY TYPE</td>
+                     <td>{{ $rental->unit ? $rental->unit->propertyType->name : 'N/A' }}
+                     </td>
+                   </tr>
+
+                     <tr>
+                     <td class="rent_title">UNIT</td>
+                     <td>{{ $rental->flat_number }}</td>
+                     
+                   </tr>
+
                      <tr>
                      <td class="rent_title">LOCATION</td>
                      <td> {{ $service_charge->asset ? $service_charge->asset->address : '' }}</td>
@@ -197,7 +209,7 @@ Please find below
                 </tr>
 
                  <tr>
-                     <td class="rent_title">DUE DATE</td>
+                     <td class="rent_title">END DATE</td>
                      <td>
                       
                       {{ \Carbon\Carbon::parse($service_charge->dueDate)->format('d M Y')}}

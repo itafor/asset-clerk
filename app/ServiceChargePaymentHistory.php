@@ -64,9 +64,9 @@ class ServiceChargePaymentHistory extends Model
       self::updateTenantSC($data['tenant_id'],$data['service_charge_id'],$data['balance']);
    	}
 
-      if($data['balance'] == 0){
-         self::removeTenantThatHaveCompletedSCPayment($data['tenant_id'],$data['service_charge_id']);
-      }
+      // if($data['balance'] == 0){
+      //    self::removeTenantThatHaveCompletedSCPayment($data['tenant_id'],$data['service_charge_id']);
+      // }
 
    }
 
@@ -74,7 +74,8 @@ class ServiceChargePaymentHistory extends Model
    	TenantServiceCharge::where('tenant_id',$tenantId)
    	->where('service_chargeId',$sc_id)
    	->update([
-   		'bal' => $balance 
+      'bal' => $balance,
+   		'paymentStatus' => $balance === 0 ? 'Paid' : 'Partly Paid' 
    	]);
    }
 

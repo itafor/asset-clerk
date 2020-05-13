@@ -13,12 +13,32 @@ use Validator;
 
 class AssetServiceChargeController extends Controller
 {
+
+
+
+ public function serviceCharges()
+    {
+
+      $data['charges'] = TenantServiceCharge::join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
+          ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
+          ->join('tenant_rents','tenant_rents.id','=','tenant_service_charges.tenant_rent_id')
+          ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
+           ->join('assets','assets.id','=','asset_service_charges.asset_id')
+         ->where('tenant_service_charges.user_id', getOwnerUserID())
+         ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName','tenant_rents.id as tenantRentId')
+         ->orderby('asset_service_charges.created_at','desc')
+         ->get();
+        
+        return view('new.admin.assets.service_charges', $data);
+    }
+
     public function getDebtors(){
     	  $debtors = TenantServiceCharge::join('asset_service_charges', 'asset_service_charges.id', '=', 'tenant_service_charges.asc_id')
     	  ->join('tenants','tenants.id','=','tenant_service_charges.tenant_id')
     	  ->join('service_charges','service_charges.id','=','tenant_service_charges.service_chargeId')
            ->join('assets','assets.id','=','asset_service_charges.asset_id')
          ->where('tenant_service_charges.user_id', getOwnerUserID())
+         ->where('tenant_service_charges.bal','>=',1)
          ->select('tenant_service_charges.*','asset_service_charges.*','tenants.*','service_charges.*','assets.description as assetName')
          ->orderby('asset_service_charges.created_at','desc')
          ->get();
