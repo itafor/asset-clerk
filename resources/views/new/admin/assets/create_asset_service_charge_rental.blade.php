@@ -42,10 +42,6 @@
                     @csrf
                 <div class="modal-header">
                     <!-- <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5> -->
-                               <div class="text-center">
-                <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
-            </div>
-
                 </div>
                 <div class="modal-body" style="text-align:left">
                           <div class="row">
@@ -127,9 +123,12 @@
                              <div class="form-group col-3">
                                 <label class="form-control-label" for="input-price">{{ __('Description') }}</label>
                                 <input type="text" name="service[112211][description]" id="input-price" class="form-control" placeholder="Enter description" >
+                                <div class="text-center">
+                <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
+            </div>
                             </div>
                         </div>
-
+   
                         <div id="list_allocated_tenants"></div>
 
                             <div style="clear:both"></div>
@@ -139,9 +138,7 @@
                                 <button type="button" id="addMoreSC" class="btn btn-default btn-sm"><i class="fa fa-plus-circle"></i>  Add More</button>
                             </div>  --> 
                 </div>
-              {{--<div class="text-center">
-                <button type="submit" class="btn btn-success mt-4">{{ __('Save Service Charge') }}</button>
-            </div>--}}
+            
                 </form>
                 </div>
                 <!-- /card body -->
