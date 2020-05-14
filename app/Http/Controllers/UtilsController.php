@@ -221,7 +221,7 @@ public function fetchTenantAddedToRental(Request $request){
         foreach($rentals as $rental){
              $output .= '<tr>';
 $output.='<td>
-<input type="checkbox" id="tenant_rent_id'.$rental->id.'" name="tenant_rent_id[]" value="'.$rental->id.'">
+<input type="checkbox" id="tenant_rent_id'.$rental->id.'" name="tenant_rent_id[]" value="'.$rental->id.'" required>
 </td>';
 
       $output.='<td>'.$rental->tenant->firstname.' '.$rental->tenant->lastname.'</td>';

@@ -73,16 +73,18 @@ a { color: inherit; }
     color: #ffffff;
 }
 .recordButtons{
-  background: #003366;
+  background: #524FEC;
+  width: auto;
+  height: 40px;
 }
 </style>
 <div style="text-align: center; margin-bottom: 10px;">
-                <h2 class="dt-entry__title" style="margin-left: 20px; margin-bottom: 10px;">Add Records</h2>
-
                <a href="{{route('landlord.create')}}"> <button class="btn btn-success recordButtons">Landlord</button></a>
               <a href="{{route('asset.create')}}">  <button class="btn btn-success recordButtons">Asset</button></a>
               <a href="{{route('tenant.create')}}">   <button class="btn btn-success recordButtons">Tenants</button></a>
-              <a href="{{route('rental.create')}}">  <button class="btn btn-success recordButtons">Rental</button></a>
+               <a href="{{route('allocation.create')}}">   <button class="btn btn-success recordButtons">Allocation</button></a>
+              <a href="{{route('allocation.view')}}">  <button class="btn btn-success recordButtons">Rental</button></a>
+               <a href="{{route('asset.service.create.rental')}}">  <button class="btn btn-success recordButtons">Add Service Charge</button></a>
           </div>
 
 
