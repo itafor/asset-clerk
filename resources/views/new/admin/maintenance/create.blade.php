@@ -23,7 +23,7 @@
               <!-- /entry heading -->
                <!-- Entry Heading -->
               <div class="dt-entry__heading">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button>
+            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" title="Add Tenant to a Property"><i class="fas fa-plus"></i> Add tenant to a property</button> -->
               </div>
               <!-- /entry heading -->
             </div>
@@ -60,7 +60,7 @@
 
   <div class="form-group{{ $errors->has('property') ? ' has-danger' : '' }} col-6">
 <label class="form-control-label" for="input-property">{{ __('Property') }}</label>
-<select name="asset_description" id="property" class="form-control" required autofocus>
+<select name="asset_description" id="asset_description" class="form-control" required autofocus>
      <option value="">Select Property</option>
 </select>
 
@@ -70,10 +70,11 @@
     </span>
 @endif
 </div>
-<!-- <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
-<label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
-<select name="unit_uuid" id="unit" class="form-control" required>
-    <option value="">Select Unit</option>
+
+<div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-6">
+<label class="form-control-label" for="input-unit_uuid">{{ __('Property Type') }}</label>
+<select name="unit_uuid" id="unit_uuid" class="form-control" required>
+    <option value="">Select Property Type</option>
 </select>
 
 @if ($errors->has('unit_uuid'))
@@ -81,10 +82,23 @@
         <strong>{{ $errors->first('unit_uuid') }}</strong>
     </span>
 @endif
+</div>
+
+<!-- <div class="form-group{{ $errors->has('property_uuid') ? ' has-danger' : '' }} col-6">
+<label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
+<select name="property_uuid" id="property_uuid" class="form-control" required>
+    <option value="">Select Property Unit</option>
+</select>
+
+@if ($errors->has('property_uuid'))
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $errors->first('property_uuid') }}</strong>
+    </span>
+@endif
 </div> -->
 
 
-                                    <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-12">
+                                    <div class="form-group{{ $errors->has('reported_date') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-reported_date">{{ __('Reported Date') }}</label>
                                         <input type="text" name="reported_date" id="payment_date" class="datepicker form-control form-control-alternative{{ $errors->has('reported_date') ? ' is-invalid' : '' }}" placeholder="Choose Date" value="{{old('reported_date')}}" required>
                                         
@@ -127,22 +141,24 @@
 
         </div>
         <!-- /grid -->
-                                @include('new.admin.assets.partials.addTenantToProperty')
+                                
         
 @endsection
 
 @section('script')
     <script>
-         $('#category').change(function(){
-            var category = $(this).val();
-            if(category){
+         $('#input_tenant').change(function(){
+            var tenant_uuid = $(this).val();
+            console.log(tenant_uuid)
+            if(tenant_uuid){
                 $('#asset_description').empty();
                 $('<option>').val('').text('Loading...').appendTo('#asset_description');
                 $.ajax({
-                    url: baseUrl+'/fetch-assets/'+category,
+                    url: baseUrl+'/fetch-allocated-property/'+tenant_uuid,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data)
                         $('#asset_description').empty();
                         $('<option>').val('').text('Select Asset').appendTo('#asset_description');
                         $.each(data, function(k, v) {
@@ -157,76 +173,38 @@
             }
         });
 
-         let selected_tenant_uuid ='';
-        $('#input_tenant').change(function(){
-            var tenant_uuid = $(this).val();
-            selected_tenant_uuid = tenant_uuid;
-            console.log('selected:',selected_tenant_uuid);
-            if(tenant_uuid){
-                $('#property').empty();
-                $('<option>').val('').text('Loading...').appendTo('#property');
+         $('#asset_description').change(function(){
+            var unit_uuid = $(this).val();
+            console.log(unit_uuid)
+            if(unit_uuid){
+                $('#unit_uuid').empty();
+                $('<option>').val('').text('Loading...').appendTo('#unit_uuid');
                 $.ajax({
-                    url: baseUrl+'/fetch-tenants-assigned-to-asset/'+tenant_uuid,
+                    url: baseUrl+'/fetch-property-type/'+unit_uuid,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        if(data !=''){
-                        $('#property').empty();
-                        $('<option>').val('').text('Select Property').appendTo('#property');
+                        console.log('test',data)
+                        $('#unit_uuid').empty();
+                        $('<option>').val('').text('Select Property Type').appendTo('#unit_uuid');
                         $.each(data, function(k, v) {
-                            $('<option>').val(v.propertyUuid).text(v.propertyName).attr('data-price',v.propertyProposedPice).appendTo('#property');
-                        });
-                    }else{
-                    toast({
-                        type: 'warning',
-                        title: 'Ooops!! Selected tenant has not been added to a property'
-                  })
-            }
-        }
-    });
-            }
-            else{
-                $('#property').empty();
-                $('<option>').val('').text('Select Property').appendTo('#property');
-                
-            }
-        });
+                            $('<option>').val(v.unitUuid).text(v.name).attr('data-price',v.price).appendTo('#unit_uuid');
+                            $('#property_uuid')
+                $('<option>').val(v.flat_number).text(v.flat_number).appendTo('#property_uuid');
 
-
-        $('#property').change(function(){
-            var property = $(this).val();
-            if(property && selected_tenant_uuid !=''){
-                $('#unit').empty();
-                $('<option>').val('').text('Loading...').appendTo('#unit');
-                $.ajax({
-                    url: baseUrl+'/fetch-units-assigned-to-tenant/'+property+'/'+selected_tenant_uuid,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#unit');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' Bedroom | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
                         });
                     }
                 });
             }
             else{
-                $('#unit').empty();
-                $('<option>').val('').text('Select Unit').appendTo('#unit');
+                $('#unit_uuid').empty();
+                $('<option>').val('').text('Select Asset').appendTo('#unit_uuid');
             }
         });
 
-        
-        $('#unit').change(function(){
-            var unit = $(this).val();
-            if(unit){
-                var price = $(this).find(':selected').attr('data-price')
-                $('#price').val(price);
-            }
-            else{
-                $('#price').val('');
-            }
-        });
+     
+
+
+     
     </script>
 @endsection

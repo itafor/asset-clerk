@@ -49,7 +49,7 @@ public function asset()
     {
     return  self::create([
             'tenant_uuid' => $data['tenant_uuid'],
-            // 'unit_uuid' => $data['unit_uuid'],
+            'unit_uuid' => $data['unit_uuid'],
             // 'building_section' => $data['building_section'],
             'reported_date' => formatDate($data['reported_date'], 'd/m/Y', 'Y-m-d'),
             // 'category' => $data['category'],
