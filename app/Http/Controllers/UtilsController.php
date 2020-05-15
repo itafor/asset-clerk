@@ -40,6 +40,24 @@ class UtilsController extends Controller
         ->select('uuid','description','price')->get();
         return response()->json($assets);
     }
+
+  public function fetchAllocatedProperty($tenant_uuid)
+    {
+      $assets = TenantRent::where('tenant_rents.tenant_uuid',$tenant_uuid)
+                ->join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                ->select('assets.*')->get();
+        return response()->json($assets);
+    }
+
+     public function fetchPropertyType($asset_uuid)
+    {
+      $units = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
+                ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                ->join('property_types','property_types.id','=','units.property_type_id')
+                ->select('property_types.*','tenant_rents.*','units.uuid as unitUuid')->get();
+        return response()->json($units);
+    }
+
     
     public function fetchServiceCharge($type)
     {
@@ -180,15 +198,8 @@ public function fetchTenantAddedToRental(Request $request){
  if($request->get('asset')){
   $asset_uuid = $request->get('asset');
 
-            $rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
-            // ->join('units as u', 'u.uuid', '=', 'tenant_rents.unit_uuid')
-            // ->join('tenants as tn', 'tn.uuid', '=', 'tenant_rents.tenant_uuid')
-            // ->select('tn.*')
-            ->get();
-
-
-              if(count($rentals) <=0 ){
-
+$rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)->get();
+      if(count($rentals) <=0 ){
               echo  $output = "No tenant allocated to the selected property";  
 
             }else{
@@ -196,7 +207,7 @@ public function fetchTenantAddedToRental(Request $request){
            $output = '';
 
               $output .= '
-                     <table class="table table-striped table-bordered table-hover datatable">
+                    <table class="table table-striped table-bordered table-hover datatable">
                     <thead>
                       <tr>
                           <th>
@@ -214,30 +225,20 @@ public function fetchTenantAddedToRental(Request $request){
                     <tbody>
 
                     ';
-                    
-                      
-                     
-
         foreach($rentals as $rental){
-             $output .= '<tr>';
+$output .= '<tr>';
 $output.='<td>
-<input type="checkbox" id="tenant_rent_id'.$rental->id.'" name="tenant_rent_id[]" value="'.$rental->id.'" required>
-</td>';
-
+<input type="checkbox" id="tenant_rent_id'.$rental->id.'" name="tenant_rent_id[]" value="'.$rental->id.'" required></td>';
       $output.='<td>'.$rental->tenant->firstname.' '.$rental->tenant->lastname.'</td>';
       $output.='<td>'.$rental->unit->propertyType->name .'</td>';
       $output.='<td>'.$rental->flat_number .'</td>';
             $output .= '</tr>';
           }
-
-                     $output .= '</tbody>
-                  </table>';
+$output .= '</tbody></table>';
    
-    }
-
+      }
        echo $output;
-            //return response()->json($rentals);
-        }
+    }
         
 }
 

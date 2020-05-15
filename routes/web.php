@@ -281,6 +281,8 @@ Route::post('show-my-portFolio-report', 'ReportController@myPortfolioReport')->n
 Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+Route::get('fetch-allocated-property/{tenant_uuid}', 'UtilsController@fetchAllocatedProperty');
+Route::get('fetch-property-type/{uuid}', 'UtilsController@fetchPropertyType');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
 Route::get('analyse-property/{property}', 'UtilsController@analyseProperty');
 Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
