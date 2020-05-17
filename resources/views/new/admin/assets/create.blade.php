@@ -39,7 +39,7 @@
                             <input type="hidden" name="default_quantity" value="1">
 
                                 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
-                                    <label class="form-control-label" for="input-name">{{ __('Property Name') }}</label>
+                                    <label class="form-control-label" for="input-name">{{ __('Property Name (Create a unique name to identify your property)') }}</label>
                                     <input rows="5" name="description" id="input-name" class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Name') }}" value="{{ old('description') }}" required autofocus>
 
                                     @if ($errors->has('description'))

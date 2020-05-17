@@ -52,7 +52,7 @@
                                     
                                     <div class="form-group{{ $errors->has('asset_uuid') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="asset_uuid">{{ __('Property') }}<span class="text-danger">*</span></label>
-                                        <select name="asset_uuid" id="asset_uuid" class="form-control" required>
+                                        <select name="asset_uuid" id="asset_uuid" class="form-control" required disabled>
                                            
                                                 <option value="{{$tenantRent->asset_uuid}}" selected="true">
                                                      {{$tenantRent->unit->getProperty() ? $tenantRent->unit->getProperty()->description : ''}} 
@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-unit">{{ __('Property Unit') }}<span class="text-danger">*</span></label>
-                                        <select name="unit_uuid" id="unit_uuid" class="form-control" required>
+                                        <select name="unit_uuid" id="unit_uuid" class="form-control" required disabled>
                                             <option value="{{$tenantRent->unit_uuid}}">
                                         @if($tenantRent->unit)
                                          @if($tenantRent->unit->propertyType)
@@ -89,7 +89,7 @@
 
                                      <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-tenant_uuid">{{ __('Tenant') }}<span class="text-danger">*</span></label>
-                                        <select name="tenant_uuid" id="tenant_uuid" class="form-control" required>
+                                        <select name="tenant_uuid" id="tenant_uuid" class="form-control" required disabled>
                                             <option value="{{$tenantRent->tenant_uuid}}">{{$tenantRent->tenant ? $tenantRent->tenant->name() : ''}}
                                             </option>
                                         </select>
@@ -135,8 +135,8 @@
                                  
 
                                     <div class="form-group{{ $errors->has('due_date') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-due_date">{{ __('Due Date') }}<span class="text-danger">*</span></label>
-                                        <input type="text" name="due_date" value="{{\Carbon\Carbon::parse($tenantRent->due_date)->format('d/m/Y')}}" class=" datepicker form-control form-control-alternative{{ $errors->has('due_date') ? ' is-invalid' : '' }}" required="required">
+                                        <label class="form-control-label" for="input-due_date">{{ __('End Date') }}<span class="text-danger">*</span></label>
+                                        <input type="text" name="due_date" value="{{\Carbon\Carbon::parse(Carbon\Carbon::now()->addYear(1))->format('d/m/Y')}}" class=" datepicker form-control form-control-alternative{{ $errors->has('due_date') ? ' is-invalid' : '' }}" required="required">
 
                                         @if ($errors->has('due_date'))
                                             <span class="invalid-feedback" role="alert">
