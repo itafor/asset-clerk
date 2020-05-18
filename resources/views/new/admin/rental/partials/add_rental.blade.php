@@ -89,7 +89,7 @@
 
                                      <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-6">
                                         <label class="form-control-label" for="input-tenant_uuid">{{ __('Tenant') }}<span class="text-danger">*</span></label>
-                                        <select name="tenant_uuid" id="tenant_uuid" class="form-control" required disabled>
+                                        <select name="tenant_uuid" id="tenant_uuid" class="form-control" required readonly>
                                             <option value="{{$tenantRent->tenant_uuid}}">{{$tenantRent->tenant ? $tenantRent->tenant->name() : ''}}
                                             </option>
                                         </select>
