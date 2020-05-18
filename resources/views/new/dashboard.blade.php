@@ -79,11 +79,11 @@ a { color: inherit; }
 }
 </style>
 <div style="text-align: center; margin-bottom: 10px;">
-               <a href="{{route('landlord.create')}}"> <button class="btn btn-success recordButtons">Landlord</button></a>
-              <a href="{{route('asset.create')}}">  <button class="btn btn-success recordButtons">Asset</button></a>
-              <a href="{{route('tenant.create')}}">   <button class="btn btn-success recordButtons">Tenants</button></a>
-               <a href="{{route('allocation.create')}}">   <button class="btn btn-success recordButtons">Allocation</button></a>
-              <a href="{{route('allocation.view')}}">  <button class="btn btn-success recordButtons">Rental</button></a>
+               <a href="{{route('landlord.create')}}"> <button class="btn btn-success recordButtons">Add Landlord</button></a>
+              <a href="{{route('asset.create')}}">  <button class="btn btn-success recordButtons">Add Asset</button></a>
+              <a href="{{route('tenant.create')}}">   <button class="btn btn-success recordButtons">Add Tenants</button></a>
+               <a href="{{route('allocation.create')}}">   <button class="btn btn-success recordButtons">Add Allocation</button></a>
+              <a href="{{route('allocation.view')}}">  <button class="btn btn-success recordButtons">Add Rental</button></a>
                <a href="{{route('asset.service.create.rental')}}">  <button class="btn btn-success recordButtons">Add Service Charge</button></a>
           </div>
 
