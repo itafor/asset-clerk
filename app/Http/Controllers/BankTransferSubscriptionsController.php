@@ -48,7 +48,7 @@ class BankTransferSubscriptionsController extends Controller
 
         }
 	
-	return redirect()->to('home')->with('success', 'Congratulatuins, request logged successfully, Pending approval!');
+	return redirect()->to('home')->with('success', 'Congratulations, request logged successfully, Pending approval!');
             
     }
 

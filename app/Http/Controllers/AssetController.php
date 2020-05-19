@@ -65,10 +65,19 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        $data=$request->all();
-      if(!$this->checkAvailableSlot($request)){
-            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+
+         $data=$request->all();
+
+         $units=$data['unit'];
+      
+        $quantities = [];
+        foreach ($units as $key => $value) {
+           $quantities[]=$value['quantity'];
+        }
+        $total_slot = array_sum($quantities);
+
+      if(!$this->checkAvailableSlot($total_slot)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more properties');
             }
 
        // chekUserPlan('property');
@@ -495,8 +504,19 @@ public function tenantsServiceCharge($id){
 
     public function addUnit(Request $request)
     {
-         if(!$this->checkAvailableSlot($request)){
-            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more assets');
+        $data=$request->all();
+
+         $units=$data['unit'];
+      
+        $quantities = [];
+        foreach ($units as $key => $value) {
+           $quantities[]=$value['quantity'];
+        }
+
+        $total_slot = array_sum($quantities);
+
+         if(!$this->checkAvailableSlot($total_slot)){
+            return back()->withInput()->with('error','You have only ' . getSlots()['availableSlots'] . ' slot left, upgrade to add more properties');
             }
 
         $validator = Validator::make($request->all(), [
@@ -623,9 +643,10 @@ public function tenantsServiceCharge($id){
 
     }
 
-    public function checkAvailableSlot($request){
+    public function checkAvailableSlot($total_slots){
         //$asset = $request->all();
-        $totalAsset = $request->default_quantity;
+        // $available_slots = $request->default_quantity;
+        // dd($available_slots);
 
      // $units = $request->unit ? $request->unit : $request->all;
      // $totalUnit = 0;
@@ -633,7 +654,7 @@ public function tenantsServiceCharge($id){
      //        $totalUnit += $unit['quantity'];
      //   }
 
-       if( $totalAsset > (int)getSlots()['availableSlots']){
+       if($total_slots > (int)getSlots()['availableSlots']){
          return false;
        }else{
         return true;

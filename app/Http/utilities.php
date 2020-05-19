@@ -80,12 +80,12 @@ function getTotalAssets($user_id ='')
 {
     //return Asset::where('user_id', getOwnerUserID())->count();
     $userId = $user_id !='' ? $user_id : getOwnerUserID();
-    return Asset::where('user_id', $userId)
-    ->where('slot_plan_id', activePlanId($userId))->count();
+    // return Asset::where('user_id', $userId)
+    // ->where('slot_plan_id', activePlanId($userId))->count();
 
-    // return Unit::where('user_id', $userId)
-    //         ->where('plan_id', activePlanId($userId))
-    //         ->sum('quantity');
+    return Unit::where('user_id', $userId)
+            ->where('plan_id', activePlanId($userId))
+            ->sum('quantity');
 }
 
 function getSlots($user_id ='')
@@ -306,7 +306,7 @@ function chekUserPlan($type = null){
         $service_charge = $plan_details->service_charge;
         switch ($type){
             case 'property':
-                $customer_properties = Asset::where('user_id',$user)->count();
+                $customer_properties = getTotalAssets($user);// Asset::where('user_id',$user)->count();
                 if($no_properties != 'Unlimited') {
                     if ($customer_properties >= $no_properties){
                         return back()->with('error','You cannot manage more than '.$no_properties.' on this plan. Please upgrade!');
