@@ -100,7 +100,9 @@
                                     <select name="country" id="country" class="form-control" required>
                                         <option value="">Select Country</option>
                                         @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}" {{$c->name == userLocation()->countryName ? 'selected' : 'Select Country'}}>{{$c->name}}</option>
+                                            <option value="{{$c->id}}" @if(userLocation())
+                                                {{$c->name == userLocation()->countryName ? 'selected' : 'Select Country'}} 
+                                                @endif>{{$c->name}}</option>
                                         @endforeach
                                     </select>
 
