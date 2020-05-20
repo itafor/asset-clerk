@@ -11,6 +11,8 @@ use App\Transaction;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stevebauman\Location\Facades\Location;
+use Stevebauman\Location\Position;
 
 class HomeController extends Controller
 {
@@ -31,6 +33,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $ip_address=\Request::ip();
+
+        $location = Location::get($ip_address);
+        
+        //dd($location);
         $user_role = Auth::user()->role;
         if ($user_role !== 'admin') {
             $next_step_landlord = '';
@@ -55,7 +62,7 @@ class HomeController extends Controller
                 'rentalsDue' => $rentalsDueInNextThreeMonths,
                 'rentalsDueNotPaid' => $rentalsDueNotPaid,
             ];
-            return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_landlord'));
+            return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_landlord','location','ip_address'));
         } else {
             $users = User::where('role', 'agent')->count();
             $landlords = Landlord::count();

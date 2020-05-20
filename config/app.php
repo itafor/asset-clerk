@@ -178,6 +178,7 @@ return [
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Stevebauman\Location\LocationServiceProvider::class,
     ],
 
     /*
@@ -232,6 +233,7 @@ return [
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'Captcha' => 'Mews\Captcha\Facades\Captcha',
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'Location' => 'Stevebauman\Location\Facades\Location',
     ],
 
 ];
