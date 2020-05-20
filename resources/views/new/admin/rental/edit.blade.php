@@ -18,7 +18,7 @@
 
               <!-- Entry Heading -->
               <div class="dt-entry__heading">
-                <h3 class="dt-entry__title">Edit Rental</h3>
+                <h3 class="dt-entry__title">Renew this rental</h3>
               </div>
               <!-- /entry heading -->
 
@@ -67,9 +67,9 @@
                                         @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('unit_uuid') ? ' has-danger' : '' }} col-4">
-                                        <label class="form-control-label" for="input-unit">{{ __('Unit') }}<span class="text-danger">*</span></label>
-                                        <select name="unit_uuid" id="unit_uuid" class="form-control" required>
-                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit->category ? $tenantRent->unit->category->name : ''}}
+                                        <label class="form-control-label" for="input-unit">{{ __('Property Type') }}<span class="text-danger">*</span></label>
+                                        <select name="unit_uuid" id="unit_uuid" class="form-control" required >
+                                            <option value="{{$tenantRent->unit_uuid}}">{{$tenantRent->unit ? $tenantRent->unit->propertyType->name : ''}}
                                             </option>
                                         </select>
                                        

@@ -246,6 +246,7 @@ function getDuePayments($past = false)
         return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
+            ->orWhere('status','Partly paid')
             ->whereRaw("DATE(due_date) < CURDATE()")
             ->sum('amount');
     }
@@ -253,6 +254,7 @@ function getDuePayments($past = false)
         return TenantRent::where([
             ['user_id', getOwnerUserID()],
             ['status', 'pending']])
+            ->orWhere('status','Partly paid')
             ->whereRaw("DATE(due_date) = CURDATE()")
             ->sum('amount');
     }

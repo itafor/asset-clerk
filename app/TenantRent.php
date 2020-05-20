@@ -186,6 +186,7 @@ if($rental){
    }
 }
 
+
 }
 
 public static function rentalDebtorsNewRentalStatusUpdate($data){
