@@ -187,7 +187,7 @@
 
              <tr class="heading">
                 <td>
-                    Property Type
+                   UNIT
                 </td>
                 
                 <td>

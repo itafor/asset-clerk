@@ -230,8 +230,10 @@ a { color: inherit; }
                     <!-- Media Body -->
                     <div class="media-body">
                         <p class="mb-0">Due Payments</p>
-                    <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getTotalTenants())}}</h2>
-                    <p class="mb-0">No. of Tenants: {{number_format(getDebtors())}}</p>
+                    <h2 class="mb-1 h1 font-weight-semibold text-white">
+                        {{number_format(getDuePayments(false),2)}}
+                    </h2>
+                    <!-- <p class="mb-0">No. of Tenants: {{number_format(getDebtors())}}</p> -->
                     </div>
                     <!-- /media body -->
 
@@ -247,7 +249,7 @@ a { color: inherit; }
                     <div class="media-body">
                         <p class="mb-0">Past Due Payments</p>
                     <h2 class="mb-1 h1 font-weight-semibold text-white">{{number_format(getDuePayments(true),2)}}</h2>
-                    <p class="mb-0">No. of Tenants: {{number_format(getDebtors(true))}}</p>
+                    <!-- <p class="mb-0">No. of Tenants: {{number_format(getDebtors(true))}}</p> -->
                     </div>
                     <!-- /media body -->
 

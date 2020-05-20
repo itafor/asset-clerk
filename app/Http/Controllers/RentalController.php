@@ -216,7 +216,7 @@ public function update(Request $request){
      $validator = Validator::make($data, [
             'tenant_uuid' => 'required',
             'asset_uuid' => 'required',
-            // 'unit_uuid' => 'required',
+            'unit_uuid' => 'required',
             'tenantRent_uuid'=>'required',
             'actual_amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -235,6 +235,10 @@ public function update(Request $request){
 
                TenantRent::rentalDebtorsNewRentalStatusUpdate($request->all());
                 DB::commit();
+
+            //      RentalUpdatedEmailJob::dispatch($rental)
+            // ->delay(now()->addSeconds(5));
+            
             }
             catch(\Exception $e)
             {
@@ -311,23 +315,31 @@ public function notifyDueRentAt0Percent()
   return 'Done';
 }
 
+
+
 //rene
  public function renewRentalsAt60Percent(){
-        $newRentals = TenantRent::where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (60/100) ),0)')->with(['users'])
-         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+        $newRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (45/100) ),0)')
+     ->with(['users'])
+     ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
 //dd($newRentals);
         if($newRentals){
      foreach($newRentals as $rent) {
     $newRentDetails['tenant']    = $rent->tenant_uuid;
     $newRentDetails['property']  = $rent->asset_uuid;
-    $newRentDetails['unit']      = $rent->unit_uuid;
+    $newRentDetails['main_unit'] = $rent->unit_uuid;
+    $newRentDetails['sub_unit'] = $rent->flat_number;
     $newRentDetails['price']     = $rent->price;
     $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
-    $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rent->user_id;
+    $newRentDetails['due_date']  = Carbon::now()->addYear()->format('d/m/Y');
+    $newRentDetails['user_id']   = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
     $newRentDetails['renewable'] = 'no';
     $newRentDetails['previous_rental_id'] = $rent->id;

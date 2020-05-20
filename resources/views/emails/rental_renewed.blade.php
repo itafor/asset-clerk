@@ -168,6 +168,18 @@
                      - {{$currentRental->unit ? $currentRental->unit->unitname:'N/A'}}</td>
                    </tr>
 
+                   <tr>
+                     <td class="rent_title">PROPERTY TYPE</td>
+                     <td> 
+                     {{$currentRental->unit ? $currentRental->unit->propertyType->name:'N/A'}}</td>
+                   </tr>
+
+                    <tr>
+                     <td class="rent_title">UNIT</td>
+                     <td> 
+                     {{$currentRental ? $currentRental->flat_number :'N/A'}}</td>
+                   </tr>
+
                      <tr>
                      <td class="rent_title">PRICE</td>
                      <td>&#8358; {{number_format($currentRental->amount,2)}}</td>
@@ -236,6 +248,16 @@
                    <tr>
                      <td class="rent_title">PROPERTY</td>
                      <td> {{$rental->unit ? $rental->unit->getProperty()->description:''}} - {{$rental->unit ? $rental->unit->unitname:''}} </td>
+                   </tr>
+
+                    <tr>
+                     <td class="rent_title">PROPERTY TYPE</td>
+                     <td> {{$rental->unit ? $rental->unit->propertyType->name:''}} </td>
+                   </tr>
+
+                    <tr>
+                     <td class="rent_title">UNIT</td>
+                     <td> {{$rental ? $rental->flat_number:''}} </td>
                    </tr>
 
                      <tr>

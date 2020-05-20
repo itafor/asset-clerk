@@ -161,7 +161,7 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}}
+                    {{$rental->unit->getProperty()->description}}
                 </td>
             </tr>
             
