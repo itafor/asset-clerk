@@ -28,6 +28,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
+use Stevebauman\Location\Facades\Location;
+use Stevebauman\Location\Position;
 
 function generateUUID()
 {
@@ -456,3 +458,9 @@ function fetchRental($id){
   return TenantRent::find($id);
     }
 
+function userLocation(){
+    $ip_address=\Request::ip();
+
+ $location = Location::get($ip_address);
+ return $location;
+}

@@ -137,7 +137,6 @@ a { color: inherit; }
 
                     <!-- Media Body -->
                     <div class="media-body">
-                        <p>MY location: {{ $location ? $location->countryName : 'N/A' }}</p>
                     @if (getSlots()['availableSlots'] == 'Unlimited')
                         <h2 class="mb-1 h1 font-weight-semibold text-white">{{getSlots()['availableSlots']}}</h2>
                     @else
