@@ -99,7 +99,7 @@
         </div>
         <!-- /grid -->
        
-        @include('new.admin.assets.partials.addUnit')
+        
 @endsection
 
 @section('script')
