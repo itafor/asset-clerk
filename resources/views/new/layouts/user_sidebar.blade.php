@@ -295,7 +295,7 @@
             </li>
           
 
-                   <li class="dt-side-nav__item {{isset($page) && $page == 'report' ? 'open' : ''}}">
+                  {{-- <li class="dt-side-nav__item {{isset($page) && $page == 'report' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
                 <i class="icon icon-company icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Reports</span> </a>
              <!-- Sub-menu -->
@@ -319,11 +319,11 @@
                         <i class="icon icon-listing-dbrd icon-fw icon-sm" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};"></i>  <span class="dt-side-nav__text" style="color:{{ (Route::current()->getName() == 'report.landlordreport') ? $active_menu_color : $default_menu_color }};">Landlord</span> </a>
                 </li>
             </ul>
-            </li>
+            </li>--}}
 
 
 
-            <li class="dt-side-nav__item {{isset($page) && $page == 'portfolio' ? 'open' : ''}}">
+            {{--<li class="dt-side-nav__item {{isset($page) && $page == 'portfolio' ? 'open' : ''}}">
             <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Asset Management">
                 <i class="icon icon-company icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Portfolio</span> </a>
              
@@ -335,7 +335,7 @@
                 </li>
 
             </ul>
-            </li>
+            </li>--}}
 </li>
 
 
