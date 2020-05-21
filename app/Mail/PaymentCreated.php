@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Payment;
 use App\RentPayment;
+use App\TenantRent;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -16,18 +17,20 @@ class PaymentCreated extends Mailable
     public $landlord;
     public $companyDetail;
     public $user;
+    public $rental;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(RentPayment $payment)
+    public function __construct(RentPayment $payment, TenantRent $rental)
     {
         $this->payment = $payment;
         $this->landlord = $payment->asset->Landlord ? $payment->asset->Landlord : '';
         $this->companyDetail = comany_detail($payment->user_id);
         $this->user = Userdetails($payment->user_id);
+        $this->rental = $rental;
     }
 
     /**

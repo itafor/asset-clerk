@@ -81,7 +81,8 @@ class RentPaymentController extends Controller
         try {
           $payment = RentPayment::createNew($request->all());
               $toEmail = $payment->get_tenant->email;
-            Mail::to($toEmail)->send(new PaymentCreated($payment));
+              $rental = TenantRent::where('uuid',$payment->tenantRent_uuid)->first();
+            Mail::to($toEmail)->send(new PaymentCreated($payment,$rental));
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -142,13 +143,30 @@ class RentPaymentController extends Controller
     }
 
  public function fetchRentalDebtors(){
-     $rentalDebtors = RentDebtor::where('user_id',getOwnerUserID())
-                     ->orderby('created_at','desc')
-                        ->get();
+     // $rentalDebtors = RentDebtor::where('user_id',getOwnerUserID())
+     //                 ->orderby('created_at','desc')
+     //                    ->get();
+$rentalDebtors = TenantRent::where('user_id', getOwnerUserID())
+                ->where([
+                    ['startDate','!=',null],
+                    ['due_date','!=',null],
+                    ['amount','!=',null],
+                    ['status','pending']
+                ])
+            ->orWhere([['status','Partly paid']])
+        ->orderBy('created_at', 'desc')->get();
 
-      $totalSumOfRentalsNotPaid = DB::table('rent_debtors')
-    ->where('user_id',getOwnerUserID())
-    ->sum('rent_debtors.balance');
+
+      $totalSumOfRentalsNotPaid = DB::table('tenant_rents')
+    ->where([
+            ['user_id',getOwnerUserID()],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['amount','!=',null],
+            ['status','pending']
+                ])
+    ->orWhere([['status','Partly paid']])
+    ->sum('tenant_rents.balance');
 
      return view('new.admin.rentPayment.debtors',compact('rentalDebtors','totalSumOfRentalsNotPaid'));
     }

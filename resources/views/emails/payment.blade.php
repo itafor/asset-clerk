@@ -177,6 +177,30 @@
                    {{$payment->asset->description}}
                 </td>
             </tr>
+             <tr class="item">
+                <td>
+                   <b> Property Type :</b>
+                </td>
+                
+                <td>
+                  @if($rental->unit)
+                     @if($rental->unit->propertyType)
+                      {{$rental->unit ? $rental->unit->propertyType->name : 'N/A'}}</td>
+                   @endif
+                @endif
+                </td>
+            </tr>
+
+            <tr class="item">
+                <td>
+                   <b> Unit:</b>
+                </td>
+                
+                <td>
+                    {{$rental->flat_number}}
+                </td>
+         </tr>
+            
          <tr class="item">
                 <td>
                    <b> Payment Method :</b>
