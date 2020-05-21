@@ -96,11 +96,11 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Location') }}</h6>
                             <div class="row">
                                 <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }} col-6">
-                                    <label class="form-control-label" for="input-country">{{ __('Country') }} {{$location ? $location->countryName : 'N/A'}}</label>
+                                    <label class="form-control-label" for="input-country">{{ __('Country') }} </label>
                                     <select name="country" id="country" class="form-control" required>
                                         <option value="">Select Country </option>
                                         @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}" {{$c->name=='Nigeria'?'Selected':'Select country'}}>{{$c->name}}</option>
+                                            <option value="{{$c->id}}" {{$c->name==$location ? 'selected':'Select country'}}>{{$c->name}}</option>
                                         @endforeach
                                     </select>
 
