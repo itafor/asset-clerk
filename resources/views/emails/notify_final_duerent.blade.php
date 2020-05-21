@@ -179,8 +179,18 @@ Dear {{$rental->tenant->firstname}},<br/>
 
                    <tr>
                      <td class="rent_title">PROPERTY</td>
-                     <td> {{$rental->asset->description}} 
-                      - {{$rental->unit ? $rental->unit->unitname:'N/A'}}</td>
+                     <td> {{$rental->asset->description}} </td> 
+                   </tr>
+
+                   <tr>
+                     <td class="rent_title">PROPERTY Type</td>
+                     <td>  
+                      {{$rental->unit ? $rental->unit->propertyType->name:'N/A'}}</td>
+                   </tr>
+
+                   <tr>
+                     <td class="rent_title">Unit</td>
+                     <td>{{$rental ? $rental->flat_number : 'N/A'}}</td>
                    </tr>
 
                      <tr>
