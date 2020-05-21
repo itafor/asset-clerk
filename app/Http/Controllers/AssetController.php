@@ -15,6 +15,7 @@ use DB;
 use DateTime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Stevebauman\Location\Facades\Location;
 use Validator;
 
 class AssetController extends Controller
@@ -59,8 +60,12 @@ class AssetController extends Controller
          ->select('asset_service_charges.*')
          ->get();
 
+          $ip_address=\Request::ip();
+
+         $location = Location::get($ip_address);
+        // dd($location);
        // chekUserPlan('property');
-        return view('new.admin.assets.create', compact('charges'));
+        return view('new.admin.assets.create', compact('charges','location'));
     }
 
     public function store(Request $request)

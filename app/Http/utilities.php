@@ -29,7 +29,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JD\Cloudder\Facades\Cloudder;
 use Stevebauman\Location\Facades\Location;
-use Stevebauman\Location\Position;
 
 function generateUUID()
 {
