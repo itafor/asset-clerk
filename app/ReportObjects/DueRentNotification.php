@@ -18,7 +18,12 @@ class DueRentNotification
 
 	public static function DueRentNotificationAt50Percent()
     {
-     $dueRentals = TenantRent::where('renewable', 'no')
+     $dueRentals = TenantRent::where([
+            ['renewable', 'no'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+     ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (50/100) ),0)')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
@@ -31,11 +36,16 @@ class DueRentNotification
             
         }
 
-      $renewableDueRentals = TenantRent::where('renewable', 'yes')
+      $renewableDueRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+      ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (50/100) ),0)')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
-    //dd($renewableDueRentals);
+   // dd($renewableDueRentals);
         foreach($renewableDueRentals as $rental) {
              $renewed_rental = TenantRent::where('previous_rental_id',$rental->id)->latest()->first();
              $defaultRemainingDuration=5;
@@ -49,7 +59,12 @@ class DueRentNotification
 
  	public static function DueRentNotificationAt25Percent()
     {
-    	 $dueRentals = TenantRent::where('renewable', 'no')
+    	 $dueRentals = TenantRent::where([
+            ['renewable', 'no'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+         ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
@@ -62,7 +77,12 @@ class DueRentNotification
         }
  
 
-     $renewableDueRentals = TenantRent::where('renewable', 'yes')
+     $renewableDueRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+     ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (25/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
@@ -83,7 +103,12 @@ class DueRentNotification
  public static function DueRentNotificationAt13Percent()
     {
 
-     $dueRentals = TenantRent::where('renewable', 'no')
+     $dueRentals = TenantRent::where([
+            ['renewable', 'no'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+     ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (13/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
@@ -96,9 +121,15 @@ class DueRentNotification
     }
 
     //for renewable rents, and also to send with previous rents details
-     $renewabledueRentals = TenantRent::where('renewable', 'yes')
+     $renewabledueRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+     ])
      ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (13/100) ),0)') 
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+         ->limit(3)
          ->get();
          //dd($renewabledueRentals);
          
@@ -116,7 +147,12 @@ class DueRentNotification
 
 public static function DueRentNotificationAt0Percent()
     {
-       $dueRentals = TenantRent::where('renewable', 'no')
+       $dueRentals = TenantRent::where([
+            ['renewable', 'no'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+       ])
        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
@@ -129,7 +165,12 @@ public static function DueRentNotificationAt0Percent()
             
         }
 
-        $renewabledueRentals = TenantRent::where('renewable', 'yes')
+        $renewabledueRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = 0')
          ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
          ->get();
