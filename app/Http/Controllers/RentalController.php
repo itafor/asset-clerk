@@ -402,23 +402,38 @@ public function planUpgradeNotification(){
   }
  
   public function dueRentInNext90DaysNotification(){
-    $rentalsDueInNext90Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
-                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+    $rentalsDueInNext90Days = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
+    ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($rentalsDueInNext90Days){
                 foreach ($rentalsDueInNext90Days as $key => $due_rent) {
                     $the_users[] =$due_rent->users;
                 }
         $all_users = array_unique($the_users);
-
+//dd($all_users);
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $rentalsDueInNext90Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
+           $rentalsDueInNext90Days2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+    ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
     ->sum('tenant_rents.balance');
 
@@ -430,7 +445,12 @@ return 'Done';
 }
 
     public function dueRentInNext30DaysNotification(){
-    $rentalsDueInNext30Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")->with(['users'])
+    $rentalsDueInNext30Days = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")->with(['users'])
                 ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($rentalsDueInNext30Days){
@@ -441,12 +461,22 @@ return 'Done';
 
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $rentalsDueInNext30Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
+           $rentalsDueInNext30Days2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+        ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
     ->sum('tenant_rents.balance');
 
@@ -458,7 +488,12 @@ return 'Done';
 }
 
       public function pastDueRentsNotification(){
-    $past_due_rents = TenantRent::whereRaw("due_date < CURDATE()")->with(['users'])
+    $past_due_rents = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date < CURDATE()")->with(['users'])
                 ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($past_due_rents){
@@ -469,12 +504,22 @@ return 'Done';
 
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $past_due_rents2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date < CURDATE()")
+           $past_due_rents2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date < CURDATE()")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+        ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date < CURDATE()")
     ->sum('tenant_rents.balance');
 //dd($totalRentsNotPaid);
