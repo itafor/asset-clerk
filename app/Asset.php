@@ -127,13 +127,14 @@ class Asset extends Model
 
     public static function updateAsset($data)
     {
+         //dd($data);
         $landlord = isset($data['landlord']) ? $data['landlord'] : '';
         
         self::where('uuid', $data['uuid'])->update([
             // 'commission' => $data['commission'],
             'description' => $data['description'],
             // 'price' => $data['asking_price'],
-            'property_type' => $data['property_type'],
+            //'property_type' => $data['property_type'],
             'landlord_id' => $landlord,
             'country_id' => $data['country'],
             'state_id' => $data['state'],
@@ -144,12 +145,12 @@ class Asset extends Model
             // 'features' => implode(',',$data['features'])
         ]); 
 
-        // $asset = self::where('uuid', $data['uuid'])->first();
+        $asset = self::where('uuid', $data['uuid'])->first();
 
         // if(isset($data['photos'])){
         //     self::addPhoto($data,$asset);
         // }
-        // self::updateUnits($data,$asset);
+     self::updateUnits($data,$asset);
     }
 
     public static function removeUnits($asset)
@@ -175,18 +176,23 @@ class Asset extends Model
         }
     }
     
+
     public static function updateUnits($data,$asset)
     {
+
+    //$unit->unit_uuid
+        if(isset($data['unit'])){
         foreach($data['unit'] as $key => $unit){
-            $u = Unit::where('uuid', $key)->first();
+            $u = Unit::where('uuid', $unit['unit_uuid'])->first();
             if($u){
-                $u->category_id = $unit['category'];
+                //$u->category_id = $unit['category'];
                 $u->standard_price = $unit['standard_price'];
                 $u->property_type_id = $unit['property_type'];
                 $u->quantity = $unit['quantity'];
-                $u->apartment_type = $unit['apartment_type'];
-                $u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
-                $u->rent_commission = $unit['rent_commission'];
+                $u->number_of_room = $unit['number_of_room'];
+                //$u->apartment_type = $unit['apartment_type'];
+                //$u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
+                //$u->rent_commission = $unit['rent_commission'];
                 $u->save();
             }
             else{
@@ -204,6 +210,8 @@ class Asset extends Model
                 ]);
             }
         }
+    }
+
     }
 
  

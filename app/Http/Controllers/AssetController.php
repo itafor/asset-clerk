@@ -156,10 +156,10 @@ class AssetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'property_type' => 'required',
-            'asking_price' => 'required',
+            //'property_type' => 'required',
+            //'asking_price' => 'required',
             // 'commission' => 'required|numeric',
-            // 'landlord' => 'required',
+            'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',

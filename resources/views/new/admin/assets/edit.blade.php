@@ -39,7 +39,7 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="row">
                                 
-                                <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-4">
+                                <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
                                     <label class="form-control-label" for="input-name">{{ __('Description') }}</label>
                                     <input rows="5" name="description" id="input-name" class="form-control form-control-alternative{{ $errors->has('description') ? ' is-invalid' : '' }}" value="{{ old('description', $asset->description) }}" placeholder="{{ __('Enter Description') }}" required autofocus >
 
@@ -50,7 +50,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group {{ $errors->has('property_type') ? 'has-danger':'' }} col-4">
+                                {{--<div class="form-group {{ $errors->has('property_type') ? 'has-danger':'' }} col-4">
                                     <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
                                     <select name="property_type"  class="form-control" required>
                                         <option value="">Select Property Type</option>
@@ -64,18 +64,18 @@
                                             <strong>{{ $errors->first('property_type') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+                                </div>--}}
 
-                                 <div class="form-group {{ $errors->has('asking_price') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-asking_price">{{ __('Asking Price') }}</label>
-                                    <input rows="5" name="asking_price" id="input-asking_price" class="form-control {{ $errors->has('asking_price') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Price') }}" value="{{ old('asking_price',$asset->price) }}" required autofocus>
+                                 {{--<div class="form-group {{ $errors->has('asking_price') ? 'has-danger':'' }} col-4">
+                                    <label class="form-control-label" for="input-asking_price">{{ __('Asking Price') }} </label>
+                                    <input type="number" min="1" rows="5" name="asking_price" id="input-asking_price" class="form-control {{ $errors->has('asking_price') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Price') }}" value="{{ old('asking_price',$asset->price) }}" required autofocus>
                                      @if ($errors->has('asking_price'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('asking_price') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-12">
+                                </div>--}}
+                                <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-6">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }}</label>
                                     <select name="landlord"  class="form-control" >
                                         <option value="">Select Landlord</option>
@@ -151,6 +151,79 @@
                                     @endif
                                 </div>                      
                             </div>
+
+
+
+                                 <h6 class="heading-small text-muted mb-4">{{ __('Property Units') }}</h6>
+
+
+                                 @if($asset->units)
+                                 @foreach ($asset->units as $key => $unit)
+                         
+                  <div class="row">
+                            <input type="hidden" name="unit[{{$key}}][unit_uuid]" value="{{old('unit_uuid',$unit->uuid)}}">
+                      <div class="form-group{{ $errors->has('number_of_flat') ? ' has-danger' : '' }} col-3">
+                                    <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
+                                    <select name="unit[{{$key}}][property_type]" id="property_type_id" class="form-control" required>
+                                        <option value="">Select Property Type</option>
+                                        @foreach (getPropertyTypes() as $pt)
+                                            <option value="{{$pt->id}}" {{$pt->id==$unit->property_type_id ? 'selected' : 'Select Property Type'}}>{{$pt->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('property_type'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('property_type') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                 <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }} col-3">
+                                    <label class="form-control-label" for="input-quantity">{{ __('Units') }}</label>
+                                    <input type="number" name="unit[{{$key}}][quantity]" min="1" class="form-control" placeholder="Enter number of unit" value="{{old('quantity',$unit->quantity)}}" required>
+
+                                    @if ($errors->has('quantity'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('quantity') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+     
+                                <div class="form-group{{ $errors->has('number_of_room') ? ' has-danger' : '' }} col-3">
+                                    <label class="form-control-label" for="input-property_type">{{ __('Rooms') }}</label>
+                                    <input type="number" name="unit[{{$key}}][number_of_room]" min="1" class="form-control" value="{{old('number_of_room',$unit->number_of_room)}}" placeholder="Enter number of room" required>
+
+                                    @if ($errors->has('number_of_room'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('number_of_room') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                
+                           
+                             
+                                <div class="form-group{{ $errors->has('standard_price') ? ' has-danger' : '' }} col-3">
+                                    <label class="form-control-label" for="input-standard_price">{{ __('Asking Price') }}</label>
+                                    <input type="number" min="1" name="unit[{{$key}}][standard_price]" id="input-standard_price" class="form-control {{ $errors->has('standard_price') ? ' is-invalid' : '' }} standard_price" placeholder="Enter Property Estimate" value="{{old('standard_price',$unit->standard_price)}}" required>
+
+                                    @if ($errors->has('standard_price'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('standard_price') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                                @endforeach
+
+                                @endif
+
+
+
+
+
+
 
                             <!-- old codes removed from here -->
                          
@@ -420,6 +493,13 @@
             });
         });
 
+          $(document).on('keyup', '#input-asking_price', function(e){
+    e.preventDefault();
+    let value = e.target.value;
+if(value <= 0){
+     $(this).val('');
+}
+ });
         
     </script>
 @endsection
