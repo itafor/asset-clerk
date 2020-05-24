@@ -72,7 +72,7 @@
                                     <!--     <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a> -->
 
 
-                                         <a href="{{ route('asset.servicecharges', ['id'=>$asset->id]) }}" class="dropdown-item">Service charge(s)</a>
+                                         <!-- <a href="{{ route('asset.servicecharges', ['id'=>$asset->id]) }}" class="dropdown-item">Service charge(s)</a> -->
                                        
 
                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>

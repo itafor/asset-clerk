@@ -176,9 +176,6 @@
                                       Manage
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-
-                         <a class="dropdown-item">Edit</a>
-                                          
                       <button type="button" class="dropdown-item" onclick="deleteData('asset','delete','unit',{{$unit->id}})">
                           {{ __('Delete') }}
                       </button>
