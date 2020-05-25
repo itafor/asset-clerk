@@ -466,6 +466,8 @@ function getQtyLeft($quantity,$unitUuuid){
             $qty_diff = $quantity - $existingQty->quantity;
             $quantityLeft = $existingQty->quantity_left + $qty_diff;
             return $quantityLeft;
+        }else{
+            return $existingQty->quantity_left;
         }
         }
     }
