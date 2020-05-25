@@ -184,6 +184,9 @@ class Asset extends Model
         if(isset($data['unit'])){
         foreach($data['unit'] as $key => $unit){
             $u = Unit::where('uuid', $unit['unit_uuid'])->first();
+            if($unit['quantity'] < $u->quantity){
+            return false;
+           }else{
             if($u){
                 //$u->category_id = $unit['category'];
                 $u->standard_price = $unit['standard_price'];
@@ -191,7 +194,7 @@ class Asset extends Model
                 $u->quantity = $unit['quantity'];
                 $u->number_of_room = $unit['number_of_room'];
                 //$u->apartment_type = $unit['apartment_type'];
-                //$u->quantity_left = ($unit['quantity'] - $u->quantity) + $u->quantity_left;
+                $u->quantity_left =  getQtyLeft($unit['quantity'],$unit['unit_uuid']);
                 //$u->rent_commission = $unit['rent_commission'];
                 $u->save();
             }
@@ -209,6 +212,7 @@ class Asset extends Model
                     'uuid' => generateUUID(),
                 ]);
             }
+        }
         }
     }
 

@@ -456,3 +456,16 @@ function check_if_user_upload_comany_detail(){
 function fetchRental($id){
   return TenantRent::find($id);
     }
+
+function getQtyLeft($quantity,$unitUuuid){
+    $existingQty = Unit::where('uuid',$unitUuuid)->first();
+    if($existingQty){
+        if($existingQty->quantity == $quantity && $existingQty->quantity_left==$quantity){
+            return $quantity;
+        }elseif($quantity > $existingQty->quantity){
+            $qty_diff = $quantity - $existingQty->quantity;
+            $quantityLeft = $existingQty->quantity_left + $qty_diff;
+            return $quantityLeft;
+        }
+        }
+    }
