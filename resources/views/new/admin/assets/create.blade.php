@@ -48,32 +48,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                     
-
-                                {{--<div class="form-group {{ $errors->has('property_type') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-property_type">{{ __('Property Type') }}</label>
-                                    <select name="property_type"  class="form-control" required>
-                                        <option value="">Select Property Type</option>
-                                        @foreach (getPropertyTypes() as $pt)
-                                            <option value="{{$pt->id}}">{{$pt->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('property_type'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('property_type') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>--}}
-
-                                <!--  <div class="form-group {{ $errors->has('asking_price') ? 'has-danger':'' }} col-4">
-                                    <label class="form-control-label" for="input-asking_price">{{ __('Asking Price') }}</label>
-                                    <input rows="5" name="asking_price" id="input-asking_price" class="form-control {{ $errors->has('asking_price') ? ' is-invalid' : '' }}" placeholder="{{ __('Enter Property Price') }}" value="{{ old('asking_price') }}" required autofocus>
-                                     @if ($errors->has('asking_price'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('asking_price') }}</strong>
-                                        </span>
-                                    @endif
-                                </div> -->
+                               
 
                                 <div class="form-group{{ $errors->has('landlord') ? ' has-danger' : '' }} col-6">
                                     <label class="form-control-label" for="input-landlord">{{ __('Landlord') }} </label>

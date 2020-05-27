@@ -63,7 +63,6 @@ class AssetController extends Controller
           $ip_address=\Request::ip();
 
          $location = Location::get($ip_address);
-        // dd($location);
        // chekUserPlan('property');
         return view('new.admin.assets.create', compact('charges','location'));
     }
@@ -88,24 +87,13 @@ class AssetController extends Controller
        // chekUserPlan('property');
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-           // 'property_type' => 'required',
-            // 'asking_price' => 'required',
-            // 'unit.*.category' => 'required',
             'unit.*.quantity' => 'required',
             'unit.*.number_of_room' => 'required',
             'unit.*.standard_price' => 'required',
-            'unit.*.property_type' => 'required',
-            // 'unit.*.apartment_type' => 'required',
-            // 'unit.*.rent_commission' => 'required|numeric',
-            // 'landlord' => 'required',
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
             'address' => 'required',
-            // 'detailed_information' => 'required',
-            // 'features.*' => 'required',
-            // 'photos.*' => 'image',
-            // 'commission' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {

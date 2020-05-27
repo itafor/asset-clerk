@@ -93,34 +93,24 @@ class Asset extends Model
 
     public static function createNew($data)
     {
-        //dd($data);
         
         $getActivePlan =  activePlanId(getOwnerUserID());
-        $landlord = isset($data['landlord']) ? $data['landlord'] : '';
         $asset = self::create([
-            // 'commission' => $data['commission'],
             'description' => $data['description'],
-            'landlord_id' => $landlord,
-            //'price' => $data['asking_price'],
-            //'number_of_flat' => $numberOfFlat,
-            //'quantity_left' => $numberOfFlat,
-            //'quantity_occupied' => 0,
-            //'property_type' => $data['property_type'],
+            'landlord_id' => isset($data['landlord']) ? $data['landlord'] : '',
             'country_id' => $data['country'],
             'state_id' => $data['state'],
             'city_id' => $data['city'],
-            // 'detailed_information' => $data['detailed_information'],
             'address' => $data['address'],
-            // 'construction_year' => $data['construction_year'],
-            // 'features' => isset($data['features']) ? implode(',',$data['features']) : null,
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID(),
             'plan_id' => $getActivePlan,
-            'slot_plan_id' => $getActivePlan,
-
+            'slot_plan_id' => $getActivePlan
         ]); 
 
+        if($asset){
           self::createUnit($data,$asset);
+        }
         // self::addPhoto($data,$asset); 
         return $asset;
     }
@@ -160,16 +150,16 @@ class Asset extends Model
 
     public static function createUnit($data,$asset)
     {
-        foreach($data['unit'] as $unit){
+        foreach($data['unit'] as $u){
             Unit::create([
                 'asset_id' => $asset->id,
                 'user_id' => getOwnerUserID(),
                 'plan_id' => activePlanId(getOwnerUserID()),
-                'number_of_room' => $unit['number_of_room'],
-                'property_type_id' => $unit['property_type'],
-                'standard_price' => $unit['standard_price'],
-                'quantity' => $unit['quantity'],
-                'quantity_left' => $unit['quantity'],
+                'number_of_room' => $u['number_of_room'],
+                'property_type_id' => $u['property_type'],
+                'standard_price' => $u['standard_price'],
+                'quantity' => $u['quantity'],
+                'quantity_left' => $u['quantity'],
                 'status' => 'vacant',
                 'uuid' => generateUUID(),
             ]);
