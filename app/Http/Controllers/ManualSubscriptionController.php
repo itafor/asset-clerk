@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Asset;
 use App\SubPaymentMetalDatas;
 use App\Subscription;
 use App\SubscriptionPlan;
@@ -113,28 +114,29 @@ class ManualSubscriptionController extends Controller
             $sub->update([
                 'status' => 'Active'
             ]);
-            $this->updateUnitSetPlanIdNull($getMetadata->plan_id,$data['user_id']);
+            $this->updateAssetSetPlanIdNull($getMetadata->plan_id,$data['user_id']);
             //$this->removeMetaData($getMetadata->id,$getMetadata->user_id);
         }
       }
     }
 
-    public function updateUnitSetPlanIdNull($plan_id,$userId){
+    public function updateAssetSetPlanIdNull($plan_id,$userId){
 
-    $getPlanIds = Unit::where('plan_id', $plan_id)
+    $getPlanIds = Asset::where('slot_plan_id', $plan_id)
           ->where('user_id',$userId)
           ->get();
     
     if($getPlanIds){
       foreach ($getPlanIds as $key => $value) {
-          Unit::where('plan_id',$value->plan_id)
+          Asset::where('slot_plan_id',$value->slot_plan_id)
           ->where('user_id',$userId)
           ->update([
-            'plan_id' => null
+            'slot_plan_id' => null
           ]);
       }
    }
  }
+
 public function removeMetaData($id,$user_id){
           $smd = SubPaymentMetalDatas::where('id',$id)
           ->where('user_id',$user_id)->latest()->first();

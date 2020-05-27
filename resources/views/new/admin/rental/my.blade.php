@@ -39,7 +39,7 @@
                       <tr>
                           <th>No</th>
                           <th><b>Description</b></th>
-                          <th><b>Unit</b></th> 
+                          <!-- <th><b>Unit</b></th>  -->
                           <th><b>Price</b></th>
                           <th><b>Rental Start Date</b></th>
                           <th><b>Rental Due Date</b></th>
@@ -50,7 +50,6 @@
                       <tr>
                           <td>{{$loop->iteration}}</td>
                           <td>{{$rental->asset ? $rental->asset->description : ''}}</td>
-                          <td>{{$rental->unit->category ? $rental->unit->category->name : ''}}</td>
                           <td>&#8358; {{number_format($rental->price,2)}}</td>
                           <td>{{formatDate($rental->startDate, 'Y-m-d', 'd M Y')}}</td>
                           <td>{{formatDate($rental->due_date, 'Y-m-d', 'd M Y')}}</td>

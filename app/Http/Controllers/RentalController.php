@@ -23,15 +23,33 @@ use DB;
 use Illuminate\Http\Request;
 use Mail;
 use Validator;
+use DateTime;
+use DateInterval;
 
 class RentalController extends Controller
 {
     public function index()
     {
         $rentals = TenantRent::where('user_id', getOwnerUserID())
+                ->whereNotNull('startDate')
+                ->whereNotNull('due_date')
+                ->whereNotNull('amount')
         ->orderBy('id', 'desc')->get();
+
         return view('new.admin.rental.index', compact('rentals'));
     }
+
+     public function displayAllocton()
+    {
+        $rentals = TenantRent::where('user_id', getOwnerUserID())
+                ->where('startDate',null)
+                ->where('due_date',null)
+                ->where('amount',null)
+        ->orderBy('id', 'desc')->get();
+
+        return view('new.admin.rental.partials.list_allocation', compact('rentals'));
+    }
+    
     
     public function myRentals()
     {
@@ -39,6 +57,60 @@ class RentalController extends Controller
         ->where('t.email', auth()->user()->email)
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*')->get();
         return view('new.admin.rental.my', compact('rentals'));
+    }
+
+     public function addRental($uuid)
+    {
+         $data['tenantRent'] = TenantRent::where('uuid',$uuid)
+       ->where('user_id',getOwnerUserID())->first();
+
+        return view('new.admin.rental.partials.add_rental',$data);
+    }
+
+     public function saveRental(Request $request)
+    {
+        $data=$request->all();
+
+        $startDate = formatDate($data['startDate'], 'd/m/Y', 'Y-m-d');
+        $startDate = Carbon::parse($startDate);
+        $dueDate = formatDate($data['due_date'], 'd/m/Y', 'Y-m-d');
+        $dueDate = Carbon::parse($dueDate);
+           
+
+        $duration = $startDate->diff($dueDate)->days;
+        $end_date = (new $startDate)->add(new DateInterval("P{$duration}D") );
+        $dd = date_diff($startDate,$end_date);
+        $final_duration = $dd->y." years, ".$dd->m." months, ".$dd->d." days";
+
+        date_default_timezone_set("Africa/Lagos");
+    $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));
+    $enddate   =   Carbon::parse(formatDate($request->due_date, 'd/m/Y', 'Y-m-d'));
+
+    if($enddate < $startdate){
+        return back()->withInput()->with('error','End Date cannot be less than start date');
+    }
+        
+
+     $rental =  tenantRent::where('uuid', $data['tenantRent_uuid'])
+                ->where('tenant_uuid', $data['tenant_uuid'])
+                ->where('user_id', getOwnerUserID())->first();
+        
+if($rental){
+    $rental->amount = $data['actual_amount'];
+    $rental->startDate = $startDate;
+    $rental->due_date = $dueDate;
+    $rental->new_rental_status = null;
+    $rental->duration = $final_duration;//star date
+    $rental->renewable = 'yes';
+    $rental->status = 'pending';
+   if($rental->save()){
+
+    RentalCreatedEmailJob::dispatch($rental)
+                ->delay(now()->addSeconds(3));
+
+     return back()->with('success', 'Rental added successfully');
+   }
+}
     }
 
     public function create()
@@ -53,7 +125,8 @@ class RentalController extends Controller
         $validator = Validator::make($request->all(), [
             'tenant' => 'required',
             'property' => 'required',
-            'unit' => 'required',
+            'main_unit' => 'required',
+            'sub_unit' => 'required',
             'price' => 'required|numeric',
             'amount' => 'required|numeric',
             'startDate' => 'required|date_format:"d/m/Y"',
@@ -68,22 +141,15 @@ class RentalController extends Controller
     $data=$request->all();
 
     $getTenantRents = TenantRent::where('tenant_rents.asset_uuid', $data['property'])
-                    ->join('units as a', 'a.uuid', '=', 'tenant_rents.unit_uuid')
-                    ->join('tenants as t','t.uuid','=','tenant_rents.tenant_uuid')
-                    ->selectRaw('a.*,t.*,tenant_rents.*')
+                     ->where('flat_number',$data['sub_unit'])
+                     ->where('unit_uuid',$data['main_unit'])
                     ->get();
                             
-    if($getTenantRents){
-      foreach ($getTenantRents as $key => $tenantRent) {
-            if($data['property'] == $tenantRent->asset_uuid 
-                && $data['unit'] == $tenantRent->unit_uuid
-                && $data['price'] == $tenantRent->price
-                && $data['tenant'] == $tenantRent->tenant_uuid)
-            {
-                 return back()->withInput()->with('error','The selected tentant has already been added to the given property\'s unit ');
+    if(count($getTenantRents) >=1){
+                 return back()->withInput()->with('error','The selected unit has already been assigned');
             }
-      }
-    }
+    
+    
    
     date_default_timezone_set("Africa/Lagos");
     $startdate = Carbon::parse(formatDate($request->startDate, 'd/m/Y', 'Y-m-d'));
@@ -166,11 +232,13 @@ public function update(Request $request){
             try{
                $rental = TenantRent::editTenantRent($request->all());
 
-            // RentalUpdatedEmailJob::dispatch($rental)
-            //     ->delay(now()->addSeconds(3));
 
                TenantRent::rentalDebtorsNewRentalStatusUpdate($request->all());
                 DB::commit();
+
+            //      RentalUpdatedEmailJob::dispatch($rental)
+            // ->delay(now()->addSeconds(5));
+            
             }
             catch(\Exception $e)
             {
@@ -218,26 +286,26 @@ public function viewDetail($uuid){
      * Cron Job for rent due
      * Send landlord list of due rents
      * Send tentant due rent
-     *
+     *60% renew, 50%,      25%,      13%,      0% cron job
      * @return void
      */
+public function notifyDueRentAt50Percent()
+    {
+
+       DueRentNotification::DueRentNotificationAt50Percent();
+
+  return 'Done';
+}
+
 public function notifyDueRentAt25Percent()
     {
-
-       DueRentNotification::DueRentNotificationAt25Percent();
-
+  DueRentNotification::DueRentNotificationAt25Percent();
   return 'Done';
 }
 
-public function notifyDueRentAt12Percent()
+public function notifyDueRentAt13Percent()
     {
-  DueRentNotification::DueRentNotificationAt12Percent();
-  return 'Done';
-}
-
-public function notifyDueRentAt6Percent()
-    {
-    DueRentNotification::DueRentNotificationAt6Percent();
+    DueRentNotification::DueRentNotificationAt13Percent();
   return 'Done';
 }
 
@@ -247,22 +315,31 @@ public function notifyDueRentAt0Percent()
   return 'Done';
 }
 
- public function renewRentalsAt50Percent(){
-        $newRentals = TenantRent::where('renewable', 'yes')
-        ->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (50/100) ),0)')->with(['users'])
-         ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
+
+
+//rene
+ public function renewRentalsAt60Percent(){
+        $newRentals = TenantRent::where([
+            ['renewable', 'yes'],
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])->whereRaw('TIMESTAMPDIFF(DAY, CURDATE(),tenant_rents.due_date ) = ROUND(ABS(TIMESTAMPDIFF(DAY, tenant_rents.startDate,tenant_rents.due_date ) * (45/100) ),0)')
+     ->with(['users'])
+     ->select('tenant_rents.*', DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))
         ->get();
 //dd($newRentals);
         if($newRentals){
      foreach($newRentals as $rent) {
     $newRentDetails['tenant']    = $rent->tenant_uuid;
     $newRentDetails['property']  = $rent->asset_uuid;
-    $newRentDetails['unit']      = $rent->unit_uuid;
+    $newRentDetails['main_unit'] = $rent->unit_uuid;
+    $newRentDetails['sub_unit'] = $rent->flat_number;
     $newRentDetails['price']     = $rent->price;
     $newRentDetails['amount']    = $rent->amount;
     $newRentDetails['startDate'] = Carbon::now()->format('d/m/Y');
-    $newRentDetails['due_date'] = Carbon::now()->addYear()->format('d/m/Y');
-    $newRentDetails['user_id']    = $rent->user_id;
+    $newRentDetails['due_date']  = Carbon::now()->addYear()->format('d/m/Y');
+    $newRentDetails['user_id']   = $rent->user_id;
     $newRentDetails['new_rental_status'] = 'New';
     $newRentDetails['renewable'] = 'no';
     $newRentDetails['previous_rental_id'] = $rent->id;
@@ -325,24 +402,38 @@ public function planUpgradeNotification(){
   }
  
   public function dueRentInNext90DaysNotification(){
-    $rentalsDueInNext90Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
-                ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
+    $rentalsDueInNext90Days = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")->with(['users'])
+    ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($rentalsDueInNext90Days){
                 foreach ($rentalsDueInNext90Days as $key => $due_rent) {
                     $the_users[] =$due_rent->users;
                 }
         $all_users = array_unique($the_users);
-                // dd($all_users);
-
+//dd($all_users);
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $rentalsDueInNext90Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
+           $rentalsDueInNext90Days2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+    ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 90 DAY)")
     ->sum('tenant_rents.balance');
 
@@ -354,7 +445,12 @@ return 'Done';
 }
 
     public function dueRentInNext30DaysNotification(){
-    $rentalsDueInNext30Days = TenantRent::whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")->with(['users'])
+    $rentalsDueInNext30Days = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")->with(['users'])
                 ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($rentalsDueInNext30Days){
@@ -365,12 +461,22 @@ return 'Done';
 
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $rentalsDueInNext30Days2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
+           $rentalsDueInNext30Days2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+        ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)")
     ->sum('tenant_rents.balance');
 
@@ -382,7 +488,12 @@ return 'Done';
 }
 
       public function pastDueRentsNotification(){
-    $past_due_rents = TenantRent::whereRaw("due_date < CURDATE()")->with(['users'])
+    $past_due_rents = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null]
+        ])
+    ->whereRaw("due_date < CURDATE()")->with(['users'])
                 ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
                 $the_users=[];
                 if($past_due_rents){
@@ -393,12 +504,22 @@ return 'Done';
 
         foreach ($all_users as $key => $user) {
             $userDetail = User::where('id',$user->id)->first();
-           $past_due_rents2 = TenantRent::where('tenant_rents.user_id',$user->id)
-           ->whereRaw("due_date < CURDATE()")
+           $past_due_rents2 = TenantRent::where([
+            ['amount','!=',null],
+            ['startDate','!=',null],
+            ['due_date','!=',null],
+            ['tenant_rents.user_id',$user->id]
+          ])
+        ->whereRaw("due_date < CURDATE()")
         ->orderBy('tenant_rents.id', 'desc')->select('tenant_rents.*',DB::raw('TIMESTAMPDIFF(DAY,CURDATE(),tenant_rents.due_date) AS remaingdays'))->get();
 
         $totalRentsNotPaid = DB::table('tenant_rents')
-    ->where('user_id',$user->id)
+        ->where([
+                ['amount','!=',null],
+                ['startDate','!=',null],
+                ['due_date','!=',null],
+                ['user_id',$user->id]
+          ]) 
     ->whereRaw("due_date < CURDATE()")
     ->sum('tenant_rents.balance');
 //dd($totalRentsNotPaid);
@@ -409,6 +530,6 @@ PastDueRentNotificationJob::dispatch($userDetail,$past_due_rents2,$totalRentsNot
 return 'Done';
   }
 }
- 
+
 }
 

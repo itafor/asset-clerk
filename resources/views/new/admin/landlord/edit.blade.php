@@ -36,36 +36,6 @@
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Edit Landlord') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('designation') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-category">{{ __('Designation') }}</label>
-                                    <select name="designation" id="" class="form-control" required autofocus>
-                                        <option value="">Select Designation</option>
-                                        <option {{$landlord->designation == 'Mr' ? 'selected' : ''}}>Mr</option>
-                                        <option {{$landlord->designation == 'Mrs' ? 'selected' : ''}}>Mrs</option>
-                                        <option {{$landlord->designation == 'Miss' ? 'selected' : ''}}>Miss</option>
-                                    </select>
-
-                                    @if ($errors->has('designation'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('designation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-gender">{{ __('Gender') }}</label>
-                                    <select name="gender" id="" class="form-control" required>
-                                        <option value="">Select Gender</option>
-                                        <option {{$landlord->gender == 'Male' ? 'selected' : ''}}>Male</option>
-                                        <option {{$landlord->gender == 'Female' ? 'selected' : ''}}>Female</option>
-                                    </select>
-                                    
-                                    @if ($errors->has('gender'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('gender') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div style="clear:both"></div>
 
                                 <div class="form-group{{ $errors->has('firstname') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-firstname">{{ __('First Name') }}</label>
@@ -87,94 +57,14 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div style="clear:both"></div>         
-
-                                <div class="form-group{{ $errors->has('date_of_birth') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-date_of_birth">{{ __('Date of Birth') }}</label>
-                                    <input type="text" name="date_of_birth" id="input-date_of_birth" class="datepicker form-control form-control-alternative{{ $errors->has('date_of_birth') ? ' is-invalid' : '' }}" placeholder="Select Date of Birth" value="{{old('date_of_birth',formatDate($landlord->date_of_birth,'Y-m-d','d/m/Y'))}}" required>
-
-                                    @if ($errors->has('date_of_birth'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('date_of_birth') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('occupation') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-occupation">{{ __('Occupation') }}</label>
-                                    <input type="text" name="occupation" id="input-occupation" class="form-control form-control-alternative{{ $errors->has('occupation') ? ' is-invalid' : '' }}" placeholder="Enter Occupation" value="{{old('occupation',$landlord->occupation)}}" required>
-                                    {{-- <select name="occupation" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" required>
-                                        <option value="">Select Occupation</option>
-                                        @foreach (getOccupations() as $oc)
-                                            <option value="{{$oc->id}}" {{old('occupation', $landlord->occupation_id) == $oc->id ? 'selected' : ''}}>{{$oc->name}}</option>
-                                        @endforeach
-                                    </select> --}}
-                                    @if ($errors->has('occupation'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('occupation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
                                 <div style="clear:both"></div>                         
                             </div>
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Contact Address') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('country') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-country">{{ __('Country') }}</label>
-                                    <select name="country" class="form-control country1" required>
-                                        <option value="">Select Country</option>
-                                        @foreach (getCountries() as $c)
-                                            <option value="{{$c->id}}" {{$c->id == $landlord->country_id ? 'selected' : ''}}>{{$c->name}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('country'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('country') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('state') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-state">{{ __('State') }}</label>
-                                    <select name="state" class="form-control state1" required>
-                                        <option value="">Select State</option>
-                                        @foreach (getStates($landlord->country_id) as $state)
-                                            <option value="{{$state->id}}" {{$state->id == $landlord->state_id ? 'selected' : ''}}>{{$state->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    
-                                    @if ($errors->has('state'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('state') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                              
+                            
                                 <div style="clear:both"></div>                         
-                                <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}" style="width:47%; float:left">
-                                    <label class="form-control-label" for="input-city">{{ __('City') }}</label>
-                                    <select name="city" class="form-control city1" required>
-                                        <option value="">Select City</option>
-                                        @foreach (getCities($landlord->state_id) as $city)
-                                            <option value="{{$city->id}}" {{$city->id == $landlord->city_id ? 'selected' : ''}}>{{$city->name}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('city'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('city') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}" style="width:50%; float:right">
-                                    <label class="form-control-label" for="input-state">{{ __('Address') }}</label>
-                                    <input type="text" name="address" id="input-address" class="form-control form-control-alternative{{ $errors->has('address') ? ' is-invalid' : '' }}" placeholder="Enter Address" value="{{old('address', $landlord->address)}}" required>
-                                    
-                                    @if ($errors->has('address'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('address') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                         
                                 <div style="clear:both"></div>                           
                                 <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}" style="width:47%; float:left">
                                     <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
@@ -199,19 +89,8 @@
                                 <div style="clear:both"></div>                         
                             </div>
 
-                            <h6 class="heading-small text-muted mb-4">{{ __('Passport') }}</h6>
                             <div class="pl-lg-4">
-                                <div class="form-group{{ $errors->has('passport') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-passport">{{ __('Passport') }}</label>
-                                    <input type="file" name="passport" id="input-passport" class="form-control form-control-alternative{{ $errors->has('passport') ? ' is-invalid' : '' }}">
-                                    
-                                    @if ($errors->has('passport'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('passport') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="text-center">
+                                                               <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save Changes') }}</button>
                                 </div>
                             </div>

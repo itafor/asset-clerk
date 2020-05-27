@@ -10,6 +10,7 @@ use App\ServiceCharge;
 use App\Subscription;
 use App\Tenant;
 use App\TenantProperty;
+use App\TenantRent;
 use App\Unit;
 use App\User;
 use Carbon\Carbon;
@@ -39,6 +40,24 @@ class UtilsController extends Controller
         ->select('uuid','description','price')->get();
         return response()->json($assets);
     }
+
+  public function fetchAllocatedProperty($tenant_uuid)
+    {
+      $assets = TenantRent::where('tenant_rents.tenant_uuid',$tenant_uuid)
+                ->join('assets','assets.uuid','=','tenant_rents.asset_uuid')
+                ->select('assets.*')->get();
+        return response()->json($assets);
+    }
+
+     public function fetchPropertyType($asset_uuid)
+    {
+      $units = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)
+                ->join('units','units.uuid','=','tenant_rents.unit_uuid')
+                ->join('property_types','property_types.id','=','units.property_type_id')
+                ->select('property_types.*','tenant_rents.*','units.uuid as unitUuid')->get();
+        return response()->json($units);
+    }
+
     
     public function fetchServiceCharge($type)
     {
@@ -85,11 +104,32 @@ class UtilsController extends Controller
         $property = Asset::where('uuid', $property)->first();
         if($property){
             $units = Unit::where('asset_id', $property->id)
-            ->join('categories as c', 'c.id', '=', 'units.category_id')
-            ->select('units.*', 'c.name')
-            ->where('units.quantity_left', '>', 0)
+            ->join('property_types', 'property_types.id', '=', 'units.property_type_id')
+            ->select('units.*','property_types.name as propertyType','units.quantity as qty','units.quantity_left as qty_left','units.uuid as unitUuid')
+            ->where('units.quantity_left','>=',0)
             ->get();
             return response()->json($units);
+        }
+        else{
+            return [];
+        }
+    }
+
+    public function analyseProperty($unit_uuid)
+    {
+        $unit = Unit::where('uuid', $unit_uuid)->first();
+        if($unit){
+     $numberOfFlat = array();
+     for ($i=1;$i<=$unit->quantity; $i++){
+    $numberOfFlat[] = $i;
+        }
+
+            // $units = Unit::where('asset_id', $propertyAnalysis->id)
+            // ->get();
+            return response()->json([
+                'asskingPrice'=>$unit->standard_price,
+                'flats'=> $numberOfFlat,
+            ]);
         }
         else{
             return [];
@@ -101,9 +141,8 @@ class UtilsController extends Controller
         //$tenant = Tenant::where('uuid', $tenant_uuid)->first();
         if($tenant_uuid){
             $units = TenantProperty::where('tenant_uuid', $tenant_uuid)
-            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
-            ->select('u.*', 'tenant_properties.property_proposed_pice as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
+            ->select('assets.price as propertyProposedPice','assets.description as propertyName','assets.uuid as propertyUuid')
             ->groupby('tenant_properties.property_uuid')
             ->get();
             return response()->json($units);
@@ -139,12 +178,12 @@ class UtilsController extends Controller
         }
     }
 
-public function fetchTenantAddedToUnit($unitUuid){
-if($unitUuid){
-            $units = TenantProperty::where('unit_uuid',$unitUuid)
-            ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
+public function fetchTenantAddedToAsset($asset_uuid){
+if($asset_uuid){
+            $units = TenantProperty::where('property_uuid',$asset_uuid)
+            // ->join('units as u', 'u.uuid', '=', 'tenant_properties.unit_uuid')
             ->join('assets', 'assets.uuid', '=', 'tenant_properties.property_uuid')
-            ->join('categories as c', 'c.id', '=', 'u.category_id')
+            // ->join('categories as c', 'c.id', '=', 'u.category_id')
             ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
             ->select('tn.*')
             ->get();
@@ -154,6 +193,55 @@ if($unitUuid){
             return [];
         }
 }
+
+public function fetchTenantAddedToRental(Request $request){
+ if($request->get('asset')){
+  $asset_uuid = $request->get('asset');
+
+$rentals = TenantRent::where('tenant_rents.asset_uuid',$asset_uuid)->get();
+      if(count($rentals) <=0 ){
+              echo  $output = "No tenant allocated to the selected property";  
+
+            }else{
+
+           $output = '';
+
+              $output .= '
+                    <table class="table table-striped table-bordered table-hover datatable">
+                    <thead>
+                      <tr>
+                          <th>
+                          <input id="selectAll" type="checkbox" value="Check All" onclick="selectAllAllocation()"> <span id="selectAllTest">Select all</span>
+
+                           <input id="deselectAll" type="checkbox" value="Check All" onclick="unSelectAllAllocation()" style="display: none;">
+                           <span id="deselectAllTest" style="display: none;">Deselect all</span>
+                          </th>
+
+                          <th><b>Tenant Name</b></th>
+                          <th><b>Property Type</b></th>
+                          <th><b>Unit</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    ';
+        foreach($rentals as $rental){
+$output .= '<tr>';
+$output.='<td>
+<input type="checkbox" id="tenant_rent_id'.$rental->id.'" name="tenant_rent_id[]" value="'.$rental->id.'" required></td>';
+      $output.='<td>'.$rental->tenant->firstname.' '.$rental->tenant->lastname.'</td>';
+      $output.='<td>'.$rental->unit->propertyType->name .'</td>';
+      $output.='<td>'.$rental->flat_number .'</td>';
+            $output .= '</tr>';
+          }
+$output .= '</tbody></table>';
+   
+      }
+       echo $output;
+    }
+        
+}
+
     public function resendVerification()
     {
         try{
@@ -289,4 +377,21 @@ if($unitUuid){
     public function refreshCaptcha() {
         return response()->json(['captcha'=>captcha_img()]);
     }
+
+    public function checkOccupiedAsset($asset_uuid){
+if($asset_uuid){
+            $asset = Asset::where('uuid',$asset_uuid)
+            ->where('status','Occupied')
+            ->first();
+            if($asset){
+                $tenant = TenantProperty::where('property_uuid',$asset->uuid)
+                ->join('tenants as tn', 'tn.uuid', '=', 'tenant_properties.tenant_uuid')
+            ->select('tn.*')->first();
+            return response()->json($tenant);
+            }
+        }
+        else{
+            return [];
+        }
+}
 }

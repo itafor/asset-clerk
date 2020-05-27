@@ -76,7 +76,7 @@ Route::get('/edit/{uuid}', 'AssetController@edit')->name('asset.edit');
 Route::post('/update', 'AssetController@update')->name('asset.update');
 Route::post('/assign', 'AssetController@assign')->name('asset.assign');
 Route::get('/delete/{uuid}', 'AssetController@delete')->name('asset.delete');
-Route::get('/delete-unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
+Route::get('/delete/unit/{id}', 'AssetController@deleteUnit')->name('asset.delete.unit');
 Route::get('/delete-service/{id}', 'AssetController@deleteService')->name('asset.delete.service');
 Route::get('/tenants-service-charge/{id}', 'AssetController@tenantsServiceCharge')->name('asset.tenants.service');
 
@@ -84,6 +84,7 @@ Route::get('/get-tenants-service-charge/{id}', 'AssetController@getTenantsServic
 
 Route::post('/new-service-charge', 'AssetController@add_Service_Charge')->name('addserviceCharge');
 Route::get('/create-service-charge', 'AssetController@createServiceCharge')->name('asset.service.create');
+Route::get('/create/service/charge/rental', 'AssetController@createServiceChargewithRental')->name('asset.service.create.rental');
 
 Route::get('/remove-from-service-charge/{sc_id}/{tenant_id}', 'AssetController@removeTenantFromCS')->name('remove.tenant.from.sc');
 
@@ -98,8 +99,15 @@ Route::get('/get-asset-location/{asset_id}', 'AssetController@getAssetLocation')
 Route::post('/service-charges', 'AssetController@search_Service_Charge')->name('search.service.charge');
 
 Route::post('/add-unit', 'AssetController@addUnit')->name('asset.unit.add');
-Route::get('/service-charges', 'AssetController@serviceCharges')->name('service.charges');
-Route::get('/delete-image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
+Route::get('/service/charges/add', 'AssetController@addServiceCharges')->name('service.add');
+Route::get('/delete/image/{id}', 'AssetController@deleteImage')->name('asset.delete.image');
+Route::get('/view/details/{assetUuid}', 'AssetController@viewDetails')->name('asset.view.details');
+
+Route::post('/add/photos', 'AssetController@addPhotos')->name('asset.add.photos');
+Route::post('/add/feature', 'AssetController@addAssetFeatures')->name('asset.add.feature');
+Route::get('/delete/feature/{id}', 'AssetController@deleteFeature')->name('asset.delete.feature');
+
+
 });
 
 Route::prefix('service-charge')->group(function(){
@@ -111,6 +119,9 @@ Route::get('/fetch-tenant-service-charge/{id}', 'AssetServiceChargeController@ge
 Route::get('/fetch-service-charge-amount/{id}/{tenantId}', 'AssetServiceChargeController@getServiceChargeAmount')->name('fetch.service.charge.amount');
 
 Route::get('/service-charge-payment-histories', 'AssetServiceChargeController@getServiveChargePaymentHistory')->name('fetch.service.charge.payment.history');
+
+Route::get('/service/charges', 'AssetServiceChargeController@serviceCharges')->name('service.charges');
+
 });
 
 
@@ -150,6 +161,9 @@ Route::post('/store', 'LandlordController@store')->name('landlord.store');
 Route::get('/edit/{uuid}', 'LandlordController@edit')->name('landlord.edit');
 Route::post('/update', 'LandlordController@update')->name('landlord.update');
 Route::get('/delete/{uuid}', 'LandlordController@delete')->name('landlord.delete');
+Route::get('/search', 'LandlordController@searchLandlord')->name('landlord.search');
+Route::get('fetch-landland/{id}', 'LandlordController@fetchLandlord')->name('landlord.fetch');
+
 });
 Route::prefix('rental')->group(function(){
 Route::get('/', 'RentalController@index')->name('rental.index');
@@ -164,7 +178,15 @@ Route::get('/yes-renew-rental/{uuid}', 'RentalController@yesRenewRent')->name('r
 Route::get('/no-renew-rental/{uuid}', 'RentalController@noRenewRent')->name('renewable.no');
 Route::get('/delete/{uuid}', 'RentalController@delete')->name('rental.delete');
 Route::get('/view-detail/{uuid}', 'RentalController@viewDetail')->name('rental.view.detail');
+Route::get('/add-rental/{uuid}', 'RentalController@addRental')->name('rental.add');
+Route::post('/save/rental', 'RentalController@saveRental')->name('rental.save');
+Route::get('/rental/allocation', 'RentalController@displayAllocton')->name('allocation.view');
+});
 
+Route::prefix('allocation')->group(function(){
+Route::get('/', 'AllocationController@index')->name('allocation.index');
+Route::get('/create', 'AllocationController@create')->name('allocation.create');
+Route::post('/store', 'AllocationController@store')->name('rent.allocation.store');
 });
 
 Route::prefix('rent-payment')->group(function(){
@@ -213,6 +235,27 @@ Route::get('/get-tenant-email/{id}','TenantController@getTenantEmail')->name('te
 
 });
 
+//Multi-step forms
+Route::prefix('multi-step')->group(function(){
+
+Route::post('/multi-step-store-landlord', 'MultiStepFormController@multiStepOneStoreLandlord')->name('multi-step.storelandlord');
+Route::post('/multi-step-store-asset', 'MultiStepFormController@multiStepTwoStoreAsset')->name('multi-step.storeAsset');
+Route::post('/multi-step-store-tenant', 'MultiStepFormController@multiStepThreeStoreTenant')->name('multi-step.storeTenant');
+
+Route::post('/multi-step-store-rental', 'MultiStepFormController@multiStepFourStoreRental')->name('multi-step.storeRental');
+
+Route::post('/multi-step-store-rental-payment', 'MultiStepFormController@multiStepFiveStoreRentalPayment')->name('multi-step.storeRentalPayment');
+
+Route::get('/asset/store', 'MultiStepFormController@nextToAsset')->name('multi-step.get.asset');
+Route::get('/landlord/store', 'MultiStepFormController@backToLandlord')->name('multi-step.get.landlord');
+
+Route::get('/next/summary', 'MultiStepFormController@nextToSummary')->name('multi-step.next.to.summary');
+
+Route::get('/done', 'MultiStepFormController@done')->name('multi-step.done');
+
+});
+
+
 Route::prefix('report')->group(function(){
 Route::get('assets-report', 'ReportController@assetReport')->name('report.assetreport');
 Route::post('assets-report', 'ReportController@getAssetReport')->name('report.get_asset_report');
@@ -238,10 +281,15 @@ Route::post('show-my-portFolio-report', 'ReportController@myPortfolioReport')->n
 Route::get('fetch-states/{country}', 'UtilsController@fetchState');
 Route::get('fetch-cities/{state}', 'UtilsController@fetchCity');
 Route::get('fetch-assets/{category}', 'UtilsController@fetchAssets');
+Route::get('fetch-allocated-property/{tenant_uuid}', 'UtilsController@fetchAllocatedProperty');
+Route::get('fetch-property-type/{uuid}', 'UtilsController@fetchPropertyType');
 Route::get('fetch-units/{property}', 'UtilsController@fetchUnits');
+Route::get('analyse-property/{property}', 'UtilsController@analyseProperty');
 Route::get('fetch-tenants-assigned-to-asset/{tenant_uuid}', 'UtilsController@fetchPropertiesAssignToTenant');
 Route::get('fetch-units-assigned-to-tenant/{property}/{selected_tenant_uuid}', 'UtilsController@fetchUnitsAssignToTenant');
-Route::get('fetch-tenants-added-to-assetunit/{unit_uuid}', 'UtilsController@fetchTenantAddedToUnit');
+Route::get('fetch-tenants-added-to-asset/{asset_uuid}', 'UtilsController@fetchTenantAddedToAsset');
+Route::get('fetch-tenants-added-to-rental/{asset_uuid}', 'UtilsController@fetchTenantAddedToRental');
+Route::get('check-occupied-assets/{asset_uuid}', 'UtilsController@checkOccupiedAsset');
 
 Route::get('fetch-service-charge/{type}', 'UtilsController@fetchServiceCharge');
 Route::get('fetch-service-charge-by-property/{property}', 'UtilsController@fetchServiceChargeByProperty');
@@ -256,11 +304,11 @@ Route::get('/validate-selected-date/{selected_date}', 'UtilsController@validateS
 //captcha routes
 Route::get('refresh-captcha','UtilsController@refreshCaptcha')->name('catpcha.refresh');
 //cron job's routes
+Route::get('notify-due-rent-at50percent', 'RentalController@notifyDueRentAt50Percent');
 Route::get('notify-due-rent-at25percent', 'RentalController@notifyDueRentAt25Percent');
-Route::get('notify-due-rent-at12percent', 'RentalController@notifyDueRentAt12Percent');
-Route::get('notify-due-rent-at6percent', 'RentalController@notifyDueRentAt6Percent');
+Route::get('notify-due-rent-at13percent', 'RentalController@notifyDueRentAt13Percent');
 Route::get('notify-due-rent-at0percent', 'RentalController@notifyDueRentAt0Percent');
-Route::get('renew-rental-job-at50percent', 'RentalController@renewRentalsAt50Percent');
+Route::get('renew-rental-job-at60percent', 'RentalController@renewRentalsAt60Percent');
 Route::get('plan-upgrade-notification', 'RentalController@planUpgradeNotification');
 Route::get('rent-due-in-next-ninetydays', 'RentalController@dueRentInNext90DaysNotification');
 Route::get('rent-due-in-next-thirdtydays', 'RentalController@dueRentInNext30DaysNotification');

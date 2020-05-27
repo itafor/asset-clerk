@@ -42,10 +42,10 @@
                 <!-- Tables -->
                 <div class="table-responsive">
                   <!-- table-bordered  -->
-<table class="table table-hover ">
+<table class="table table-hover table-bordered">
   <tr>
     <td><b>Tenant Name</b> : </td> <td>{{$rental3->tenant ? $rental3->tenant->name() : ''}}</td>
-     <td><b>Unit</b> : </td>  <td>{{$rental3->unit->category ? $rental3->unit->category->name : ''}}</td>
+     <td><b>Unit</b> : </td>  <td>{{$rental3->flat_number ? $rental3->flat_number : 'N/A'}}</td>
  <td><b>Rental Start Date</b> : <td>{{formatDate($rental3->startDate, 'Y-m-d', 'd M Y')}}</td>
   </tr>
 

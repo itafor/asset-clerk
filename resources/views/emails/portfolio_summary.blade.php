@@ -220,22 +220,42 @@ Please fine below your account summary
                             <tr>
                                 <th scope="">S/N</th>
                                 <th scope="">Asset</th>
-                                <th scope="">Number of Units</th>
-                                <th scope="">Properties per Unit</th>
+                                <th scope="" rowspan="8">Unit</th>
                             </tr>
                         </thead>
                         <tbody>
                  @foreach($assets as $asset)
-                                    <tr>
+                 <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{$asset->description}}</td>
-                  <td>{{$asset->units->count()}}</td>
-                  <td>
-                    @foreach($asset->units as $unit)
-                    ({{$unit->uuid}}) : {{$unit->quantity}} Property(ies),
-              @endforeach
+                  @if($asset->units)
 
-                  </td>
+                    <table class="table table-striped table-bordered table-hover datatable">
+                    <thead>
+                      <tr>
+                          <th>No</th>
+                          <th><b>Property Type</b></th>
+                          <th><b>Price</b></th>
+                          <th><b>Rooms</b></th>
+                          <th><b>Units</b></th>
+                          <th><b>Units Left</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                   @foreach($asset->units as $unit)
+                      <tr>
+                          <td>{{$loop->iteration}}</td>
+                          <td> {{$unit->propertyType ? $unit->propertyType->name : 'N/A'}}</td>
+                          <td> &#8358;{{number_format($unit->standard_price,2)}}</td>
+                          <td>{{$unit->number_of_room}} BR</td>
+                          <td>{{$unit->quantity}}</td>
+                          <td>{{$unit->quantity_left}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+               
+                  @endif
                    </tr>
               @endforeach
                         </tbody>

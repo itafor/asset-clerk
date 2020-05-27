@@ -34,50 +34,51 @@ class Landlord extends Model
 
     public static function createNew($data)
     {
-        $passport = uploadImage($data['passport']);
+        // $passport = uploadImage($data['passport']);
 
-        self::create([
-            'designation' => $data['designation'],
-            'gender' => $data['gender'],
+     $landlord =   self::create([
+            // 'designation' => $data['designation'],
+            // 'gender' => $data['gender'],
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
-            'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
-            'occupation' => $data['occupation'],
+            // 'date_of_birth' => formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d'),
+            // 'occupation' => $data['occupation'],
             // 'occupation_id' => $data['occupation'],
-            'country_id' => $data['country'],
-            'state_id' => $data['state'],
-            'city_id' => $data['city'],
-            'address' => $data['address'],
+            // 'country_id' => $data['country'],
+            // 'state_id' => $data['state'],
+            // 'city_id' => $data['city'],
+            // 'address' => $data['address'],
             'email' => $data['email'],
             'phone' => $data['contact_number'],
-            'photo' => $passport,
+            // 'photo' => $passport,
             'uuid' => generateUUID(),
             'user_id' => getOwnerUserID()
         ]);
+     return $landlord;
     }
 
     public static function updateLandlord($data)
     {
         $landlord = self::where('uuid', $data['uuid'])->first();
-        $landlord->designation = $data['designation'];
-        $landlord->gender = $data['gender'];
+        // $landlord->designation = $data['designation'];
+        // $landlord->gender = $data['gender'];
         $landlord->firstname = $data['firstname'];
         $landlord->lastname = $data['lastname'];
-        $landlord->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
-        $landlord->occupation = $data['occupation'];
+        // $landlord->date_of_birth = formatDate($data['date_of_birth'], 'd/m/Y', 'Y-m-d');
+        // $landlord->occupation = $data['occupation'];
         // $landlord->occupation_id = $data['occupation'];
-        $landlord->country_id = $data['country'];
-        $landlord->state_id = $data['state'];
-        $landlord->city_id = $data['city'];
-        $landlord->address = $data['address'];
+        // $landlord->country_id = $data['country'];
+        // $landlord->state_id = $data['state'];
+        // $landlord->city_id = $data['city'];
+        // $landlord->address = $data['address'];
         $landlord->email = $data['email'];
         $landlord->phone = $data['contact_number'];
-        if(isset($data['passport'])){
-            $passport = uploadImage($data['passport']);
-            if($passport){
-                $landlord->photo = $passport;
-            }
-        }
+        // if(isset($data['passport'])){
+        //     $passport = uploadImage($data['passport']);
+        //     if($passport){
+        //         $landlord->photo = $passport;
+        //     }
+        // }
         $landlord->save();
     }
 }

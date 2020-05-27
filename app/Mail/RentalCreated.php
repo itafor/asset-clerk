@@ -13,6 +13,7 @@ class RentalCreated extends Mailable
 
     public $rental;
     public $companyDetail;
+    public $user;
     /**
      * Create a new message instance.
      *
@@ -21,8 +22,9 @@ class RentalCreated extends Mailable
     public function __construct($rental)
     {
         $this->rental = $rental;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->landlord = $rental->asset->Landlord ? $rental->asset->Landlord : '';
          $this->companyDetail = comany_detail($rental->user_id);
+         $this->user = Userdetails($rental->user_id);
     }
 
     /**
@@ -35,6 +37,6 @@ class RentalCreated extends Mailable
         return $this->view('emails.rental')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('New Rental Notification')
-        ->cc($this->landlord->email, $this->landlord->name());
+         ->cc($this->user ? $this->user->email:'noreply@assetclerk.com', $this->user  ?  $this->user->firstname : 'Asset clerk');
     }
 }

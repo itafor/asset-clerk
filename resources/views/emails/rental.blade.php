@@ -106,13 +106,7 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            @if(getUserPlan()['details']->name == 'Free')
-                            <a href="http://assetclerk.com/">
-                        <img src="{{ asset('img/companydefaultlogo.png')}}" alt="Asset Clerk" title="Asset Clerk" width="50" height="40" >
-                            </a> 
-                            @else
-                              @include('new.layouts.email_logo')
-                            @endif
+                      
                             
                             <td style="text-align:right">
                                 
@@ -126,22 +120,24 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
+                            <!-- <td>
                                 <b>Address:</b><br>
-                               {{$rental->unit->getTenant()->address}}
-                            </td>
+                               {{$rental->tenant->address}}
+                            </td> -->
                             
                             <td style="text-align:right">
-                                {{$rental->unit->getTenant()->name()}} <br>
-                                {{$rental->unit->getTenant()->email}}
+                                 {{$rental->tenant->firstname}}
+                                {{$rental->tenant->lastname}} <br>
+                                {{$rental->tenant->email}}
                             </td>
                         </tr>
 
                          <tr>
                             <td colspan="2">
-                                Dear {{$rental->unit->getTenant()->name()}},<br>
+                                Dear  {{$rental->tenant->firstname}}
+                                {{$rental->tenant->lastname}} ,<br>
                                 <em>
-                               This is to notify you that, You have just been assigned to {{$rental->unit->category->name}} bedroom flat in {{$rental->unit->getProperty()->description}}
+                               This is to notify you that, You have just been assigned to {{$rental->asset->description}}
                                  <br/>
                                   Please find below rental information.
                                 </em>
@@ -163,10 +159,47 @@
             
             <tr class="details">
                 <td colspan="2">
-                    {{$rental->unit->getProperty()->description}} - {{$rental->unit->category->name}} bedroom
+                   {{$rental->asset->description}}
+                </td>
+            </tr>
+
+              <tr class="heading">
+                <td>
+                    Property Type
+                </td>
+                
+                <td>
+                  
                 </td>
             </tr>
             
+            <tr class="details">
+                <td colspan="2">
+               @if($rental->unit)
+                         @if($rental->unit->propertyType)
+                         {{$rental->unit->propertyType->name}}
+                         @endif
+                         @else
+                         <span>N/A</span>
+                         @endif
+                </td>
+            </tr>
+
+             <tr class="heading">
+                <td>
+                   UNIT
+                </td>
+                
+                <td>
+                  
+                </td>
+            </tr>
+               <tr class="details">
+                <td colspan="2">
+{{$rental->flat_number ? $rental->flat_number : 'N/A'}}
+                </td>
+            </tr>
+              
             <tr class="heading">
                 <td>
                   Rent Details

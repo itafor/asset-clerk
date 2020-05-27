@@ -31,8 +31,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $user_role = Auth::user()->role;
         if ($user_role !== 'admin') {
+            $next_step_landlord = '';
             $rentals = TenantRent::where('user_id', getOwnerUserID())
                 ->orderBy('id', 'desc')->get();
 
@@ -54,7 +56,7 @@ class HomeController extends Controller
                 'rentalsDue' => $rentalsDueInNextThreeMonths,
                 'rentalsDueNotPaid' => $rentalsDueNotPaid,
             ];
-            return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals'),$data);
+            return view('new.dashboard',compact('rentalsDueInNextThreeMonths','renewedRentals','next_step_landlord'));
         } else {
             $users = User::where('role', 'agent')->count();
             $landlords = Landlord::count();

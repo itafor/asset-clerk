@@ -40,7 +40,7 @@
                         <th>No</th>
                         <th><b>Property</b></th>
                         <th><b>Location</b></th>
-                        <th><b>Units</b></th>
+                        <!-- <th><b>Units</b></th> -->
                         <th class="text-center"><b>Action</b></th>
                     </tr>
                     </thead>
@@ -55,21 +55,24 @@
                             </td>
                             <td>{{ $asset->description }}</td>
                             <td>{{ $asset->address }}</td>
-                            <td>
+                           <!--  <td>
                                 <a href="#x" data-toggle="modal" data-target="#unit{{$i}}" class="text-underline">{{ $asset->units ? $asset->units->count() : 0 }}</a>
-                            </td>
+                            </td> -->
                             <td class="text-center">
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-success" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Action
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                         <a href="{{ route('asset.view.details', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">View</a>
+
                                         <a href="#x" data-toggle="modal" data-target="#assignModal{{$i}}" class="dropdown-item">Assign</a>
                                        
-                                        <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a>
+                                    <!--     <a href="#x" data-toggle="modal" data-target="#unitModal" data-asset="{{$asset->id}}" class="dropdown-item addUnit">Add Unit(s)</a> -->
 
 
-                                         <a href="{{ route('asset.servicecharges', ['id'=>$asset->id]) }}" class="dropdown-item">Service charge(s)</a>
+                                         <!-- <a href="{{ route('asset.servicecharges', ['id'=>$asset->id]) }}" class="dropdown-item">Service charge(s)</a> -->
                                        
 
                                         <a href="{{ route('asset.edit', ['uuid'=>$asset->uuid]) }}" class="dropdown-item">Edit</a>
@@ -103,7 +106,7 @@
 
         </div>
         <!-- /grid -->
-        @include('new.admin.assets.partials.addUnit')
+        
 @endsection
 
 @section('script')

@@ -16,16 +16,18 @@ class ServiceChargeInvoiceJob implements ShouldQueue
 
  public $tenant;
  public $service_charge;
+ public $rental;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($tenant,$service_charge)
+    public function __construct($tenant,$service_charge,$rental)
     {
         $this->tenant = $tenant;
         $this->service_charge = $service_charge;
-
+        $this->rental = $rental;
     }
 
     /**
@@ -36,6 +38,6 @@ class ServiceChargeInvoiceJob implements ShouldQueue
     public function handle()
     {
          $toEmail = $this->tenant->email;
-        Mail::to($toEmail)->send(new ServiceChargeInvoiceMail($this->tenant,$this->service_charge));
+        Mail::to($toEmail)->send(new ServiceChargeInvoiceMail($this->tenant,$this->service_charge,$this->rental));
     }
 }

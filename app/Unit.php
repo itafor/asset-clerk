@@ -2,14 +2,15 @@
 
 namespace App;
 
+use App\TenantProperty;
 use App\TenantRent;
 use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model
 {
     protected $fillable = [
-        'asset_id','user_id','plan_id','category_id', 'quantity','rent_commission','standard_price', 'quantity_left', 'uuid',
-        'property_type_id','apartment_type'
+        'asset_id','user_id','plan_id','category_id', 'quantity','rent_commission','standard_price','unitname','status','quantity_left', 'uuid',
+        'property_type_id','apartment_type','number_of_room'
     ];
 
     public function category()
@@ -48,6 +49,15 @@ class Unit extends Model
     public function getTenant()
     {
         $rental = TenantRent::where('unit_uuid', $this->uuid)
+        ->latest()->with('tenant')->first();
+         if($rental){
+        return $rental->tenant;
+        }
+    }
+
+    public function getTenantWithoutRent()
+    {
+        $rental = TenantProperty::where('unit_uuid', $this->uuid)
         ->latest()->with('tenant')->first();
          if($rental){
         return $rental->tenant;

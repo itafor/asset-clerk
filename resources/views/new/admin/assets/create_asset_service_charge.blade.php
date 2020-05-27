@@ -41,27 +41,12 @@
                     @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add Service Charge</h5>
-                   <section>
 
-
-      <div class="input-group mb-2 mr-sm-2">
-    <div class="input-group-prepend">
-      <div class="input-group-text all-tenant-label">Add all tenants</div>
-    </div>
-
-        <div class="checkboxFour">
-        <input type="checkbox" value="1" id="checkboxFourInput" name="" />
-        <label for="checkboxFourInput"></label>
-    </div>
-
-  </div>
-
-</section>
                 </div>
                 <div class="modal-body" style="text-align:left">
                           <div class="row">
 
-                             <div class="form-group col-3">
+                             <div class="form-group col-4">
                                 <label class="form-control-label" for="input-category">{{ __('Property (Asset)') }}</label>
                                 <div>
                                     <select name="asset" id="asset" class="form-control asset" style="width:100%" required>
@@ -73,7 +58,7 @@
                                 </select>
                                 </div>
                             </div>
-                                <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
+                               <!--  <div class="form-group{{ $errors->has('unit') ? ' has-danger' : '' }} col-3">
                                         <label class="form-control-label" for="input-unit">{{ __('Unit') }}</label>
                                         <select name="unit" id="unit" class="form-control" required>
                                             <option value="">Select Unit</option>
@@ -84,15 +69,15 @@
                                                 <strong>{{ $errors->first('unit') }}</strong>
                                             </span>
                                         @endif
-                                    </div>
+                                    </div> -->
 
 
-                                <div class="form-group col-3">
+                                <div class="form-group col-4">
                                 <label class="form-control-label" for="input-price">{{ __('Start Date') }}</label>
                                 <input type="text" name="startDate" id="input-startDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
                             </div>
 
-                             <div class="form-group col-3">
+                             <div class="form-group col-4">
                                 <label class="form-control-label" for="input-price">{{ __('Due Date') }}</label>
                                 <input type="text" name="dueDate" id="input-dueDate" class="datepicker form-control" placeholder="Enter Date" autocomplete="off" required>
                             </div>
@@ -101,7 +86,8 @@
                           <div class="row">
 
                             <div class="form-group col-12">
-                                <label class="form-control-label" for="input-category">{{ __('Tenant') }}</label>
+                                <label class="form-control-label" for="input-category">{{ __('Tenants: ') }}
+                                 <button type="button" class="btn btn-xs btn-default" onclick="selectAllTenants()">Select all</button>  <button type="button" class="btn btn-xs btn-default" onclick="deSelectAllTenants()">Deselect all</button></label>
                                 <div>
                                     <select name="tenant_id[]" id="tenant_id" class="form-control chzn-select tenant" style="width:100%" multiple="true" required>
                                     <option value="" selected="selected">Select Tenants</option>
@@ -199,38 +185,35 @@
                 });
  // check whether to select all tenants or not ends
 
-        $('body').on('change', '#unit', function(){
+        $('body').on('change', '#asset', function(){
 
-            var unit = $(this).val();
-            if(unit){
-
+            var asset = $(this).val();
+            if(asset){
                 $('#tenant_id').empty();
                 $('<option>').val('').text('Loading...').appendTo('#tenant_id');
                 $.ajax({
-                    url: baseUrl+'/fetch-tenants-added-to-assetunit/'+unit,
+                    url: baseUrl+'/fetch-tenants-added-to-asset/'+asset,
                     type: "GET",
                     dataType: 'json',
                     success: function(data) {
-                        console.log(data)
+                        if(data !=''){
                         $('#tenant_id').empty();
-
-                         if($allTenants==true){
-                             $('<option>').val('').text('Select tenant').appendTo('#tenant_id');
-                         }else{
-
-                        $('<option>').attr('selected', false).val('').text('Select tenant').appendTo('#tenant_id');
-                         }
-
-
+                        $('<option>').attr('selected', true).val('').text('Select Tenants').appendTo('#tenant_id');
+                       localStorage.setItem('assignedTenants',JSON.stringify(data));
                         $.each(data, function(k, v) {
-                            if($allTenants==true){
-                                $('<option>').attr('selected', true).val(v.id).text(v.designation +'.' + v.firstname + '-'+ v.lastname).appendTo('#tenant_id');
-                            }else{
                                 $('<option>').val(v.id).text(v.designation + '.'+ v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
-                            }
-                            
                         });
+                          }else{
+                        $('#tenant_id').empty();
+                        toast({
+                        type: 'warning',
+                        title: 'Ooops!! No tenant has been added to the selected property'
+                    })
+                         $('<option>').attr('selected', true).val(' ').text('No Tenant found').appendTo('#tenant_id');
+                      localStorage.removeItem('assignedTenants');
+                      }
                     }
+
                 });
             }  else{
                 $('#tenant_id').empty();
@@ -239,42 +222,25 @@
         });
 
 
-$('#asset').change(function(){
-            var property = $(this).val();
-            var selected_tenant_uuid =0;
-            if(property && selected_tenant_uuid ==0){
-                $('#unit').empty();
-                $('<option>').val('').text('Loading...').appendTo('#unit');
-                $.ajax({
-                    url: baseUrl+'/fetch-units-assigned-to-tenant/'+property+'/'+selected_tenant_uuid,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(data) {
-                        if(data !=''){
-                        $('#unit').empty();
-                        $('<option>').val('').text('Select Unit').appendTo('#unit');
-                        $.each(data, function(k, v) {
-                            $('<option>').val(v.uuid).text(v.name+' Bedroom | Qty Left: '+v.quantity_left).attr('data-price',v.standard_price).appendTo('#unit');
-                        });
-                        }else{
-                    toast({
-                        type: 'warning',
-                        title: 'Ooops!! No tenant has been added to the selected property'
-                    })
-                }
-            }
+  function selectAllTenants(){
+      var tenants = localStorage.getItem('assignedTenants');
+        $('#tenant_id').empty();
+               $.each(JSON.parse(tenants), function(k, v) {
+    $('<option>').attr('selected', true).val(v.id).text(v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
+        
      });
-}
-            else{
-                $('#unit').empty();
-                $('<option>').val('').text('Select Unit').appendTo('#unit');
-            }
-        });
+  }
 
+  function deSelectAllTenants(){
+        $('#tenant_id').empty();
+       $('<option>').attr('selected', true).val('').text('Select Tenants').appendTo('#tenant_id');
+     
+     var tenants = localStorage.getItem('assignedTenants');
+        $.each(JSON.parse(tenants), function(k, v) {
+        $('<option>').val(v.id).text(v.designation + '.'+ v.firstname + ' - ' + v.lastname).appendTo('#tenant_id');
+     });
 
-
-
-
+  }
         // Remove parent of 'remove' link when link is clicked.
         $('#containerSC').on('click', '.remove_project_file', function(e) {
             e.preventDefault();

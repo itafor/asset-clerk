@@ -10,4 +10,9 @@ class TenantProperty extends Model
 	use SoftDeletes;
 	
     protected $fillable=['user_id','uuid','property_uuid','unit_uuid','tenant_uuid','property_proposed_pice'];
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_uuid', 'uuid');
+    }
 }

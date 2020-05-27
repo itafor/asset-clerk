@@ -24,7 +24,8 @@ class serviceChargePaid extends Mailable
     public function __construct($serviceChargePayment)
     {
         $this->serviceChargePayment =  $serviceChargePayment;
-        $this->landlord = $serviceChargePayment->getAsset->landlord;
+        $this->landlord = $serviceChargePayment->getAsset->landlord ? $serviceChargePayment->getAsset->landlord : '';
+
         $this->companyDetail = comany_detail($serviceChargePayment->user_id);
     }
 
@@ -38,6 +39,6 @@ class serviceChargePaid extends Mailable
         return $this->view('emails.service_charge_paid')
         ->from($this->companyDetail ? $this->companyDetail->email :'noreply@assetclerk.com', $this->companyDetail ? $this->companyDetail->name :'Asset Clerk')
         ->subject('Service Charge Payment Notification')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->cc($this->landlord != '' ? $this->landlord->email:'noreply@assetclerk.com', $this->landlord != '' ?  $this->landlord->name() : 'Asset clerk');
     }
 }

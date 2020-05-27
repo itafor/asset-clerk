@@ -17,6 +17,8 @@ class RentalRenewed extends Mailable
      public $agent;
      public $companyDetail;
      public $theUser;
+     public $user;
+
     /**
      * Create a new message instance.
      *
@@ -27,9 +29,11 @@ class RentalRenewed extends Mailable
         $this->rental = $rental;
         $this->currentRental = $currentRental;
         $this->theUser = $theUser;
-        $this->landlord = $rental->unit->getProperty()->landlord;
+        $this->landlord = $rental->unit ? $rental->unit->getProperty()->landlord:'';
         $this->agent = $rental->tenant_agent;
         $this->companyDetail = comany_detail($rental->user_id);
+        $this->user = Userdetails($rental->user_id);
+
     }
 
     /**
@@ -41,6 +45,6 @@ class RentalRenewed extends Mailable
     {
         return $this->view('emails.rental_renewed')
         ->subject('Rental Renewal Notification')
-        ->cc($this->landlord->email, $this->landlord->name());
+        ->cc($this->user ? $this->user->email:'noreply@assetclerk.com', $this->user  ?  $this->user->firstname : 'Asset clerk');
     }
 }

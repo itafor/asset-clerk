@@ -17,7 +17,7 @@ class TenantRent extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'tenant_id','previous_rental_id','asset_uuid', 'price','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
+        'tenant_id','previous_rental_id','asset_uuid', 'price','flat_number','amount','startDate', 'user_id', 'status','new_rental_status','renewable','uuid',
         'tenant_uuid', 'unit_uuid', 'duration', 'duration_type', 'due_date','balance'
     ];
 
@@ -40,6 +40,10 @@ class TenantRent extends Model
     {
         return $this->belongsTo(User::class,'user_id', 'id');
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'property_type','id');
+    }
 
     public static function createNew($data)
     {
@@ -59,7 +63,8 @@ class TenantRent extends Model
         $rental = self::create([
             'tenant_uuid' => $data['tenant'],
             'asset_uuid' => $data['property'],
-            'unit_uuid' => $data['unit'],
+            'unit_uuid' => $data['main_unit'],
+            'flat_number' => $data['sub_unit'],
             'price' => $data['price'],
             'amount' => $data['amount'],
             'balance' => $data['amount'],
@@ -73,8 +78,9 @@ class TenantRent extends Model
             'duration' => $final_duration,//star date
             'duration_type' => 'days',
         ]);
-        // self::reduceUnit($data);
-        self::addNextPayment($data, $rental);
+         //self::markUnitAsOccupied($data);
+        //self::addNextPayment($data, $rental);
+        self::reduceUnitQuantityByOne($data, $rental);
         self::addToRentDebtor($data,$rental);
         return $rental;
     }
@@ -93,13 +99,28 @@ class TenantRent extends Model
         ]);
     }
 
-    // public static function reduceUnit($data)
-    // {
-    //     $unit = Unit::where('uuid', $data['unit'])->first();
-    //     $unit->quantity_left -= 1;
-    //     $unit->save();
-    // }
+      public static function reduceUnitQuantityByOne($data)
+    {
+        if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
+            return false;
+        }
 
+        $unit = Unit::where('uuid', $data['main_unit'])->first();
+        $unit->quantity_left -= 1;
+        $unit->save();
+    }
+
+    public static function markUnitAsOccupied($data)
+    {
+        if(isset($data['new_rental_status']) && $data['new_rental_status'] == 'New'){
+            return false;
+        }
+
+        $unit = Unit::where('uuid', $data['main_unit'])->first();
+        $unit->status = 'Occupied';
+        $unit->save();
+    }
+ 
     /**
      * Delete rental
      * Restore units
@@ -164,6 +185,7 @@ if($rental){
     return $rental;
    }
 }
+
 
 }
 
