@@ -86,7 +86,9 @@
             <!-- Site Content -->
             <div class="dt-content">
             <!-- @include('sweetalert::alert') -->
-
+            @if(!check_if_user_upload_comany_detail())
+            @include('company_details_alert')
+            @endif
                 @yield('content')
             </div>
             <!-- /site content -->
