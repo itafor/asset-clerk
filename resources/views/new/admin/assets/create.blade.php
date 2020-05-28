@@ -31,12 +31,12 @@
                 <!-- Card Body -->
                 <div class="dt-card__body">
 
-                    <form method="post" action="{{ route('asset.store') }}" autocomplete="off" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('asset.storeproperty') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Basic information') }}</h6>
                             <div class="row">
-                            <input type="hidden" name="default_quantity" value="1">
+                            <!-- <input type="hidden" name="default_quantity" value="1"> -->
 
                                 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }} col-6">
                                     <label class="form-control-label" for="input-name">{{ __('Property Name (Create a unique name to identify your property)') }}</label>

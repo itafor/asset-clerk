@@ -71,7 +71,7 @@ Route::prefix('asset')->group(function(){
 Route::get('/', 'AssetController@index')->name('asset.index');
 Route::get('/my', 'AssetController@myAssets')->name('asset.my');
 Route::get('/create', 'AssetController@create')->name('asset.create');
-Route::post('/store', 'AssetController@store')->name('asset.store');
+Route::post('/save', 'AssetController@store')->name('asset.storeproperty');
 Route::get('/edit/{uuid}', 'AssetController@edit')->name('asset.edit');
 Route::post('/update', 'AssetController@update')->name('asset.update');
 Route::post('/assign', 'AssetController@assign')->name('asset.assign');
