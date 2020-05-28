@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Asset;
 use App\AssetPhoto;
 use App\AssetServiceCharge;
 use App\Jobs\ServiceChargeInvoiceJob;
@@ -107,10 +108,12 @@ class Asset extends Model
             'plan_id' => $getActivePlan,
             'slot_plan_id' => $getActivePlan
         ]); 
+        
+        $property = Asset::where('id',$asset->id)->first();
 
-        // if($asset){
-        //   self::createUnit($data,$asset);
-        // }
+        if($property){
+          self::createUnit($data,$property);
+        }
         // self::addPhoto($data,$asset); 
         return $asset;
     }
