@@ -163,7 +163,7 @@ class Asset extends Model
                 'standard_price' => $u['standard_price'],
                 'quantity' => $u['quantity'],
                 'quantity_left' => $u['quantity'],
-                'status' => 'vacant',
+                // 'status' => 'vacant',
                 'uuid' => generateUUID(),
             ]);
         }
