@@ -93,7 +93,7 @@ class Asset extends Model
 
     public static function createNew($data)
     {
-        
+       // dd($data);
         $getActivePlan =  activePlanId(getOwnerUserID());
         $asset = self::create([
             'description' => $data['description'],
@@ -108,9 +108,9 @@ class Asset extends Model
             'slot_plan_id' => $getActivePlan
         ]); 
 
-        if($asset){
-          self::createUnit($data,$asset);
-        }
+        // if($asset){
+        //   self::createUnit($data,$asset);
+        // }
         // self::addPhoto($data,$asset); 
         return $asset;
     }
