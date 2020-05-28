@@ -14,7 +14,17 @@ class AddPropertyTypeIdToUnitsTable extends Migration
     public function up()
     {
         Schema::table('units', function (Blueprint $table) {
+
+            if (Schema::hasColumn('units', 'property_type_id'))
+            {
+            Schema::table('units', function (Blueprint $table)
+            {
+               $table->dropColumn('property_type_id');
+            });
+        }
+        
     $table->integer('property_type_id')->after('category_id')->nullable();
+        
         });
     }
 
