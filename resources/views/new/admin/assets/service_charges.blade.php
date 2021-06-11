@@ -67,7 +67,7 @@
                             {{$tenant->lastname}}</td>
                             <td>{{$tenant->assetName}}</td>
                             
-                            <td>{{fetchRental($tenant->tenantRentId)->unit->propertyType->name}}</td>
+                            <td>{{ fetchRental($tenant->tenantRentId)->unit->propertyType ? fetchRental($tenant->tenantRentId)->unit->propertyType->name : 'N/A'}}</td>
 
                             <td>{{$tenant->name === 'Other' ? $tenant->asc->description : $tenant->name}}</td>
                             
