@@ -339,7 +339,7 @@
 </li>
 
 
-          {{-- @if(!$user->sub_account && $plan['details']->name != 'Free')
+          @if( null !== !$user->sub_account && !$user->sub_account && $plan['details']->name != 'Free')
                 <li class="dt-side-nav__item {{isset($page) && $page == 'sub_account' ? 'open' : ''}}">
                 <a href="javascript:void(0)" class="dt-side-nav__link dt-side-nav__arrow" title="Sub Accounts">
                     <i class="icon icon-user-o icon-fw icon-xl text-white"></i> <span class="dt-side-nav__text text-white">Sub Accounts</span> </a>
@@ -382,7 +382,7 @@
                 </ul>
                 <!-- /sub-menu -->
                 </li>
-        @endif --}}
+        @endif 
         <!-- /menu item -->
         </ul>
         <!-- /sidebar navigation -->
